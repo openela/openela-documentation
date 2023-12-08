@@ -1,4 +1,4 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
+Copyright © 2023, Oracle and/or its affiliates.
 
 # Working With Accessibility Features in Enterprise Linux 9
 
