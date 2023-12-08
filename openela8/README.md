@@ -1,6 +1,6 @@
 Copyright © 2023, Oracle and/or its affiliates.
 
-# OpenELA 8
+# Summary
 
 -   Managing Core System Configuration
     -   [Managing Kernels and System Boot](topics/osmanage-WorkingWiththeGRUB2BootloaderandConfiguringBootServices.md#ol-bootconf)
@@ -430,7 +430,7 @@ Copyright © 2023, Oracle and/or its affiliates.
                     -   [Create a CA Root Configuration File](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-root-conf)
                     -   [Create and Verify the CA Root Key Pair](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-root-keys)
                 -   [Create an intermediary CA](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-intermediary)
-                    -   [Create A CA Directory Structure](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#unique_2140963941)
+                    -   [Create A CA Directory Structure](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#unique_1382717955)
                     -   [Create the intermediary CA Configuration](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-intermediary-conf)
                     -   [Create a CSR for the intermediary CA](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-intermediary-csr)
                     -   [Create a signed certificate for the intermediary CA](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-intermediary-sign)
