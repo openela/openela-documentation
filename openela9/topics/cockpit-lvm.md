@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Manage Logical Volumes With LVM
 
 -   **[Create a Volume Group](../topics/cockpit-lvm_create_volume_groups.md)**  
@@ -16,4 +14,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 
 **Parent topic:**[Storage Management Tasks](../topics/cockpit-storage_management.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

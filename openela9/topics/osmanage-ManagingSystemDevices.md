@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Managing System Devices
 
 This chapter describes how the system uses device files and how the Udev device manager dynamically creates or removes device node files.
@@ -555,4 +553,8 @@ The following example illustrates how to implement a `udev` rules file that adds
 
 4.  \(Optional\) To undo the changes, remove `/etc/udev/rules.d/10-local.rules` and `/dev/my_disk`, then run `systemctl restart systemd-udevd` again.
 
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

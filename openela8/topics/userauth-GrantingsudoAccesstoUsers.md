@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Granting sudo Access to Users
 
 In Enterprise Linux, only administrators can perform privileged tasks on the system.
@@ -241,4 +239,8 @@ Or, you can set group permissions directly in the `/etc/sudoers` file. For examp
     sudo usermod -aG wheel bob
     ```
 
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

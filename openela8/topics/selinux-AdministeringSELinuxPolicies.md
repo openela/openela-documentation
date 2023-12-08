@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Administering SELinux Policies
 
 ## Targeted Policy
@@ -9,4 +7,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 ## Setting or Switching SELinux Policies
 
 ## Customizing SELinux Policies
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

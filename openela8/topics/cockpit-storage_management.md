@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Storage Management Tasks
 
 -   **[Storage Management Installation and Overview](../topics/cockpit_storage_information.md)**  
@@ -18,4 +16,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 -   **[Manage Connections to iSCSI Targets](../topics/cockpit_iscsi_targets.md)**  
 
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Install and Configure a Tang Server
 
 ## Install the Tang Package and Enable the Tang Socket in Systemd
@@ -13,4 +11,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 ## Initialize Tang Signing Keys
 
 ## Rotate Tang Keys
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

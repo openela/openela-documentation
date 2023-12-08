@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # About Load Balancing in Enterprise Linux
 
 ## About Load Balancing
@@ -13,4 +11,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 ## About Combining Keepalived With HAProxy for High-Availability Load Balancing
 
 ## About NGINX
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

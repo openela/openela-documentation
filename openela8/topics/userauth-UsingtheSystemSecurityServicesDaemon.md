@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Using the System Security Services Daemon
 
 The System Security Services Daemon \(SSSD\) feature provides access on a client system to remote identity and authentication providers. The SSSD acts as an intermediary between local clients and any back-end provider that you configure.
@@ -223,4 +221,8 @@ The `include` flag specifies that PAM must also consult the PAM configuration fi
 Most authentication modules and PAM configuration files have their own manual pages. Relevant files are stored in the `/usr/share/doc/pam` directory.
 
 For more information, see the `pam(8)` manual page. In addition, each PAM module has its own manual page, for example `pam_unix(8)`, `postlogin(5)`, and `system-auth(5)`.
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

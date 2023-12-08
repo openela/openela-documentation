@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Working With User and Group Accounts
 
 By default, a new installation of Enterprise Linux uses local user and group accounts for authentication, permissions handling, and access to resources. When working with local accounts for users and groups, you use three main commands: `useradd`, `groupadd`, and `usermod`. Through these commands and their different options, you can add or delete users and groups, as well as modify user or group settings.
@@ -237,4 +235,8 @@ sudo useradd -D -f 30
 A value of -1 specifies that user accounts aren't locked because of inactivity.
 
 For more information, see the `useradd(8)` and `usermod(8)` manual pages.
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

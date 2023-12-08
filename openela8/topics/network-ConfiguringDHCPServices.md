@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Configuring DHCP Services
 
 The Dynamic Host Configuration Protocol \(DHCP\) enables client systems to obtain network configuration information from a DHCP server each time they connect to the network. The DHCP server is configured with a range of IP addresses and other network configuration parameters that clients need.
@@ -463,4 +461,8 @@ Ensure that you have the required administrative privileges and complete the fol
         sudo systemctl start dhcpd6
         ```
 
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Setting Up TLS/SSL with Other Tools
 
 ## GnuTLS
@@ -7,4 +5,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 ## NSS
 
 ## Java
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

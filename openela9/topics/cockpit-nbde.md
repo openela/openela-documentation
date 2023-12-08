@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Unlock Encrypted Devices Using Tang Server Key
 
 -   **[Create a Tang Key for Encrypted Device](../topics/cockpit-nbde_create_a_tang_key_for_the_encrypted_device.md)**  
@@ -8,4 +6,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 
 **Parent topic:**[Storage Management Tasks](../topics/cockpit-storage_management.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

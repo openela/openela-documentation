@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # About Network Address Translation
 
 Network Address Translation \(NAT\) is a process that assigns a public address to a computer or a group of computers inside a private network by using a different address scheme. The public IP address masquerades all the requests as though they're going to one server, rather than several servers. NAT is useful for limiting the number of public IP addresses that an organization must finance. NAT also provides extra security by hiding the details of internal networks.
@@ -23,4 +21,8 @@ sudo sysctl -w net.ipv4.ip_forward=0|1
 The new status is displayed when you run the command. To make the change persist across system reboots, copy the command output line and add it to the `/etc/sysctl.conf` file.
 
 You can also use the Firewall Configuration GUI \(`firewall-config`\) to configure masquerading and port forwarding.
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Managing Resources
 
 This chapter describes how to manage the use of resources in an Enterprise Linux system.
@@ -601,4 +599,8 @@ As a prerequisite to the following procedure, you must complete the preparations
 ## Using cgroups v2 to Manage Resources for Users
 
 The previous sample procedures describe how to manage applications' use of system resources. You can also manage resource use by directly implementing resource filters to users who log in to the system.
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

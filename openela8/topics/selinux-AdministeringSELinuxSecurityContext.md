@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Administering SELinux Security Context
 
 ## Displaying SELinux User Mapping
@@ -11,4 +9,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 ## Restoring the Default File Type
 
 ## Relabeling a File System
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

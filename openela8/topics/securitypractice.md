@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Security Management Actions
 
 -   **[Disable SMT to Prevent CPU Security Issues](../topics/disable_smt.md)**  
@@ -12,4 +10,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 
 **Parent topic:**[Common Host Administration Tasks](../topics/common_administration.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

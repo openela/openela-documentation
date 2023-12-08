@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # System Monitoring Actions
 
 -   **[Health, Usage, and System Details](../topics/view_system.md)**  
@@ -10,4 +8,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 
 **Parent topic:**[Common Host Administration Tasks](../topics/common_administration.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

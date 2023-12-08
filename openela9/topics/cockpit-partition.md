@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Manage Disk Devices and Partitions
 
 -   **[Create Physical Disk Partitions](../topics/cockpit-partition_create_partitions.md)**  
@@ -12,4 +10,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 
 **Parent topic:**[Storage Management Tasks](../topics/cockpit-storage_management.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

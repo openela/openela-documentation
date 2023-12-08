@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Installation and Log In
 
 -   **[Install and Enable Cockpit](../topics/cockpit-install_install_the_cockpit_package.md)**  
@@ -8,4 +6,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 
 **Parent topic:**[Get Started: Cockpit Web Console](../topics/cockpit-install.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

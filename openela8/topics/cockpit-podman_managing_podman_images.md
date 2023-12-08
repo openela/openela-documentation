@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Podman Image Management
 
 -   **[Search and Download New Images](../topics/podman_image_download.md)**  
@@ -10,4 +8,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 
 **Parent topic:**[Podman Management Tasks](../topics/cockpit-podman.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

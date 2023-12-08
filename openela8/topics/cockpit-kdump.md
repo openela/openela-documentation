@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Capture Crash Dump Details Using Kdump
 
 -   **[Overview of Crash Recovery in Kdump](../topics/cockpit-kdump_access_the_kernel_dump_information.md)**  
@@ -12,4 +10,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 
 **Parent topic:**[Debugging Tools](../topics/manage_host_debugging_tools.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

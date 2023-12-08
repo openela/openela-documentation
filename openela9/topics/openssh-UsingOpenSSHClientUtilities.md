@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Using OpenSSH Client Utilities
 
 ## Connecting to Another System Using the ssh Command
@@ -17,4 +15,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 ## Using X11 Forwarding to Load Remote Graphical Applications
 
 ## Setting Up Port Forwarding Over SSH
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

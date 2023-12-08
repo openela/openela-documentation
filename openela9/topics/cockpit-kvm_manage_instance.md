@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Configure VM Devices and Services
 
 -   **[Edit Memory, CPU, Autostart, or Watchdog Properties](../topics/cockpit-kvm_cpu_mem_autostart.md)**  
@@ -12,4 +10,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 
 **Parent topic:**[Virtual Machine \(VM\) Management Tasks](../topics/cockpit-kvm.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

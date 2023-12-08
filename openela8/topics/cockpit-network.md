@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Network Management Tasks
 
 -   **[Manage Firewall Zoning Properties](../topics/cockpit-network_configure_the_firewall.md)**  
@@ -16,4 +14,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 -   **[View Network Host Log Files](../topics/cockpit-networ_view_firewall_log_files.md)**  
 
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

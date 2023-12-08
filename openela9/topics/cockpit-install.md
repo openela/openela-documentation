@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Get Started: Cockpit Web Console
 
 -   **[Cockpit Web Console Overview](../topics/cockpit_overview.md)**  
@@ -14,4 +12,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 -   **[Extend Cockpit's Functionality](../topics/extend_cockpit.md)**  
 
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

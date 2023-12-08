@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Managing the Network File System
 
 ## About NFS
@@ -15,4 +13,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 ### Configuring an NFS Server by Using the exportfs Command
 
 ## Mounting an NFS File System
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

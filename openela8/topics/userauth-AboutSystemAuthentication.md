@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # About System Authentication
 
 Authentication is a way of implementing system security by verifying the identity of an entity, such as a user, to a system. A user logs in by providing a username and a password, and the OS authenticates the user's identity by comparing this information to data stored on the system. If the login credentials match and the user account is active, the user is authenticated and can successfully access the system.
@@ -85,4 +83,8 @@ To efficiently manage the variety of profiles, `authselect` stores different typ
 The `authselect` utility applies the specifications in the selected profile. However, `authselect` doesn't change the configuration files of the service on which the profile is based. If, for example, you use the `sssd` profile, you must configure SSSD for the service to function properly. Consult the proper documentation to configure the profile's service. You must also ensure that the service is started and enabled.
 
 For more details about the utility, see the `authselect(8)` manual page.
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

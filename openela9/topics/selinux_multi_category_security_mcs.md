@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Extending SELinux Policies with Multi-Category Security
 
 ## MCS Requirements
@@ -11,4 +9,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 ## Applying MCS Categories to Files
 
 ## Enabling the mcstrans Service
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

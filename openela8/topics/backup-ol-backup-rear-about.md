@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Managing Backups With ReaR
 
 ## Installing ReaR
@@ -23,4 +21,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 ## Recovering a System With ReaR
 
 ## Creating Multiple Backups With ReaR
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

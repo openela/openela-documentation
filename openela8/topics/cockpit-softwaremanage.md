@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Software Updates
 
 -   **[Apply Pending Software Updates Manually](../topics/cockpit-softwaremanage_manage_manual_software_updates.md)**  
@@ -8,4 +6,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 
 **Parent topic:**[Common Host Administration Tasks](../topics/common_administration.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

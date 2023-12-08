@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # About Administering SELinux in Enterprise Linux
 
 ## SELinux Package Descriptions
@@ -9,4 +7,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 ## Setting SELinux Modes
 
 ## Getting More Information
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

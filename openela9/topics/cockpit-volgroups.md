@@ -1,5 +1,3 @@
-Copyright © 2023, Oracle and/or its affiliates.
-
 # Change Volume Group Properties
 
 -   **[Add New Drive to a Volume Group](../topics/cockpit-volgroups_add_physical_drives_to_volume_groups.md)**  
@@ -14,4 +12,8 @@ Copyright © 2023, Oracle and/or its affiliates.
 
 
 **Parent topic:**[Manage Logical Volumes With LVM](../topics/cockpit-lvm.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 
