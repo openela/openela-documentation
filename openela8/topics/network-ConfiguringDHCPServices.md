@@ -45,19 +45,19 @@ Before proceeding to either of the following procedures, ensure that you meet th
 Configure the network interfaces as follows:
 
 -   For IPv4 networks:
-    1.  Copy the /usr/lib/systemd/system/dhcpd.service file to the /etc/systemd/system/ directory.
+    1.  Copy the `/usr/lib/systemd/system/dhcpd.service` file to the `/etc/systemd/system/` directory.
 
         ```
         sudo cp /usr/lib/systemd/system/dhcpd.service /etc/systemd/system/
         ```
 
-    2.  Edit the /etc/systemd/system/dhcpd.service by locating the line that defines the `ExecStart` parameter.
+    2.  Edit the `/etc/systemd/system/dhcpd.service` by locating the line that defines the `ExecStart` parameter.
     3.  Append the interface names on which the `dhcpd` service should listen.
 
         See the sample entries in bold.
 
         ```
-        ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **int1-name** **int2-name**
+        ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
         ```
 
     4.  Reload the `systemd` manager configuration.
@@ -79,19 +79,19 @@ Configure the network interfaces as follows:
         ```
 
 -   For IPv6 networks:
-    1.  Copy the /usr/lib/systemd/system/dhcpd6.service file to the /etc/systemd/system/ directory.
+    1.  Copy the `/usr/lib/systemd/system/dhcpd6.service` file to the `/etc/systemd/system/` directory.
 
         ```
         sudo cp /usr/lib/systemd/system/dhcpd6.service /etc/systemd/system/
         ```
 
-    2.  Edit the /etc/systemd/system/dhcpd6.service file by locating the line that defines the `ExecStart` parameter.
+    2.  Edit the `/etc/systemd/system/dhcpd6.service` file by locating the line that defines the `ExecStart` parameter.
     3.  Append the names of the interfaces on which the `dhcpd6` service should listen.
 
         See the sample entries in bold.
 
         ```
-        ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd6.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **int1-name** **int2-name**
+        ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd6.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
         ```
 
     4.  Reload the `systemd` manager configuration.
@@ -115,7 +115,7 @@ Configure the network interfaces as follows:
 
 ## Understanding DHCP Declarations
 
-The way the DHCP provides services to its clients is defined through parameters and declarations in the /etc/dhcp/dhcpd.conf file for IPv4 networks and /etc/dhcp/dhcpd6.conf file for IPv6 networks. The file would contain details such as client networks, address leases, IP address pools, and so on.
+The way the DHCP provides services to its clients is defined through parameters and declarations in the `/etc/dhcp/dhcpd.conf` file for IPv4 networks and `/etc/dhcp/dhcpd6.conf` file for IPv6 networks. The file would contain details such as client networks, address leases, IP address pools, and so on.
 
 **Note:** In a newly installed Enterprise Linux system, both the `dhcpd.conf` and `dhcpd6.conf` files are empty. If the server is being configured for DHCP for the first time, then you can use the templates so you can be guided in configuring the files. Type one of the following commands:
 
@@ -352,13 +352,13 @@ subnet6 2001:db8:0:1::/64 {
 
 ## Activating the DHCP Services
 
-All the DHCP services are defined in the server's /etc/dhcp/dhcpd.conf or /etc/dhcp/dhcpd6.conf file. To configure and then activate the configured services, follow these steps:
+All the DHCP services are defined in the server's `/etc/dhcp/dhcpd.conf` or `/etc/dhcp/dhcpd6.conf` file. To configure and then activate the configured services, follow these steps:
 
 -   For IPv4 networks:
-    1.  Open the /etc/dhcp/dhcpd.conf file.
+    1.  Open the `/etc/dhcp/dhcpd.conf` file.
     2.  Add parameters and declarations to the file.
 
-        For guidance, see [Understanding DHCP Declarations](network-ConfiguringDHCPServices.md#) or to the comments and notes in the /usr/share/doc/dhcp-server/dhcpd.conf.example template.
+        For guidance, see [Understanding DHCP Declarations](network-ConfiguringDHCPServices.md#) or to the comments and notes in the `/usr/share/doc/dhcp-server/dhcpd.conf.example` template.
 
     3.  Optionally, set the `dhcpd` service to start automatically in a server reboot.
 
@@ -373,10 +373,10 @@ All the DHCP services are defined in the server's /etc/dhcp/dhcpd.conf or /etc/d
         ```
 
 -   For IPv6 networks:
-    1.  Open the /etc/dhcp/dhcpd6.conf file.
+    1.  Open the `/etc/dhcp/dhcpd6.conf` file.
     2.  Add parameters and declarations to the file.
 
-        For guidance, see [Understanding DHCP Declarations](network-ConfiguringDHCPServices.md#) or to the comments and notes in the /usr/share/doc/dhcp-server/dhcpd6.conf.example template.
+        For guidance, see [Understanding DHCP Declarations](network-ConfiguringDHCPServices.md#) or to the comments and notes in the `/usr/share/doc/dhcp-server/dhcpd6.conf.example` template.
 
     3.  Optionally, set the `dhcpd6` service to start automatically in case of a server reboot.
 
@@ -395,19 +395,19 @@ All the DHCP services are defined in the server's /etc/dhcp/dhcpd.conf or /etc/d
 
 The `dhcpd` service maintains lease information, such as IP addresses, MAC addresses, and lease expiry times, in the following flat-file databases:
 
--   For DHCPv4: /var/lib/dhcpd/dhcpd.leases.
--   For DHCPv6: /var/lib/dhcpd/dhcpd6.leases.
+-   For DHCPv4: `/var/lib/dhcpd/dhcpd.leases`.
+-   For DHCPv6: `/var/lib/dhcpd/dhcpd6.leases`.
 
 To prevent the lease database files from becoming too large with stale data, the `dhcpd` service periodically regenerates the files through the following mechanism:
 
 1.  The service renames the existing lease files:
-    -   /var/lib/dhcpd/dhcpd.leases is renamed to /var/lib/dhcpd/dhcpd.leases~
-    -   /var/lib/dhcpd/dhcpd6.leases is renamed to /var/lib/dhcpd/dhcpd6.leases~
+    -   `/var/lib/dhcpd/dhcpd.leases` is renamed to `/var/lib/dhcpd/dhcpd.leases~`
+    -   `/var/lib/dhcpd/dhcpd6.leases` is renamed to `/var/lib/dhcpd/dhcpd6.leases~`
 2.  The service re-creates brand new `dhcpd.leases` and `dhcpd6.leases` files.
 
 If a lease database file is corrupted, you need to restore the lease database from the last known backup of the database.
 
-Typically, the most recent backup of a lease database is the `filename.leases~` file.
+Typically, the most recent backup of a lease database is the `*filename*.leases~` file.
 
 **Note:** A backup instance is a snapshot taken at a particular point in time, and therefore might not reflect the latest state of the system.
 
@@ -426,7 +426,7 @@ Ensure that you have the required administrative privileges and complete the fol
         sudo mv /var/lib/dhcpd/dhcpd.leases /var/lib/dhcpd/dhcpd.leases.corrupt
         ```
 
-    3.  Restore the lease database from its corresponding `filename.leases~` backup file.
+    3.  Restore the lease database from its corresponding `*filename*.leases~` backup file.
 
         ```
         sudo cp -p /var/lib/dhcpd/dhcpd.leases~ /var/lib/dhcpd/dhcpd.leases
@@ -451,7 +451,7 @@ Ensure that you have the required administrative privileges and complete the fol
         sudo mv /var/lib/dhcpd/dhcpd6.leases /var/lib/dhcpd/dhcpd6.leases.corrupt
         ```
 
-    3.  Restore the lease database from its corresponding `filename.leases~` backup file.
+    3.  Restore the lease database from its corresponding `*filename*.leases~` backup file.
 
         ```
         sudo cp -p /var/lib/dhcpd/dhcpd6.leases~ /var/lib/dhcpd/dhcpd6.leases

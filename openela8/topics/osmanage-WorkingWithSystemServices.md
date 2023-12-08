@@ -8,9 +8,9 @@ The`systemd` daemon is the system initialization and service manager in Enterpri
 
 The `systemd` daemon is the first process that starts after a system boots and is the final process that's running when the system shuts down. `systemd` controls the final stages of booting and prepares the system for use. It also speeds up booting by loading services concurrently.
 
-`systemd` reads its configuration from files in the /etc/systemd directory. For example, the /etc/systemd/system.conf file controls how `systemd` handles system initialization.
+`systemd` reads its configuration from files in the `/etc/systemd` directory. For example, the `/etc/systemd/system.conf` file controls how `systemd` handles system initialization.
 
-The `systemd` daemon starts services during the boot process by reading the symbolic link /etc/systemd/system/default.target. The following example shows the value of /etc/systemd/system/default.target on a system configured to boot to a multiuser mode without a graphical user interface, a target called `multi-user.target`:
+The `systemd` daemon starts services during the boot process by reading the symbolic link `/etc/systemd/system/default.target`. The following example shows the value of `/etc/systemd/system/default.target` on a system configured to boot to a multiuser mode without a graphical user interface, a target called `multi-user.target`:
 
 ```
 sudo ls -l /etc/systemd/system/default.target
@@ -32,7 +32,7 @@ The following list describes some system units that you can manage on an Enterpr
 
 -   **Services**
 
-    Service unit configuration files have the filename format service\_name.`service`, for example `sshd.service`, `crond.service`, and `httpd.service`.
+    Service unit configuration files have the filename format *service\_name*.`service`, for example `sshd.service`, `crond.service`, and `httpd.service`.
 
     Service units start and control daemons and the processes of which the daemons consist.
 
@@ -44,7 +44,7 @@ The following list describes some system units that you can manage on an Enterpr
 
 -   **Targets**
 
-    Target unit configuration files have the filename format target\_name.`target`, for example `graphical.target`.
+    Target unit configuration files have the filename format *target\_name*.`target`, for example `graphical.target`.
 
     Targets are similar to runlevels. A system reaches different targets during the boot process as resources get configured. For example, a system reaches `network-pre.target` before it reaches the target `network-online.target`.
 
@@ -52,9 +52,9 @@ The following list describes some system units that you can manage on an Enterpr
 
 -   **File System Mount Points**
 
-    Mount unit configuration files have the filename format mount\_point\_name.`mount`.
+    Mount unit configuration files have the filename format *mount\_point\_name*.`mount`.
 
-    Mount units enable you to mount filesystems at boot time. For example, you can run the following command to mount the temporary file system \(`tmpfs`\) on /tmp at boot time:
+    Mount units enable you to mount filesystems at boot time. For example, you can run the following command to mount the temporary file system \(`tmpfs`\) on `/tmp` at boot time:
 
     ```
     sudo systemctl enable tmp.mount
@@ -62,15 +62,15 @@ The following list describes some system units that you can manage on an Enterpr
 
 -   **Devices**
 
-    Device unit configuration files have the filename format device\_unit\_name.`device`.
+    Device unit configuration files have the filename format *device\_unit\_name*.`device`.
 
-    Device units are named after the /sys and /dev paths they control. For example, the device /dev/sda5 is exposed in systemd as `dev-sda5.device`.
+    Device units are named after the `/sys` and `/dev` paths they control. For example, the device `/dev/sda5` is exposed in systemd as `dev-sda5.device`.
 
     Device units enable you to implement device-based activation.
 
 -   **Sockets**
 
-    Socket unit configuration files have the filename format socket\_unit\_name.`socket`.
+    Socket unit configuration files have the filename format *socket\_unit\_name*.`socket`.
 
     Each "\*.`socket`" file needs a corresponding "\*.`service`" file to configure the service to start on incoming traffic on the socket.
 
@@ -78,14 +78,14 @@ The following list describes some system units that you can manage on an Enterpr
 
 -   **Timers**
 
-    Timer unit configuration files have the filename format timer\_unit\_name.`timer`.
+    Timer unit configuration files have the filename format *timer\_unit\_name*.`timer`.
 
     Each "\*.`timer`" file needs a corresponding "\*.`service`" file to configure the service to start at a configured timer event. A `Unit` configuration entry can be used to specify a service that's named differently to the timer unit, if required.
 
     Timer units can control when service units are run and can act as an alternative to using the cron daemon. Timer units can be configured for calendar time events, monotonic time events, and can be run asynchronously.
 
 
-Paths to `systemd` unit configuration files vary depending on their purpose and whether `systemd` is running in 'user' or 'system' mode. For example, configuration for units that are installed from packages might be available in /usr/lib/systemd/system or in /usr/local/lib/systemd/system, while a user mode configuration unit is likely to be stored in `$HOME/.config/systemd/user`. See the `systemd.unit(5)` manual page for more information.
+Paths to `systemd` unit configuration files vary depending on their purpose and whether `systemd` is running in 'user' or 'system' mode. For example, configuration for units that are installed from packages might be available in `/usr/lib/systemd/system` or in `/usr/local/lib/systemd/system`, while a user mode configuration unit is likely to be stored in `$HOME/.config/systemd/user`. See the `systemd.unit(5)` manual page for more information.
 
 See [About System-State Targets](osmanage-WorkingWithSystemServices.md#).
 
@@ -97,53 +97,19 @@ Each run level defines the services that `systemd` stops or starts. As an exampl
 
 [Table 1](osmanage-WorkingWithSystemServices.md#ol-systemctltgt) shows the commonly used system-state targets and the equivalent runlevel targets.
 
-|System-State Targets
-
-|Equivalent Runlevel Targets
-
-|Description
-
-|
-|----------------------|-----------------------------|-------------|
-|`graphical.target`
-
-|`runlevel5.target`
-
-|Set up a multiuser system with networking and display manager.
-
-|
-|`multi-user.target`
-
-|`runlevel2.target`
+|System-State Targets|Equivalent Runlevel Targets|Description|
+|--------------------|---------------------------|-----------|
+|`graphical.target`|`runlevel5.target`|Set up a multiuser system with networking and display manager.|
+|`multi-user.target`|`runlevel2.target`
 
  `runlevel3.target`
 
  `runlevel4.target`
 
-|Set up a nongraphical multiuser system with networking.
-
-|
-|`poweroff.target`
-
-|`runlevel0.target`
-
-|Shut down and power off the system.
-
-|
-|`reboot.target`
-
-|`runlevel6.target`
-
-|Shut down and reboot the system.
-
-|
-|`rescue.target`
-
-|`runlevel1.target`
-
-|Set up a rescue shell.
-
-|
+|Set up a nongraphical multiuser system with networking.|
+|`poweroff.target`|`runlevel0.target`|Shut down and power off the system.|
+|`reboot.target`|`runlevel6.target`|Shut down and reboot the system.|
+|`rescue.target`|`runlevel1.target`|Set up a rescue shell.|
 
 Note that `runlevel*` targets are implemented as symbolic links.
 
@@ -151,7 +117,7 @@ For more information, see the `systemd.target(5)` manual page.
 
 ### Displaying Default and Active System-State Targets
 
-To display the default system-state target, use the systemctl get-default command:
+To display the default system-state target, use the `systemctl get-default` command:
 
 ```
 sudo systemctl get-default
@@ -161,7 +127,7 @@ sudo systemctl get-default
 graphical.target
 ```
 
-To display the active targets on a system, use the systemctl list-units --type target command:
+To display the active targets on a system, use the `systemctl list-units --type target` command:
 
 ```
 sudo systemctl list-units --type target [--all]
@@ -233,7 +199,7 @@ scope
 
 ### Changing Default and Active System-State Targets
 
-Use the systemctl set-default command to change the default system-state target:
+Use the `systemctl set-default` command to change the default system-state target:
 
 ```
 sudo systemctl set-default multi-user.target
@@ -248,7 +214,7 @@ Created symlink /etc/systemd/system/default.target → /usr/lib/systemd/system/m
 
 This command changes the target to which the default target is linked, but doesn't change the state of the system.
 
-To change the current active system target, use the systemctl isolate command, for example:
+To change the current active system target, use the `systemctl isolate` command, for example:
 
 ```
 sudo systemctl isolate multi-user.target
@@ -258,48 +224,20 @@ For more information, see the `systemctl(1)` manual page.
 
 ## Shutting Down, Suspending, and Rebooting the System
 
-|systemctl Command
-
-|Description
-
-|
-|-------------------|-------------|
-|systemctl halt
-
-|Halt the system.
-
-|
-|systemctl hibernate
-
-|Put the system into hibernation.
-
-|
-|systemctl hybrid-sleep
-
-|Put the system into hibernation and suspend its operation.
-
-|
-|systemctl poweroff
-
-|Halt and power off the system.
-
-|
-|systemctl reboot
-
-|Reboot the system.
-
-|
-|systemctl suspend
-
-|Suspend the system.
-
-|
+|systemctl Command|Description|
+|-----------------|-----------|
+|`systemctl halt`|Halt the system.|
+|`systemctl hibernate`|Put the system into hibernation.|
+|`systemctl hybrid-sleep`|Put the system into hibernation and suspend its operation.|
+|`systemctl poweroff`|Halt and power off the system.|
+|`systemctl reboot`|Reboot the system.|
+|`systemctl suspend`|Suspend the system.|
 
 For more information, see the `systemctl(1)` manual page.
 
 ## Managing Services
 
-Services in an Enterprise Linux system are managed by the systemctl subcommand command.
+Services in an Enterprise Linux system are managed by the `systemctl *subcommand*` command.
 
 Examples of subcommands are `enable`, `disable`, `stop`, `start`, `restart`, reload, and `status`.
 
@@ -307,26 +245,26 @@ For more information, see the `systemctl(1)` manual page.
 
 ### Starting and Stopping Services
 
-To start a service, use the systemctl start command:
+To start a service, use the `systemctl start` command:
 
 ```
-sudo systemctl start sshd
+sudo systemctl start *sshd*
 ```
 
-To stop a service, use the systemctl stop command:
+To stop a service, use the `systemctl stop` command:
 
 ```
-sudo systemctl stop sshd
+sudo systemctl stop *sshd*
 ```
 
 Changing the state of a service only lasts while the system remains at the same state. If you stop a service and then change the system-state target to one in which the service is configured to run \(for example, by rebooting the system\), the service restarts. Similarly, starting a service doesn't enable the service to start following a reboot. See [Enabling and Disabling Services](osmanage-WorkingWithSystemServices.md#).
 
 ### Enabling and Disabling Services
 
-You can use the systemctl command to enable or disable a service from starting when the system boots, for example:
+You can use the `systemctl` command to enable or disable a service from starting when the system boots, for example:
 
 ```
-sudo systemctl enable httpd
+sudo systemctl enable *httpd*
 ```
 
 ```nocopybutton
@@ -338,17 +276,17 @@ The `enable` command activates a service by creating a symbolic link for the low
 Disabling a service removes the symbolic link:
 
 ```
-sudo systemctl disable httpd
+sudo systemctl disable *httpd*
 ```
 
 ```nocopybutton
 Removed /etc/systemd/system/multi-user.target.wants/httpd.service.
 ```
 
-To check whether a service is enabled, use is-enabled subcommand as shown in the following examples:
+To check whether a service is enabled, use `is-enabled` subcommand as shown in the following examples:
 
 ```
-sudo systemctl is-enabled httpd
+sudo systemctl is-enabled *httpd*
 ```
 
 ```nocopybutton
@@ -356,47 +294,47 @@ disabled
 ```
 
 ```
-sudo systemctl is-enabled sshd
+sudo systemctl is-enabled *sshd*
 ```
 
 ```nocopybutton
 enabled
 ```
 
-After running the systemctl disable command, the service can still be started or stopped by user accounts, scripts, and other processes. However, if you need to ensure that the service might be started inadvertently, for example, by a conflicting service, then use the `systemctl mask` command as follows:
+After running the `systemctl disable` command, the service can still be started or stopped by user accounts, scripts, and other processes. However, if you need to ensure that the service might be started inadvertently, for example, by a conflicting service, then use the `systemctl mask` command as follows:
 
 ```
-sudo systemctl mask httpd
+sudo systemctl mask *httpd*
 ```
 
 ```nocopybutton
 Created symlink from '/etc/systemd/system/multi-user.target.wants/httpd.service' to '/dev/null'
 ```
 
-The `mask` command sets the the service reference to /dev/null. If you try to start a service that has been masked, you will receive an error as shown in the following example:
+The `mask` command sets the the service reference to `/dev/null`. If you try to start a service that has been masked, you will receive an error as shown in the following example:
 
 ```
-sudo systemctl start httpd
+sudo systemctl start *httpd*
 ```
 
 ```nocopybutton
 Failed to start httpd.service: Unit is masked.
 ```
 
-To relink the service reference back to the matching service unit configuration file, use the systemctl unmask command:
+To relink the service reference back to the matching service unit configuration file, use the `systemctl unmask` command:
 
 ```
-sudo systemctl unmask httpd
+sudo systemctl unmask *httpd*
 ```
 
 For more information, see the `systemctl(1)` manual page.
 
 ### Displaying the Status of Services
 
-To check whether a service is running, use the is-active subcommand. The output would either be *active*\) or *inactive*, as shown in the following examples:
+To check whether a service is running, use the `is-active` subcommand. The output would either be *active*\) or *inactive*, as shown in the following examples:
 
 ```
-sudo systemctl is-active httpd
+sudo systemctl is-active *httpd*
 ```
 
 ```nocopybutton
@@ -404,17 +342,17 @@ active
 ```
 
 ```
-systemctl is-active sshd
+systemctl is-active *sshd*
 ```
 
 ```nocopybutton
 inactive
 ```
 
-The status subcommand provides a detailed summary of the status of a service, including a tree that displays the tasks in the control group \(`CGroup`\) that the service implements:
+The `status` subcommand provides a detailed summary of the status of a service, including a tree that displays the tasks in the control group \(`CGroup`\) that the service implements:
 
 ```
-sudo systemctl status httpd
+sudo systemctl status *httpd*
 ```
 
 ```nocopybutton
@@ -440,7 +378,7 @@ Jul 17 00:14:32 Unknown systemd[1]: Started The Apache HTTP Server.
 
 A `cgroup` is a collection of processes that are bound together so that you can control their access to system resources. In the example, the `cgroup` for the `httpd` service is `httpd.service`, which is in the `system` slice.
 
-Slices divide the `cgroups` on a system into different categories. To display the slice and `cgroup` hierarchy, use the systemd-cgls command:
+Slices divide the `cgroups` on a system into different categories. To display the slice and `cgroup` hierarchy, use the `systemd-cgls` command:
 
 ```
 sudo systemd-cgls
@@ -490,18 +428,18 @@ Control group /:
   │ └─1781 /usr/sbin/sshd
 ```
 
-The `system.slice` contains services and other system processes. `user.slice` contains user processes, which run within transient cgroups called *scopes*. In the example, the processes for the user with ID 1000 are running in the scope `session-7.scope` under the slice /user.slice/user-1000.slice.
+The `system.slice` contains services and other system processes. `user.slice` contains user processes, which run within transient cgroups called *scopes*. In the example, the processes for the user with ID 1000 are running in the scope `session-7.scope` under the slice `/user.slice/user-1000.slice`.
 
-You can use the systemctl command to limit the CPU, I/O, memory, and other resources that are available to the processes in service and scope cgroups. See [Controlling Access to System Resources](osmanage-WorkingWithSystemServices.md#).
+You can use the `systemctl` command to limit the CPU, I/O, memory, and other resources that are available to the processes in service and scope cgroups. See [Controlling Access to System Resources](osmanage-WorkingWithSystemServices.md#).
 
 For more information, see the `systemctl(1)` and `systemd-cgls(1)` manual pages.
 
 ### Controlling Access to System Resources
 
-Use the systemctl command to control a cgroup's access to system resources, for example:
+Use the `systemctl` command to control a cgroup's access to system resources, for example:
 
 ```
-sudo systemctl [--runtime] set-property httpd CPUShares=512 MemoryLimit=1G
+sudo systemctl [--runtime] set-property *httpd* CPUShares=512 MemoryLimit=1G
 ```
 
 `CPUShare` controls access to CPU resources. As the default value is 1024, a value of 512 halves the access to CPU time that the processes in the `cgroup` have. Similarly, `MemoryLimit` controls the maximum amount of memory that the `cgroup` can use.
@@ -510,25 +448,25 @@ sudo systemctl [--runtime] set-property httpd CPUShares=512 MemoryLimit=1G
 
 You don't need to specify the `.service` extension to the name of a service.
 
-If you specify the --runtime option, the setting doesn't persist across system reboots.
+If you specify the `--runtime` option, the setting doesn't persist across system reboots.
 
-Alternatively, you can change the resource settings for a service under the `[Service]` heading in the service's configuration file in /usr/lib/systemd/system. After editing the file, make `systemd` reload its configuration files and then restart the service:
+Alternatively, you can change the resource settings for a service under the `[Service]` heading in the service's configuration file in `/usr/lib/systemd/system`. After editing the file, make `systemd` reload its configuration files and then restart the service:
 
 ```
 sudo systemctl daemon-reload
-sudo systemctl restart service
+sudo systemctl restart *service*
 ```
 
-You can run general commands within scopes and use systemctl to control the access that these transient cgroups have to system resources. To run a command within in a scope, use the systemd-run command:
+You can run general commands within scopes and use `systemctl` to control the access that these transient cgroups have to system resources. To run a command within in a scope, use the `systemd-run` command:
 
 ```
-sudo systemd-run --scope --unit=group\_name [--slice=slice\_name]
+sudo systemd-run --scope --unit=*group\_name* [--slice=*slice\_name*]
 ```
 
-If you don't want to create the group under the default `system` slice, you can specify another slice or the name of a new slice. The following example runs a command named mymonitor in `mymon.scope` under `myslice.slice`:
+If you don't want to create the group under the default `system` slice, you can specify another slice or the name of a new slice. The following example runs a command named `mymonitor` in `mymon.scope` under `myslice.slice`:
 
 ```
-sudo systemd-run --scope --unit=mymon --slice=myslice mymonitor
+sudo systemd-run --scope --unit=*mymon* --slice=*myslice* mymonitor
 ```
 
 ```nocopybutton
@@ -539,24 +477,24 @@ Running as unit mymon.scope.
 
 If you don't specify the `--scope` option, the control group is a created as a service rather than as a scope.
 
-You can then use systemctl to control the access that a scope has to system resources in the same way as for a service. However, unlike a service, you must specify the `.scope` extension, for example:
+You can then use `systemctl` to control the access that a scope has to system resources in the same way as for a service. However, unlike a service, you must specify the `.scope` extension, for example:
 
 ```
-sudo systemctl --runtime set-property mymon.scope CPUShares=256
+sudo systemctl --runtime set-property *mymon.scope* CPUShares=256
 ```
 
 For more information see the `systemctl(1)`, `systemd-cgls(1)`, and `systemd.resource-control(5)` manual pages.
 
 ### Running systemctl on a Remote System
 
-If the `sshd` service is running on a remote Enterprise Linux system, specify the `-H` option with the systemctl command to control the system remotely, for example:
+If the `sshd` service is running on a remote Enterprise Linux system, specify the `-H` option with the `systemctl` command to control the system remotely, for example:
 
 ```
 sudo systemctl -H root@10.0.0.2 status sshd
 ```
 
 ```nocopybutton
-root@10.0.0.2's password: password
+root@10.0.0.2's password: *password*
 sshd.service - OpenSSH server daemon
    Loaded: loaded (/usr/lib/systemd/system/sshd.service; enabled)
    Active: active (running) since ...
@@ -569,11 +507,11 @@ For more information see the `systemctl(1)` manual page.
 
 ## Modifying systemd Service Unit Files
 
-To change the configuration of `systemd` services, copy the files with `.service`, `.target`, `.mount` and `.socket` extensions from /usr/lib/systemd/system to /etc/systemd/system.
+To change the configuration of `systemd` services, copy the files with `.service`, `.target`, `.mount` and `.socket` extensions from `/usr/lib/systemd/system` to `/etc/systemd/system`.
 
-After you have copied the files, you can edit the versions in`/etc/systemd/system`. The files in /etc/systemd/system take precedence over the versions in /usr/lib/systemd/system. Files in /etc/systemd/system aren't overwritten when you update a package that touches files in /usr/lib/systemd/system.
+After you have copied the files, you can edit the versions in`/etc/systemd/system`. The files in `/etc/systemd/system` take precedence over the versions in `/usr/lib/systemd/system`. Files in `/etc/systemd/system` aren't overwritten when you update a package that touches files in `/usr/lib/systemd/system`.
 
-To revert to the default `systemd` configuration for a particular service, you can either rename or delete the copies in /etc/systemd/system.
+To revert to the default `systemd` configuration for a particular service, you can either rename or delete the copies in `/etc/systemd/system`.
 
 The following sections describe the different parts of a service unit file that you cand edit and customize for a system.
 
@@ -585,7 +523,7 @@ Services run based on their corresponding service unit files. A service unit fil
 
     Contains information about the service.
 
--   **`[UnitType]`:**
+-   **`[_UnitType_]`:**
 
     Contains options that are specific to the unit type of the file. For example, in a service unit file this section is titled `[Service]` and contains options that are specific to units of the service type, such as `ExecStart` or `StandardOutput`.
 
@@ -593,7 +531,7 @@ Services run based on their corresponding service unit files. A service unit fil
 
 -   **`[Install]`**
 
-    Contains installation information for the specific unit. The information in this section is used by the systemctl enable and systemctl disable commands.
+    Contains installation information for the specific unit. The information in this section is used by the `systemctl enable` and `systemctl disable` commands.
 
 
 A service unit file might contain the following configurations for a service.
@@ -633,10 +571,10 @@ The following list provides a general overview of the commonly used configurable
 
     Configures the unit to only run after the units listed in the option finish starting up.
 
-    In the following example, if the file var3.`service` has the following entry, then it's only started after units `var1.service` and `var2.service` have started:
+    In the following example, if the file *var3*.`service` has the following entry, then it's only started after units `*var1*.service` and `*var2*.service` have started:
 
     ```
-     After=var1.service var2.service
+     After=*var1*.service *var2*.service
     ```
 
 -   **`Requires`**
@@ -672,7 +610,7 @@ This following list gives a general overview of the commonly used configurable o
 
 -   **`ExecStart`**
 
-    Specifies the full path and command that starts the service, for example, /usr/bin/npm start.
+    Specifies the full path and command that starts the service, for example, `/usr/bin/npm start`.
 
 -   **`ExecStop`**
 
@@ -709,25 +647,25 @@ This following list gives a general overview of the commonly used configurable o
 
     Configures the service to be required by other units.
 
-    For example, consider a unit file `var1.service` that has the following configuration added to it:
+    For example, consider a unit file `*var1*.service` that has the following configuration added to it:
 
     ```
-    RequiredBy=var2.service var3.service
+    RequiredBy=*var2*.service *var3*.service
     ```
 
-    When `var1.service` is enabled, both `var2.service` and `var3.service` are granted a `Requires` dependency upon `var1.service`. This dependency is defined by a symbolic link that's created in the `.requires` folder of each dependent service \(`var2.service` and `var3.service`\) that points to the `var1.service` system unit file.
+    When `*var1*.service` is enabled, both `*var2*.service` and `*var3*.service` are granted a `Requires` dependency upon `*var1*.service`. This dependency is defined by a symbolic link that's created in the `.requires` folder of each dependent service \(`*var2*.service` and `var3.service`\) that points to the `*var1*.service` system unit file.
 
 -   **`WantedBy`**
 
     Specifies a list of units that are to be granted a `wants` dependency upon the service whose file you're editing.
 
-    For example, consider a unit file `var1.service` that has the following configuration added to it:
+    For example, consider a unit file `*var1*.service` that has the following configuration added to it:
 
     ```
-    WantedBy=var2.service var3.service
+    WantedBy=*var2*.service *var3*.service
     ```
 
-    When `var1.service` is enabled, both `var2.service`and `var3.service` are granted a `Wants` dependency upon `var1.service`. This dependency is defined by a symbolic link that's created in the “`.wants`” folder of each dependent service \(`var2.service` and `var3.service`\) that points to the system unit file for `var1.service` .
+    When `*var1*.service` is enabled, both `*var2*.service`and `*var3*.service` are granted a `Wants` dependency upon `*var1*.service`. This dependency is defined by a symbolic link that's created in the “`.wants`” folder of each dependent service \(`*var2*.service` and `var3.service`\) that points to the system unit file for `*var1*.service` .
 
 -   **`Also`**
 
@@ -752,10 +690,10 @@ The following are some distinguishing features of user-based `systemd` services:
 
 To create a user based service:
 
-1.  Create the service's unit file in the ~/.config/systemd/user directory, for example:
+1.  Create the service's unit file in the `~/.config/systemd/user` directory, for example:
 
     ```
-    touch ~/.config/systemd/user/myservice.service
+    touch ~/.config/systemd/user/*myservice*.service
     ```
 
 2.  Open the unit file and specify the values to the options you want to use, such as `Description`, `ExecStart`, `WantedBy`, and so on.
@@ -765,7 +703,7 @@ To create a user based service:
 3.  Enable the service to start automatically when you log in.
 
     ```
-    sudo systemctl --user enable myservice.service
+    sudo systemctl --user enable *myservice*.service
     ```
 
     **Note:**
@@ -775,13 +713,13 @@ To create a user based service:
 4.  Start the service.
 
     ```
-    sudo systemctl --user start myservice.service
+    sudo systemctl --user start *myservice*.service
     ```
 
 5.  Verify that the service is running.
 
     ```
-    sudo systemctl --user status myservice.service
+    sudo systemctl --user status *myservice*.service
     ```
 
 
@@ -792,7 +730,7 @@ Timer units can be configured to control when service units run. You can use tim
 Timer units are started, enabled, and stopped similarly to service units. For example, to enable and start a timer unit immediately, type:
 
 ```
-sudo systemctl enable --now myscript.timer
+sudo systemctl enable --now *myscript*.timer
 ```
 
 To list all existing timers on the system, to see when they last ran, and when they're next configured to run, type:
@@ -807,7 +745,7 @@ For more information about system timers, see the `systemd.timer(5)` and `system
 
 **Realtime timers** activate on a calendar event, similar to events in a crontab. The option `OnCalendar` specifies when the timer runs a service.
 
--   If needed, create a `.service` file that defines the service to be triggered by the timer unit. In the following procedure, the sample service is /etc/systemd/system/update.service which is a service unit that runs an update script.
+-   If needed, create a `.service` file that defines the service to be triggered by the timer unit. In the following procedure, the sample service is `/etc/systemd/system/update.service` which is a service unit that runs an update script.
 
     For more information about creating service units, see [Creating a User-Based systemd Service](osmanage-WorkingWithSystemServices.md#).
 
@@ -816,7 +754,7 @@ For more information about system timers, see the `systemd.timer(5)` and `system
 
 This task shows you how to create a system timer to trigger a service to run based on a calendar event. The definition of the calendar event is similar to entries that you put in a cron job.
 
-1.  Create the /etc/systemd/system/update.timer with the following content:
+1.  Create the `/etc/systemd/system/update.timer` with the following content:
 
     ```
     [Unit]
@@ -869,9 +807,9 @@ This task shows you how to create a system timer to trigger a service to run bas
 
 ### Configuring a Monotonic Timer Unit
 
-**Monotonic timers** that activate after a time span relative to a varying starting point, such as a boot event, or when a particular `systemd` unit becomes active. These timer units stop if the computer is temporarily suspended or shut down. Monotonic timers are configured by using the `OnTypeSec` option, where Type is the name of the event to which the timer is related. Common monotonic timers include `OnBootSec` and `OnUnitActiveSec`.
+**Monotonic timers** that activate after a time span relative to a varying starting point, such as a boot event, or when a particular `systemd` unit becomes active. These timer units stop if the computer is temporarily suspended or shut down. Monotonic timers are configured by using the `On*Type*Sec` option, where *Type* is the name of the event to which the timer is related. Common monotonic timers include `OnBootSec` and `OnUnitActiveSec`.
 
--   If needed, create a `.service` file that defines the service to be triggered by the timer unit. In the following procedure, the sample service is /etc/systemd/system/update.service which is a service unit that runs an update script.
+-   If needed, create a `.service` file that defines the service to be triggered by the timer unit. In the following procedure, the sample service is `/etc/systemd/system/update.service` which is a service unit that runs an update script.
 
     For more information about creating service units, see [Creating a User-Based systemd Service](osmanage-WorkingWithSystemServices.md#).
 
@@ -880,7 +818,7 @@ This task shows you how to create a system timer to trigger a service to run bas
 
 This task shows you how to create a system timer to trigger a service to run at specific events, which are when the system boots or after 2 hours have lapsed from the timer's activation.
 
-1.  Create the /etc/systemd/system/update.timer with the following content:
+1.  Create the `/etc/systemd/system/update.timer` with the following content:
 
     ```
     [Unit]
@@ -922,9 +860,9 @@ This task shows you how to create a system timer to trigger a service to run at 
 
 ### Running a Transient Timer Unit
 
-Transient timers are temporary timers that are valid only for the current session. These timers can be created to run a program or script directly without requiring service or timer units to be configured within `systemd`. These units are generated by using the systemd-run command. See the `systemd-run(1)` manual page for more information.
+Transient timers are temporary timers that are valid only for the current session. These timers can be created to run a program or script directly without requiring service or timer units to be configured within `systemd`. These units are generated by using the `systemd-run` command. See the `systemd-run(1)` manual page for more information.
 
-The parameter options that you would add to the `unit-file.timer` file also serve as arguments when you use `systemd-run` command to run a transient timer unit.
+The parameter options that you would add to the `*unit-file*.timer` file also serve as arguments when you use `systemd-run` command to run a transient timer unit.
 
 The following examples show how to use `systemd-run` to activate transient timers.
 

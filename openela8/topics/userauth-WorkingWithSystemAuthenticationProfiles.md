@@ -43,7 +43,7 @@ Enabled features of a profile determine the manner of authentication on the syst
 2.  If necessary, identify the feature requirements for the feature to work properly.
 
     ```
-    sudo authselect requirements profile feature
+    sudo authselect requirements *profile* *feature*
     ```
 
 3.  Complete the indicated listed feature requirements as needed.
@@ -51,7 +51,7 @@ Enabled features of a profile determine the manner of authentication on the syst
 4.  Enable the feature.
 
     ```
-    sudo authselect enable-feature feature
+    sudo authselect enable-feature *feature*
     ```
 
     Note that you can only enable features one at a time.
@@ -62,7 +62,7 @@ Enabled features of a profile determine the manner of authentication on the syst
 Use the `disable-feature` subcommand.
 
 ```
-sudo authselect disable-feature feature                  
+sudo authselect disable-feature *feature*                  
 ```
 
 ### Adding Functionalities to a Profile
@@ -126,7 +126,7 @@ The following example shows how you can set account locking and define home dire
 
 ### Enabling the PAM Access Feature
 
-The following example shows how you can direct the system to check /etc/security/access.conf to authenticate and authorize users. In this case, the PAM access feature needs to be added as an enabled feature for `sssd`.
+The following example shows how you can direct the system to check `/etc/security/access.conf` to authenticate and authorize users. In this case, the PAM access feature needs to be added as an enabled feature for `sssd`.
 
 1.  Automatically enable PAM access:
 
@@ -164,7 +164,7 @@ The following example shows how you can direct the system to check /etc/security
 
 **Note:**
 
-The prevous example assumes that you have configured /etc/security/access.conf so that the feature functions correctly. For more information, see the `access.conf(5)` manual page.
+The prevous example assumes that you have configured `/etc/security/access.conf` so that the feature functions correctly. For more information, see the `access.conf(5)` manual page.
 
 ## Selecting the Winbind Profile
 
@@ -181,7 +181,7 @@ Winbind is a client-side service that resolves user and group information on a W
     When selecting a profile, you can enable multiple features in the same command, for example:
 
     ```
-    sudo authselect select winbind with-faillock with-mkhomedir [options]
+    sudo authselect select winbind with-faillock with-mkhomedir [*options*]
     ```
 
     ```
@@ -199,7 +199,7 @@ Winbind is a client-side service that resolves user and group information on a W
       - systemctl start oddjobd.service
     ```
 
-    For other options you can use with the authselect select command, see the `authselect(8)` manual page.
+    For other options you can use with the `authselect select` command, see the `authselect(8)` manual page.
 
 3.  Fulfill the requirements of the features you enabled for the profile.
 
@@ -220,7 +220,7 @@ If you modify features of an already current and active profile, the revised fea
 
 ## Modifying Ready-Made Profiles
 
-Profiles also use information stored in the /etc/nsswitch.conf file to enforce authentication. However, to modify and customize a ready-made profile, specify its configuration properties in the /etc/user-nsswitch.conf file. Do not edit the /etc/nsswitch.conf directly.
+Profiles also use information stored in the `/etc/nsswitch.conf` file to enforce authentication. However, to modify and customize a ready-made profile, specify its configuration properties in the `/etc/user-nsswitch.conf` file. Do not edit the `/etc/nsswitch.conf` directly.
 
 1.  If necessary, select the profile to make it current, for example:
 
@@ -228,7 +228,7 @@ Profiles also use information stored in the /etc/nsswitch.conf file to enforce a
     sudo authselect select sssd
     ```
 
-2.  Edit the /etc/authselect/user-nsswitch.conf file as required.
+2.  Edit the `/etc/authselect/user-nsswitch.conf` file as required.
 
     **Note:**
 
@@ -250,12 +250,12 @@ Profiles also use information stored in the /etc/nsswitch.conf file to enforce a
     sudo authselect apply-changes
     ```
 
-    The changes in /etc/authselect/user-nsswitch.conf are applied to /etc/nsswitch.conf and will be used by the current profile.
+    The changes in `/etc/authselect/user-nsswitch.conf` are applied to `/etc/nsswitch.conf` and will be used by the current profile.
 
 
 **Important:**
 
-If the system is part of an environment that uses either Identity Management or Active Directory, do not use authselect to manage authentication. When the host is made to join either Identity Management or Active Directory, their respective tools take care of managing authentication of the environment.
+If the system is part of an environment that uses either Identity Management or Active Directory, do not use `authselect` to manage authentication. When the host is made to join either Identity Management or Active Directory, their respective tools take care of managing authentication of the environment.
 
 ## Creating Custom Profiles
 
@@ -264,14 +264,14 @@ If you do not want to use the profiles included in Enterprise Linux or those pro
 1.  Create the profile.
 
     ```
-    sudo authselect create-profile newprofile -b template --symlink-meta --symlink-pam
+    sudo authselect create-profile *newprofile* -b *template* --symlink-meta --symlink-pam
     ```
 
-    -   **newprofile**
+    -   **_newprofile_**
 
         Name of your custom profile.
 
-    -   **template**
+    -   **_template_**
 
         Base to be used for the custom profile, which is either `sssd` or `winbind`.
 
@@ -283,19 +283,19 @@ If you do not want to use the profiles included in Enterprise Linux or those pro
 
         Creates symbolic links to the PAM templates in the original directory of the template profile you are using as base.
 
-    This command creates an /etc/authselect/custom/newprofile directory that contains the symbolic links to the files in the base's original directory. The only file that is **not** a symbolic link in this directory is `nsswitch.conf`.
+    This command creates an `/etc/authselect/custom/*newprofile*` directory that contains the symbolic links to the files in the base's original directory. The only file that is **not** a symbolic link in this directory is `nsswitch.conf`.
 
-2.  Edit the /etc/authselect/custom/newprofile/nsswitch.conf file according to your preference.
+2.  Edit the `/etc/authselect/custom/*newprofile*/nsswitch.conf` file according to your preference.
 
 3.  Select your custom profile.
 
     ```
-    sudo authselect select custom/newprofile                        
+    sudo authselect select custom/*newprofile*                        
     ```
 
-    This command also creates a backup of the original /etc/nsswitch.conf file and replaces it with a symbolic link to the corresponding file in your custom profile's directory.
+    This command also creates a backup of the original `/etc/nsswitch.conf` file and replaces it with a symbolic link to the corresponding file in your custom profile's directory.
 
-    You can test this result by comparing the symbolic link /etc/nsswitch.conf with the original /etc/nsswitch.conf.bak and verify that the original file's contents remain intact.
+    You can test this result by comparing the symbolic link `/etc/nsswitch.conf` with the original `/etc/nsswitch.conf.bak` and verify that the original file's contents remain intact.
 
 4.  Enable features for your new profile as needed.
 

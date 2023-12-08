@@ -27,13 +27,13 @@ See [https://sssd.io/](https://sssd.io/) for more information about SSSD.
 
 By default the SSSD service used by the `sssd` profile uses Pluggable Authentication Modules \(PAM\) and the Name Service Switch \(NSS\) for managing access and authentication on a system. As you enable additional features for the profile to customize SSSD authentication, you must also configure SSSD for the enabled feature.
 
-You customize an SSSD configuration by creating configuration files within the /etc/sssd/conf.d directory. Each configuration file must have the `.conf` suffix to enable it when SSSD is started. Configuration files use ini-style syntax as format. The content consist of sections, which are identified by square brackets, and parameters, which are listed as `key = value` entries. The manual pages provided for SSSD are comprehensive and provide detailed information on the options that are available.
+You customize an SSSD configuration by creating configuration files within the `/etc/sssd/conf.d` directory. Each configuration file must have the `.conf` suffix to enable it when SSSD is started. Configuration files use ini-style syntax as format. The content consist of sections, which are identified by square brackets, and parameters, which are listed as `key = value` entries. The manual pages provided for SSSD are comprehensive and provide detailed information on the options that are available.
 
 The following example shows how you might configure SSSD to authenticate against an LDAP provider with Kerberos configured:
 
-1.  Create a configuration file for the feature and store it in /etc/sssd/conf.d, for example /etc/sssd/conf.d/00-ldap.conf
+1.  Create a configuration file for the feature and store it in `/etc/sssd/conf.d`, for example `/etc/sssd/conf.d/00-ldap.conf`
 
-2.  Configure /etc/sssd/conf.d/00-ldap.conf with parameter definitions, such as the following:
+2.  Configure `/etc/sssd/conf.d/00-ldap.conf` with parameter definitions, such as the following:
 
     ```
     [sssd]
@@ -122,7 +122,7 @@ The following example shows how you might configure SSSD to authenticate against
 
         -   `offline_failed_login_delay` specifies how many minutes after the limit of allowed failed login attempts have been exceeded before a new login attempt is permitted.
 
-3.  Change the mode of /etc/sssd/conf.d/00-ldap.conf to 0600:
+3.  Change the mode of `/etc/sssd/conf.d/00-ldap.conf` to 0600:
 
     ```
     sudo chmod 0600 /etc/sssd/conf.d/00-ldap.conf
@@ -141,7 +141,7 @@ For more information about the SSSD service, see the `sssd(8)` manual page and [
 
 ## About Pluggable Authentication Modules
 
-The Pluggable Authentication Modules \(PAM\) feature is an authentication mechanism used by the `sssd` profile that allows you to configure how applications use authentication to verify the identity of a user. The PAM configuration files, which are located in the /etc/pam.d directory, describe the authentication procedure for an application. The name of each configuration file is the same as, or is similar to, the name of the application for which the module provides authentication. For example, the configuration files for passwd and sudo are named `passwd` and `sudo`.
+The Pluggable Authentication Modules \(PAM\) feature is an authentication mechanism used by the `sssd` profile that allows you to configure how applications use authentication to verify the identity of a user. The PAM configuration files, which are located in the `/etc/pam.d` directory, describe the authentication procedure for an application. The name of each configuration file is the same as, or is similar to, the name of the application for which the module provides authentication. For example, the configuration files for `passwd` and `sudo` are named `passwd` and `sudo`.
 
 Each PAM configuration file contains a list or *stack* of calls to authentication modules. For example, the following listing shows the default content of the `login` configuration file:
 
@@ -166,7 +166,7 @@ session    include      postlogin
 -session   optional     pam_ck_connector.so
 ```
 
-Comments in the file start with a `#` character. The remaining lines each define an operation type, a control flag, the name of a module such as `pam_rootok.so` or the name of an included configuration file such as `system-auth`, and any arguments to the module. PAM provides authentication modules as shared libraries in /usr/lib64/security.
+Comments in the file start with a `#` character. The remaining lines each define an operation type, a control flag, the name of a module such as `pam_rootok.so` or the name of an included configuration file such as `system-auth`, and any arguments to the module. PAM provides authentication modules as shared libraries in `/usr/lib64/security`.
 
 For a particular operation type, PAM reads the stack from top to bottom and calls the modules listed in the configuration file. Each module generates a success or failure result when called.
 
@@ -210,7 +210,7 @@ Except for `include`, the control flags tell PAM what to do with the result of r
     If the module succeeds, PAM doesn't process any remaining modules of the same operation type. If the module fails, PAM processes the remaining modules of the same operation type to determine overall success or failure.
 
 
-The control flag field can also define one or more rules that specify the action that PAM takes depending on the value that a module returns. Each rule takes the form `value=action`, and the rules are enclosed in square brackets, for example:
+The control flag field can also define one or more rules that specify the action that PAM takes depending on the value that a module returns. Each rule takes the form `*value*=*action*`, and the rules are enclosed in square brackets, for example:
 
 ```
 [user_unknown=ignore success=ok ignore=ignore default=bad]
@@ -220,7 +220,7 @@ If the result that's returned by a module matches a value, PAM uses the correspo
 
 The `include` flag specifies that PAM must also consult the PAM configuration file specified as the argument.
 
-Most authentication modules and PAM configuration files have their own manual pages. Relevant files are stored in the /usr/share/doc/pam directory.
+Most authentication modules and PAM configuration files have their own manual pages. Relevant files are stored in the `/usr/share/doc/pam` directory.
 
 For more information, see the `pam(8)` manual page. In addition, each PAM module has its own manual page, for example `pam_unix(8)`, `postlogin(5)`, and `system-auth(5)`.
 

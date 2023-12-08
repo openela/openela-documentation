@@ -6,9 +6,9 @@ This chapter describes the files and virtual file systems that you can use to ch
 
 ## About the /etc/sysconfig Files
 
-The /etc/sysconfig directory contains files that control the system's configuration. The contents of this directory depend on the packages that you have installed on the system.
+The `/etc/sysconfig` directory contains files that control the system's configuration. The contents of this directory depend on the packages that you have installed on the system.
 
-Certain files that you might find in the /etc/sysconfig directory include the following:
+Certain files that you might find in the `/etc/sysconfig` directory include the following:
 
 -   **`atd`**
 
@@ -32,7 +32,7 @@ Certain files that you might find in the /etc/sysconfig directory include the fo
 
 -   **`grub`**
 
-    Specifies default settings for the GRUB 2 bootloader. This file is a symbolic link to /etc/default/grub. For more information, see [About the GRUB 2 Bootloader](osmanage-WorkingWiththeGRUB2BootloaderandConfiguringBootServices.md#).
+    Specifies default settings for the GRUB 2 bootloader. This file is a symbolic link to `/etc/default/grub`. For more information, see [About the GRUB 2 Bootloader](osmanage-WorkingWiththeGRUB2BootloaderandConfiguringBootServices.md#).
 
 -   **`named`**
 
@@ -44,7 +44,7 @@ Certain files that you might find in the /etc/sysconfig directory include the fo
 
 -   **`selinux`**
 
-    Controls the state of SELinux on the system. This file is a symbolic link to /etc/selinux/config.
+    Controls the state of SELinux on the system. This file is a symbolic link to `/etc/selinux/config`.
 
 -   **`snapper`**
 
@@ -52,22 +52,22 @@ Certain files that you might find in the /etc/sysconfig directory include the fo
 
 -   **`sysstat`**
 
-    Configures logging parameters for system activity data collector utilities such as sar.
+    Configures logging parameters for system activity data collector utilities such as `sar`.
 
 
-For more information, see /usr/share/doc/initscripts\*/sysconfig.txt.
+For more information, see `/usr/share/doc/initscripts*/sysconfig.txt`.
 
 ## About the /proc Virtual File System
 
-The files in the /proc directory hierarchy contain information about the system hardware and the processes that are running on the system. You can change the configuration of the kernel by writing to certain files that have write permission.
+The files in the `/proc` directory hierarchy contain information about the system hardware and the processes that are running on the system. You can change the configuration of the kernel by writing to certain files that have write permission.
 
-Files that are under the /proc directory are virtual files that the kernel creates on demand to present a browsable view of the underlying data structures and system information. As such, /proc is an example of a virtual file system. Most virtual files are listed as 0 bytes in size, but they contain large amount of information when viewed.
+Files that are under the `/proc` directory are virtual files that the kernel creates on demand to present a browsable view of the underlying data structures and system information. As such, `/proc` is an example of a virtual file system. Most virtual files are listed as 0 bytes in size, but they contain large amount of information when viewed.
 
-Virtual files such as /proc/interrupts, /proc/meminfo, /proc/mounts, and /proc/partitions provide a view of the system’s hardware. Other files, such as /proc/filesystems and the files under /proc/sys, provide information about the system's configuration and through which you can change configurations as needed.
+Virtual files such as `/proc/interrupts`, `/proc/meminfo`, `/proc/mounts`, and `/proc/partitions` provide a view of the system’s hardware. Other files, such as `/proc/filesystems` and the files under `/proc/sys`, provide information about the system's configuration and through which you can change configurations as needed.
 
-Files that contain information about related topics are grouped into virtual directories. A separate directory exists in the /proc directory for each process that's running on the system. The directory's name corresponds to the numeric process ID. For example, /proc/1 corresponds to the `systemd` process that has a PID of 1.
+Files that contain information about related topics are grouped into virtual directories. A separate directory exists in the `/proc` directory for each process that's running on the system. The directory's name corresponds to the numeric process ID. For example, `/proc/1` corresponds to the `systemd` process that has a PID of 1.
 
-To examine virtual files, you can use commands such as cat, less, and view, as shown in the following example:
+To examine virtual files, you can use commands such as `cat`, `less`, and `view`, as shown in the following example:
 
 ```
 cat /proc/cpuinfo
@@ -95,7 +95,7 @@ wp                : yes
 ...
 ```
 
-For files that contain nonhuman-readable content, you can use utilities such as lspci, free, top, and sysctl to access information. For example, the lspci command lists PCI devices on a system:
+For files that contain nonhuman-readable content, you can use utilities such as `lspci`, `free`, `top`, and `sysctl` to access information. For example, the `lspci` command lists PCI devices on a system:
 
 ```
 sudo lspci
@@ -119,13 +119,11 @@ sudo lspci
 
 ### Virtual Files and Directories Under /proc
 
-The following table describes the most useful virtual files and directories under the /proc directory hierarchy.
+The following table describes the most useful virtual files and directories under the `/proc` directory hierarchy.
 
 |Virtual File or Directory|Description|
 |-------------------------|-----------|
-|`PID` \(Directory\)
-
-|Provides information about the process with the process ID \(PID\). The directory's owner and group is same as the process's. Useful files under the directory include:
+|`*PID*` \(Directory\)|Provides information about the process with the process ID \(*PID*\). The directory's owner and group is same as the process's. Useful files under the directory include:
 
  -   **`cmdline`**
 
@@ -143,7 +141,7 @@ Environment variables.
 
 Symbolic link to the command executable.
 
--   **`fd/N`**
+-   **`fd/_N_`**
 
 File descriptors.
 
@@ -165,98 +163,26 @@ Run state and memory usage.
 
 
 |
-|`buddyinfo`
-
-|Provides information for diagnosing memory fragmentation.
-
-|
-|`bus` \(directory\)
-
-|Contains information about the various buses \(such as `pci` and `usb`\) that are available on the system. You can use commands such as lspci, lspcmcia, and lsusb to display information for such devices.
-
-|
-|`cgroups`
-
-|Provides information about the resource control groups that are in use on the system.
-
-|
-|`cmdline`
-
-|Lists parameters passed to the kernel at boot time.
-
-|
-|`cpuinfo`
-
-|Provides information about the system's CPUs.
-
-|
-|`crypto`
-
-|Provides information about all installed cryptographic cyphers.
-
-|
-|`devices`
-
-|Lists the names and major device numbers of all currently configured characters and block devices.
-
-|
-|`dma`
-
-|Lists the direct memory access \(DMA\) channels that are currently in use.
-
-|
-|`driver` \(directory\)
-
-|Contains information about drivers used by the kernel, such as those for nonvolatile RAM \(`nvram`\), the real-time clock \(`rtc`\), and memory allocation for sound \(`snd-page-alloc`\).|
-|`execdomains`|Lists the execution domains for binaries that the Enterprise Linux kernel supports.
-
-|
-|`filesystems`
-
-|Lists the file system types that the kernel supports. Entries marked with `nodev` aren't in use.
-
-|
-|`fs` \(directory\)
-
-|Contains information about mounted file systems, organized by file system type.
-
-|
-|`interrupts`
-
-|Records the number of interrupts per interrupt request queue \(IRQ\) for each CPU after system startup.
-
-|
-|`iomem`
-
-|Lists the system memory map for each physical device.
-
-|
-|`ioports`
-
-|Lists the range of I/O port addresses that the kernel uses with devices.|
-|`irq` \(directory\)
-
-|Contains information about each IRQ. You can configure the affinity between each IRQ and the system CPUs.
-
-|
-|`kcore`
-
-|Presents the system's physical memory in `core` file format that you can examine using a debugger such as crash or gdb. This file isn't human-readable.
-
-|
-|`kmsg`
-
-|Records kernel-generated messages, which are picked up by programs such as dmesg.
-
-|
-|`loadavg`
-
-|Displays the system load averages \(number of queued processes\) for the past 1, 5, and 15 minutes, the number of running processes, the total number of processes, and the PID of the process that's running.
-
-|
-|`locks`
-
-|Displays information about the file locks that the kernel is currently holding on behalf of processes. The information provided includes:
+|`buddyinfo`|Provides information for diagnosing memory fragmentation.|
+|`bus` \(directory\)|Contains information about the various buses \(such as `pci` and `usb`\) that are available on the system. You can use commands such as `lspci`, `lspcmcia`, and `lsusb` to display information for such devices.|
+|`cgroups`|Provides information about the resource control groups that are in use on the system.|
+|`cmdline`|Lists parameters passed to the kernel at boot time.|
+|`cpuinfo`|Provides information about the system's CPUs.|
+|`crypto`|Provides information about all installed cryptographic cyphers.|
+|`devices`|Lists the names and major device numbers of all currently configured characters and block devices.|
+|`dma`|Lists the direct memory access \(DMA\) channels that are currently in use.|
+|`driver` \(directory\)|Contains information about drivers used by the kernel, such as those for nonvolatile RAM \(`nvram`\), the real-time clock \(`rtc`\), and memory allocation for sound \(`snd-page-alloc`\).|
+|`execdomains`|Lists the execution domains for binaries that the Enterprise Linux kernel supports.|
+|`filesystems`|Lists the file system types that the kernel supports. Entries marked with `nodev` aren't in use.|
+|`fs` \(directory\)|Contains information about mounted file systems, organized by file system type.|
+|`interrupts`|Records the number of interrupts per interrupt request queue \(IRQ\) for each CPU after system startup.|
+|`iomem`|Lists the system memory map for each physical device.|
+|`ioports`|Lists the range of I/O port addresses that the kernel uses with devices.|
+|`irq` \(directory\)|Contains information about each IRQ. You can configure the affinity between each IRQ and the system CPUs.|
+|`kcore`|Presents the system's physical memory in `core` file format that you can examine using a debugger such as `crash` or `gdb`. This file isn't human-readable.|
+|`kmsg`|Records kernel-generated messages, which are picked up by programs such as `dmesg`.|
+|`loadavg`|Displays the system load averages \(number of queued processes\) for the past 1, 5, and 15 minutes, the number of running processes, the total number of processes, and the PID of the process that's running.|
+|`locks`|Displays information about the file locks that the kernel is currently holding on behalf of processes. The information provided includes:
 
  -   lock class \(`FLOCK` or `POSIX`\)
 
@@ -272,87 +198,37 @@ Run state and memory usage.
 
 
 |
-|`mdstat`
-
-|Lists information about multiple-disk RAID devices.
-
-|
-|`meminfo`
-
-|Reports the system's usage of memory in more detail than is available using the free or top commands.
-
-|
-|`modules`
-
-|Displays information about the modules that are currently loaded into the kernel. The lsmod command formats and displays the same information, excluding the kernel memory offset of a module.
-
-|
-|`mounts`
-
-|Lists information about all mounted file systems.
-
-|
-|`net` \(directory\)
-
-|Provides information about networking protocol, parameters, and statistics. Each directory and virtual file describes aspects of the configuration of the system's network.
-
-|
-|`partitions`
-
-|Lists the major and minor device numbers, number of blocks, and name of partitions mounted by the system.
-
-|
-|`scsi/device_info`
-
-|Provides information about SCSI devices.
-
-|
+|`mdstat`|Lists information about multiple-disk RAID devices.|
+|`meminfo`|Reports the system's usage of memory in more detail than is available using the `free` or `top` commands.|
+|`modules`|Displays information about the modules that are currently loaded into the kernel. The `lsmod` command formats and displays the same information, excluding the kernel memory offset of a module.|
+|`mounts`|Lists information about all mounted file systems.|
+|`net` \(directory\)|Provides information about networking protocol, parameters, and statistics. Each directory and virtual file describes aspects of the configuration of the system's network.|
+|`partitions`|Lists the major and minor device numbers, number of blocks, and name of partitions mounted by the system.|
+|`scsi/device_info`|Provides information about SCSI devices.|
 |`scsi/scsi` and
 
  `scsi/sg/*`
 
-|Provide information about configured SCSI devices, including vendor, model, channel, ID, and LUN data .
-
-|
-|`self`
-
-|Symbolic link to the process that's examining /proc.
-
-|
-|`slabinfo`
-
-|Provides detailed information about slab memory usage.
-
-|
-|`softirqs`
-
-|Displays information about software interrupts \(`softirqs`\). A `softirq` is similar to a hardware interrupt \(`hardirq`\) and configures the kernel to perform asynchronous processing that would take too long during a hardware interrupt.
-
-|
-|`stat`
-
-|Records information about the system from when it was started, including:
+|Provide information about configured SCSI devices, including vendor, model, channel, ID, and LUN data .|
+|`self`|Symbolic link to the process that's examining `/proc`.|
+|`slabinfo`|Provides detailed information about slab memory usage.|
+|`softirqs`|Displays information about software interrupts \(`softirqs`\). A `softirq` is similar to a hardware interrupt \(`hardirq`\) and configures the kernel to perform asynchronous processing that would take too long during a hardware interrupt.|
+|`stat`|Records information about the system from when it was started, including:
 
  -   **`cpu`**
 
 Total CPU time \(measured in `jiffies`\) spent in user mode, low-priority user mode, system mode, idle, waiting for I/O, handling hardirq events, and handling softirq events.
 
--   **`cpuN`**
+-   **`cpu_N_`**
 
-Times for CPU N.
+Times for CPU *N*.
 
-
-|
-|`swaps`
-
-|Provides information about swap devices. The units of size and usage are in kilobytes.
 
 |
-|`sys` \(directory\)
+|`swaps`|Provides information about swap devices. The units of size and usage are in kilobytes.|
+|`sys` \(directory\)|Provides information about the system and also enables you to enable, disable, or modify kernel features. You can write new settings to any file that has write permission. See [Modifying Kernel Parameters](osmanage-ConfiguringSystemSettings.md#).
 
-|Provides information about the system and also enables you to enable, disable, or modify kernel features. You can write new settings to any file that has write permission. See [Modifying Kernel Parameters](osmanage-ConfiguringSystemSettings.md#).
-
- The following subdirectory hierarchies of /proc/sys contain virtual files, some of whose values you can alter:
+ The following subdirectory hierarchies of `/proc/sys` contain virtual files, some of whose values you can alter:
 
  -   **`dev`**
 
@@ -372,33 +248,21 @@ Networking parameters.
 
 
 |
-|`sysvipc` \(directory\)
-
-|Provides information about the usage of System V Interprocess Communication \(IPC\) resources for messages \(`msg`\), semaphores \(`sem`\), and shared memory \(`shm`\).
-
-|
-|`tty` \(directory\)
-
-|Provides information about the available and currently used terminal devices on the system. The `drivers` virtual file lists the devices that are currently configured.
-
-|
-|`vmstat`
-
-|Provides information about virtual memory usage.
-
-|
+|`sysvipc` \(directory\)|Provides information about the usage of System V Interprocess Communication \(IPC\) resources for messages \(`msg`\), semaphores \(`sem`\), and shared memory \(`shm`\).|
+|`tty` \(directory\)|Provides information about the available and currently used terminal devices on the system. The `drivers` virtual file lists the devices that are currently configured.|
+|`vmstat`|Provides information about virtual memory usage.|
 
 For more information, see the `proc(5)` manual page.
 
 ### Modifying Kernel Parameters
 
-Some virtual files under /proc, and especially under /proc/sys, are writable. You can adjust settings in the kernel through these files. For example, to change the hostname, you would revise the /proc/sys/kernel/hostname file as follows:
+Some virtual files under `/proc`, and especially under `/proc/sys`, are writable. You can adjust settings in the kernel through these files. For example, to change the hostname, you would revise the `/proc/sys/kernel/hostname` file as follows:
 
 ```
 echo www.mydomain.com > /proc/sys/kernel/hostname
 ```
 
-Other files take binary or Boolean values, such as the setting of IP forwarding, which is defined in /proc/sys/net/ipv4/ip\_forward:
+Other files take binary or Boolean values, such as the setting of IP forwarding, which is defined in `/proc/sys/net/ipv4/ip_forward`:
 
 ```
 cat /proc/sys/net/ipv4/ip_forward
@@ -417,11 +281,11 @@ cat /proc/sys/net/ipv4/ip_forward
 1
 ```
 
-You can use the sysctl command to view or modify values under the /proc/sys directory.
+You can use the `sysctl` command to view or modify values under the `/proc/sys` directory.
 
 **Note:**
 
-Even `root` can't bypass the file access permissions of virtual file entries under /proc. If you change the value of a read-only entry such as /proc/partitions, no kernel code exists to service the `write()` system call.
+Even `root` can't bypass the file access permissions of virtual file entries under `/proc`. If you change the value of a read-only entry such as `/proc/partitions`, no kernel code exists to service the `write()` system call.
 
 To display the current kernel settings, use the following command:
 
@@ -440,9 +304,9 @@ kernel.sched_shares_ratelimit = 500000
 
 **Note:**
 
-The delimiter character in the name of a setting is a period \(`.`\) rather than a slash \(/\) in a path relative to /proc/sys, such as `net.ipv4.ip_forward`. This setting represents `net/ipv4/ip_forward`. As another example, `kernel.msgmax` represents `kernel/msgmax`.
+The delimiter character in the name of a setting is a period \(`.`\) rather than a slash \(`/`\) in a path relative to `/proc/sys`, such as `net.ipv4.ip_forward`. This setting represents `net/ipv4/ip_forward`. As another example, `kernel.msgmax` represents `kernel/msgmax`.
 
-To display an individual setting, specify its name as the argument to sysctl:
+To display an individual setting, specify its name as the argument to `sysctl`:
 
 ```
 **sysctl net.ipv4.ip\_forward**
@@ -456,7 +320,7 @@ To change the value of a setting, use the following command format:
 net.ipv4.ip_forward = 1
 ```
 
-Changes that you make in this way remain in force only until the system is rebooted. To make configuration changes persist after the system is rebooted, you must add them to the /etc/sysctl.d directory as a configuration file. Any changes that you make to the files in this directory take effect when the system reboots or if you run the sysctl --system command, for example:
+Changes that you make in this way remain in force only until the system is rebooted. To make configuration changes persist after the system is rebooted, you must add them to the `/etc/sysctl.d` directory as a configuration file. Any changes that you make to the files in this directory take effect when the system reboots or if you run the `sysctl --system` command, for example:
 
 ```
 echo 'net.ipv4.ip_forward=1' > /etc/sysctl.d/ip_forward.conf
@@ -534,7 +398,7 @@ The following parameters control various aspects of system performance:
 
 -   **`net.ipv4.tcp_available_congestion_control`**
 
-    Displays the TCP congestion avoidance algorithms that are available for use. Use the modprobe command if you need to load additional modules such as `tcp_htcp` to implement the `htcp` algorithm.
+    Displays the TCP congestion avoidance algorithms that are available for use. Use the `modprobe` command if you need to load additional modules such as `tcp_htcp` to implement the `htcp` algorithm.
 
 -   **`net.ipv4.tcp_congestion_control`**
 
@@ -573,7 +437,7 @@ The following parameters control the circumstances under which a kernel panic ca
 
     **Tip:**
 
-    To diagnose a hung thread, you can examine /proc/PID/stack, which displays the kernel stack for both kernel and user threads.
+    To diagnose a hung thread, you can examine `/proc/*PID*/stack`, which displays the kernel stack for both kernel and user threads.
 
 -   **`kernel.hung_task_timeout_secs`**
 
@@ -624,66 +488,28 @@ The following parameters control the circumstances under which a kernel panic ca
 
 ## About the /sys Virtual File System
 
-In addition to the /proc file system, the kernel exports information to the /sys virtual file system \(`sysfs`\). Programs such as the dynamic device manager \(`udev`\), use /sys to access device and device driver information.
+In addition to the `/proc` file system, the kernel exports information to the `/sys` virtual file system \(`sysfs`\). Programs such as the dynamic device manager \(`udev`\), use `/sys` to access device and device driver information.
 
 **Note:**
 
-/sys exposes kernel data structures and control points, which implies that the directory contains circular references, where a directory links to an ancestor directory. Thus, a find command used on /sys might never stop.
+`/sys` exposes kernel data structures and control points, which implies that the directory contains circular references, where a directory links to an ancestor directory. Thus, a `find` command used on `/sys` might never stop.
 
 ### Virtual Directories Under the /sys Directory
 
-The following table describes some useful virtual directories under the /sys directory hierarchy.
+The following table describes some useful virtual directories under the `/sys` directory hierarchy.
 
 |Virtual Directory|Description|
 |-----------------|-----------|
-|`block`
-
-|Contains subdirectories for block devices. For example: /sys/block/sda.
-
-|
-|`bus`
-
-|Contains subdirectories for each physical bus type, such as `pci`, `pcmcia`, `scsi`, or `usb`. Under each bus type, the `devices` directory lists discovered devices, and the `drivers` directory contains directories for each device driver.
-
-|
-|`class`
-
-|Contains subdirectories for every class of device that's registered with the kernel.
-
-|
-|`dev`
-
-|Contains the `char/` and `block/` directories. Inside these two directories are symlinks named major:minor. These symlinks point to the `sysfs` directory for the particular device. The /sys/dev directory provides a quick way to look up the `sysfs` interface for a device from the result of the `stat(2)` operation.
-
-|
-|`devices`
-
-|Contains the global device hierarchy of all devices on the system. The platform directory contains peripheral devices such as device controllers that are specific to a particular platform. The `system` directory contains non peripheral devices such as CPUs and APICs. The `virtual` directory contains virtual and pseudo devices. See [Managing System Devices](osmanage-ManagingSystemDevices.md#).
-
-|
-|`firmware`
-
-|Contains subdirectories for firmware objects.
-
-|
-|`fs`
-
-|Contains subdirectories for file system objects.
-
-|
-|`kernel`
-
-|Contains subdirectories for other kernel objects
-
-|
-|`module`
-
-|Contains subdirectories for each module loaded into the kernel. You can alter some parameter values for loaded modules. See [About Module Parameters](osmanage-ManagingKernelModules.md#).
-
-|
-|`power`|Contains attributes that control the system's power state.
-
-|
+|`block`|Contains subdirectories for block devices. For example: `/sys/block/sda`.|
+|`bus`|Contains subdirectories for each physical bus type, such as `pci`, `pcmcia`, `scsi`, or `usb`. Under each bus type, the `devices` directory lists discovered devices, and the `drivers` directory contains directories for each device driver.|
+|`class`|Contains subdirectories for every class of device that's registered with the kernel.|
+|`dev`|Contains the `char/` and `block/` directories. Inside these two directories are symlinks named *major*:*minor*. These symlinks point to the `sysfs` directory for the particular device. The `/sys/dev` directory provides a quick way to look up the `sysfs` interface for a device from the result of the `stat(2)` operation.|
+|`devices`|Contains the global device hierarchy of all devices on the system. The platform directory contains peripheral devices such as device controllers that are specific to a particular platform. The `system` directory contains non peripheral devices such as CPUs and APICs. The `virtual` directory contains virtual and pseudo devices. See [Managing System Devices](osmanage-ManagingSystemDevices.md#).|
+|`firmware`|Contains subdirectories for firmware objects.|
+|`fs`|Contains subdirectories for file system objects.|
+|`kernel`|Contains subdirectories for other kernel objects|
+|`module`|Contains subdirectories for each module loaded into the kernel. You can alter some parameter values for loaded modules. See [About Module Parameters](osmanage-ManagingKernelModules.md#).|
+|`power`|Contains attributes that control the system's power state.|
 
 For more information, see [https://www.kernel.org/doc/Documentation/filesystems/sysfs.txt](https://www.kernel.org/doc/Documentation/filesystems/sysfs.txt).
 
@@ -700,20 +526,20 @@ timedatectl list-timezones
 To set the system timezone to match a value returned from the available timezones, you can run:
 
 ```
-timedatectl set-timezone America/Los\_Angeles
+timedatectl set-timezone *America/Los\_Angeles*
 ```
 
-Substitute America/Los\_Angeles with a valid timezone entry.
+Substitute *America/Los\_Angeles* with a valid timezone entry.
 
-This command sets a symbolic link from /etc/localtime to point to the appropriate zone information file in /usr/share/zoneinfo/. The setting takes effect immediately. Some long running processes that use /etc/localtime to detect the current system timezone might not detect a change in system timezone until the process is restarted.
+This command sets a symbolic link from `/etc/localtime` to point to the appropriate zone information file in `/usr/share/zoneinfo/`. The setting takes effect immediately. Some long running processes that use `/etc/localtime` to detect the current system timezone might not detect a change in system timezone until the process is restarted.
 
 Note that timezones are largely used for display purposes or to handle user input. Changing timezone doesn't change the time for the system clock. You can change the presentation for system time in any console by setting the `TZ` environment variable. For example, to see the current time in Tokyo, you can run:
 
 ```
-TZ="Asia/Tokyo" date
+TZ="*Asia/Tokyo*" date
 ```
 
-You can check the system's current date and time configuration by running the timedatectl command on its own:
+You can check the system's current date and time configuration by running the `timedatectl` command on its own:
 
 ```
 timedatectl
@@ -729,10 +555,10 @@ System clock synchronized: yes
           RTC in local TZ: no                              
 ```
 
-To set system time manually, use the timedatectl set-time command:
+To set system time manually, use the `timedatectl set-time` command:
 
 ```
-timedatectl set-time "2021-07-17 01:59:59"
+timedatectl set-time "*2021-07-17 01:59:59*"
 ```
 
 This command sets the current system time based on the time specified assuming the currently set system timezone. The command also updates the system Real Time Clock \(RTC\).
@@ -757,7 +583,7 @@ To install the Watchdog package, run:
 sudo dnf install watchdog
 ```
 
-To configure the Watchdog service, edit the /etc/watchdog.conf file. The watchdog.conf file includes all Watchdog configuration properties. For information on how to edit this file, see the `watchdog.conf(5)` manual page.
+To configure the Watchdog service, edit the `/etc/watchdog.conf` file. The `watchdog.conf` file includes all Watchdog configuration properties. For information on how to edit this file, see the `watchdog.conf(5)` manual page.
 
 To enable and start the Watchdog service, run:
 

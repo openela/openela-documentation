@@ -25,21 +25,21 @@ In an Enterprise Linux 8system, this service daemon is enabled by default
 
 `chronyd` uses NTP version 3 \([RFC 1305](https://datatracker.ietf.org/doc/html/rfc1305)\), with features that are compatible with NTP version 4 \([RFC 5905](https://datatracker.ietf.org/doc/html/rfc5905)\). However, `chronyd` does not support several important features of NTP version 4, nor does it support the use of PTP.
 
-For more information, see the `chrony(1)` manual page and files in the /usr/share/doc/chrony/ directory.
+For more information, see the `chrony(1)` manual page and files in the `/usr/share/doc/chrony/` directory.
 
 ### Using the chronyc Service Utility
 
-The chronyc utility is a tool for managing the `chronyd` service, display information about the service's operation, or change the service's configuration.
+The `chronyc` utility is a tool for managing the `chronyd` service, display information about the service's operation, or change the service's configuration.
 
 The command operates in two modes:
 
 -   Non interactive mode: In this mode, you use the following syntax:
 
     ```
-    sudo chronyc subcommand
+    sudo chronyc *subcommand*
     ```
 
--   Interactive mode: Typing the command by itself activates the interactive mode and displays the `chronyc>` prompt. From this prompt you can issue chronyc subcommands.
+-   Interactive mode: Typing the command by itself activates the interactive mode and displays the `chronyc>` prompt. From this prompt you can issue `chronyc` subcommands.
 
     ```
     sudo chronyc
@@ -77,7 +77,7 @@ The command operates in two modes:
     ns2.telecom.lt              5   4   260     -3.948     61.422   +822us   813us
     strato-ssd.vpn0.de          5   3   259      1.609     68.932   -581us   801us
     kvm1.websters-computers.c   5   5   258     -0.263      9.586  +2008us   118us
-    chronyc> tracking
+    chronyc> `tracking`
     Reference ID    : 212.59.0.2 (ns2.telecom.lt)
     Stratum         : 3
     Ref time (UTC)  : Tue Sep 30 12:33:16 2014
@@ -93,14 +93,14 @@ The command operates in two modes:
     Leap status     : Normal
     ```
 
-    To quit using the interactive mode, type exit.
+    To quit using the interactive mode, type `exit`.
 
 
 **Note:**
 
-Any changes you implement with the chronyc command are effective only until the next restart of the `chronyd` daemon. To make the changes permanent, you must enter these in the /etc/chrony.conf file. See [Editing the chronyd Configuration File](network-ConfiguringNetworkTime.md#).
+Any changes you implement with the `chronyc` command are effective only until the next restart of the `chronyd` daemon. To make the changes permanent, you must enter these in the `/etc/chrony.conf` file. See [Editing the chronyd Configuration File](network-ConfiguringNetworkTime.md#).
 
-For more information, see the `chronyc(1)` manual page and files in the /usr/share/doc/chrony/ directory.
+For more information, see the `chronyc(1)` manual page and files in the `/usr/share/doc/chrony/` directory.
 
 ### Configuring the chronyd Service
 
@@ -115,11 +115,11 @@ To configure the `chronyd` service on a system:
 2.  If remote access to the local NTP service is required, configure the system firewall to allow access to the NTP service in the appropriate zones, for example:
 
     ```
-    sudo firewall-cmd --zone=zone --add-service=ntp
+    sudo firewall-cmd --zone=*zone* --add-service=ntp
     ```
 
     ```
-    sudo firewall-cmd --zone=zone --permanent --add-service=ntp
+    sudo firewall-cmd --zone=*zone* --permanent --add-service=ntp
     ```
 
 3.  Start the `chronyd` service and configure it to start following a system reboot.
@@ -137,14 +137,14 @@ To configure the `chronyd` service on a system:
 
 ### Editing the chronyd Configuration File
 
-In the /etc/chrony.conf file, the default configuration assumes that the system has network access to public NTP servers with which it can synchronise.
+In the `/etc/chrony.conf` file, the default configuration assumes that the system has network access to public NTP servers with which it can synchronise.
 
 The following example configures a system to access three NTP servers:
 
 ```
-pool NTP\_server\_1
-pool NTP\_server\_2
-pool NTP\_server\_3
+pool *NTP\_server\_1*
+pool *NTP\_server\_2*
+pool *NTP\_server\_3*
 driftfile /var/lib/chrony/drift
 keyfile /etc/chrony.keys
 ...
@@ -153,16 +153,16 @@ keyfile /etc/chrony.keys
 To configure `chronyd` to act as an NTP server for a specified client or subnet, use the `allow` directive, as shown in bold in the following example:
 
 ```
-pool NTP\_server\_1
-pool NTP\_server\_2
-pool NTP\_server\_3
+pool *NTP\_server\_1*
+pool *NTP\_server\_2*
+pool *NTP\_server\_3*
 **allow 192.168.2/24**
 driftfile /var/lib/chrony/drift
 keyfile /etc/chrony.keys
 ...
 ```
 
-To create keys for an authentication mechanism based on public key cryptography, use the chronyc keygen command.
+To create keys for an authentication mechanism based on public key cryptography, use the `chronyc keygen` command.
 
 **Note:**
 
@@ -171,15 +171,15 @@ To create keys for an authentication mechanism based on public key cryptography,
 If a system has only intermittent access to NTP servers, the following configuration might be appropriate:
 
 ```
-pool NTP\_server\_1 offline
-pool NTP\_server\_2 offline
-pool NTP\_server\_3 offline
+pool *NTP\_server\_1* offline
+pool *NTP\_server\_2* offline
+pool *NTP\_server\_3* offline
 driftfile /var/lib/chrony/drift
 keyfile /etc/chrony.keys
 ...
 ```
 
-If you specify the `offline` keyword, `chronyd` doesn't poll the NTP servers until it receives communication that network access is available. You can use the chronyc online and chronyc offline commands to inform `chronyd` of the state of network access.
+If you specify the `offline` keyword, `chronyd` doesn't poll the NTP servers until it receives communication that network access is available. You can use the `chronyc online` and `chronyc offline` commands to inform `chronyd` of the state of network access.
 
 For a more information about the configuration file and its directives, see the `chrony.conf(5)` manual page.
 
@@ -189,23 +189,23 @@ The following table shows file, command, and terminology equivalents between `nt
 
 |ntp|chrony|
 |---|------|
-|/etc/ntp.conf|/etc/chrony.conf|
-|/etc/ntp/keys|/etc/chrony.keys|
+|`/etc/ntp.conf`|`/etc/chrony.conf`|
+|`/etc/ntp/keys`|`/etc/chrony.keys`|
 |`ntpd`|`chronyd`|
 |`ntpq` command|`chronyc` command|
 |`ntpd.service`|`chronyd.service`|
 |`ntp-wait.service`|`chrony-wait.service`|
 |`ntpdate` and `sntp` utilities|`chronyd -q` and `chronyd -t` commands|
 
-The ntpstat utility which is available in the `ntpstat` package, now supports `chronyd`. Thus, you can still use the utility in Enterprise Linux 8. The command generates output that's similar to when it's used with `ntp`.
+The `ntpstat` utility which is available in the `ntpstat` package, now supports `chronyd`. Thus, you can still use the utility in Enterprise Linux 8. The command generates output that's similar to when it's used with `ntp`.
 
-The /usr/share/doc/chrony/ntp2chrony.py script is available to help convert existing `ntp` configuration to `chrony`, for example:
+The `/usr/share/doc/chrony/ntp2chrony.py` script is available to help convert existing `ntp` configuration to `chrony`, for example:
 
 ```
 sudo python3 /usr/share/doc/chrony/ntp2chrony.py -b -v
 ```
 
-The script supports the conversion of the most common directives in /etc/ntp.conf to `chrony`. In the example, the `-b`option specifies to create backup configuration files before converting, while the `-v` option specifies to display verbose messages during the migration process.
+The script supports the conversion of the most common directives in `/etc/ntp.conf` to `chrony`. In the example, the `-b`option specifies to create backup configuration files before converting, while the `-v` option specifies to display verbose messages during the migration process.
 
 To list the different options that you can use with the script, type the following command:
 
@@ -240,7 +240,7 @@ Boundary clocks require at least two network interfaces for PTP: one interface a
 
 Synchronization of boundary and secondary clock systems is achieved by sending time stamps in PTP messages. By default, PTP messages are sent in UDPv4 datagrams. You can also configure PTP to use UDPv6 datagrams or Ethernet frames as its transport mechanism.
 
-To use PTP on a system, the driver for at least one of the system's network interfaces must support either software or hardware time stamping. To find out whether the driver for a network interface supports time stamping, use the ethtool command:
+To use PTP on a system, the driver for at least one of the system's network interfaces must support either software or hardware time stamping. To find out whether the driver for a network interface supports time stamping, use the `ethtool` command:
 
 ```
 sudo ethtool -T en1
@@ -274,7 +274,7 @@ To configure the PTP service on a system:
     sudo dnf install linuxptp
     ```
 
-2.  Edit /etc/sysconfig/ptp4l and define the start-up options for the `ptp4l` daemon.
+2.  Edit `/etc/sysconfig/ptp4l` and define the start-up options for the `ptp4l` daemon.
 
     Grandmaster clocks and secondary clocks require that you define only one interface.
 
@@ -284,7 +284,7 @@ To configure the PTP service on a system:
     OPTIONS="-f /etc/ptp4l.conf -i en1 -s"
     ```
 
-    To use software time stamping instead of hardware time stamping, specify the -S option:
+    To use software time stamping instead of hardware time stamping, specify the `-S` option:
 
     ```
     OPTIONS="-f /etc/ptp4l.conf -i en1 -S -s"
@@ -292,9 +292,9 @@ To configure the PTP service on a system:
 
     **Note:**
 
-    The -s option specifies that the clock operates only as a secondary \(`slaveOnly` mode\). Don't specify this option for a grandmaster clock or a boundary clock.
+    The `-s` option specifies that the clock operates only as a secondary \(`slaveOnly` mode\). Don't specify this option for a grandmaster clock or a boundary clock.
 
-    For a grandmaster clock, omit the -s option, for example:
+    For a grandmaster clock, omit the `-s` option, for example:
 
     ```
     OPTIONS="-f /etc/ptp4l.conf -i en1"
@@ -306,24 +306,24 @@ To configure the PTP service on a system:
     OPTIONS="-f /etc/ptp4l.conf -i en1 -i en2"
     ```
 
-    You might need to edit the /etc/ptp4l.conf file to customize `ptp4l` further, for example:
+    You might need to edit the `/etc/ptp4l.conf` file to customize `ptp4l` further, for example:
 
     -   For a grandmaster clock, set the value of the `priority1` parameter to a value between 0 and 127, where lesser values have greater priority when the BMC algorithm selects the grandmaster clock. For a configuration that has a single grandmaster clock, a value of 127 is suggested.
 
-    -   If you set the value of `summary_interval` to an integer value N instead of 0, `ptp4l` writes summary clock statistics to /var/log/messages every 2N seconds instead of every second \(20 = 1\). For example, a value of 10 would correspond to an interval of 210 or 1024 seconds.
+    -   If you set the value of `summary_interval` to an integer value *N* instead of 0, `ptp4l` writes summary clock statistics to `/var/log/messages` every 2*N* seconds instead of every second \(20 = 1\). For example, a value of 10 would correspond to an interval of 210 or 1024 seconds.
 
-    -   The `logging_level` parameter controls the amount of logging information that `ptp4l` records. The default value of `logging_level` is `6`, which corresponds to `LOG_INFO`. To turn off logging, set the value of `logging_level` to `0`. Alternatively, specify the -q option to `ptp4l`.
+    -   The `logging_level` parameter controls the amount of logging information that `ptp4l` records. The default value of `logging_level` is `6`, which corresponds to `LOG_INFO`. To turn off logging, set the value of `logging_level` to `0`. Alternatively, specify the `-q` option to `ptp4l`.
 
     See the `ptp4l(8)` manual page.
 
 3.  Configure the system firewall to accept access by PTP event and general messages to UDP ports 319 and 320 in the appropriate zone, for example:
 
     ```
-    sudo firewall-cmd --zone=zone --add-port=319/udp --add-port=320/udp
+    sudo firewall-cmd --zone=*zone* --add-port=319/udp --add-port=320/udp
     ```
 
     ```
-    sudo firewall-cmd --permanent --zone=zone --add-port=319/udp --add-port=320/udp
+    sudo firewall-cmd --permanent --zone=*zone* --add-port=319/udp --add-port=320/udp
     ```
 
 4.  Start the `ptp4l` service and configure it to start following a system reboot.
@@ -338,7 +338,7 @@ To configure the PTP service on a system:
 
 5.  To configure `phc2sys` on a clock system that uses hardware time stamping:
 
-    1.  Edit the /etc/sysconfig/phc2sys file and define the start-up options for the `phc2sys` daemon.
+    1.  Edit the `/etc/sysconfig/phc2sys` file and define the start-up options for the `phc2sys` daemon.
 
         On a boundary clock or secondary clock, synchronise the system clock with the PTP hardware clock that's associated with the secondary network interface, for example:
 
@@ -350,7 +350,7 @@ To configure the PTP service on a system:
 
         The secondary network interface on a boundary clock is the one that it uses to communicate with the grandmaster clock.
 
-        The -w option specifies that `phc2sys` waits until `ptp4l` has synchronised the PTP hardware clock before synchronising the system clock.
+        The `-w` option specifies that `phc2sys` waits until `ptp4l` has synchronised the PTP hardware clock before synchronising the system clock.
 
         On a grandmaster clock, which derives its system time from a reference time source such as GPS, CDMA, NTP, or a radio time signal, synchronise the network interface's PTP hardware clock from the system clock, for example:
 
@@ -371,7 +371,7 @@ To configure the PTP service on a system:
         ```
 
 
-You can use the pmc command to query the status of `ptp4l` operation. The following example shows the results of running pmc on a slave clock system that's directly connected to the grandmaster clock system without any intermediate boundary clocks:
+You can use the `pmc` command to query the status of `ptp4l` operation. The following example shows the results of running `pmc` on a slave clock system that's directly connected to the grandmaster clock system without any intermediate boundary clocks:
 
 ```
 sudo pmc -u -b 0 'GET TIME_STATUS_NP'
@@ -429,7 +429,7 @@ For more information, see the `phc2sys(8)`, `pmc(8)`, and `ptp4l(8)` manual page
 
 ### Using PTP as a Time Source for NTP
 
-To make the PTP-adjusted system time on an NTP server available to NTP clients, include the following entries in the /etc/chrony.conf file on the NTP server:
+To make the PTP-adjusted system time on an NTP server available to NTP clients, include the following entries in the `/etc/chrony.conf` file on the NTP server:
 
 ```
 server    127.127.1.0
