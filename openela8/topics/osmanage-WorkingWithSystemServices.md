@@ -95,20 +95,83 @@ Each run level defines the services that `systemd` stops or starts. As an exampl
 
 [Table 1](osmanage-WorkingWithSystemServices.md#ol-systemctltgt) shows the commonly used system-state targets and the equivalent runlevel targets.
 
-|System-State Targets|Equivalent Runlevel Targets|Description|
-|--------------------|---------------------------|-----------|
-|`graphical.target`|`runlevel5.target`|Set up a multiuser system with networking and display manager.|
-|`multi-user.target`|`runlevel2.target`
+<table><thead><tr><th>
+
+System-State Targets
+
+</th><th>
+
+Equivalent Runlevel Targets
+
+</th><th>
+
+Description
+
+</th></tr></thead><tbody><tr><td>
+
+`graphical.target`
+
+</td><td>
+
+`runlevel5.target`
+
+</td><td>
+
+Set up a multiuser system with networking and display manager.
+
+</td></tr><tr><td>
+
+`multi-user.target`
+
+</td><td>
+
+`runlevel2.target`
 
  `runlevel3.target`
 
  `runlevel4.target`
 
-|Set up a nongraphical multiuser system with networking.|
-|`poweroff.target`|`runlevel0.target`|Shut down and power off the system.|
-|`reboot.target`|`runlevel6.target`|Shut down and reboot the system.|
-|`rescue.target`|`runlevel1.target`|Set up a rescue shell.|
+</td><td>
 
+Set up a nongraphical multiuser system with networking.
+
+</td></tr><tr><td>
+
+`poweroff.target`
+
+</td><td>
+
+`runlevel0.target`
+
+</td><td>
+
+Shut down and power off the system.
+
+</td></tr><tr><td>
+
+`reboot.target`
+
+</td><td>
+
+`runlevel6.target`
+
+</td><td>
+
+Shut down and reboot the system.
+
+</td></tr><tr><td>
+
+`rescue.target`
+
+</td><td>
+
+`runlevel1.target`
+
+</td><td>
+
+Set up a rescue shell.
+
+</td></tr><tbody></table>
 Note that `runlevel*` targets are implemented as symbolic links.
 
 For more information, see the `systemd.target(5)` manual page.
@@ -222,15 +285,63 @@ For more information, see the `systemctl(1)` manual page.
 
 ## Shutting Down, Suspending, and Rebooting the System
 
-|systemctl Command|Description|
-|-----------------|-----------|
-|`systemctl halt`|Halt the system.|
-|`systemctl hibernate`|Put the system into hibernation.|
-|`systemctl hybrid-sleep`|Put the system into hibernation and suspend its operation.|
-|`systemctl poweroff`|Halt and power off the system.|
-|`systemctl reboot`|Reboot the system.|
-|`systemctl suspend`|Suspend the system.|
+<table><thead><tr><th>
 
+systemctl Command
+
+</th><th>
+
+Description
+
+</th></tr></thead><tbody><tr><td>
+
+`systemctl halt`
+
+</td><td>
+
+Halt the system.
+
+</td></tr><tr><td>
+
+`systemctl hibernate`
+
+</td><td>
+
+Put the system into hibernation.
+
+</td></tr><tr><td>
+
+`systemctl hybrid-sleep`
+
+</td><td>
+
+Put the system into hibernation and suspend its operation.
+
+</td></tr><tr><td>
+
+`systemctl poweroff`
+
+</td><td>
+
+Halt and power off the system.
+
+</td></tr><tr><td>
+
+`systemctl reboot`
+
+</td><td>
+
+Reboot the system.
+
+</td></tr><tr><td>
+
+`systemctl suspend`
+
+</td><td>
+
+Suspend the system.
+
+</td></tr><tbody></table>
 For more information, see the `systemctl(1)` manual page.
 
 ## Managing Services

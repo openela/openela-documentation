@@ -119,9 +119,19 @@ sudo lspci
 
 The following table describes the most useful virtual files and directories under the `/proc` directory hierarchy.
 
-|Virtual File or Directory|Description|
-|-------------------------|-----------|
-|`*PID*` \(Directory\)|Provides information about the process with the process ID \(*PID*\). The directory's owner and group is same as the process's. Useful files under the directory include:
+<table><thead><tr><th>
+
+Virtual File or Directory
+</th><th>
+
+Description
+</th></tr></thead><tbody><tr><td>
+
+`*PID*` \(Directory\)
+
+</td><td>
+
+Provides information about the process with the process ID \(*PID*\). The directory's owner and group is same as the process's. Useful files under the directory include:
 
  -   **`cmdline`**
 
@@ -160,27 +170,162 @@ The contents of the kernel stack.
 Run state and memory usage.
 
 
-|
-|`buddyinfo`|Provides information for diagnosing memory fragmentation.|
-|`bus` \(directory\)|Contains information about the various buses \(such as `pci` and `usb`\) that are available on the system. You can use commands such as `lspci`, `lspcmcia`, and `lsusb` to display information for such devices.|
-|`cgroups`|Provides information about the resource control groups that are in use on the system.|
-|`cmdline`|Lists parameters passed to the kernel at boot time.|
-|`cpuinfo`|Provides information about the system's CPUs.|
-|`crypto`|Provides information about all installed cryptographic cyphers.|
-|`devices`|Lists the names and major device numbers of all currently configured characters and block devices.|
-|`dma`|Lists the direct memory access \(DMA\) channels that are currently in use.|
-|`driver` \(directory\)|Contains information about drivers used by the kernel, such as those for nonvolatile RAM \(`nvram`\), the real-time clock \(`rtc`\), and memory allocation for sound \(`snd-page-alloc`\).|
-|`execdomains`|Lists the execution domains for binaries that the Enterprise Linux kernel supports.|
-|`filesystems`|Lists the file system types that the kernel supports. Entries marked with `nodev` aren't in use.|
-|`fs` \(directory\)|Contains information about mounted file systems, organized by file system type.|
-|`interrupts`|Records the number of interrupts per interrupt request queue \(IRQ\) for each CPU after system startup.|
-|`iomem`|Lists the system memory map for each physical device.|
-|`ioports`|Lists the range of I/O port addresses that the kernel uses with devices.|
-|`irq` \(directory\)|Contains information about each IRQ. You can configure the affinity between each IRQ and the system CPUs.|
-|`kcore`|Presents the system's physical memory in `core` file format that you can examine using a debugger such as `crash` or `gdb`. This file isn't human-readable.|
-|`kmsg`|Records kernel-generated messages, which are picked up by programs such as `dmesg`.|
-|`loadavg`|Displays the system load averages \(number of queued processes\) for the past 1, 5, and 15 minutes, the number of running processes, the total number of processes, and the PID of the process that's running.|
-|`locks`|Displays information about the file locks that the kernel is currently holding on behalf of processes. The information provided includes:
+</td></tr><tr><td>
+
+`buddyinfo`
+
+</td><td>
+
+Provides information for diagnosing memory fragmentation.
+
+</td></tr><tr><td>
+
+`bus` \(directory\)
+
+</td><td>
+
+Contains information about the various buses \(such as `pci` and `usb`\) that are available on the system. You can use commands such as `lspci`, `lspcmcia`, and `lsusb` to display information for such devices.
+
+</td></tr><tr><td>
+
+`cgroups`
+
+</td><td>
+
+Provides information about the resource control groups that are in use on the system.
+
+</td></tr><tr><td>
+
+`cmdline`
+
+</td><td>
+
+Lists parameters passed to the kernel at boot time.
+
+</td></tr><tr><td>
+
+`cpuinfo`
+
+</td><td>
+
+Provides information about the system's CPUs.
+
+</td></tr><tr><td>
+
+`crypto`
+
+</td><td>
+
+Provides information about all installed cryptographic cyphers.
+
+</td></tr><tr><td>
+
+`devices`
+
+</td><td>
+
+Lists the names and major device numbers of all currently configured characters and block devices.
+
+</td></tr><tr><td>
+
+`dma`
+
+</td><td>
+
+Lists the direct memory access \(DMA\) channels that are currently in use.
+
+</td></tr><tr><td>
+
+`driver` \(directory\)
+
+</td><td>
+
+Contains information about drivers used by the kernel, such as those for nonvolatile RAM \(`nvram`\), the real-time clock \(`rtc`\), and memory allocation for sound \(`snd-page-alloc`\).
+</td></tr><tr><td>
+
+`execdomains`
+</td><td>
+
+Lists the execution domains for binaries that the Enterprise Linux kernel supports.
+
+</td></tr><tr><td>
+
+`filesystems`
+
+</td><td>
+
+Lists the file system types that the kernel supports. Entries marked with `nodev` aren't in use.
+
+</td></tr><tr><td>
+
+`fs` \(directory\)
+
+</td><td>
+
+Contains information about mounted file systems, organized by file system type.
+
+</td></tr><tr><td>
+
+`interrupts`
+
+</td><td>
+
+Records the number of interrupts per interrupt request queue \(IRQ\) for each CPU after system startup.
+
+</td></tr><tr><td>
+
+`iomem`
+
+</td><td>
+
+Lists the system memory map for each physical device.
+
+</td></tr><tr><td>
+
+`ioports`
+
+</td><td>
+
+Lists the range of I/O port addresses that the kernel uses with devices.
+</td></tr><tr><td>
+
+`irq` \(directory\)
+
+</td><td>
+
+Contains information about each IRQ. You can configure the affinity between each IRQ and the system CPUs.
+
+</td></tr><tr><td>
+
+`kcore`
+
+</td><td>
+
+Presents the system's physical memory in `core` file format that you can examine using a debugger such as `crash` or `gdb`. This file isn't human-readable.
+
+</td></tr><tr><td>
+
+`kmsg`
+
+</td><td>
+
+Records kernel-generated messages, which are picked up by programs such as `dmesg`.
+
+</td></tr><tr><td>
+
+`loadavg`
+
+</td><td>
+
+Displays the system load averages \(number of queued processes\) for the past 1, 5, and 15 minutes, the number of running processes, the total number of processes, and the PID of the process that's running.
+
+</td></tr><tr><td>
+
+`locks`
+
+</td><td>
+
+Displays information about the file locks that the kernel is currently holding on behalf of processes. The information provided includes:
 
  -   lock class \(`FLOCK` or `POSIX`\)
 
@@ -195,23 +340,103 @@ Run state and memory usage.
 -   bounds of the locked region
 
 
-|
-|`mdstat`|Lists information about multiple-disk RAID devices.|
-|`meminfo`|Reports the system's usage of memory in more detail than is available using the `free` or `top` commands.|
-|`modules`|Displays information about the modules that are currently loaded into the kernel. The `lsmod` command formats and displays the same information, excluding the kernel memory offset of a module.|
-|`mounts`|Lists information about all mounted file systems.|
-|`net` \(directory\)|Provides information about networking protocol, parameters, and statistics. Each directory and virtual file describes aspects of the configuration of the system's network.|
-|`partitions`|Lists the major and minor device numbers, number of blocks, and name of partitions mounted by the system.|
-|`scsi/device_info`|Provides information about SCSI devices.|
-|`scsi/scsi` and
+</td></tr><tr><td>
+
+`mdstat`
+
+</td><td>
+
+Lists information about multiple-disk RAID devices.
+
+</td></tr><tr><td>
+
+`meminfo`
+
+</td><td>
+
+Reports the system's usage of memory in more detail than is available using the `free` or `top` commands.
+
+</td></tr><tr><td>
+
+`modules`
+
+</td><td>
+
+Displays information about the modules that are currently loaded into the kernel. The `lsmod` command formats and displays the same information, excluding the kernel memory offset of a module.
+
+</td></tr><tr><td>
+
+`mounts`
+
+</td><td>
+
+Lists information about all mounted file systems.
+
+</td></tr><tr><td>
+
+`net` \(directory\)
+
+</td><td>
+
+Provides information about networking protocol, parameters, and statistics. Each directory and virtual file describes aspects of the configuration of the system's network.
+
+</td></tr><tr><td>
+
+`partitions`
+
+</td><td>
+
+Lists the major and minor device numbers, number of blocks, and name of partitions mounted by the system.
+
+</td></tr><tr><td>
+
+`scsi/device_info`
+
+</td><td>
+
+Provides information about SCSI devices.
+
+</td></tr><tr><td>
+
+`scsi/scsi` and
 
  `scsi/sg/*`
 
-|Provide information about configured SCSI devices, including vendor, model, channel, ID, and LUN data .|
-|`self`|Symbolic link to the process that's examining `/proc`.|
-|`slabinfo`|Provides detailed information about slab memory usage.|
-|`softirqs`|Displays information about software interrupts \(`softirqs`\). A `softirq` is similar to a hardware interrupt \(`hardirq`\) and configures the kernel to perform asynchronous processing that would take too long during a hardware interrupt.|
-|`stat`|Records information about the system from when it was started, including:
+</td><td>
+
+Provide information about configured SCSI devices, including vendor, model, channel, ID, and LUN data .
+
+</td></tr><tr><td>
+
+`self`
+
+</td><td>
+
+Symbolic link to the process that's examining `/proc`.
+
+</td></tr><tr><td>
+
+`slabinfo`
+
+</td><td>
+
+Provides detailed information about slab memory usage.
+
+</td></tr><tr><td>
+
+`softirqs`
+
+</td><td>
+
+Displays information about software interrupts \(`softirqs`\). A `softirq` is similar to a hardware interrupt \(`hardirq`\) and configures the kernel to perform asynchronous processing that would take too long during a hardware interrupt.
+
+</td></tr><tr><td>
+
+`stat`
+
+</td><td>
+
+Records information about the system from when it was started, including:
 
  -   **`cpu`**
 
@@ -222,9 +447,21 @@ Total CPU time \(measured in `jiffies`\) spent in user mode, low-priority user m
 Times for CPU *N*.
 
 
-|
-|`swaps`|Provides information about swap devices. The units of size and usage are in kilobytes.|
-|`sys` \(directory\)|Provides information about the system and also enables you to enable, disable, or modify kernel features. You can write new settings to any file that has write permission. See [Modifying Kernel Parameters](osmanage-ConfiguringSystemSettings.md#).
+</td></tr><tr><td>
+
+`swaps`
+
+</td><td>
+
+Provides information about swap devices. The units of size and usage are in kilobytes.
+
+</td></tr><tr><td>
+
+`sys` \(directory\)
+
+</td><td>
+
+Provides information about the system and also enables you to enable, disable, or modify kernel features. You can write new settings to any file that has write permission. See [Modifying Kernel Parameters](osmanage-ConfiguringSystemSettings.md#).
 
  The following subdirectory hierarchies of `/proc/sys` contain virtual files, some of whose values you can alter:
 
@@ -245,11 +482,31 @@ Kernel configuration parameters.
 Networking parameters.
 
 
-|
-|`sysvipc` \(directory\)|Provides information about the usage of System V Interprocess Communication \(IPC\) resources for messages \(`msg`\), semaphores \(`sem`\), and shared memory \(`shm`\).|
-|`tty` \(directory\)|Provides information about the available and currently used terminal devices on the system. The `drivers` virtual file lists the devices that are currently configured.|
-|`vmstat`|Provides information about virtual memory usage.|
+</td></tr><tr><td>
 
+`sysvipc` \(directory\)
+
+</td><td>
+
+Provides information about the usage of System V Interprocess Communication \(IPC\) resources for messages \(`msg`\), semaphores \(`sem`\), and shared memory \(`shm`\).
+
+</td></tr><tr><td>
+
+`tty` \(directory\)
+
+</td><td>
+
+Provides information about the available and currently used terminal devices on the system. The `drivers` virtual file lists the devices that are currently configured.
+
+</td></tr><tr><td>
+
+`vmstat`
+
+</td><td>
+
+Provides information about virtual memory usage.
+
+</td></tr><tbody></table>
 For more information, see the `proc(5)` manual page.
 
 ### Modifying Kernel Parameters
@@ -496,19 +753,92 @@ In addition to the `/proc` file system, the kernel exports information to the `/
 
 The following table describes some useful virtual directories under the `/sys` directory hierarchy.
 
-|Virtual Directory|Description|
-|-----------------|-----------|
-|`block`|Contains subdirectories for block devices. For example: `/sys/block/sda`.|
-|`bus`|Contains subdirectories for each physical bus type, such as `pci`, `pcmcia`, `scsi`, or `usb`. Under each bus type, the `devices` directory lists discovered devices, and the `drivers` directory contains directories for each device driver.|
-|`class`|Contains subdirectories for every class of device that's registered with the kernel.|
-|`dev`|Contains the `char/` and `block/` directories. Inside these two directories are symlinks named *major*:*minor*. These symlinks point to the `sysfs` directory for the particular device. The `/sys/dev` directory provides a quick way to look up the `sysfs` interface for a device from the result of the `stat(2)` operation.|
-|`devices`|Contains the global device hierarchy of all devices on the system. The platform directory contains peripheral devices such as device controllers that are specific to a particular platform. The `system` directory contains non peripheral devices such as CPUs and APICs. The `virtual` directory contains virtual and pseudo devices. See [Managing System Devices](osmanage-ManagingSystemDevices.md#).|
-|`firmware`|Contains subdirectories for firmware objects.|
-|`fs`|Contains subdirectories for file system objects.|
-|`kernel`|Contains subdirectories for other kernel objects|
-|`module`|Contains subdirectories for each module loaded into the kernel. You can alter some parameter values for loaded modules. See [About Module Parameters](osmanage-ManagingKernelModules.md#).|
-|`power`|Contains attributes that control the system's power state.|
+<table><thead><tr><th>
 
+Virtual Directory
+</th><th>
+
+Description
+</th></tr></thead><tbody><tr><td>
+
+`block`
+
+</td><td>
+
+Contains subdirectories for block devices. For example: `/sys/block/sda`.
+
+</td></tr><tr><td>
+
+`bus`
+
+</td><td>
+
+Contains subdirectories for each physical bus type, such as `pci`, `pcmcia`, `scsi`, or `usb`. Under each bus type, the `devices` directory lists discovered devices, and the `drivers` directory contains directories for each device driver.
+
+</td></tr><tr><td>
+
+`class`
+
+</td><td>
+
+Contains subdirectories for every class of device that's registered with the kernel.
+
+</td></tr><tr><td>
+
+`dev`
+
+</td><td>
+
+Contains the `char/` and `block/` directories. Inside these two directories are symlinks named *major*:*minor*. These symlinks point to the `sysfs` directory for the particular device. The `/sys/dev` directory provides a quick way to look up the `sysfs` interface for a device from the result of the `stat(2)` operation.
+
+</td></tr><tr><td>
+
+`devices`
+
+</td><td>
+
+Contains the global device hierarchy of all devices on the system. The platform directory contains peripheral devices such as device controllers that are specific to a particular platform. The `system` directory contains non peripheral devices such as CPUs and APICs. The `virtual` directory contains virtual and pseudo devices. See [Managing System Devices](osmanage-ManagingSystemDevices.md#).
+
+</td></tr><tr><td>
+
+`firmware`
+
+</td><td>
+
+Contains subdirectories for firmware objects.
+
+</td></tr><tr><td>
+
+`fs`
+
+</td><td>
+
+Contains subdirectories for file system objects.
+
+</td></tr><tr><td>
+
+`kernel`
+
+</td><td>
+
+Contains subdirectories for other kernel objects
+
+</td></tr><tr><td>
+
+`module`
+
+</td><td>
+
+Contains subdirectories for each module loaded into the kernel. You can alter some parameter values for loaded modules. See [About Module Parameters](osmanage-ManagingKernelModules.md#).
+
+</td></tr><tr><td>
+
+`power`
+</td><td>
+
+Contains attributes that control the system's power state.
+
+</td></tr><tbody></table>
 For more information, see [https://www.kernel.org/doc/Documentation/filesystems/sysfs.txt](https://www.kernel.org/doc/Documentation/filesystems/sysfs.txt).
 
 ## Configuring System Date and Time Settings

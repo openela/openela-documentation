@@ -180,42 +180,183 @@ ACTION=="remove", NAME=="?*", TEST=="/lib/udev/devices/$name", \
 
 A rule either assigns a value to a key or it tries to find a match for a key by comparing its current value with the specified value. The following table shows the assignment and comparison operators that you can use.
 
-|Operator|Description|
-|--------|-----------|
-|`=`|Assign a value to a key, overwriting any previous value.|
-|`+=`|Assign a value by appending it to the key's current list of values.|
-|`:=`|Assign a value to a key. This value cannot be changed by any further rules.|
-|`==`|Match the key's current value against the specified value for equality.|
-|`!=`|Match the key's current value against the specified value for equality.|
+<table><thead><tr><th>
 
+Operator
+
+</th><th>
+
+Description
+
+</th></tr></thead><tbody><tr><td>
+
+`=`
+
+</td><td>
+
+Assign a value to a key, overwriting any previous value.
+
+</td></tr><tr><td>
+
+`+=`
+
+</td><td>
+
+Assign a value by appending it to the key's current list of values.
+
+</td></tr><tr><td>
+
+`:=`
+
+</td><td>
+
+Assign a value to a key. This value cannot be changed by any further rules.
+
+</td></tr><tr><td>
+
+`==`
+
+</td><td>
+
+Match the key's current value against the specified value for equality.
+
+</td></tr><tr><td>
+
+`!=`
+
+</td><td>
+
+Match the key's current value against the specified value for equality.
+
+</td></tr><tbody></table>
 You can use the following shell-style pattern-matching characters in values.
 
-|Character|Description|
-|---------|-----------|
-|`?`|Matches a single character.|
-|`*`|Matches any number of characters, including zero.|
-|`[]`|Matches any single character or character from a range of characters specified within the brackets. For example, `tty[sS][0-9]` would match `ttys7` or `ttyS7`.|
+<table><thead><tr><th>
 
+Character
+
+</th><th>
+
+Description
+
+</th></tr></thead><tbody><tr><td>
+
+`?`
+
+</td><td>
+
+Matches a single character.
+
+</td></tr><tr><td>
+
+`*`
+
+</td><td>
+
+Matches any number of characters, including zero.
+
+</td></tr><tr><td>
+
+`[]`
+
+</td><td>
+
+Matches any single character or character from a range of characters specified within the brackets. For example, `tty[sS][0-9]` would match `ttys7` or `ttyS7`.
+</td></tr><tbody></table>
 The following table describes commonly used match keys in rules.
 
-|Match Key|Description|
-|---------|-----------|
-|`ACTION`|Matches the name of the action that led to an event. For example, `ACTION="add"` or `ACTION="remove"`.|
-|`ENV{*key*}`|Matches a value for the device property *key*. For example, `ENV{DEVTYPE}=="disk"`.|
-|`KERNEL`|Matches the name of the device that is affected by an event. For example, `KERNEL=="dm-*"` for disk media.|
-|`NAME`|Matches the name of a device file or network interface. For example, `NAME="?*"` for any name that consists of one or more characters.|
-|`SUBSYSTEM`|Matches the subsystem of the device that is affected by an event. For example, `SUBSYSTEM=="tty"`.|
-|`TEST`|Tests wheter the specified file or path exists; for example, `TEST=="/lib/udev/devices/$name"`, where `$name` is the name of the currently matched device file.|
+<table><thead><tr><th>
 
+Match Key
+
+</th><th>
+
+Description
+
+</th></tr></thead><tbody><tr><td>
+
+`ACTION`
+
+</td><td>
+
+Matches the name of the action that led to an event. For example, `ACTION="add"` or `ACTION="remove"`.
+
+</td></tr><tr><td>
+
+`ENV{*key*}`
+
+</td><td>
+
+Matches a value for the device property *key*. For example, `ENV{DEVTYPE}=="disk"`.
+
+</td></tr><tr><td>
+
+`KERNEL`
+
+</td><td>
+
+Matches the name of the device that is affected by an event. For example, `KERNEL=="dm-*"` for disk media.
+
+</td></tr><tr><td>
+
+`NAME`
+
+</td><td>
+
+Matches the name of a device file or network interface. For example, `NAME="?*"` for any name that consists of one or more characters.
+
+</td></tr><tr><td>
+
+`SUBSYSTEM`
+
+</td><td>
+
+Matches the subsystem of the device that is affected by an event. For example, `SUBSYSTEM=="tty"`.
+
+</td></tr><tr><td>
+
+`TEST`
+
+</td><td>
+
+Tests wheter the specified file or path exists; for example, `TEST=="/lib/udev/devices/$name"`, where `$name` is the name of the currently matched device file.
+
+</td></tr><tbody></table>
 Other match keys include `ATTR{*filename*}`, `ATTRS{*filename*}`, `DEVPATH`, `DRIVER`, `DRIVERS`, `KERNELS`, `PROGRAM`, `RESULT`, `SUBSYSTEMS`, and `SYMLINK`.
 
 The following table describes commonly used assignment keys in rules.
 
-|Assignment Key|Description|
-|--------------|-----------|
-|`ENV{*key*}`|Specifies a value for the device property *key*, such as `GROUP="disk"`.|
-|`GROUP`|Specifies the group for a device file, such as `GROUP="disk"`.|
-|`IMPORT{*type*}`|Specifies a set of variables for the device property, depending on *type*:
+<table><thead><tr><th>
+
+Assignment Key
+
+</th><th>
+
+Description
+
+</th></tr></thead><tbody><tr><td>
+
+`ENV{*key*}`
+
+</td><td>
+
+Specifies a value for the device property *key*, such as `GROUP="disk"`.
+
+</td></tr><tr><td>
+
+`GROUP`
+
+</td><td>
+
+Specifies the group for a device file, such as `GROUP="disk"`.
+
+</td></tr><tr><td>
+
+`IMPORT{*type*}`
+
+</td><td>
+
+Specifies a set of variables for the device property, depending on *type*:
 
  -   **`cmdline`**
 
@@ -238,52 +379,135 @@ Interpret the specified value as a key-name filter and import the stored keys fr
 Run the specified value as an external program and imports its result, which must be in environmental key format. For example `IMPORT{program}="usb_id --export %p"`.
 
 
-|
-|`MODE`|Specifies the permissions for a device file, such as `MODE="0640"`.|
-|`NAME`|Specifies the name of a device file, such as `NAME="em1"`.|
-|`OPTIONS`|Specifies rule and device options, such as `OPTIONS+="ignore_remove"`, which means that the device file isn't removed if the device is removed.|
-|`OWNER`|Specifies the owner for a device file, such as `GROUP="root"`.|
-|`RUN`|Specifies a command to be run after the device file has been created, such as `RUN+="/usr/bin/eject $kernel"`, where `$kernel` is the kernel name of the device.|
-|`SYMLINK`|Specifies the name of a symbolic link to a device file, such as `SYMLINK+="disk/by-uuid/$env{ID_FS_UUID_ENC}"`, where `$env{}` is substituted with the specified device property.|
+</td></tr><tr><td>
 
+`MODE`
+
+</td><td>
+
+Specifies the permissions for a device file, such as `MODE="0640"`.
+
+</td></tr><tr><td>
+
+`NAME`
+
+</td><td>
+
+Specifies the name of a device file, such as `NAME="em1"`.
+
+</td></tr><tr><td>
+
+`OPTIONS`
+
+</td><td>
+
+Specifies rule and device options, such as `OPTIONS+="ignore_remove"`, which means that the device file isn't removed if the device is removed.
+
+</td></tr><tr><td>
+
+`OWNER`
+
+</td><td>
+
+Specifies the owner for a device file, such as `GROUP="root"`.
+
+</td></tr><tr><td>
+
+`RUN`
+
+</td><td>
+
+Specifies a command to be run after the device file has been created, such as `RUN+="/usr/bin/eject $kernel"`, where `$kernel` is the kernel name of the device.
+</td></tr><tr><td>
+
+`SYMLINK`
+
+</td><td>
+
+Specifies the name of a symbolic link to a device file, such as `SYMLINK+="disk/by-uuid/$env{ID_FS_UUID_ENC}"`, where `$env{}` is substituted with the specified device property.
+
+</td></tr><tbody></table>
 Other assignment keys include `ATTR{*key*}`, `GOTO`, `LABEL`, `RUN`, and `WAIT_FOR`.
 
 The following table describes the string substitutions that are commonly used with the `GROUP`, `MODE`, `NAME`, `OWNER`, `PROGRAM`, `RUN`, and `SYMLINK` keys.
 
-|String Substitution|Description|
-|-------------------|-----------|
-|`$attr{*file*}` or
+<table><thead><tr><th>
+
+String Substitution
+
+</th><th>
+
+Description
+
+</th></tr></thead><tbody><tr><td>
+
+`$attr{*file*}` or
 
  `%s{*file*}`
 
-|Specifies the value of a device attribute from a file under `/sys`, such as `ENV{MATCHADDR}="$attr{address}"`.|
-|`$devpath` or
+</td><td>
+
+Specifies the value of a device attribute from a file under `/sys`, such as `ENV{MATCHADDR}="$attr{address}"`.
+
+</td></tr><tr><td>
+
+`$devpath` or
 
  `%p`
 
-|The device path of the device in the `sysfs` file system under `/sys`, such as `RUN+="keyboard-force-release.sh $devpath common-volume-keys"`.|
-|`$env{*key*}` or
+</td><td>
+
+The device path of the device in the `sysfs` file system under `/sys`, such as `RUN+="keyboard-force-release.sh $devpath common-volume-keys"`.
+
+</td></tr><tr><td>
+
+`$env{*key*}` or
 
  `%E{*key*}`
 
-|Specifies the value of a device property, such as `SYMLINK+="disk/by-id/md-name-$env{MD_NAME}-part%n"`.|
-|`$kernel` or
+</td><td>
+
+Specifies the value of a device property, such as `SYMLINK+="disk/by-id/md-name-$env{MD_NAME}-part%n"`.
+
+</td></tr><tr><td>
+
+`$kernel` or
 
  `%k`
 
-|Specifies the kernel name for the device.|
-|`$major` or
+</td><td>
+
+Specifies the kernel name for the device.
+
+</td></tr><tr><td>
+
+`$major` or
 
  `%M`
 
-|Specifies the major number of a device, such as `IMPORT{program}="udisks-dm-export %M %m"`.|
-|`$minor` or
+</td><td>
+
+Specifies the major number of a device, such as `IMPORT{program}="udisks-dm-export %M %m"`.
+
+</td></tr><tr><td>
+
+`$minor` or
 
  `%m`
 
-|Specifies the minor number of a device, such as `RUN+="$env{LVM_SBIN_PATH}/lvm pvscan --cache --major $major --minor $minor"`.|
-|`$name`|Specifies the device file of the current device, such as `TEST=="/lib/udev/devices/$name"`.|
+</td><td>
 
+Specifies the minor number of a device, such as `RUN+="$env{LVM_SBIN_PATH}/lvm pvscan --cache --major $major --minor $minor"`.
+
+</td></tr><tr><td>
+
+`$name`
+
+</td><td>
+
+Specifies the device file of the current device, such as `TEST=="/lib/udev/devices/$name"`.
+
+</td></tr><tbody></table>
 Udev expands the strings specified for `RUN` immediately before its program is run, which is after udev has finished processing all other rules for the device. For the other keys, `udev` expands the strings while it's processing the rules.
 
 For more information, see the `udev(7)` manual page.

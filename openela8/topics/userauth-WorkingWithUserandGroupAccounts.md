@@ -212,12 +212,39 @@ For more information, see the `chmod(1)` manual page.
 
 To specify how users' passwords are aged, edit the following settings in the `/etc/login.defs` file:
 
-|Setting|Description|
-|-------|-----------|
-|`PASS_MAX_DAYS`|Maximum number of days for which a password can be used before it must be changed. The default value is 99,999 days.|
-|`PASS_MIN_DAYS`|Minimum number of days allowed between password changes. The default value is 0 days.|
-|`PASS_WARN_AGE`|Number of days before a password expires that a warning is displayed. The default value is 7 days.|
+<table><thead><tr><th>
 
+Setting
+
+</th><th>
+
+Description
+
+</th></tr></thead><tbody><tr><td>
+
+`PASS_MAX_DAYS`
+
+</td><td>
+
+Maximum number of days for which a password can be used before it must be changed. The default value is 99,999 days.
+
+</td></tr><tr><td>
+
+`PASS_MIN_DAYS`
+
+</td><td>
+
+Minimum number of days allowed between password changes. The default value is 0 days.
+
+</td></tr><tr><td>
+
+`PASS_WARN_AGE`
+
+</td><td>
+
+Number of days before a password expires that a warning is displayed. The default value is 7 days.
+
+</td></tr><tbody></table>
 For more information, see the `login.defs(5)` manual page.
 
 To change how long a user's account can be inactive before it's locked, use the `usermod` command. For example, to set the inactivity period to 30 days:
