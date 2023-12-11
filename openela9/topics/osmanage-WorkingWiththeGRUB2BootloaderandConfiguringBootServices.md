@@ -107,34 +107,185 @@ For more information about the `grubby` command, see the `grubby(8)` manual page
 
 The following table describes some commonly used kernel boot parameters.
 
-|Option|Description|
-|------|-----------|
-|`0`, `1`, `2`, `3`, `4`, `5`, or `6`, or `systemd.unit=runlevel*N*.target`|Specifies the nearest `systemd`-equivalent system-state target to match a legacy SysV run level. *N* can take an integer value between 0 and 6.
+<table><thead><tr><th>
+
+Option
+
+</th><th>
+
+Description
+
+</th></tr></thead><tbody><tr><td>
+
+`0`, `1`, `2`, `3`, `4`, `5`, or `6`, or `systemd.unit=runlevel*N*.target`
+
+</td><td>
+
+Specifies the nearest `systemd`-equivalent system-state target to match a legacy SysV run level. *N* can take an integer value between 0 and 6.
 
  Systemd maps system-state targets to mimic the legacy SysV init system. For a description of system-state targets, see [About System-State Targets](osmanage-WorkingWithSystemServices.md#).
 
-|
-|`1`, `s`, `S`, `single`, or `systemd.unit=rescue.target`|Specifies the rescue shell. The system boots to single-user mode prompts for the `root` password.|
-|`3` or `systemd.unit=multi-user.target`|Specifies the `systemd` target for multiuser, nongraphical login.|
-|`5` or `systemd.unit=graphical.target`|Specifies the `systemd` target for multiuser, graphical login.|
-|`-b`, `emergency`, or `systemd.unit=emergency.target`|Specifies emergency mode. The system boots to single-user mode and prompts for the `root` password. Fewer services are started than when in rescue mode.|
-|`KEYBOARDTYPE=*kbtype*`|Specifies the keyboard type, which is written to `/etc/sysconfig/keyboard` in the `initramfs`.|
-|`KEYTABLE=*kbtype*`|Specifies the keyboard layout, which is written to `/etc/sysconfig/keyboard` in the `initramfs`.|
-|`LANG=*language*_*territory*.*codeset*`|Specifies the system language and code set, which is written to `/etc/sysconfig/i18n` in the `initramfs`.|
-|`max_loop=*N*`|Specifies the number of loop devices \(`/dev/loop*`\) that are available for accessing files as block devices. The default and maximum values of *N* are 8 and 255.|
-|`nouptrack`|Disables Ksplice Uptrack updates from being applied to the kernel.|
-|`quiet`|Reduces debugging output.|
-|`rd_LUKS_UUID=*UUID*`|Activates an encrypted Linux Unified Key Setup \(LUKS\) partition with the specified UUID.|
-|`rd_LVM_VG=*vg*/lv_*vol*`|Specifies an LVM volume group and volume to be activated.|
-|`rd_NO_LUKS`|Disables detection of an encrypted LUKS partition.|
-|`rhgb`|Specifies to use the Red Hat graphical boot display to indicate the progress of booting.|
-|`rn_NO_DM`|Disables Device-Mapper \(DM\) RAID detection.|
-|`rn_NO_MD`|Disables Multiple Device \(MD\) RAID detection.|
-|`ro root=/dev/mapper/*vg*-lv_root`|Specifies that the root file system is to be mounted read-only, and specifies the root file system by the device path of its LVM volume \(where *vg* is the name of the volume group\).|
-|`rw root=UUID=*UUID*`|Specifies that the root \(`/`\) file system is to be mounted read-writable at boot time, and specifies the root partition by its UUID.|
-|`selinux=0`|Disables SELinux.|
-|`SYSFONT=*font*`|Specifies the console font, which is written to `/etc/sysconfig/i18n` in the `initramfs`.|
+</td></tr><tr><td>
 
+`1`, `s`, `S`, `single`, or `systemd.unit=rescue.target`
+
+</td><td>
+
+Specifies the rescue shell. The system boots to single-user mode prompts for the `root` password.
+
+</td></tr><tr><td>
+
+`3` or `systemd.unit=multi-user.target`
+
+</td><td>
+
+Specifies the `systemd` target for multiuser, nongraphical login.
+
+</td></tr><tr><td>
+
+`5` or `systemd.unit=graphical.target`
+
+</td><td>
+
+Specifies the `systemd` target for multiuser, graphical login.
+
+</td></tr><tr><td>
+
+`-b`, `emergency`, or `systemd.unit=emergency.target`
+
+</td><td>
+
+Specifies emergency mode. The system boots to single-user mode and prompts for the `root` password. Fewer services are started than when in rescue mode.
+
+</td></tr><tr><td>
+
+`KEYBOARDTYPE=*kbtype*`
+
+</td><td>
+
+Specifies the keyboard type, which is written to `/etc/sysconfig/keyboard` in the `initramfs`.
+
+</td></tr><tr><td>
+
+`KEYTABLE=*kbtype*`
+
+</td><td>
+
+Specifies the keyboard layout, which is written to `/etc/sysconfig/keyboard` in the `initramfs`.
+
+</td></tr><tr><td>
+
+`LANG=*language*_*territory*.*codeset*`
+
+</td><td>
+
+Specifies the system language and code set, which is written to `/etc/sysconfig/i18n` in the `initramfs`.
+
+</td></tr><tr><td>
+
+`max_loop=*N*`
+
+</td><td>
+
+Specifies the number of loop devices \(`/dev/loop*`\) that are available for accessing files as block devices. The default and maximum values of *N* are 8 and 255.
+
+</td></tr><tr><td>
+
+`nouptrack`
+
+</td><td>
+
+Disables Ksplice Uptrack updates from being applied to the kernel.
+
+</td></tr><tr><td>
+
+`quiet`
+
+</td><td>
+
+Reduces debugging output.
+
+</td></tr><tr><td>
+
+`rd_LUKS_UUID=*UUID*`
+
+</td><td>
+
+Activates an encrypted Linux Unified Key Setup \(LUKS\) partition with the specified UUID.
+
+</td></tr><tr><td>
+
+`rd_LVM_VG=*vg*/lv_*vol*`
+
+</td><td>
+
+Specifies an LVM volume group and volume to be activated.
+
+</td></tr><tr><td>
+
+`rd_NO_LUKS`
+
+</td><td>
+
+Disables detection of an encrypted LUKS partition.
+
+</td></tr><tr><td>
+
+`rhgb`
+
+</td><td>
+
+Specifies to use the Red Hat graphical boot display to indicate the progress of booting.
+
+</td></tr><tr><td>
+
+`rn_NO_DM`
+
+</td><td>
+
+Disables Device-Mapper \(DM\) RAID detection.
+
+</td></tr><tr><td>
+
+`rn_NO_MD`
+
+</td><td>
+
+Disables Multiple Device \(MD\) RAID detection.
+
+</td></tr><tr><td>
+
+`ro root=/dev/mapper/*vg*-lv_root`
+
+</td><td>
+
+Specifies that the root file system is to be mounted read-only, and specifies the root file system by the device path of its LVM volume \(where *vg* is the name of the volume group\).
+
+</td></tr><tr><td>
+
+`rw root=UUID=*UUID*`
+
+</td><td>
+
+Specifies that the root \(`/`\) file system is to be mounted read-writable at boot time, and specifies the root partition by its UUID.
+
+</td></tr><tr><td>
+
+`selinux=0`
+
+</td><td>
+
+Disables SELinux.
+
+</td></tr><tr><td>
+
+`SYSFONT=*font*`
+
+</td><td>
+
+Specifies the console font, which is written to `/etc/sysconfig/i18n` in the `initramfs`.
+
+</td></tr><tbody></table>
 The kernel boot parameters that were last used to boot a system are recorded in `/proc/cmdline`, for example:
 
 ```
