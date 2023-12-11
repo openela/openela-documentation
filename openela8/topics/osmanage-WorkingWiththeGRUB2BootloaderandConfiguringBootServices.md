@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Managing Kernels and System Boot
 
 This chapter describes the Enterprise Linux boot process and how to configure and use the GRand Unified Bootloader \(GRUB\) version 2 and boot-related kernel parameters.
@@ -14,7 +12,7 @@ On a UEFI-based system running the Enterprise Linux release, the system boot pro
 
 1.  The system's UEFI firmware performs a power-on self-test \(POST\) and then detects and initializes peripheral devices and the hard disk.
 
-2.  UEFI searches for a GPT partition with a specific globally unique identifier \(GUID\) that identifies it as the EFI System Partition \(ESP\). This partition contains EFI applications such as boot loaders. In case of the presence of multiple boot devices, the UEFI boot manager uses the appropriate ESP based on the order that's defined in the boot manager. With the efibootmgr tool, you can define a different order, if you don't want to use the default definition.
+2.  UEFI searches for a GPT partition with a specific globally unique identifier \(GUID\) that identifies it as the EFI System Partition \(ESP\). This partition contains EFI applications such as boot loaders. In case of the presence of multiple boot devices, the UEFI boot manager uses the appropriate ESP based on the order that's defined in the boot manager. With the `efibootmgr` tool, you can define a different order, if you don't want to use the default definition.
 
 3.  The UEFI boot manager checks whether Secure Boot is enabled. If Secure Boot is disabled, the boot manager runs the GRUB 2 bootloader on the ESP.
 
@@ -30,7 +28,7 @@ On a UEFI-based system running the Enterprise Linux release, the system boot pro
 
     **Note:**
 
-    Specify any other actions to be processed during the boot process by defining your own `systemd` unit. This method is the preferred approach than using the /etc/rc.local file.
+    Specify any other actions to be processed during the boot process by defining your own `systemd` unit. This method is the preferred approach than using the `/etc/rc.local` file.
 
 
 ### About BIOS-Based Booting
@@ -51,26 +49,26 @@ On a BIOS-based system running the Enterprise Linux release, the boot process is
 
     **Note:**
 
-    Specify any other actions to be processed during the boot process by defining user `systemd` units. This method is the preferred approach than using the /etc/rc.local file.
+    Specify any other actions to be processed during the boot process by defining user `systemd` units. This method is the preferred approach than using the `/etc/rc.local` file.
 
 
 ## About the GRUB 2 Bootloader
 
 In addition to Enterprise Linux, GRUB 2 can load and chain-load many proprietary operating systems. GRUB 2 understands the formats of file systems and kernel executable files. Therefore, it can load an arbitrary OS without needing to know the exact location of the kernel on the boot device. GRUB 2 requires only the file name and drive partitions to load a kernel. You can configure this information by using the GRUB 2 menu or by entering it on the command line.
 
-GRUB 2 behavior is based on configuration files. On BIOS-based systems, the configuration file is /boot/grub2/grub.cfg. On UEFI-based systems, the configuration file is /boot/efi/EFI/redhat/grub.cfg. Each kernel version's boot parameters are stored in independent configuration files in /boot/loader/entries. Each kernel configuration is stored with the file name `machine\_id-kernel\_version.el8.arch.conf`.
+GRUB 2 behavior is based on configuration files. On BIOS-based systems, the configuration file is `/boot/grub2/grub.cfg`. On UEFI-based systems, the configuration file is `/boot/efi/EFI/redhat/grub.cfg`. Each kernel version's boot parameters are stored in independent configuration files in `/boot/loader/entries`. Each kernel configuration is stored with the file name `*machine\_id*-*kernel\_version*.el8.*arch*.conf`.
 
 **Note:**
 
 Don't edit the GRUB 2 configuration file directly.
 
-The grub2-mkconfig command generates the configuration file using the template scripts in /etc/grub.d and menu-configuration settings taken from the configuration file, /etc/default/grub.
+The `grub2-mkconfig` command generates the configuration file using the template scripts in `/etc/grub.d` and menu-configuration settings taken from the configuration file, `/etc/default/grub`.
 
-The default menu entry is set by the value of the `GRUB_DEFAULT` parameter in /etc/default/grub. If `GRUB_DEFAULT` is set to `saved`, you can use the grub2-set-default and grub2-reboot commands to specify the default entry. The command grub2-set-default sets the default entry for all subsequent reboots, while grub2-reboot sets the default entry for the next reboot only.
+The default menu entry is set by the value of the `GRUB_DEFAULT` parameter in `/etc/default/grub`. If `GRUB_DEFAULT` is set to `saved`, you can use the `grub2-set-default` and `grub2-reboot` commands to specify the default entry. The command `grub2-set-default` sets the default entry for all subsequent reboots, while `grub2-reboot` sets the default entry for the next reboot only.
 
-If you specify a numeric value as the value of `GRUB_DEFAULT` or as an argument to either grub2-reboot or grub2-set-default, GRUB 2 counts the menu entries in the configuration file starting at 0 for the first entry.
+If you specify a numeric value as the value of `GRUB_DEFAULT` or as an argument to either `grub2-reboot` or `grub2-set-default`, GRUB 2 counts the menu entries in the configuration file starting at 0 for the first entry.
 
-For more information about using, configuring, and customizing GRUB 2, see the [GNU GRUB Manual](https://www.gnu.org/software/grub/manual/grub/grub.html), which is also installed as /usr/share/doc/grub2-tools-2.00/grub.html.
+For more information about using, configuring, and customizing GRUB 2, see the [GNU GRUB Manual](https://www.gnu.org/software/grub/manual/grub/grub.html), which is also installed as `/usr/share/doc/grub2-tools-2.00/grub.html`.
 
 ## About Linux Kernels
 
@@ -80,9 +78,9 @@ OpenELA includes **Red Hat Compatible Kernel** \(RHCK\), which is fully compatib
 
 **Important:** Linux kernels are critical for running applications in the Enterprise Linux user space. Therefore, you must keep the kernel current with the latest bug fixes, enhancements, and security updates provided by OpenELA.
 
-## Managing Kernels in GRUB 2 Using grubby
+## Managing Kernels in GRUB 2 Using `grubby`
 
-You can use the grubby command to view and manage kernels.
+You can use the `grubby` command to view and manage kernels.
 
 Use the following command to display the kernels that are installed and configured on the system:
 
@@ -96,134 +94,48 @@ To configure a specific kernel as the default boot kernel, run:
 sudo grubby --set-default /boot/vmlinuz-4.18.0-80.el8.x86_64
 ```
 
-You can also use the grubby command to update a kernel configuration entry to add or remove kernel boot arguments, for example:
+You can also use the `grubby` command to update a kernel configuration entry to add or remove kernel boot arguments, for example:
 
 ```
 sudo grubby --remove-args="rhgb quiet" --args=rd_LUKS_UUID=luks-39fec799-6a6c-4ac1-ac7c-1d68f2e6b1a4 \
 --update-kernel /boot/vmlinuz-4.18.0-80.el8.x86_64
 ```
 
-For more information about the grubby command, see the `grubby(8)` manual page.
+For more information about the `grubby` command, see the `grubby(8)` manual page.
 
 ## Kernel Boot Parameters
 
 The following table describes some commonly used kernel boot parameters.
 
-|Option
-
-|Description
-
-|
-|--------|-------------|
-|`0`, `1`, `2`, `3`, `4`, `5`, or `6`, or `systemd.unit=runlevelN.target`
-
-|Specifies the nearest `systemd`-equivalent system-state target to match a legacy SysV run level. N can take an integer value between 0 and 6.
+|Option|Description|
+|------|-----------|
+|`0`, `1`, `2`, `3`, `4`, `5`, or `6`, or `systemd.unit=runlevel*N*.target`|Specifies the nearest `systemd`-equivalent system-state target to match a legacy SysV run level. *N* can take an integer value between 0 and 6.
 
  Systemd maps system-state targets to mimic the legacy SysV init system. For a description of system-state targets, see [About System-State Targets](osmanage-WorkingWithSystemServices.md#).
 
 |
-|`1`, `s`, `S`, `single`, or `systemd.unit=rescue.target`
+|`1`, `s`, `S`, `single`, or `systemd.unit=rescue.target`|Specifies the rescue shell. The system boots to single-user mode prompts for the `root` password.|
+|`3` or `systemd.unit=multi-user.target`|Specifies the `systemd` target for multiuser, nongraphical login.|
+|`5` or `systemd.unit=graphical.target`|Specifies the `systemd` target for multiuser, graphical login.|
+|`-b`, `emergency`, or `systemd.unit=emergency.target`|Specifies emergency mode. The system boots to single-user mode and prompts for the `root` password. Fewer services are started than when in rescue mode.|
+|`KEYBOARDTYPE=*kbtype*`|Specifies the keyboard type, which is written to `/etc/sysconfig/keyboard` in the `initramfs`.|
+|`KEYTABLE=*kbtype*`|Specifies the keyboard layout, which is written to `/etc/sysconfig/keyboard` in the `initramfs`.|
+|`LANG=*language*_*territory*.*codeset*`|Specifies the system language and code set, which is written to `/etc/sysconfig/i18n` in the `initramfs`.|
+|`max_loop=*N*`|Specifies the number of loop devices \(`/dev/loop*`\) that are available for accessing files as block devices. The default and maximum values of *N* are 8 and 255.|
+|`nouptrack`|Disables Ksplice Uptrack updates from being applied to the kernel.|
+|`quiet`|Reduces debugging output.|
+|`rd_LUKS_UUID=*UUID*`|Activates an encrypted Linux Unified Key Setup \(LUKS\) partition with the specified UUID.|
+|`rd_LVM_VG=*vg*/lv_*vol*`|Specifies an LVM volume group and volume to be activated.|
+|`rd_NO_LUKS`|Disables detection of an encrypted LUKS partition.|
+|`rhgb`|Specifies to use the Red Hat graphical boot display to indicate the progress of booting.|
+|`rn_NO_DM`|Disables Device-Mapper \(DM\) RAID detection.|
+|`rn_NO_MD`|Disables Multiple Device \(MD\) RAID detection.|
+|`ro root=/dev/mapper/*vg*-lv_root`|Specifies that the root file system is to be mounted read-only, and specifies the root file system by the device path of its LVM volume \(where *vg* is the name of the volume group\).|
+|`rw root=UUID=*UUID*`|Specifies that the root \(`/`\) file system is to be mounted read-writable at boot time, and specifies the root partition by its UUID.|
+|`selinux=0`|Disables SELinux.|
+|`SYSFONT=*font*`|Specifies the console font, which is written to `/etc/sysconfig/i18n` in the `initramfs`.|
 
-|Specifies the rescue shell. The system boots to single-user mode prompts for the `root` password.
-
-|
-|`3` or `systemd.unit=multi-user.target`
-
-|Specifies the `systemd` target for multiuser, nongraphical login.
-
-|
-|`5` or `systemd.unit=graphical.target`
-
-|Specifies the `systemd` target for multiuser, graphical login.
-
-|
-|`-b`, `emergency`, or `systemd.unit=emergency.target`
-
-|Specifies emergency mode. The system boots to single-user mode and prompts for the `root` password. Fewer services are started than when in rescue mode.
-
-|
-|`KEYBOARDTYPE=kbtype`
-
-|Specifies the keyboard type, which is written to /etc/sysconfig/keyboard in the `initramfs`.
-
-|
-|`KEYTABLE=kbtype`
-
-|Specifies the keyboard layout, which is written to /etc/sysconfig/keyboard in the `initramfs`.
-
-|
-|`LANG=language_territory.codeset`
-
-|Specifies the system language and code set, which is written to /etc/sysconfig/i18n in the `initramfs`.
-
-|
-|`max_loop=N`
-
-|Specifies the number of loop devices \(/dev/loop\*\) that are available for accessing files as block devices. The default and maximum values of N are 8 and 255.
-
-|
-|`nouptrack`
-
-|Disables Ksplice Uptrack updates from being applied to the kernel.
-
-|
-|`quiet`
-
-|Reduces debugging output.
-
-|
-|`rd_LUKS_UUID=UUID`
-
-|Activates an encrypted Linux Unified Key Setup \(LUKS\) partition with the specified UUID.
-
-|
-|`rd_LVM_VG=vg/lv_vol`
-
-|Specifies an LVM volume group and volume to be activated.
-
-|
-|`rd_NO_LUKS`
-
-|Disables detection of an encrypted LUKS partition.
-
-|
-|`rhgb`
-
-|Specifies to use the Red Hat graphical boot display to indicate the progress of booting.
-
-|
-|`rn_NO_DM`
-
-|Disables Device-Mapper \(DM\) RAID detection.
-
-|
-|`rn_NO_MD`
-
-|Disables Multiple Device \(MD\) RAID detection.
-
-|
-|`ro root=/dev/mapper/vg-lv_root`
-
-|Specifies that the root file system is to be mounted read-only, and specifies the root file system by the device path of its LVM volume \(where vg is the name of the volume group\).
-
-|
-|`rw root=UUID=UUID`
-
-|Specifies that the root \(/\) file system is to be mounted read-writable at boot time, and specifies the root partition by its UUID.
-
-|
-|`selinux=0`
-
-|Disables SELinux.
-
-|
-|`SYSFONT=font`
-
-|Specifies the console font, which is written to /etc/sysconfig/i18n in the `initramfs`.
-
-|
-
-The kernel boot parameters that were last used to boot a system are recorded in /proc/cmdline, for example:
+The kernel boot parameters that were last used to boot a system are recorded in `/proc/cmdline`, for example:
 
 ```
 sudo cat /proc/cmdline
@@ -258,7 +170,7 @@ To modify boot parameters before booting a kernel, follow these steps:
 
 To modify the boot parameters for the GRUB 2 configuration so that these parameters are applied by default at every reboot, follow these steps:
 
-1.  Edit /etc/default/grub and add parameter settings to the `GRUB_CMDLINE_LINUX` definition, for example:
+1.  Edit `/etc/default/grub` and add parameter settings to the `GRUB_CMDLINE_LINUX` definition, for example:
 
     ```
     GRUB_CMDLINE_LINUX="vconsole.font=latarcyrheb-sun16 vconsole.keymap=uk 
@@ -268,7 +180,7 @@ To modify the boot parameters for the GRUB 2 configuration so that these paramet
 
     This example adds the parameter `systemd.unit=runlevel3.target` so that the system boots into multiuser, nongraphical mode by default.
 
-2.  Rebuild /boot/grub2/grub.cfg:
+2.  Rebuild `/boot/grub2/grub.cfg`:
 
     ```
     sudo grub2-mkconfig -o /boot/grub2/grub.cfg
@@ -279,7 +191,11 @@ To modify the boot parameters for the GRUB 2 configuration so that these paramet
 
 **Note:**
 
-For systems that boot with UEFI, the `grub.cfg` file is located in the /boot/efi/EFI/redhat directory because the boot configuration is stored on a dedicated FAT32-formatted partition.
+For systems that boot with UEFI, the `grub.cfg` file is located in the `/boot/efi/EFI/redhat` directory because the boot configuration is stored on a dedicated FAT32-formatted partition.
 
-After the system has successfully booted, the `EFI` folder on that partition is mounted inside the /boot/efi directory on the root file system for Enterprise Linux.
+After the system has successfully booted, the `EFI` folder on that partition is mounted inside the `/boot/efi` directory on the root file system for Enterprise Linux.
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

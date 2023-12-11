@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Podman Pod Management
 
 -   **[Create a Pod Group](../topics/podman_create_pod_group.md)**  
@@ -10,4 +8,8 @@
 
 
 **Parent topic:**[Podman Management Tasks](../topics/cockpit-podman.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

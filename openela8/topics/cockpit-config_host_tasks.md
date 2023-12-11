@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # General Host Configuration Actions
 
 -   **[Change System Hostname](../topics/set_host_name.md)**  
@@ -14,4 +12,8 @@
 
 
 **Parent topic:**[Common Host Administration Tasks](../topics/common_administration.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

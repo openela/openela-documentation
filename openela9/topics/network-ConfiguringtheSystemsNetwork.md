@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Configuring the System's Network
 
 To enable the system to connect to the network, transmit and receive traffic with other systems, you would need to configure the system to have identifiable names, IP addresses, routes, and so on. Depending on the system's available resources, you can further optimize the network configuration to attain high availability and improved performance by implementing added network technologies such as network bonds and multipathing.
@@ -34,7 +32,7 @@ The following information describes how to configure a NIC by using the tools th
 
 Traditionally, early kernel versions assigned names to network interface devices by assigning a prefix, which is typically based on the device driver, and a number, such as `eth0`. With the availability of different types of devices, this naming schema is no longer efficient. The names don't necessarily correspond to the chassis labels and the names themselves might be inconsistent across existing network interfaces. The inconsistency would affect embedded adapters on the system, including add-in adapters. Server platforms with several network adapters could have problems managing these interfaces.
 
-Enterprise Linux implements a consistent naming scheme for all network interfaces through the udev device manager. The scheme offers the following advantages:
+Enterprise Linux implements a consistent naming scheme for all network interfaces through the `udev` device manager. The scheme offers the following advantages:
 
 -   The names of the devices are predictable.
 
@@ -56,17 +54,17 @@ Network interfaces are identified by a name that combines a prefix and a suffix.
 
 The suffix contains any of the following information:
 
--   An on-board index number `on`, and thus, `eno0` .
+-   An on-board index number `o*n*`, and thus, `eno0` .
 
--   A hot-plug slot index number `sn`, and thus, `ens1`.
+-   A hot-plug slot index number `s*n*`, and thus, `ens1`.
 
-    This naming schema can also include `ffunction` and `ddevice-id` that are added to the suffix.
+    This naming schema can also include `f*function*` and `d*device-id*` that are added to the suffix.
 
--   The bus and slot number `pbussn`, and thus. `enp0s8`.
+-   The bus and slot number `p*bus*s*n*`, and thus. `enp0s8`.
 
-    This naming schema can also include `ffunction` and `ddevice-id` that are added to the suffix.
+    This naming schema can also include `f*function*` and `d*device-id*` that are added to the suffix.
 
--   The MAC address `xMAC-addr`, and thus, `enx0217b08b`.
+-   The MAC address `x*MAC-addr*`, and thus, `enx0217b08b`.
 
     Note that this naming format isn't used by Enterprise Linux by default. However, administrators can implement it as an option.
 
@@ -145,13 +143,13 @@ The suffix contains any of the following information:
 
 ### Using the Command Line
 
-To illustrate the different uses of the nmcli command, this procedure describes an example of adding and configuring a new Ethernet connection for the `enp0s2` device. For more information about the command, see the `nmcli(1)` manual page.
+To illustrate the different uses of the `nmcli` command, this procedure describes an example of adding and configuring a new Ethernet connection for the `enp0s2` device. For more information about the command, see the `nmcli(1)` manual page.
 
 **Tip:**
 
 Before adding the connection, prepare the information you would need for the configuration, such as the following:
 
--   Connection name, for example, `My Work Connection`. The nmcli command works by referring to the connection name rather than the device name. If you don't set a connection name, then the device's name is used as the connection name.
+-   Connection name, for example, `My Work Connection`. The `nmcli` command works by referring to the connection name rather than the device name. If you don't set a connection name, then the device's name is used as the connection name.
 
 -   IP addresses \(IPv4 and, if needed, IPv6\)
 
@@ -184,30 +182,30 @@ Before adding the connection, prepare the information you would need for the con
 
     ```nocopybutton
     NAME     UUID                                TYPE      DEVICE
-    enp0s1   nn-nn-nn-nn-nn  ethernet  enp0s1
-    virbr0   nn-nn-nn-nn-nn  bridge    virbr0
-    mybond   nn-nn-nn-nn-nn  bond      bond0
+    enp0s1   *nn-nn-nn-nn-nn*  ethernet  enp0s1
+    virbr0   *nn-nn-nn-nn-nn*  bridge    virbr0
+    mybond   *nn-nn-nn-nn-nn*  bond      bond0
     ```
 
-    The con subcommand is the short form of connection, and can be further shortened to c. Specifying the `--active` option would display only active devices.
+    The `con` subcommand is the short form of `connection`, and can be further shortened to `c`. Specifying the `--active` option would display only active devices.
 
     Note that in the output, `NAME` represents the connection ID.
 
 3.  Add a new connection.
 
     ```
-    sudo nmcli con add {properties} [IP-info] [gateway-info
+    sudo nmcli con add {*properties*} [*IP-info*] [*gateway-info*
     ```
 
-    -   **properties**
+    -   **_properties_**
 
         The connection name as specified by the `con-name` argument, the type of connection as specified by the `type` argument, and the interface name as specified by the `ifname` argument.
 
-    -   **IP-info**
+    -   **_IP-info_**
 
         The IPv4 or IPv6 address as specified by either the `ip4` or `ip6` argument. The address must be in the format `address/netmask`. The IPv4 address can be in CIDR form, for example, `1.2.3.4/24`.
 
-    -   **gateway-info**
+    -   **_gateway-info_**
 
         The gateway IPv4 or IPv6 address as specified by either the `gw4` or `gw6` argument.
 
@@ -233,7 +231,7 @@ Before adding the connection, prepare the information you would need for the con
 
     ```nocopybutton
     connection.id:               My Work Connection
-    connection.uuid:             nn-nn-nn-nn-nn
+    connection.uuid:             *nn-nn-nn-nn-nn*
     connection.type:             802-3-ethernet
     connection.interface-name:   enp0s2
     ...
@@ -307,28 +305,28 @@ To create a static route to the 192.0.2.0/24 network through the gateway 198.51.
 To configure static routes with the `nmcli` command, use the following syntax:
 
 ```
-nmcli connection modify connection\_name +ipv4.routes "ip[/prefix] options\(s\) attribute\(s\)"[next_hop] [metric] [attribute=value] [attribute=value] ..."
+nmcli connection modify *connection\_name* +ipv4.routes "*ip*[/*prefix*] *options\(s\)* *attribute\(s\)*"[next_hop] [metric] [attribute=value] [attribute=value] ..."
 ```
 
 -   **+ipv4.routes**
 
     The plus \(+\) sign indicates that you're creating an IPv4 route. Without the sign, the command changes an existing IPv4 setting.
 
--   **connection-name**
+-   **_connection-name_**
 
     Connection name or label for which you're creating a static route.
 
--   **ip\[/prefix\]**
+-   **_ip_\[/_prefix_\]**
 
     IP address of the static route that you're creating. The IP address can also be in CIDR notation.
 
--   **options**
+-   **_options_**
 
     Options include next hop addresses and optional route metrics. These options are separated by spaces. For more information, see the `nm-settings-nmcli(5)` manual pages.
 
--   **attributes**
+-   **_attributes_**
 
-    Attributes are entered as attribute=value and are also separated by spaces. Some attributes are `mtu`, `src`, `type`, `cwnd`, and so on. For more information, see the `nm-settings-nmcli(5)` manual pages.
+    Attributes are entered as *attribute=value* and are also separated by spaces. Some attributes are `mtu`, `src`, `type`, `cwnd`, and so on. For more information, see the `nm-settings-nmcli(5)` manual pages.
 
 
 Suppose that you have the following configurations:
@@ -345,7 +343,7 @@ To create the route, ensure first that the default gateway for the route is dire
     sudo nmcli connection modify myconnection +ipv4.routes "192.0.2.0/24 198.51.100.1"
     ```
 
-    To create several static routes in a single command, separate the route gateway entries with commas, for example:
+    To create several static routes in a single command, separate the *route gateway* entries with commas, for example:
 
     ```
     sudo nmcli connection modify myconnection +ipv4.routes "192.0.2.0/24 198.51.100.1, 203.0.113.0/24 198.51.100.1"
@@ -461,9 +459,9 @@ Each network connection configuration that you create becomes a `NetworkManager`
 
 Depending on its purpose, a `NetworkManager` connection profile can be stored in one of the following locations:
 
--   /etc/NetworkManager/system-connections/: Default location of persistent profiles that are created by the user. Profiles in this directory can also be edited.
--   /run/NetworkManager/system-connections/: Location of temporary profiles that are automatically removed when you reboot the system.
--   /usr/lib/NetworkManager/system-connections/: Location of predeployed and permanent connection profiles. If you edit one of these profiles by using the `NetworkManager` API, then the profile is copied either to the persistent or the temporary directory.
+-   `/etc/NetworkManager/system-connections/`: Default location of persistent profiles that are created by the user. Profiles in this directory can also be edited.
+-   `/run/NetworkManager/system-connections/`: Location of temporary profiles that are automatically removed when you reboot the system.
+-   `/usr/lib/NetworkManager/system-connections/`: Location of predeployed and permanent connection profiles. If you edit one of these profiles by using the `NetworkManager` API, then the profile is copied either to the persistent or the temporary directory.
 
 For more information about configuring `NetworkManager` connection profiles, see:
 
@@ -489,7 +487,7 @@ To create a `keyfile` connection profile using `nmcli` in offline mode, follow t
     For example, the following syntax creates a keyfile connection profile in offline mode for an Ethernet device with a manually assigned IPv4 address and DNS address.
 
     ```
-    nmcli --offline connection add type ethernet con-name Example-Connection ipv4ddresses \#\#\#.\#.\#.\#/\# ipv4ns \#\#\#.\#.\#.\#\#\# ipv4ethod manual > /etc/NetworkManager/system-connections/outputmconnection
+    nmcli --offline connection add type ethernet con-name *Example-Connection* ipv4ddresses *\#\#\#.\#.\#.\#/\#* ipv4ns *\#\#\#.\#.\#.\#\#\#* ipv4ethod manual > /etc/NetworkManager/system-connections/*outputmconnection*
     ```
 
     *where*:
@@ -520,7 +518,7 @@ To create a `keyfile` connection profile using `nmcli` in offline mode, follow t
 4.  If you set the `autoconnect` variable in the profile to `false`, activate the connection:
 
     ```
-    nmcli connection up Example-Connection
+    nmcli connection up *Example-Connection*
     ```
 
 5.  \(Optional\) To verify the profile configuration, perform these steps:
@@ -549,7 +547,7 @@ To create a `keyfile` connection profile using `nmcli` in offline mode, follow t
     3.  To display the connection profile use the `nmcli connection show` command, for example:
 
         ```
-        nmcli connection show Example-Connection
+        nmcli connection show *Example-Connection*
         connection.id:                          Example-Connection
         connection.uuid:                        ce8d4422-9603-4d6f-b602-4f71992c49c2
         connection.stable-id:                   --
@@ -597,7 +595,7 @@ To manually create a `NetworkManager` connection profile in a keyfile format, fo
     mac-address=02:00:17:03:b9:ae
     ```
 
-3.  Save the profile to `/etc/NetworkManager/system-connections/filname.nmconnection`.
+3.  Save the profile to `/etc/NetworkManager/system-connections/*filname*.nmconnection`.
 
     In this current procedure, the profile would be `/etc/NetworkManager/system-connections/myconnection.nmconnection`.
 
@@ -624,7 +622,7 @@ To manually create a `NetworkManager` connection profile in a keyfile format, fo
 
     ```
     NAME           UUID       FILENAME
-    myconnection   uuid        /etc/NetworkManager/system-connections/myconnection.nmconnection
+    myconnection   *uuid*        /etc/NetworkManager/system-connections/myconnection.nmconnection
     ```
 
 7.  If you specified `false` for the profile's `autoconnect` parameter, then activate the connection.
@@ -667,4 +665,8 @@ To convert the `NetworkManager` legacy `ifcfg` profile formats to the preferred 
     nmcli -f TYPE,FILENAME,NAME connection
     ```
 
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

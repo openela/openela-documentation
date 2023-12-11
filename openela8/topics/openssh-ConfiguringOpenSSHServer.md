@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Configuring OpenSSH Server
 
 ## Installing OpenSSH Server and Enabling sshd
@@ -18,4 +16,8 @@
 ### Restricting SSH Key Access to Specific Commands
 
 ## Good Practice Recommendations for Configuring OpenSSH Server
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

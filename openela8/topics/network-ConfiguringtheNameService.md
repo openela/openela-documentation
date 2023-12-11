@@ -1,12 +1,10 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Configuring the Name Service
 
 This chapter describes how to use Berkeley Internet Name Domain \(BIND\) to set up a Domain Name System \(DNS\) name server.
 
 ## About DNS and BIND
 
-DNS is a network-based service that resolves domain names to IP addresses. For a small, isolated network you can use entries in the /etc/hosts file to provide the name-to-address mapping. However, most networks that are connected to the Internet use DNS.
+DNS is a network-based service that resolves domain names to IP addresses. For a small, isolated network you can use entries in the `/etc/hosts` file to provide the name-to-address mapping. However, most networks that are connected to the Internet use DNS.
 
 DNS is a hierarchical and distributed database.
 
@@ -20,17 +18,17 @@ The querying process ends with the IP address for the FQDN being provided to the
 
 Iterative queries rely on the resolver being able to handle the referral from each external name server to trace the name server that's authoritative for the FQDN. Most resolvers use recursive queries and so can't use name servers that support only iterative queries.
 
-Most Enterprise Linux releases provide the BIND implementation of DNS. The `bind` package includes the DNS server daemon \(`named`\), tools for working with DNS, such as rndc, and some configuration files, including the following:
+Most Enterprise Linux releases provide the BIND implementation of DNS. The `bind` package includes the DNS server daemon \(`named`\), tools for working with DNS, such as `rndc`, and some configuration files, including the following:
 
--   **/etc/named.conf**
+-   **`/etc/named.conf`**
 
-    Contains settings for `named` and lists the location and characteristics of the zone files for the domain. Zone files are typically stored in /var/named.
+    Contains settings for `named` and lists the location and characteristics of the zone files for the domain. Zone files are typically stored in `/var/named`.
 
--   **/etc/named.rfc1912.zones**
+-   **`/etc/named.rfc1912.zones`**
 
     Contains several zone sections for resolving local loopback names and addresses.
 
--   **/var/named/named.ca**
+-   **`/var/named/named.ca`**
 
     Contains a list of the root authoritative DNS servers.
 
@@ -64,7 +62,7 @@ In practice, a name server can be a combination of several of these types in com
 
 ## Installing and Configuring a Name Server
 
-By default, you can use the BIND installation to configure a caching-only name server using the configuration settings that are provided in the /etc/named.conf file and files that it includes. The following procedure assumes that you either use the default settings or configure new `named` configuration and zone files.
+By default, you can use the BIND installation to configure a caching-only name server using the configuration settings that are provided in the `/etc/named.conf` file and files that it includes. The following procedure assumes that you either use the default settings or configure new `named` configuration and zone files.
 
 To configure a name server:
 
@@ -74,13 +72,13 @@ To configure a name server:
     sudo dnf install bind
     ```
 
-2.  If `NetworkManager` is enabled on the system, edit the /etc/sysconfig/network-scripts/ifcfg-interface file, and add the following entry:
+2.  If `NetworkManager` is enabled on the system, edit the `/etc/sysconfig/network-scripts/ifcfg-*interface*` file, and add the following entry:
 
     ```
     DNS1=127.0.0.1
     ```
 
-    This line causes `NetworkManager` to add the following entry to /etc/resolv.conf when the network service starts:
+    This line causes `NetworkManager` to add the following entry to `/etc/resolv.conf` when the network service starts:
 
     ```
     nameserver 127.0.0.1
@@ -88,7 +86,7 @@ To configure a name server:
 
     This entry points the resolver at the local name server.
 
-3.  If you have disabled `NetworkManager`, edit the /etc/resolv.conf file to include the `nameserver 127.0.0.1` entry.
+3.  If you have disabled `NetworkManager`, edit the `/etc/resolv.conf` file to include the `nameserver 127.0.0.1` entry.
 
 4.  If required, change the `named` configuration and zone files.
 
@@ -97,11 +95,11 @@ To configure a name server:
 5.  Configure the system firewall to accept incoming TCP connections to port 53 and incoming UDP datagrams on port 53:
 
     ```
-    sudo firewall-cmd --zone=zone --add-port=53/tcp --add-port=53/udp
+    sudo firewall-cmd --zone=*zone* --add-port=53/tcp --add-port=53/udp
     ```
 
     ```
-    sudo firewall-cmd --permanent --zone=zone --add-port=53/tcp --add-port=53/udp
+    sudo firewall-cmd --permanent --zone=*zone* --add-port=53/tcp --add-port=53/udp
     ```
 
 6.  Restart the `NetworkManager` service and the `named` services, and then configure the `named` service to start following system reboots:
@@ -123,11 +121,11 @@ To configure a name server:
 
 Domains are grouped into zones that are configured through zone files. Zone files store information about domains in the DNS database. Each zone file contains directives and resource records. Optional directives apply settings to a zone or instruct a name server to perform certain tasks. Resource records specify zone parameters and define information about the systems or hosts in a zone.
 
-Examples of BIND configuration files can be found in the /usr/share/doc/bind/sample/etc file.
+Examples of BIND configuration files can be found in the `/usr/share/doc/bind/sample/etc` file.
 
 ### Configuring the named Daemon
 
-The main configuration file for the `named` service is /etc/named.conf. The following example comes from the default /etc/named.conf file that's installed with the `bind` package and which configures a caching-only name server:
+The main configuration file for the `named` service is `/etc/named.conf`. The following example comes from the default `/etc/named.conf` file that's installed with the `bind` package and which configures a caching-only name server:
 
 ```
 options {
@@ -190,7 +188,7 @@ The `options` statement defines the global server configuration options and sets
 
 -   **`statistics-file`**
 
-    Specifies the output file for the rndc stats command.
+    Specifies the output file for the `rndc stats` command.
 
 -   **`memstatistics-file`**
 
@@ -214,12 +212,12 @@ The `options` statement defines the global server configuration options and sets
 
 -   **`dnssec-lookaside`**
 
-    Specifies whether to enable DNSSEC Lookaside Validation \(DLV\) using the key in /etc/named.iscdlv.key defined by `bindkeys-file`.
+    Specifies whether to enable DNSSEC Lookaside Validation \(DLV\) using the key in `/etc/named.iscdlv.key` defined by `bindkeys-file`.
 
 
-The `logging` section activates the logging of messages to /var/named/data/named.run. The `severity` parameter controls the logging level, and the `dynamic` value means that this level can be controlled by using the rndc trace command.
+The `logging` section activates the logging of messages to `/var/named/data/named.run`. The `severity` parameter controls the logging level, and the `dynamic` value means that this level can be controlled by using the `rndc trace` command.
 
-The `zone` section specifies the initial set of root servers using a hint zone. This zone specifies that `named` consult /var/named/named.ca for the IP addresses of authoritative servers for the root domain \(`.`\).
+The `zone` section specifies the initial set of root servers using a hint zone. This zone specifies that `named` consult `/var/named/named.ca` for the IP addresses of authoritative servers for the root domain \(`.`\).
 
 You can add definitions to the configuration file that are appropriate to the network environment. The following example defines settings for the service and the top-level definitions for zones:
 
@@ -254,15 +252,15 @@ zone "2.168.192.in-addr.arpa" IN {
 
 The `include` statement enables external files to be referenced so that sensitive data such as key hashes can be placed in a separate file with restricted permissions.
 
-The `controls` statement defines access information and the security requirements that are necessary to use the rndc command with the `named` server:
+The `controls` statement defines access information and the security requirements that are necessary to use the `rndc` command with the `named` server:
 
 -   **`inet`**
 
-    Specifies which hosts can run rndc to control named. In this example, rndc must be run on the local host \(`127.0.0.1`\).
+    Specifies which hosts can run `rndc` to control named. In this example, `rndc` must be run on the local host \(`127.0.0.1`\).
 
 -   **`keys`**
 
-    Specifies the names of the keys that can be used. The example specifies using the key named `rndc-key`, which is defined in /etc/rndc.key. Keys authenticate various actions by `named` and are the primary method of controlling remote access and administration.
+    Specifies the names of the keys that can be used. The example specifies using the key named `rndc-key`, which is defined in `/etc/rndc.key`. Keys authenticate various actions by `named` and are the primary method of controlling remote access and administration.
 
 
 The `zone` statements define the role of the server in different zones.
@@ -275,11 +273,11 @@ The following zone options are used:
 
 -   **`file`**
 
-    Specifies the path to the zone file relative to /var/named. The zone file for `us.mydom.com` is stored in /var/named/master-data and the transferred zone data for `mydom.com` is cached in /var/named/sec/slave-data.
+    Specifies the path to the zone file relative to `/var/named`. The zone file for `us.mydom.com` is stored in `/var/named/master-data` and the transferred zone data for `mydom.com` is cached in `/var/named/sec/slave-data`.
 
 -   **`allow-update`**
 
-    Specifies that a shared key must exist on both the primary and backup name servers for a zone transfer to take place from the primary to the backup. The following is an example record for a key in the /etc/rndc.key file:
+    Specifies that a shared key must exist on both the primary and backup name servers for a zone transfer to take place from the primary to the backup. The following is an example record for a key in the `/etc/rndc.key` file:
 
     ```
     key "rndc-key" {
@@ -288,7 +286,7 @@ The following zone options are used:
     };
     ```
 
-    You can use the rndc-confgen -a command to generate a key file.
+    You can use the `rndc-confgen -a` command to generate a key file.
 
 -   **`notify`**
 
@@ -299,7 +297,7 @@ The following zone options are used:
     Specifies the primary name server for a backup name server.
 
 
-For more information, see the `named.conf(5)` manual page and the BIND documentation in /usr/share/doc/bind-version/arm.
+For more information, see the `named.conf(5)` manual page and the BIND documentation in `/usr/share/doc/bind-*version*/arm`.
 
 ### About Resource Records in Zone Files
 
@@ -354,7 +352,7 @@ A resource record in a zone file contains the following fields, some of which ar
     Information that the record stores, such as an IP address in an `A` record, or a host name in a `CNAME` or `PTR` record.
 
 
-The following example shows the contents of a typical zone file such as /var/named/master-data:
+The following example shows the contents of a typical zone file such as `/var/named/master-data`:
 
 ```
 $TTL 86400        ; 1 day
@@ -395,23 +393,23 @@ The `SOA` record is mandatory and includes the following information:
 
     The email address of the domain administrator.
 
--   **serial**
+-   **_serial_**
 
     A counter that, if incremented, tells `named` to reload the zone file.
 
--   **refresh**
+-   **_refresh_**
 
     The time after which a primary name server notifies backup name servers that they should refresh their database.
 
--   **retry**
+-   **_retry_**
 
     If a refresh fails, the time that a backup name server should wait before attempting another refresh.
 
--   **expire**
+-   **_expire_**
 
     The maximum elapsed time that a backup name server has to complete a refresh before its zone records are no longer considered authoritative and it will stop answering queries.
 
--   **minimum**
+-   **_minimum_**
 
     The minimum time for which other servers should cache information obtained from this zone.
 
@@ -422,13 +420,13 @@ Each `A` record specifies the IP address that corresponds to a host name in the 
 
 The `CNAME` record creates the alias `www` for `svr01`.
 
-For more information, see the BIND documentation in /usr/share/doc/bind-version/arm.
+For more information, see the BIND documentation in `/usr/share/doc/bind-*version*/arm`.
 
 ### About Resource Records for Reverse-Name Resolution
 
 Forward resolution returns an IP address for a specified domain name. Reverse-name resolution returns a domain name for a specified IP address. DNS implements reverse-name resolution by using the special `in-addr.arpa` and `ip6.arpa` domains for IPv4 and IPv6.
 
-The characteristics for a zone's `in-addr.arpa` or `ip6.arpa` domains are usually defined in /etc/named.conf, for example:
+The characteristics for a zone's `in-addr.arpa` or `ip6.arpa` domains are usually defined in `/etc/named.conf`, for example:
 
 ```
 zone "2.168.192.in-addr.arpa" IN {
@@ -443,7 +441,7 @@ The zone's name consists of `in-addr.arpa`, preceded by the network portion of t
 
 If the network doesn't have a prefix length that's a multiple of 8, see [RFC 2317](https://datatracker.ietf.org/doc/html/rfc2317) for the format that you need to use instead.
 
-The `PTR` records in `in-addr.arpa` or `ip6.arpa` domains define host names that correspond to the host part of the IP address. The following example is take from the /var/named/reverse-192.168.2 zone file:
+The `PTR` records in `in-addr.arpa` or `ip6.arpa` domains define host names that correspond to the host part of the IP address. The following example is take from the `/var/named/reverse-192.168.2` zone file:
 
 ```
 $TTL 86400        ;
@@ -465,17 +463,17 @@ $TTL 86400        ;
 ...
 ```
 
-For more information, see the BIND documentation in /usr/share/doc/bind-version/arm.
+For more information, see the BIND documentation in `/usr/share/doc/bind-*version*/arm`.
 
 ## Administering the Name Service
 
-The rndc command enables you to administer the `named` service. The service is administered locally. If the service is configured in the `controls` section of the /etc/named.conf file, then you can also use the command line to manage `named` remotely. To prevent unauthorized access to the service, rndc must be configured to listen on the selected port \(by default, port 953\), and both named and rndc must have access to the same key. To generate a suitable key, use the rndc-confgen command:
+The `rndc` command enables you to administer the `named` service. The service is administered locally. If the service is configured in the `controls` section of the `/etc/named.conf` file, then you can also use the command line to manage `named` remotely. To prevent unauthorized access to the service, `rndc` must be configured to listen on the selected port \(by default, port 953\), and both named and `rndc` must have access to the same key. To generate a suitable key, use the `rndc-confgen` command:
 
 ```
 sudo rndc-confgen -a
 ```
 
-The command creates the /etc/rndc.key file.
+The command creates the `/etc/rndc.key` file.
 
 Check the status of the `named` service as follows:
 
@@ -495,7 +493,7 @@ tcp clients: 0/100
 server is up and running
 ```
 
-If you change the `named` configuration file or zone files, the rndc reload command instructs `named` to reload the files:
+If you change the `named` configuration file or zone files, the `rndc reload` command instructs `named` to reload the files:
 
 ```
 sudo rndc reload
@@ -505,7 +503,7 @@ For more information, see the `named(8)`, `rndc(8)` and `rndc-confgen(8)` manual
 
 ## Performing DNS Lookups
 
-The host utility is recommended for performing DNS lookups. Without any arguments, the command displays a summary of its command line arguments and options.
+The `host` utility is recommended for performing DNS lookups. Without any arguments, the command displays a summary of its command line arguments and options.
 
 For example, look up the IP address for `host01`:
 
@@ -525,7 +523,7 @@ Query DNS for the IP address that corresponds to a domain:
 sudo host dns.us.mydoc.com
 ```
 
-Use the -v and -t options to display verbose information about records of a certain type:
+Use the `-v` and `-t` options to display verbose information about records of a certain type:
 
 ```
 sudo host -v -t MX  www.mydom.com
@@ -549,7 +547,7 @@ c.miscacme.net.	2000	IN	SOA	m0e.miscacme.net. hostmaster.misc.com. ...
 Received 163 bytes from 10.0.0.1#53 in 40 ms
 ```
 
-The -a option, which is equivalent to the -v, -t, and ANY options displays all of the available records for a zone, for example:
+The `-a` option, which is equivalent to the `-v`, `-t`, and `ANY` options displays all of the available records for a zone, for example:
 
 ```
 sudo host -a www.us.mydom.com
@@ -570,4 +568,8 @@ Received 72 bytes from 10.0.0.1#53 in 32 ms
 ```
 
 For more information, see the `host(1)` manual page.
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

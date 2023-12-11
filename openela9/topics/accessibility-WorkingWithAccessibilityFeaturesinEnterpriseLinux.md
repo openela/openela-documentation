@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Working With Accessibility Features in Enterprise Linux 9
 
 ## Selecting a Desktop Version
@@ -13,4 +11,8 @@
 ### Using the Classic Desktop
 
 ### Configuring Quick Access
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Customizing Accessibility Features
 
 ## Configuring the Screen Reader
@@ -9,4 +7,8 @@
 ## Configuring Typing Assist
 
 ## Configuring Click Assist
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

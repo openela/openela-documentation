@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Setting Up TLS/SSL with OpenSSL
 
 ## Creating Key Pairs
@@ -59,4 +57,8 @@
 ## Using OpenSSL for File Encryption and Validation
 
 ## More information About OpenSSL
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

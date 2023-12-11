@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Configuring a VPN by Using WireGuard
 
 ## Installing WireGuard
@@ -11,4 +9,8 @@
 ## Testing the WireGuard Tunnel
 
 ## Shutting Down the WireGuard Tunnel
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

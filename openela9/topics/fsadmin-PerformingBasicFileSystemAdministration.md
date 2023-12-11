@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Performing Basic File System Administration
 
 ## Building File Systems
@@ -45,4 +43,8 @@
 ### Reporting on Disk Quota Usage
 
 ### Maintaining the Accuracy of Disk Quota Reporting
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

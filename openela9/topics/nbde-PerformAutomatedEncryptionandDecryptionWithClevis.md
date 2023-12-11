@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Perform Automated Encryption and Decryption With Clevis
 
 ## Install and Test Clevis
@@ -19,4 +17,8 @@
 ### Update Clevis for Tang Key Rotation
 
 ### Unbind Clevis from a LUKS Slot
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Podman Container Management
 
 -   **[Create and Run Container](../topics/podman_container_mgmt.md)**  
@@ -18,4 +16,8 @@
 
 
 **Parent topic:**[Podman Management Tasks](../topics/cockpit-podman.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

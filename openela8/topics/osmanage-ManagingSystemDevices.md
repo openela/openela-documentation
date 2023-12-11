@@ -1,16 +1,14 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Managing System Devices
 
 This chapter describes how the system uses device files and how the Udev device manager dynamically creates or removes device node files.
 
 ## About Device Files
 
-The /dev directory contains *device files* or *device nodes* that provide access to peripheral devices such as hard disks, to resources on peripheral devices such as disk partitions, and pseudo devices such as a random number generator.
+The `/dev` directory contains *device files* or *device nodes* that provide access to peripheral devices such as hard disks, to resources on peripheral devices such as disk partitions, and pseudo devices such as a random number generator.
 
-The /dev directory has several subdirectory hierarchies, each of which holds device files that relate to a certain type of device. However, the contents of these subdirectories are implemented as symbolic links to corresponding files in /dev. Thus, the files can be accessed either through the linked file in /dev or the corresponding file in the subdirectory.
+The `/dev` directory has several subdirectory hierarchies, each of which holds device files that relate to a certain type of device. However, the contents of these subdirectories are implemented as symbolic links to corresponding files in `/dev`. Thus, the files can be accessed either through the linked file in `/dev` or the corresponding file in the subdirectory.
 
-Using the ls -l /dev command lists files, some of which are flagged as being either type `b` \(for *block*\) or type `c` \(for *character*\). These devices have an associated pair of numbers that identify the device to the system.
+Using the `ls -l /dev` command lists files, some of which are flagged as being either type `b` \(for *block*\) or type `c` \(for *character*\). These devices have an associated pair of numbers that identify the device to the system.
 
 ```
 ls -l /dev
@@ -75,7 +73,7 @@ Block devices support random access to data, seeking media for data, and typical
 
 Character devices support the streaming of data to or from a device. The data isn't typically buffered nor is random access granted to data on a device. The kernel writes data to or reads data from a character device 1 byte at a time. Examples of character devices include keyboards, mice, terminals, pseudo terminals, and tape drives. `tty0` and `tty1` are character device files that correspond to terminal devices so users can log in from serial terminals or terminal emulators.
 
-Pseudo terminals secondary devices emulate real terminal devices to interact with software. For example, a user might log in to a terminal device such as /dev/tty1, which then uses the pseudo terminal primary device, /dev/pts/ptmx, to interact with an underlying pseudo terminal device. The character device files for pseudo terminal secondary and primary devices are located in the /dev/pts directory, as shown in the following example:
+Pseudo terminals secondary devices emulate real terminal devices to interact with software. For example, a user might log in to a terminal device such as `/dev/tty1`, which then uses the pseudo terminal primary device, `/dev/pts/ptmx`, to interact with an underlying pseudo terminal device. The character device files for pseudo terminal secondary and primary devices are located in the `/dev/pts` directory, as shown in the following example:
 
 ```
 ls -l /dev/pts
@@ -104,13 +102,13 @@ lrwx------. 1 root root 64 Oct  7 08:23 /proc/self/fd/2 -> /dev/pts/0
 
 Character devices, such as `null`, `random`, `urandom`, and `zero` are examples of pseudo devices that provide access to virtual functionality implemented in software rather than to physical hardware.
 
-/dev/null is a data sink. Data that you write to /dev/null effectively disappears but the write operation succeeds. Reading from /dev/null returns `EOF` \(end-of-file\).
+`/dev/null` is a data sink. Data that you write to `/dev/null` effectively disappears but the write operation succeeds. Reading from `/dev/null` returns `EOF` \(end-of-file\).
 
-/dev/zero is a data source of an unlimited number of 0-value bytes.
+`/dev/zero` is a data source of an unlimited number of 0-value bytes.
 
-/dev/random and /dev/urandom are data sources of streams of pseudo random bytes. To maintain high-entropy output, /dev/random blocks if its entropy pool doesn't contain sufficient bits of noise. /dev/urandom doesn't block and, thereforem, the entropy of its output might not be as consistently high as that of /dev/random. However, neither /dev/random nor /dev/urandom are considered to be truly random enough for the purposes of secure cryptography such as military-grade encryption.
+`/dev/random` and `/dev/urandom` are data sources of streams of pseudo random bytes. To maintain high-entropy output, `/dev/random` blocks if its entropy pool doesn't contain sufficient bits of noise. `/dev/urandom` doesn't block and, thereforem, the entropy of its output might not be as consistently high as that of `/dev/random`. However, neither `/dev/random` nor `/dev/urandom` are considered to be truly random enough for the purposes of secure cryptography such as military-grade encryption.
 
-You can find out the size of the entropy pool and the entropy value for /dev/random from virtual files under /proc/sys/kernel/random:
+You can find out the size of the entropy pool and the entropy value for `/dev/random` from virtual files under `/proc/sys/kernel/random`:
 
 ```
 cat /proc/sys/kernel/random/poolsize
@@ -132,23 +130,23 @@ For more information, see the `null(4)`, `pts(4)`, and `random(4)` manual pages.
 
 ## About the Udev Device Manager
 
-The Udev device manager dynamically creates or removes device node files at boot time . When creating a device node, `udev` reads the device’s /sys directory for attributes such as the label, serial number, and bus device number.
+The Udev device manager dynamically creates or removes device node files at boot time . When creating a device node, `udev` reads the device’s `/sys` directory for attributes such as the label, serial number, and bus device number.
 
 Udev can use persistent device names to guarantee consistent naming of devices across reboots, regardless of their order of discovery. Persistent device names are especially important when using external storage devices.
 
-The configuration file for `udev` is /etc/udev/udev.conf, in which you can define the `udev_log` logging priority, which can be set to `err`, `info` and `debug`. Note that the default value is `err`.
+The configuration file for `udev` is `/etc/udev/udev.conf`, in which you can define the `udev_log` logging priority, which can be set to `err`, `info` and `debug`. Note that the default value is `err`.
 
 For more information, see the `udev(7)` manual page.
 
 ## About Udev Rules
 
-`udev` service \(`systemd-udevd`\) reads the rules files at system start-up and stores the rules in memory. If the kernel discovers a new device or an existing device goes offline, the kernel sends an event action \(*uevent*\) notification to `udev`, which matches the in-memory rules against the device attributes in the /sys directory to identify the device.
+`udev` service \(`systemd-udevd`\) reads the rules files at system start-up and stores the rules in memory. If the kernel discovers a new device or an existing device goes offline, the kernel sends an event action \(*uevent*\) notification to `udev`, which matches the in-memory rules against the device attributes in the `/sys` directory to identify the device.
 
-Multiple rules files exist in different directories. However, you only need to know about /etc/udev/rules.d/\*.rules files because these are the only rules files that you can modify. See [Modifying Udev Rules](osmanage-ManagingSystemDevices.md#).
+Multiple rules files exist in different directories. However, you only need to know about `/etc/udev/rules.d/*.rules` files because these are the only rules files that you can modify. See [Modifying Udev Rules](osmanage-ManagingSystemDevices.md#).
 
-Udev processes the rules files in lexical order, regardless of the directory of the rule files. Rules files in /etc/udev/rules.d override rules files of the same name in other locations.
+Udev processes the rules files in lexical order, regardless of the directory of the rule files. Rules files in `/etc/udev/rules.d` override rules files of the same name in other locations.
 
-The following rules are extracted from the file /lib/udev/rules.d/50-udev- default.rules and illustrate the syntax of udev rules:
+The following rules are extracted from the file `/lib/udev/rules.d/50-udev- default.rules` and illustrate the syntax of udev rules:
 
 ```
 # do not edit this file, it will be overwritten on update
@@ -182,122 +180,42 @@ ACTION=="remove", NAME=="?*", TEST=="/lib/udev/devices/$name", \
 
 A rule either assigns a value to a key or it tries to find a match for a key by comparing its current value with the specified value. The following table shows the assignment and comparison operators that you can use.
 
-|Operator
-
-|Description
-
-|
-|----------|-------------|
-|`=`
-
-|Assign a value to a key, overwriting any previous value.
-
-|
-|`+=`
-
-|Assign a value by appending it to the key's current list of values.
-
-|
-|`:=`
-
-|Assign a value to a key. This value cannot be changed by any further rules.
-
-|
-|`==`
-
-|Match the key's current value against the specified value for equality.
-
-|
-|`!=`
-
-|Match the key's current value against the specified value for equality.
-
-|
+|Operator|Description|
+|--------|-----------|
+|`=`|Assign a value to a key, overwriting any previous value.|
+|`+=`|Assign a value by appending it to the key's current list of values.|
+|`:=`|Assign a value to a key. This value cannot be changed by any further rules.|
+|`==`|Match the key's current value against the specified value for equality.|
+|`!=`|Match the key's current value against the specified value for equality.|
 
 You can use the following shell-style pattern-matching characters in values.
 
-|Character
-
-|Description
-
-|
-|-----------|-------------|
-|`?`
-
-|Matches a single character.
-
-|
-|`*`
-
-|Matches any number of characters, including zero.
-
-|
-|`[]`
-
-|Matches any single character or character from a range of characters specified within the brackets. For example, `tty[sS][0-9]` would match `ttys7` or `ttyS7`.|
+|Character|Description|
+|---------|-----------|
+|`?`|Matches a single character.|
+|`*`|Matches any number of characters, including zero.|
+|`[]`|Matches any single character or character from a range of characters specified within the brackets. For example, `tty[sS][0-9]` would match `ttys7` or `ttyS7`.|
 
 The following table describes commonly used match keys in rules.
 
-|Match Key
+|Match Key|Description|
+|---------|-----------|
+|`ACTION`|Matches the name of the action that led to an event. For example, `ACTION="add"` or `ACTION="remove"`.|
+|`ENV{*key*}`|Matches a value for the device property *key*. For example, `ENV{DEVTYPE}=="disk"`.|
+|`KERNEL`|Matches the name of the device that is affected by an event. For example, `KERNEL=="dm-*"` for disk media.|
+|`NAME`|Matches the name of a device file or network interface. For example, `NAME="?*"` for any name that consists of one or more characters.|
+|`SUBSYSTEM`|Matches the subsystem of the device that is affected by an event. For example, `SUBSYSTEM=="tty"`.|
+|`TEST`|Tests wheter the specified file or path exists; for example, `TEST=="/lib/udev/devices/$name"`, where `$name` is the name of the currently matched device file.|
 
-|Description
-
-|
-|-----------|-------------|
-|`ACTION`
-
-|Matches the name of the action that led to an event. For example, `ACTION="add"` or `ACTION="remove"`.
-
-|
-|`ENV{key}`
-
-|Matches a value for the device property key. For example, `ENV{DEVTYPE}=="disk"`.
-
-|
-|`KERNEL`
-
-|Matches the name of the device that is affected by an event. For example, `KERNEL=="dm-*"` for disk media.
-
-|
-|`NAME`
-
-|Matches the name of a device file or network interface. For example, `NAME="?*"` for any name that consists of one or more characters.
-
-|
-|`SUBSYSTEM`
-
-|Matches the subsystem of the device that is affected by an event. For example, `SUBSYSTEM=="tty"`.
-
-|
-|`TEST`
-
-|Tests wheter the specified file or path exists; for example, `TEST=="/lib/udev/devices/$name"`, where `$name` is the name of the currently matched device file.
-
-|
-
-Other match keys include `ATTR{filename}`, `ATTRS{filename}`, `DEVPATH`, `DRIVER`, `DRIVERS`, `KERNELS`, `PROGRAM`, `RESULT`, `SUBSYSTEMS`, and `SYMLINK`.
+Other match keys include `ATTR{*filename*}`, `ATTRS{*filename*}`, `DEVPATH`, `DRIVER`, `DRIVERS`, `KERNELS`, `PROGRAM`, `RESULT`, `SUBSYSTEMS`, and `SYMLINK`.
 
 The following table describes commonly used assignment keys in rules.
 
-|Assignment Key
-
-|Description
-
-|
-|----------------|-------------|
-|`ENV{key}`
-
-|Specifies a value for the device property key, such as `GROUP="disk"`.
-
-|
-|`GROUP`
-
-|Specifies the group for a device file, such as `GROUP="disk"`.
-
-|
-|`IMPORT{type}`
-
-|Specifies a set of variables for the device property, depending on type:
+|Assignment Key|Description|
+|--------------|-----------|
+|`ENV{*key*}`|Specifies a value for the device property *key*, such as `GROUP="disk"`.|
+|`GROUP`|Specifies the group for a device file, such as `GROUP="disk"`.|
+|`IMPORT{*type*}`|Specifies a set of variables for the device property, depending on *type*:
 
  -   **`cmdline`**
 
@@ -321,92 +239,50 @@ Run the specified value as an external program and imports its result, which mus
 
 
 |
-|`MODE`
+|`MODE`|Specifies the permissions for a device file, such as `MODE="0640"`.|
+|`NAME`|Specifies the name of a device file, such as `NAME="em1"`.|
+|`OPTIONS`|Specifies rule and device options, such as `OPTIONS+="ignore_remove"`, which means that the device file isn't removed if the device is removed.|
+|`OWNER`|Specifies the owner for a device file, such as `GROUP="root"`.|
+|`RUN`|Specifies a command to be run after the device file has been created, such as `RUN+="/usr/bin/eject $kernel"`, where `$kernel` is the kernel name of the device.|
+|`SYMLINK`|Specifies the name of a symbolic link to a device file, such as `SYMLINK+="disk/by-uuid/$env{ID_FS_UUID_ENC}"`, where `$env{}` is substituted with the specified device property.|
 
-|Specifies the permissions for a device file, such as `MODE="0640"`.
-
-|
-|`NAME`
-
-|Specifies the name of a device file, such as `NAME="em1"`.
-
-|
-|`OPTIONS`
-
-|Specifies rule and device options, such as `OPTIONS+="ignore_remove"`, which means that the device file isn't removed if the device is removed.
-
-|
-|`OWNER`
-
-|Specifies the owner for a device file, such as `GROUP="root"`.
-
-|
-|`RUN`
-
-|Specifies a command to be run after the device file has been created, such as `RUN+="/usr/bin/eject $kernel"`, where `$kernel` is the kernel name of the device.|
-|`SYMLINK`
-
-|Specifies the name of a symbolic link to a device file, such as `SYMLINK+="disk/by-uuid/$env{ID_FS_UUID_ENC}"`, where `$env{}` is substituted with the specified device property.
-
-|
-
-Other assignment keys include `ATTR{key}`, `GOTO`, `LABEL`, `RUN`, and `WAIT_FOR`.
+Other assignment keys include `ATTR{*key*}`, `GOTO`, `LABEL`, `RUN`, and `WAIT_FOR`.
 
 The following table describes the string substitutions that are commonly used with the `GROUP`, `MODE`, `NAME`, `OWNER`, `PROGRAM`, `RUN`, and `SYMLINK` keys.
 
-|String Substitution
+|String Substitution|Description|
+|-------------------|-----------|
+|`$attr{*file*}` or
 
-|Description
+ `%s{*file*}`
 
-|
-|---------------------|-------------|
-|`$attr{file}` or
-
- `%s{file}`
-
-|Specifies the value of a device attribute from a file under /sys, such as `ENV{MATCHADDR}="$attr{address}"`.
-
-|
+|Specifies the value of a device attribute from a file under `/sys`, such as `ENV{MATCHADDR}="$attr{address}"`.|
 |`$devpath` or
 
  `%p`
 
-|The device path of the device in the `sysfs` file system under /sys, such as `RUN+="keyboard-force-release.sh $devpath common-volume-keys"`.
+|The device path of the device in the `sysfs` file system under `/sys`, such as `RUN+="keyboard-force-release.sh $devpath common-volume-keys"`.|
+|`$env{*key*}` or
 
-|
-|`$env{key}` or
+ `%E{*key*}`
 
- `%E{key}`
-
-|Specifies the value of a device property, such as `SYMLINK+="disk/by-id/md-name-$env{MD_NAME}-part%n"`.
-
-|
+|Specifies the value of a device property, such as `SYMLINK+="disk/by-id/md-name-$env{MD_NAME}-part%n"`.|
 |`$kernel` or
 
  `%k`
 
-|Specifies the kernel name for the device.
-
-|
+|Specifies the kernel name for the device.|
 |`$major` or
 
  `%M`
 
-|Specifies the major number of a device, such as `IMPORT{program}="udisks-dm-export %M %m"`.
-
-|
+|Specifies the major number of a device, such as `IMPORT{program}="udisks-dm-export %M %m"`.|
 |`$minor` or
 
  `%m`
 
-|Specifies the minor number of a device, such as `RUN+="$env{LVM_SBIN_PATH}/lvm pvscan --cache --major $major --minor $minor"`.
-
-|
-|`$name`
-
-|Specifies the device file of the current device, such as `TEST=="/lib/udev/devices/$name"`.
-
-|
+|Specifies the minor number of a device, such as `RUN+="$env{LVM_SBIN_PATH}/lvm pvscan --cache --major $major --minor $minor"`.|
+|`$name`|Specifies the device file of the current device, such as `TEST=="/lib/udev/devices/$name"`.|
 
 Udev expands the strings specified for `RUN` immediately before its program is run, which is after udev has finished processing all other rules for the device. For the other keys, `udev` expands the strings while it's processing the rules.
 
@@ -414,9 +290,9 @@ For more information, see the `udev(7)` manual page.
 
 ## Querying Udev and Sysfs
 
-You can use the udevadm command to query the `udev` database and `sysfs`.
+You can use the `udevadm` command to query the `udev` database and `sysfs`.
 
-To query the `sysfs` device path relative to /sys that corresponds to the device file /dev/sda:
+To query the `sysfs` device path relative to `/sys` that corresponds to the device file `/dev/sda`:
 
 ```
 udevadm info --query=path --name=/dev/sda
@@ -426,7 +302,7 @@ udevadm info --query=path --name=/dev/sda
 /devices/pci0000:00/0000:00:0d.0/host0/target0:0:0/0:0:0:0/block/sda
 ```
 
-To query the symbolic links that point to /dev/sda, use the following command:
+To query the symbolic links that point to `/dev/sda`, use the following command:
 
 ```
 udevadm info --query=symlink --name=/dev/sda
@@ -439,7 +315,7 @@ disk/by-id/scsi-SATA_VBOX_HARDDISK_VB6ad0115d-356e4c09
 disk/by-path/pci-0000:00:0d.0-scsi-0:0:0:0
 ```
 
-To query the properties of /dev/sda, use the following command:
+To query the properties of `/dev/sda`, use the following command:
 
 ```
 udevadm info --query=property --name=/dev/sda
@@ -479,7 +355,7 @@ UDISKS_ATA_SMART_IS_AVAILABLE=0
 DEVLINKS=/dev/block/8:0 /dev/disk/by-id/ata-VBOX_HARDDISK_VB579a85b0-bf6debae ...
 ```
 
-To query the entire information for /dev/sda, use the following command:
+To query the entire information for `/dev/sda`, use the following command:
 
 ```
 udevadm info --query=all --name=/dev/sda
@@ -525,7 +401,7 @@ E: UDISKS_ATA_SMART_IS_AVAILABLE=0
 E: DEVLINKS=/dev/block/8:0 /dev/disk/by-id/ata-VBOX_HARDDISK_VB579a85b0-bf6debae ...
 ```
 
-To display all of the properties of /dev/sda, as well as the parent devices that `udev` has found in /sys, use the following command:
+To display all of the properties of `/dev/sda`, as well as the parent devices that `udev` has found in `/sys`, use the following command:
 
 ```
 udevadm info --attribute-walk --name=/dev/sda
@@ -613,17 +489,17 @@ For more information, see the `udevadm(8)` manual page.
 
 The order in which rules are evaluated is important. Udev processes rules in lexical order. If you want to add custom rules, you need `udev` to locate and evaluate these rules before the default rules.
 
-The following example illustrates how to implement a `udev` rules file that adds a symbolic link to the disk device /dev/sdb.
+The following example illustrates how to implement a `udev` rules file that adds a symbolic link to the disk device `/dev/sdb`.
 
-1.  Create a rule file under /etc/udev/rules.d with a file name such as `10-local.rules` that udev reads before any other rules file.
+1.  Create a rule file under `/etc/udev/rules.d` with a file name such as `10-local.rules` that udev reads before any other rules file.
 
-    The following rule in `10-local.rules` creates the symbolic link /dev/my\_disk, which points to /dev/sdb:
+    The following rule in `10-local.rules` creates the symbolic link `/dev/my_disk`, which points to `/dev/sdb`:
 
     ```
     KERNEL=="sdb", ACTION=="add", SYMLINK="my_disk"
     ```
 
-    Listing the device files in /dev shows that `udev` hasn't yet applied the rule:
+    Listing the device files in `/dev` shows that `udev` hasn't yet applied the rule:
 
     ```
     ls /dev/sd* /dev/my_disk
@@ -634,7 +510,7 @@ The following example illustrates how to implement a `udev` rules file that adds
     /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
     ```
 
-2.  To simulate how `udev` applies its rules to create a device, you can use the udevadm test command with the device path of `sdb` listed under the /sys/class/block hierarchy, for example:
+2.  To simulate how `udev` applies its rules to create a device, you can use the `udevadm test` command with the device path of `sdb` listed under the `/sys/class/block` hierarchy, for example:
 
     ```
     udevadm test /sys/class/block/sdb
@@ -665,7 +541,7 @@ The following example illustrates how to implement a `udev` rules file that adds
     sudo systemctl restart systemd-udevd
     ```
 
-    After `udev` processes the rules files, the symbolic link /dev/my\_disk has been added:
+    After `udev` processes the rules files, the symbolic link `/dev/my_disk` has been added:
 
     ```
     ls -F /dev/sd* /dev/my_disk
@@ -675,6 +551,10 @@ The following example illustrates how to implement a `udev` rules file that adds
     /dev/my_disk@  /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
     ```
 
-4.  \(Optional\) To undo the changes, remove /etc/udev/rules.d/10-local.rules and /dev/my\_disk, then run systemctl restart systemd-udevd again.
+4.  \(Optional\) To undo the changes, remove `/etc/udev/rules.d/10-local.rules` and `/dev/my_disk`, then run `systemctl restart systemd-udevd` again.
 
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

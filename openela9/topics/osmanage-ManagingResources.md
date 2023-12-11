@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Managing Resources
 
 This chapter describes how to manage the use of resources in an Enterprise Linux system.
@@ -27,7 +25,7 @@ For more information about control groups of both versions, see the `cgroups(7)`
 
 Control groups manage resource use through *kernel resource controllers*. A kernel resource controller represents a single resource, such as CPU time, memory, network bandwidth, or disk I/O.
 
-To identify mounted resource controllers in the system, check the contents of the /procs/cgroups file, for example:
+To identify mounted resource controllers in the system, check the contents of the `/procs/cgroups` file, for example:
 
 ```
 sudo less /proc/cgroups
@@ -55,7 +53,7 @@ For a detailed explanation of the kernel resource controllers of both `cgroups v
 
 ## About the Control Group File System
 
-In Enterprise Linux, the `cgroup` functionality is mounted as a file system in /sys/fs/cgroup. This directory is also called the root control group. The contents of the directory differ depending on which `cgroup` version is mounted on the system. For `cgroups v2`, the directory contents are as follows:
+In Enterprise Linux, the `cgroup` functionality is mounted as a file system in `/sys/fs/cgroup`. This directory is also called the root control group. The contents of the directory differ depending on which `cgroup` version is mounted on the system. For `cgroups v2`, the directory contents are as follows:
 
 ```
 ls /sys/fs/cgroup
@@ -93,11 +91,11 @@ Control groups can be used by the `systemd` system and service manager for resou
 
 `Systemd` supports different unit types, three of which are for resource control purposes:
 
--   **Service**: A process or a group of processes whose settings are based on a unit configuration file. Services encompass specified processes in a "collection" so that `systemd` can start or stop the processes as one set. Service names follow the format `name.service`.
+-   **Service**: A process or a group of processes whose settings are based on a unit configuration file. Services encompass specified processes in a "collection" so that `systemd` can start or stop the processes as one set. Service names follow the format `*name*.service`.
 
--   **Scope**: A group of externally created processes, such as user sessions, containers, virtual machines, and so on. Similar to services, scopes encapsulate these created processes and are started or stopped by the arbitrary processes and then registered by `systemd` at runtime. Scope names follow the format `name.scope`.
+-   **Scope**: A group of externally created processes, such as user sessions, containers, virtual machines, and so on. Similar to services, scopes encapsulate these created processes and are started or stopped by the arbitrary processes and then registered by `systemd` at runtime. Scope names follow the format `*name*.scope`.
 
--   **Slice**: A group of hierarchically organized units in which services and scopes are located. Thus, slices themselves don't contain processes. Rather, the scopes and services in a slice define the processes. Every name of a slice unit corresponds to the path to a location in the hierarchy. Root slices, typically `user.slice` for all user-based processes and `system.slice` for system-based processes, are automatically created in the hierarchy. Parent slices exist immediately below the root slice and follow the format `parent-name.slice`. These root slices can then have subslices on multiple levels.
+-   **Slice**: A group of hierarchically organized units in which services and scopes are located. Thus, slices themselves don't contain processes. Rather, the scopes and services in a slice define the processes. Every name of a slice unit corresponds to the path to a location in the hierarchy. Root slices, typically `user.slice` for all user-based processes and `system.slice` for system-based processes, are automatically created in the hierarchy. Parent slices exist immediately below the root slice and follow the format `*parent-name*.slice`. These root slices can then have subslices on multiple levels.
 
 
 The service, the scope, and the slice units directly map to objects in the control group hierarchy. When these units are activated, they map directly to control group paths that are built from the unit names. To display the mapping between the `systemd` resource unit types and control groups, type:
@@ -205,7 +203,7 @@ At boot time, Enterprise Linux 9 mounts `cgroups v2` by default.
     cgroup2 on /sys/fs/cgroup type cgroup2 (rw,nosuid,nodev,noexec,relatime,seclabel,nsdelegate,memory_recursiveprot)
     ```
 
-2.  Optionally, check the contents of /sys/fs/cgroup directory, which is also called the root control group.
+2.  Optionally, check the contents of `/sys/fs/cgroup` directory, which is also called the root control group.
 
     ```
     ll /sys/fs/cgroup/
@@ -216,7 +214,7 @@ At boot time, Enterprise Linux 9 mounts `cgroups v2` by default.
 
 ### Preparing the Control Group for Distribution of CPU Time
 
-1.  Verify that in the root control group, the `cpu` and `cpuset` controllers are available in the /sys/fs/cgroup/cgroup.controllers file.
+1.  Verify that in the root control group, the `cpu` and `cpuset` controllers are available in the `/sys/fs/cgroup/cgroup.controllers` file.
 
     ```
     sudo cat /sys/fs/cgroup/cgroup.controllers
@@ -285,7 +283,7 @@ At boot time, Enterprise Linux 9 mounts `cgroups v2` by default.
     -rw-r—​r--. 1 root root 0 Jun  1 10:33 pids.max
     ```
 
-    Based on the CPU controllers that you added to /sys/fs/cgroup/cgroup.subtree\_control, the contents of the `MyGroup` that are inherited from the root control group are now more limited. Thus, only `cpuset`.\*, `cpu`.\*, `memory`.\*, and `pids`.\* files are in the `MyGroup` directory.
+    Based on the CPU controllers that you added to `/sys/fs/cgroup/cgroup.subtree_control`, the contents of the `MyGroup` that are inherited from the root control group are now more limited. Thus, only `cpuset`.\*, `cpu`.\*, `memory`.\*, and `pids`.\* files are in the `MyGroup` directory.
 
 6.  Enable the CPU-related controllers in `MyGroup`'s `cgroup.subtre_control` files.
 
@@ -410,7 +408,7 @@ As a prerequisite to the following procedure, you must complete the preparations
     echo "200000 1000000"n | sudo tee /sys/fs/cgroup/MyGroup/tasks/cpu.max
     ```
 
-    In the command, the value 20000 represents the quota of time in microseconds that's allowed for all processes collectively in a child group to run during a specified period. That period, in turn, is defined by the value 1000000. Specifically, the processes in the /sys/fs/cgroup/MyGroup/tasks group can run on the CPU for only 0.2 seconds, or one fifth, of every second.
+    In the command, the value 20000 represents the quota of time in microseconds that's allowed for all processes collectively in a child group to run during a specified period. That period, in turn, is defined by the value 1000000. Specifically, the processes in the `/sys/fs/cgroup/MyGroup/tasks` group can run on the CPU for only 0.2 seconds, or one fifth, of every second.
 
     If the quota is exhausted by the control group within the defined period, then the processes are suspended until the next period.
 
@@ -579,4 +577,8 @@ As a prerequisite to the following procedure, you must complete the preparations
 ## Using cgroups v2 to Manage Resources for Users
 
 The previous sample procedures describe how to manage applications' use of system resources. You can also manage resource use by directly implementing resource filters to users who log in to the system.
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Managing the XFS File System
 
 ## Installing XFS Packages
@@ -21,4 +19,8 @@
 ## Checking and Repairing an XFS File System
 
 ## Defragmenting an XFS File System
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 

@@ -1,5 +1,3 @@
-[//]: # Copyright © 2023, Oracle and/or its affiliates.
-
 # Create, Import, Clone, or Migrate a VM Instance
 
 -   **[Create a VM Instance](../topics/cockpit-kvm_create_a_virtual_machine.md)**  
@@ -12,4 +10,8 @@
 
 
 **Parent topic:**[Virtual Machine \(VM\) Management Tasks](../topics/cockpit-kvm.md)
+
+---
+
+Copyright © 2023, Oracle and/or its affiliates.
 
