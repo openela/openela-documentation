@@ -609,6 +609,5 @@
         -   [Verifying the Status of VPN Services](topics/vpn-ConfiguringaVPNbyUsingLibreswan.md#verify-libreswan)
 
 ---
-
-Copyright © 2023, Oracle and/or its affiliates.
+<!-- Copyright © 2023, Oracle and/or its affiliates. -->
 
