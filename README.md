@@ -1,3 +1,5 @@
+[![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
+
 # openela-documentation
 
 ## Description
@@ -9,13 +11,31 @@ While we recognize that the size of these directories might grow over time and f
 For more information about this project see the #documentation channel on the OpenELA Slack.
 
 ## Contributing
-Contributions are welcome. Please fork and submit a pull request for any changes. 
+
+This project is open for contributions and Contributions are very welcome.
+When you're interested in contributing, please follow the [Contribution guidelines for this project](CONTRIBUTING.md).
+
 
 ## License
-Shield: [![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
 
-This work is licensed under a
-[Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
+<!-- Please update the list of major contributor to the project copyrights below -->
+Copyright © 2023, Oracle and/or its affiliates.
+
+
+This work and all files in this repository are licensed under [Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa]. Each individual file can have additional Copyright
+notices in source. They are at the top of the files in [SPDX Reuse Format](https://reuse.software/spec/), for example like below:
+
+```
+<!--
+SPDX-FileCopyrightText: 2023 Jane Doe <jane@example.com>
+SPDX-FileCopyrightText: 2022 Example Company
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
+
+```
+
+If you're contributing regularly to the documentation, please add your Copyright information in this file.
 
 [![CC BY-SA 4.0][cc-by-sa-image]][cc-by-sa]
 
