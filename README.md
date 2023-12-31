@@ -12,8 +12,8 @@ For more information about this project see the #documentation channel on the Op
 
 ## Contributing
 
-This project is open for contributions and Contributions are very welcome.
-When you're interested in contributing, please follow the [Contribution guidelines for this project](CONTRIBUTING.md).
+This project is open for contributions and contributions are very welcome.
+For contributions, please follow the [Contribution guidelines for this project](CONTRIBUTING.md).
 
 
 ## License
