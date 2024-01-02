@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Optimizing Network Servers for High Availability
 
 For systems that provide network services to clients inside the network, network availability becomes a priority to ensure that the services are continuous and interruptions are prevented. With virtual local area networks \(VLANs\), you can also organize the network such that systems with similar functions are grouped together as though they belong to their own virtual networks. This feature improves network management and administration.
@@ -190,8 +194,4 @@ sudo ip link add link eth1 name eth1.5 type vlan id 5
 ```
 
 For more information, see the `ip(8)` manual page.
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

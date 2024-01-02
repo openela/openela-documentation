@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Network Management Tasks
 
 -   **[Manage Firewall Zoning Properties](../topics/cockpit-network_configure_the_firewall.md)**  
@@ -14,8 +18,4 @@
 
 -   **[View Network Host Log Files](../topics/cockpit-networ_view_firewall_log_files.md)**  
 
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

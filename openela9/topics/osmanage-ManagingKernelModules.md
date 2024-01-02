@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Managing Kernel Modules
 
 This chapter describes how to load, unload, and modify the behavior of kernel modules.
@@ -361,8 +365,4 @@ You can also use the `weak-modules` command with the `dry-run` option to test th
 weak-modules --remove-kernel --dry-run --verbose
 rm -rf kmod-kvdo
 ```
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Migrating From authconfig to authselect
 
 Beginning with Enterprise Linux 8, `authselect` has replaced `authconfig` that was used in prior releases. Compatibility between the two utilities is minimal. Thus, migrating to `authselect` is highly recommended. Migrating requires you to complete several actions, including the following:
@@ -26,8 +30,4 @@ Beginning with Enterprise Linux 8, `authselect` has replaced `authconfig` that w
 
 
 For complete migration instructions and examples, see the `authselect-migration(7)` manual page. See also the `authselect(8)` manual page.
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Using OpenSSH Client Utilities
 
 ## Connecting to Another System Using the ssh Command
@@ -15,8 +19,4 @@
 ## Using X11 Forwarding to Load Remote Graphical Applications
 
 ## Setting Up Port Forwarding Over SSH
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

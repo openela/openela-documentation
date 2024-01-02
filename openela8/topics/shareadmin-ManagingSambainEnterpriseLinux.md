@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Managing Samba
 
 ## About Samba
@@ -29,8 +33,4 @@
 #### Using `smbclient` Commands
 
 #### Mounting a Samba Share with `cifs`
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Manage Firewall Zoning Properties
 
 -   **[Change Host Firewall State](../topics/cockpit-network_enable_disable_firewalld_service.md)**  
@@ -12,8 +16,4 @@
 
 
 **Parent topic:**[Network Management Tasks](../topics/cockpit-network.md)
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

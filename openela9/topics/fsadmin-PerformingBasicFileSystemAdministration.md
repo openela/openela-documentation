@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Performing Basic File System Administration
 
 ## Building File Systems
@@ -43,8 +47,4 @@
 ### Reporting on Disk Quota Usage
 
 ### Maintaining the Accuracy of Disk Quota Reporting
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

@@ -1,8 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Remove Logical Volume From Volume Group
 
 **Parent topic:**[Change Volume Group Properties](../topics/cockpit-volgroups.md)
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

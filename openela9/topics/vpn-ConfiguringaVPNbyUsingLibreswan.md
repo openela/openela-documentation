@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Configuring a VPN by Using Libreswan
 
 ## Installing Libreswan
@@ -9,8 +13,4 @@
 ### Creating a Site to Site Connection
 
 ## Verifying the Status of VPN Services
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

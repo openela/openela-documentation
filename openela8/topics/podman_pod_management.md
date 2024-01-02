@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Podman Pod Management
 
 -   **[Create a Pod Group](../topics/podman_create_pod_group.md)**  
@@ -8,8 +12,4 @@
 
 
 **Parent topic:**[Podman Management Tasks](../topics/cockpit-podman.md)
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

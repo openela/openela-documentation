@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Managing the Network File System
 
 ## About NFS
@@ -13,8 +17,4 @@
 ### Configuring an NFS Server by Using the exportfs Command
 
 ## Mounting an NFS File System
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

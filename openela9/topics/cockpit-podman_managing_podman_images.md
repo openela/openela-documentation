@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Podman Image Management
 
 -   **[Search and Download New Images](../topics/podman_image_download.md)**  
@@ -8,8 +12,4 @@
 
 
 **Parent topic:**[Podman Management Tasks](../topics/cockpit-podman.md)
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

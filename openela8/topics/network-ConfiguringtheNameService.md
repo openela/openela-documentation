@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Configuring the Name Service
 
 This chapter describes how to use Berkeley Internet Name Domain \(BIND\) to set up a Domain Name System \(DNS\) name server.
@@ -568,8 +572,4 @@ Received 72 bytes from 10.0.0.1#53 in 32 ms
 ```
 
 For more information, see the `host(1)` manual page.
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

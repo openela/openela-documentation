@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Security Management Actions
 
 -   **[Disable SMT to Prevent CPU Security Issues](../topics/disable_smt.md)**  
@@ -10,8 +14,4 @@
 
 
 **Parent topic:**[Common Host Administration Tasks](../topics/common_administration.md)
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

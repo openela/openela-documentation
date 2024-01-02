@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Configuring a VPN by Using WireGuard
 
 ## Installing WireGuard
@@ -9,8 +13,4 @@
 ## Testing the WireGuard Tunnel
 
 ## Shutting Down the WireGuard Tunnel
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

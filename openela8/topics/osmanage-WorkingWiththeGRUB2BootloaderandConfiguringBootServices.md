@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Managing Kernels and System Boot
 
 This chapter describes the Enterprise Linux boot process and how to configure and use the GRand Unified Bootloader \(GRUB\) version 2 and boot-related kernel parameters.
@@ -345,8 +349,4 @@ To modify the boot parameters for the GRUB 2 configuration so that these paramet
 For systems that boot with UEFI, the `grub.cfg` file is located in the `/boot/efi/EFI/redhat` directory because the boot configuration is stored on a dedicated FAT32-formatted partition.
 
 After the system has successfully booted, the `EFI` folder on that partition is mounted inside the `/boot/efi` directory on the root file system for Enterprise Linux.
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

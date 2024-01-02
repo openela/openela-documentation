@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Managing Backups With ReaR
 
 ## Installing ReaR
@@ -21,8 +25,4 @@
 ## Recovering a System With ReaR
 
 ## Creating Multiple Backups With ReaR
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

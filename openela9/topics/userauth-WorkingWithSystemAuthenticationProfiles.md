@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Working With System Authentication Profiles
 
 The `authselect` command has various subcommands, arguments, and options to create, delete, switch to a different profile, and modify profile features. A user must have the appropriate privileges to be able to use this configuration tool.
@@ -305,8 +309,4 @@ If you do not want to use the profiles included in Enterprise Linux or those pro
     sudo authselect current
     ```
 
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 
