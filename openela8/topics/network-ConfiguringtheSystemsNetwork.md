@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Configuring the System's Network
 
 To enable the system to connect to the network, transmit and receive traffic with other systems, you would need to configure the system to have identifiable names, IP addresses, routes, and so on. Depending on the system's available resources, you can further optimize the network configuration to attain high availability and improved performance by implementing added network technologies such as network bonds, teams, and multipathing.
@@ -667,8 +671,4 @@ To convert the `NetworkManager` legacy `ifcfg` profile formats to the preferred 
     nmcli -f TYPE,FILENAME,NAME connection
     ```
 
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

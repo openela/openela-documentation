@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Working with SSH Key Pairs
 
 ## How SSH Key Pairs Work
@@ -23,8 +27,4 @@
 [Working With OpenSSH Server Configuration Files](openssh-ConfiguringOpenSSHServer.md#)
 
 ## Good Practice Recommendations for Working with SSH Key Pairs
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

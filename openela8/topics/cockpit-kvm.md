@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Virtual Machine \(VM\) Management Tasks
 
 -   **[Create, Import, Clone, or Migrate a VM Instance](../topics/create_clone_or_migrate_a_virtual_machine.md)**  
@@ -16,8 +20,4 @@
 
 -   **[Share a Host Directory with VM Instance](../topics/cockpit-kvm_mountshared_directory.md)**  
 
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

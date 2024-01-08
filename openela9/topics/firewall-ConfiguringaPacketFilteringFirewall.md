@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Configuring a Packet Filtering Firewall
 
 ## About Packet-Filtering Firewalls
@@ -31,8 +35,4 @@
 ### Using the firewall-cmd Command
 
 ### Using a Zone Configuration File
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

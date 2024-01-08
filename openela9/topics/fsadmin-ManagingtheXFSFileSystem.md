@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Managing the XFS File System
 
 ## Installing XFS Packages
@@ -23,8 +27,4 @@
 ## Checking and Repairing an XFS File System
 
 ## Defragmenting an XFS File System
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

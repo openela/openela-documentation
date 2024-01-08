@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Podman Management Tasks
 
 -   **[Install and Configure Cockpit-Podman](../topics/cockpit-podman_enable_podman_service.md)**  
@@ -8,8 +12,4 @@
 
 -   **[Podman Pod Management](../topics/podman_pod_management.md)**  
 
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

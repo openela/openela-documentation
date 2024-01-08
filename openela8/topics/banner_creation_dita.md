@@ -1,8 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Cockpit Login Banner
 
 **Parent topic:**[Get Started: Cockpit Web Console](../topics/cockpit-install.md)
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

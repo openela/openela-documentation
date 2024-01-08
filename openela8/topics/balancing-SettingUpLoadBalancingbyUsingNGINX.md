@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Setting Up Load Balancing by Using NGINX
 
 ## Installing NGINX
@@ -11,8 +15,4 @@
 ## Using Least-Connected Load Balancing With NGINX
 
 ## Adding Session Persistence for NGINX
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

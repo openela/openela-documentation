@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Configuring a System to Use Enterprise Linux Yum Server
 
 ## Configuring the Global DNF Configuration Settings
@@ -9,8 +13,4 @@
 ## Editing Yum Repository Configuration Files
 
 ## Using the DNF config-manager Plugin
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

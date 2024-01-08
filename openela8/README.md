@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # OpenELA 8
 
 -   Managing Core System Configuration
@@ -428,7 +432,7 @@
                     -   [Create a CA Root Configuration File](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-root-conf)
                     -   [Create and Verify the CA Root Key Pair](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-root-keys)
                 -   [Create an intermediary CA](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-intermediary)
-                    -   [Create A CA Directory Structure](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#unique_969661122)
+                    -   [Create A CA Directory Structure](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#unique_44595629)
                     -   [Create the intermediary CA Configuration](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-intermediary-conf)
                     -   [Create a CSR for the intermediary CA](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-intermediary-csr)
                     -   [Create a signed certificate for the intermediary CA](topics/certmanage-UsingOpenSSLinEnterpriseLinux.md#openssl-ca-intermediary-sign)
@@ -606,8 +610,4 @@
             -   [Creating a Host to Host Connection](topics/vpn-ConfiguringaVPNbyUsingLibreswan.md#vpn-host2host)
             -   [Creating a Site to Site Connection](topics/vpn-ConfiguringaVPNbyUsingLibreswan.md#vpn-site2site)
         -   [Verifying the Status of VPN Services](topics/vpn-ConfiguringaVPNbyUsingLibreswan.md#verify-libreswan)
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

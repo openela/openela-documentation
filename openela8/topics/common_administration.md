@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Common Host Administration Tasks
 
 -   **[General Host Configuration Actions](../topics/cockpit-config_host_tasks.md)**  
@@ -10,8 +14,4 @@
 
 -   **[Software Updates](../topics/cockpit-softwaremanage.md)**  
 
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

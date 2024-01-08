@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Configuring Network Time
 
 This chapter describes how to configure a system to use `chrony` as an implementation of the Network Time Protocol \(NTP\) feature, as a replacement for `ntp`. The chapter also describes the Precision Time Protocol \(PTP\) daemons that are used to set the system time.
@@ -439,8 +443,4 @@ These entries define the local system clock as the time reference.
 **Note:**
 
 Don't configure any added `server` lines in the file.
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

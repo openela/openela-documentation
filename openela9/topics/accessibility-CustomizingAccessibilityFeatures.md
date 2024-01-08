@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Customizing Accessibility Features
 
 ## Configuring the Screen Reader
@@ -7,8 +11,4 @@
 ## Configuring Typing Assist
 
 ## Configuring Click Assist
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

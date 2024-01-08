@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Configuring System Settings
 
 This chapter describes the files and virtual file systems that you can use to change the configuration settings for the system.
@@ -922,8 +926,4 @@ sudo systemctl enable --now watchdog
 The Watchdog service immediately starts and runs in the background.
 
 **Note:** The Watchdog service starts and runs immediately after a power reset.
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

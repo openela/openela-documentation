@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Manage SELinux Security Policy and Messages
 
 -   **[Change SELinux Policy Mode](../topics/cockpit-selinux_manage_policy_mode.md)**  
@@ -8,8 +12,4 @@
 
 
 **Parent topic:**[Security Management Actions](../topics/securitypractice.md)
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

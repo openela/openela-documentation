@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # User Management Actions
 
 -   **[Create or Change User Accounts](../topics/cockpit-usermanage_create_a_user.md)**  
@@ -8,8 +12,4 @@
 
 
 **Parent topic:**[Common Host Administration Tasks](../topics/common_administration.md)
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

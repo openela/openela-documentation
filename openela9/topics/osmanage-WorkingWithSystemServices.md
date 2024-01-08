@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Managing System Services With systemd
 
 The`systemd` daemon is the system initialization and service manager in Enterprise Linux. This chapter describes how to use `systemd`to manage system processes, services and `systemd` targets.
@@ -1005,8 +1009,4 @@ The following examples show how to use `systemd-run` to activate transient timer
     sudo systemd-run --on-calendar="17:00:00"
     ```
 
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

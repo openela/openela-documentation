@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Get Started: Cockpit Web Console
 
 -   **[Cockpit Web Console Overview](../topics/cockpit_overview.md)**  
@@ -12,8 +16,4 @@
 
 -   **[Extend Cockpit's Functionality](../topics/extend_cockpit.md)**  
 
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 

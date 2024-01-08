@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
 # Extending SELinux Policies with Multi-Category Security
 
 ## MCS Requirements
@@ -9,8 +13,4 @@
 ## Applying MCS Categories to Files
 
 ## Enabling the mcstrans Service
-
----
-
-Copyright © 2023, Oracle and/or its affiliates.
 
