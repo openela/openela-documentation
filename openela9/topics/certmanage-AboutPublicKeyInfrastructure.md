@@ -4,7 +4,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 # About Public Key Infrastructure
 
-## What is Public Key Cryptography?
+## What Is Public Key Cryptography?
 
 ## Automatic Certificate Management Environment \(ACME\)
 

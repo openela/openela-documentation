@@ -4,7 +4,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 # Managing System Certificates
 
-## Using the trust Command To Manage System Certificates
+## Using the Trust Command to Manage System Certificates
 
 ## Manually Updating Trusted Certificates
 
