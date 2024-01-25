@@ -2,7 +2,7 @@
 SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
-# Setting Up TLS/SSL with OpenSSL
+# Setting Up TLS/SSL With OpenSSL
 
 ## Creating Key Pairs
 
@@ -22,17 +22,17 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 ##### Create and Verify the CA Root Key Pair
 
-#### Create an intermediary CA
+#### Create an Intermediary CA
 
-##### Create A CA Directory Structure
+##### Create a CA Directory Structure
 
-##### Create the intermediary CA Configuration
+##### Create the Intermediary CA Configuration
 
-##### Create a CSR for the intermediary CA
+##### Create a CSR for the Intermediary CA
 
-##### Create a signed certificate for the intermediary CA
+##### Create a Signed Certificate for the Intermediary CA
 
-##### Create a certificate chain file
+##### Create a Certificate Chain File
 
 #### Process CSRs and Sign Certificates
 
@@ -40,7 +40,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 ##### Generate the CRL
 
-##### Revoke a certificate
+##### Revoke a Certificate
 
 #### Configure and Run an OCSP Server
 
@@ -60,5 +60,5 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 ## Using OpenSSL for File Encryption and Validation
 
-## More information About OpenSSL
+## More Information About OpenSSL
 

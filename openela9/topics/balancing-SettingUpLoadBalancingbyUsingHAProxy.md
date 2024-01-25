@@ -10,7 +10,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 ## Configuring Round Robin Load Balancing by Using HAProxy
 
-## Using Weighted Round Robin Load Balancing with HAProxy
+## Using Weighted Round Robin Load Balancing With HAProxy
 
 ## Adding Session Persistence for HAProxy
 
