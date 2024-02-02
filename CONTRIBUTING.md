@@ -23,7 +23,7 @@ documentation to the project. Contributions are done [by opening a pull request 
 
 Any contribution requires a [Developer Certificate of Origin](https://developercertificate.org/) (a Signed-off-By tag in the commit message) and must adhere to the [project license](./LICENSE).
 
-When you contribute, please submit your pull request against the `main` branch. Please include a summary of your changes in the Pull request initial comment as well as a link to, when available, any GitHub issues that this pull request is addressing.
+When you contribute, please submit your pull request against the appropriate `openela` branch. Please include a summary of your changes in the Pull request initial comment as well as a link to, when available, any GitHub issues that this pull request is addressing. If a change applies to more than one release, it is preferable if you submit a pull request for each branch that the change applies to.
 
 Make sure that all validation Git Hub actions that are getting automatically executed when you open the Pull Request are passing. When they are not passing your PR might not be getting any timely reviews.
 
