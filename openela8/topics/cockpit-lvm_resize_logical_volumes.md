@@ -1,8 +1,0 @@
-<!--
-SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
-SPDX-License-Identifier: CC-BY-SA-4.0
--->
-# Resize Logical Volumes
-
-**Parent topic:**[Manage Logical Volumes With LVM](../topics/cockpit-lvm.md)
-
