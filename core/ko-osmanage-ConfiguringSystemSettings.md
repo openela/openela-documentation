@@ -30,11 +30,11 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 -   **`named`**
 
-    Passes arguments to the name service daemon at boot time. The `named` daemon is a Domain Name System \(DNS\) server that's part of the Berkeley Internet Name Domain \(BIND\) distribution. This server maintains a table that associates host names with IP addresses on the network.
+    부팅 시 이름(name) 서비스 데몬에 파라메터를 전달합니다. named 데몬몬 BIND(Berkeley Internet Name Domain) 배포의 일부인 DNS(Domain Name System) 서버입니다. 이 서버는 호스트 이름을 네트워크의 IP 주소와 연결하는 테이블을 유지 관리합니다.
 
 -   **`samba`**
 
-    Passes arguments to the `smbd`, `nmbd`, and `winbindd` daemons at boot time to support file-sharing connectivity for Windows clients, NetBIOS-over-IP naming service, and connection management to domain controllers.
+    Windows 클라이언트에 대한 파일 공유 연결, NetBIOS-over-IP 이름(name) 지정 서비스 및 도메인 컨트롤러에 대한 연결 관리를 지원하기 위해 부팅 시 smbd, nmbd 및 winbindd 데몬에 파라메터를 전달합니다.
 
 -   **`selinux`**
 
