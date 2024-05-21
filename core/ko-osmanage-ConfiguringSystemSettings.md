@@ -14,31 +14,31 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 -   **`atd`**
 
-    atd 데몬에 대한 커맨드라인 파라메터를 지정합니다.
+    `atd` 데몬에 대한 커맨드라인 파라메터를 지정합니다.
 
 -   **`crond`**
 
-    부팅 시 crond 데몬에 파라메터를 전달합니다.
+    부팅 시 `crond` 데몬에 파라메터를 전달합니다.
 
 -   **`chronyd`**
 
-    부팅 시 NTP 서비스에 사용되는 chronyd 데몬에 파라메터를 전달합니다.
+    부팅 시 NTP 서비스에 사용되는 `chronyd` 데몬에 파라메터를 전달합니다.
 
 -   **`firewalld`**
 
-    부팅 시 방화벽 데몬(firewalld)에 파라메터를 전달합니다.
+    부팅 시 방화벽 데몬(`firewalld`)에 파라메터를 전달합니다.
 
 -   **`named`**
 
-    부팅 시 이름(name) 서비스 데몬에 파라메터를 전달합니다. named 데몬몬 BIND(Berkeley Internet Name Domain) 배포의 일부인 DNS(Domain Name System) 서버입니다. 이 서버는 호스트 이름을 네트워크의 IP 주소와 연결하는 테이블을 유지 관리합니다.
+    부팅 시 이름(name) 서비스 데몬에 파라메터를 전달합니다. `named` 데몬몬 BIND(Berkeley Internet Name Domain) 배포의 일부인 DNS(Domain Name System) 서버입니다. 이 서버는 호스트 이름을 네트워크의 IP 주소와 연결하는 테이블을 유지 관리합니다.
 
 -   **`samba`**
 
-    Windows 클라이언트에 대한 파일 공유 연결, NetBIOS-over-IP 이름(name) 지정 서비스 및 도메인 컨트롤러에 대한 연결 관리를 지원하기 위해 부팅 시 smbd, nmbd 및 winbindd 데몬에 파라메터를 전달합니다.
+    Windows 클라이언트에 대한 파일 공유 연결, NetBIOS-over-IP 이름(name) 지정 서비스 및 도메인 컨트롤러에 대한 연결 관리를 지원하기 위해 부팅 시 `smbd`, `nmbd` 및 `winbindd` 데몬에 파라메터를 전달합니다.
 
 -   **`selinux`**
 
-    Controls the state of SELinux on the system. This file is a symbolic link to `/etc/selinux/config`.
+    시스템의 SELinux 상태를 제어합니다. 이 파일은 `/etc/selinux/config`에 대한 심볼릭 링크입니다.
 
 -   **`snapper`**
 
