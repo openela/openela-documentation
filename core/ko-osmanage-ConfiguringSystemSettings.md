@@ -50,17 +50,17 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 더 많은 정보는 `/usr/share/doc/initscripts*/sysconfig.txt` 파일을 참조 하십시오.
 
-## About the /proc Virtual File System
+## /proc 가상 파일시스템
 
-The files in the `/proc` directory hierarchy contain information about the system hardware and the processes that are running on the system. You can change the configuration of the kernel by writing to certain files that have write permission.
+`/proc` 디렉토리 계층 구조의 파일에는 시스템 하드웨어 및 시스템에서 실행 중인 프로세스에 대한 정보가 포함되어 있습니다. 쓰기 권한이 있는 특정 파일에 기록하여 커널 구성을 변경할 수 있습니다.
 
-Files that are under the `/proc` directory are virtual files that the kernel creates on demand to present a browsable view of the underlying data structures and system information. As such, `/proc` is an example of a virtual file system. Most virtual files are listed as 0 bytes in size, but they contain large amount of information when viewed.
+`/proc` 디렉토리 아래에 있는 파일은 기본 데이터 구조 및 시스템 정보에 대한 탐색 가능한 보기를 제공하기 위해 커널이 요청 시 생성하는 가상 파일입니다. 따라서 `/proc`은 가상 파일 시스템의 예입니다. 대부분의 가상 파일은 크기가 0바이트로 표시되지만, 보면 많은 양의 정보가 포함되어 있습니다.
 
-Virtual files such as `/proc/interrupts`, `/proc/meminfo`, `/proc/mounts`, and `/proc/partitions` provide a view of the system’s hardware. Other files, such as `/proc/filesystems` and the files under `/proc/sys`, provide information about the system's configuration and through which you can change configurations as needed.
+`/proc/interrupts`, `/proc/meminfo`, `/proc/mounts` 및 `/proc/partitions`와 같은 가상 파일은 시스템 하드웨어에 대한 보기를 제공합니다. `/proc/filesystems` 및 `/proc/sys` 아래의 파일과 같은 다른 파일은 시스템 구성에 대한 정보를 제공하고 필요에 따라 구성을 변경할 수 있습니다.
 
-Files that contain information about related topics are grouped into virtual directories. A separate directory exists in the `/proc` directory for each process that's running on the system. The directory's name corresponds to the numeric process ID. For example, `/proc/1` corresponds to the `systemd` process that has a PID of 1.
+관련 항목에 대한 정보가 포함된 파일은 가상 디렉터리로 그룹화됩니다. 시스템에서 실행 중인 각 프로세스에 대한 별도의 디렉터리가 '/proc' 디렉터리에 존재합니다. 디렉터리 이름은 숫자로 된 프로세스 ID에 해당합니다. 예를 들어 `/proc/1`은 PID가 1인 `systemd` 프로세스에 해당합니다.
 
-To examine virtual files, you can use commands such as `cat`, `less`, and `view`, as shown in the following example:
+가상 파일을 검사하려면 다음 예와 같이 `cat`, `less`, `view`와 같은 명령을 사용할 수 있습니다.
 
 ```
 cat /proc/cpuinfo
