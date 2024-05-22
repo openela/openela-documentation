@@ -45,12 +45,10 @@ SPDX-License-Identifier: CC-BY-SA-4.0
     `snapper` 유틸리티의 목록을 정의합니다.
 
 -   **`sysstat`**
-
-    Configures logging parameters for system activity data collector utilities such as `sar`.
-    `sar`와 같은 시스템 활동 데이터 수기기 유틸리티들에 대한 로깅 파라메터를 설정합니다.
+    `sar`와 같은 시스템 활동 데이터 수집기 유틸리티들에 대한 로깅 파라메터를 설정합니다.
 
 
-For more information, see `/usr/share/doc/initscripts*/sysconfig.txt`.
+더 많은 정보는 `/usr/share/doc/initscripts*/sysconfig.txt` 파일을 참조 하십시오.
 
 ## About the /proc Virtual File System
 
