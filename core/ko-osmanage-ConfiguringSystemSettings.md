@@ -675,7 +675,7 @@ net.ipv4.ip_forward = 1
     이 매개변수는 하드 디스크의 전력 소비를 줄이기 위해 랩톱 컴퓨터에서 사용하기 위한 것입니다. 서버 시스템에서는 이 값을 조정하지 마십시오.
 
 
-### Parameters That Control Kernel Panics
+### 커널 패닉을 제어하는 ​​매개변수
 
 다음 매개변수는 커널 패닉이 발생할 수 있는 상황을 제어합니다.:
 
@@ -695,48 +695,48 @@ net.ipv4.ip_forward = 1
 
 -   **`kernel.nmi_watchdog`**
 
-    1\(기본값\)으로 설정하면 커널에서 마스크 불가능한 인터럽트\(NMI\) 감시 스레드를 활성화합니다. NMI 스위치나 OProfile 시스템 프로파일러를 사용하여 정의되지 않은 NMI를 생성하려면 'kernel.nmi_watchdog' 값을 0으로 설정하세요.
+    1\(기본값\)으로 설정하면 커널에서 마스크 불가능한 인터럽트\(NMI\) 감시 스레드를 활성화합니다. NMI 스위치나 OProfile 시스템 프로파일러를 사용하여 정의되지 않은 NMI를 생성하려면 'kernel.nmi_watchdog' 값을 0으로 설정하십시오.
 
 -   **`kernel.panic`**
 
-    Specifies the number of seconds after a panic before a system automatically resets itself.
+    패닉이 발생한 후 시스템이 자동으로 재부팅되기 전까지의 시간(초)을 지정합니다.
 
-    If the value is 0, which is the default value, the system bcomes suspended, and you can collect detailed information about the panic for troubleshooting.
+    값이 기본값인 0이면 시스템이 일시 중지되며 문제 해결을 위해 패닉에 대한 자세한 정보를 수집할 수 있습니다.
 
-    To enable automatic reset, set a nonzero value. If you require a memory image \(`vmcore`\), leave enough time for Kdump to create this image. The suggested value is 30 seconds, although large systems require a longer time.
+    자동 재부팅을 활성화하려면 0이 아닌 값을 설정하십시오. 메모리 이미지 \(`vmcore`\)가 필요한 경우 Kdump가 이 이미지를 생성할 수 있도록 충분한 시간을 두십시오. 제안된 값은 30초이지만 대형 시스템에는 더 긴 시간이 필요합니다.
 
 -   **`kernel.panic_on_io_nmi`**
 
-    If set to 0 \(default\), the system tries to continue operations if the kernel detects an I/O channel check \(IOCHK\) NMI that typically indicates a uncorrectable hardware error. If set to 1, the system panics.
+    0\(기본값\)으로 설정된 경우 커널이 일반적으로 수정할 수 없는 하드웨어 오류를 나타내는 I/O channel check\(IOCHK\) NMI를 감지하면 시스템은 패닉 발생을 유발하지 않고 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
 
 -   **`kernel.panic_on_oops`**
 
-    If set to 0, the system tries to continue operations if the kernel detects an `oops` or BUG condition. If set to 1 \(default\), the system delays a few seconds to give the kernel log daemon, `klogd`, time to record the oops output before the panic occurs.
+    0으로 설정하면 커널이 `oops` 또는 BUG 조건을 감지하면 시스템이 작업을 계속하려고 시도합니다. 1\(기본값\)로 설정하면 시스템은 패닉이 발생하기 전에 커널 로그 데몬 `klogd`에 `oops` 출력을 기록할 시간을 제공하기 위해 몇 초를 지연합니다.
 
-    In an OCFS2 cluster. set the value to 1 to specify that a system must panic if a kernel oops occurs. If a kernel thread required for cluster operation fails, the system must reset itself. Otherwise, another node might not detect whether a node is slow to respond or unable to respond, causing cluster operations to halt.
+    OCFS2 클러스터에서. 커널 오류가 발생할 경우 시스템이 패닉이 발생하도록 지정하려면 값을 1로 설정합니다. 클러스터 작업에 필요한 커널 스레드가 실패하면 시스템이 자체적으로 재설정되어야 합니다. 그렇지 않으면 다른 노드가 노드의 응답 속도가 느리거나 응답할 수 없는지 여부를 감지하지 못해 클러스터 작업이 중단될 수 있습니다.
 
 -   **`kernel.panic_on_unrecovered_nmi`**
 
-    If set to 0 \(default\), the system tries to continue operations if the kernel detects an NMI that usually indicates an uncorrectable parity or ECC memory error. If set to 1, the system panics.
+    0\(기본값\)으로 설정된 경우 커널이 일반적으로 수정할 수 없는 패리티 또는 ECC 메모리 오류를 나타내는 NMI를 감지하면 시스템은 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
 
 -   **`kernel.softlockup_panic`**
 
-    If set to 0 \(default\), the system tries to continue operations if the kernel detects a *soft-lockup* error that causes the NMI watchdog thread to fail to update its timestamp for more than twice the value of `kernel.watchdog_thresh` seconds. If set to 1, the system panics.
+    0\(기본값\)으로 설정된 경우 커널이 NMI 감시 스레드가 `kernel.watchdog_thresh` 값의 두 배 이상 타임스탬프를 업데이트하지 못하도록 하는 *soft-lockup* 오류를 감지하면 시스템은 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
 
 -   **`kernel.unknown_nmi_panic`**
 
-    If set to `1`, the system panics if the kernel detects an undefined NMI. You would usually generate an undefined NMI by manually pressing an NMI switch. As the NMI watchdog thread also uses the undefined NMI, set the value of `kernel.unknown_nmi_panic` to 0 if you set `kernel.nmi_watchdog` to 1.
+    '1'로 설정하면 커널이 정의되지 않은 NMI를 감지하면 시스템 패닉이 발생합니다. 일반적으로 NMI 스위치를 수동으로 눌러 정의되지 않은 NMI를 생성합니다. NMI watchdog 스레드도 정의되지 않은 NMI를 사용하므로 `kernel.nmi_watchdog`을 1로 설정한 경우 `kernel.unknown_nmi_panic` 값을 0으로 설정합니다.
 
 -   **`kernel.watchdog_thresh`**
 
-    Specifies the interval between generating an NMI performance monitoring interrupt that the kernel uses to check for *hard-lockup* and *soft-lockup* errors. A hard-lockup error is assumed if a CPU is unresponsive to the interrupt for more than `kernel.watchdog_thresh` seconds. The default value is 10 seconds. A value of 0 disables the detection of lockup errors.
+    커널이 *hard-lockup* 및 *soft-lockup* 오류를 확인하는 데 사용하는 NMI 성능 모니터링 인터럽트 생성 사이의 간격을 지정합니다. CPU가 'kernel.watchdog_thresh' 초 이상 인터럽트에 응답하지 않으면 하드 잠금 오류가 발생한다고 가정합니다. 기본값은 10초입니다. 값이 0이면 잠금 오류 감지가 비활성화됩니다.
 
 -   **`vm.panic_on_oom`**
 
-    If set to 0 \(default\), the kernel’s OOM-killer scans through the entire task list and stops a memory-hogging process to avoid a panic. If set to 1, the kernel panics but can survive under certain conditions. If a process limits allocations to certain nodes by using memory policies or cpusets, and those nodes reach memory exhaustion status, the OOM-killer can stop one process. No panic occurs in this case because other nodes’ memory might be free and the system as a whole might not yet be out of memory. If set to 2, the kernel always panics when an OOM condition occurs. Settings of 1 and 2 are for intended for use with clusters, depending on the defined failover policy.
+    0\(기본값\)으로 설정하면 커널의 OOM-killer가 전체 태스크 목록을 검색하고 메모리를 많이 차지하는 프로세스를 중지하여 패닉을 방지합니다. 1로 설정하면 커널이 패닉 상태가 되지만 특정 조건에서는 살아남을 수 있습니다. 프로세스가 메모리 정책이나 CPUset을 사용하여 특정 노드에 대한 할당을 제한하고 해당 노드가 메모리 소진 상태에 도달하면 OOM-killer는 하나의 프로세스를 중지할 수 있습니다. 이 경우 다른 노드의 메모리가 비어 있고 시스템 전체에 아직 메모리가 부족하지 않을 수 있으므로 패닉이 발생하지 않습니다. 2로 설정하면 OOM 조건이 발생할 때 커널이 항상 패닉 상태가 됩니다. 1과 2 설정은 정의된 장애 조치 정책에 따라 클러스터에 사용하기 위한 것입니다.
 
 
-## About the /sys Virtual File System
+## /sys 가상 파일 시스템
 
 In addition to the `/proc` file system, the kernel exports information to the `/sys` virtual file system \(`sysfs`\). Programs such as the dynamic device manager \(`udev`\), use `/sys` to access device and device driver information.
 
