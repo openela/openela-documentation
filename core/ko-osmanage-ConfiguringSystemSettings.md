@@ -570,7 +570,7 @@ To change the value of a setting, use the following command format:
 net.ipv4.ip_forward = 1
 ```
 
-Changes that you make in this way remain in force only until the system is rebooted. To make configuration changes persist after the system is rebooted, you must add them to the `/etc/sysctl.d` directory as a configuration file. Any changes that you make to the files in this directory take effect when the system reboots or if you run the `sysctl --system` command, for example:
+이러한 방식으로 변경한 사항은 시스템이 재부팅될 때까지만 적용됩니다. 시스템을 재부팅한 후에도 구성 변경 사항을 유지하려면 구성 파일로 `/etc/sysctl.d` 디렉터리에 추가해야 합니다. 이 디렉터리의 파일에 대한 모든 변경 사항은 시스템을 재부팅하거나 'sysctl --system' 명령을 실행하면 적용됩니다. 예:
 
 ```
 echo 'net.ipv4.ip_forward=1' > /etc/sysctl.d/ip_forward.conf
@@ -624,55 +624,55 @@ sysctl net.ipv4.ip_forward
 net.ipv4.ip_forward = 1
 ```
 
-For more information, see the `sysctl(8)` and `sysctl.d(5)` manual pages.
+자세한 내용은 `sysctl(8)` 및 `sysctl.d(5)` 매뉴얼 페이지를 참조하세요.
 
 ### Parameters That Control System Performance
 
-The following parameters control various aspects of system performance:
+다음 매개변수는 시스템 성능의 다양한 측면을 제어합니다.
 
 -   **`fs.file-max`**
 
-    Specifies the maximum number of open files for all processes. Increase the value of this parameter if you see messages about running out of file handles.
+    모든 프로세스에 대해 열린 파일의 최대 수를 지정합니다. 파일 핸들 부족에 대한 메시지가 표시되면 이 매개변수의 값을 늘리십시오.
 
 -   **`net.core.netdev_max_backlog`**
 
-    Specifies the size of the receiver backlog queue, which is used if an interface receives packets faster than the kernel can process them. If this queue is too small, packets are lost at the receiver, rather than on the network.
+    인터페이스가 커널이 처리할 수 있는 것보다 더 빠른 속도로 패킷을 수신하는 경우 사용되는 수신자 백로그 대기열의 크기를 지정합니다. 이 대기열이 너무 작으면 네트워크가 아닌 수신자에서 패킷이 손실됩니다.
 
 -   **`net.core.rmem_max`**
 
-    Specifies the maximum read socket buffer size. To minimize network packet loss, this buffer must be large enough to handle incoming network packets.
+    최대 읽기 소켓 버퍼 크기를 지정합니다. 네트워크 패킷 손실을 최소화하려면 이 버퍼가 들어오는 네트워크 패킷을 처리할 수 있을 만큼 커야 합니다.
 
 -   **`net.core.wmem_max`**
 
-    Specifies the maximum write socket buffer size. To minimize network packet loss, this buffer must be large enough to handle outgoing network packets.
+   최대 쓰기 소켓 버퍼 크기를 지정합니다. 네트워크 패킷 손실을 최소화하려면 이 버퍼가 나가는 네트워크 패킷을 처리할 수 있을 만큼 커야 합니다.
 
 -   **`net.ipv4.tcp_available_congestion_control`**
 
-    Displays the TCP congestion avoidance algorithms that are available for use. Use the `modprobe` command if you need to load additional modules such as `tcp_htcp` to implement the `htcp` algorithm.
+    사용할 수 있는 TCP 혼잡 회피 알고리즘을 표시합니다. `htcp` 알고리즘을 구현하기 위해 `tcp_htcp`와 같은 추가 모듈을 로드해야 하는 경우 `modprobe` 명령을 사용하세요.
 
 -   **`net.ipv4.tcp_congestion_control`**
 
-    Specifies which TCP congestion avoidance algorithm is used.
+    어떤 TCP 혼잡 회피 알고리즘이 사용되는지 지정합니다.
 
 -   **`net.ipv4.tcp_max_syn_backlog`**
 
-    Specifies the number of outstanding `SYN` requests that are allowed. Increase the value of this parameter if you see `synflood` warnings in the logs that are cuased by the server being overloaded by legitimate connection attempts.
+     SYNC_RECV 대기열의 최대 연결 수를 지정합니다. 합법적인 연결 시도로 인해 서버가 과부하되어 `synflood` 경고 로그가 표시되는 경우 이 매개변수의 값을 늘리십시오.
 
 -   **`net.ipv4.tcp_rmem`**
 
-    Specifies minimum, default, and maximum receive buffer sizes that are used for a TCP socket. The maximum value can't be larger than `net.core.rmem_max`.
+    TCP 소켓에 사용되는 최소, 기본 및 최대 수신 버퍼 크기를 지정합니다. 최대값은 `net.core.rmem_max`보다 클 수 없습니다.
 
 -   **`net.ipv4.tcp_wmem`**
 
-    Specifies minimum, default, and maximum send buffer sizes that are used for a TCP socket. The maximum value can't be larger than `net.core.wmem_max`.
+    TCP 소켓에 사용되는 최소, 기본 및 최대 전송 버퍼 크기를 지정합니다. 최대값은 `net.core.wmem_max`보다 클 수 없습니다.
 
 -   **`vm.swappiness`**
 
-    Specifies how likely the kernel is to write loaded pages to swap rather than drop pages from the system page cache. When set to 0, swapping only occurs to avoid an out of memory condition. When set to 100, the kernel swaps aggressively. For a desktop system, setting a lower value can improve system responsiveness by decreasing latency. The default value is 60.
+    커널이 시스템 페이지 캐시에서 페이지를 삭제하는 대신 스왑을 위해 로드된 페이지를 사용할 가능성을 지정합니다. 0으로 설정하면 메모리 부족 상태를 방지하기 위해서만 스와핑이 발생합니다. 100으로 설정하면 커널이 적극적으로 스왑됩니다. 데스크탑 시스템의 경우 낮은 값을 설정하면 대기 시간이 줄어들어 시스템 응답성이 향상될 수 있습니다. 기본값은 60입니다.
 
-    CAUTION:
+    주의:
 
-    This parameter is intended for use with laptop computers to reduce power consumption by the hard disk. Do not adjust this value on server systems.
+    이 매개변수는 하드 디스크의 전력 소비를 줄이기 위해 랩톱 컴퓨터에서 사용하기 위한 것입니다. 서버 시스템에서는 이 값을 조정하지 마십시오.
 
 
 ### Parameters That Control Kernel Panics
