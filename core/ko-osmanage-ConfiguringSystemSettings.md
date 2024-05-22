@@ -504,7 +504,7 @@ Networking parameters.
 </td></tr><tbody></table>
 자세한 내용은 `proc(5)` 매뉴얼 페이지를 참조하세요.
 
-### Modifying Kernel Parameters
+### 커널 매개변수 수정
 
 `/proc` 아래, 특히 `/proc/sys` 아래의 일부 가상 파일은 쓰기 가능합니다. 이 파일을 통해 커널의 설정을 조정할 수 있습니다. 예를 들어 호스트 이름을 변경하려면 `/proc/sys/kernel/hostname` 파일을 다음과 같이 수정합니다.:
 
@@ -626,7 +626,7 @@ net.ipv4.ip_forward = 1
 
 자세한 내용은 `sysctl(8)` 및 `sysctl.d(5)` 매뉴얼 페이지를 참조하세요.
 
-### Parameters That Control System Performance
+### 시스템 성능을 제어하는 ​​매개변수
 
 다음 매개변수는 시스템 성능의 다양한 측면을 제어합니다.
 
@@ -677,25 +677,25 @@ net.ipv4.ip_forward = 1
 
 ### Parameters That Control Kernel Panics
 
-The following parameters control the circumstances under which a kernel panic can occur:
+다음 매개변수는 커널 패닉이 발생할 수 있는 상황을 제어합니다.:
 
 -   **`kernel.hung_task_panic`**
 
-    If set to 1, the kernel panics if any kernel or user thread sleeps in the `TASK_UNINTERRUPTIBLE` state \(*D state*\) for more than `kernel.hung_task_timeout_secs` seconds. A process remains in D state while waiting for I/O to complete. You can't stop or interrupt a process in this state.
+    1로 설정된 경우, 커널 또는 사용자 스레드가 `kernel.hung_task_timeout_secs` 초 이상 `TASK_UNINTERRUPTIBLE` 상태\(*D 상태*\)에서 휴면하면 커널 패닉이 발생합니다. I/O가 완료되기를 기다리는 동안 프로세스는 D 상태로 유지됩니다. 이 상태에서는 프로세스를 중지하거나 중단할 수 없습니다.
 
-    The default value is 0, which disables the panic.
+    기본값은 0이며 패닉을 비활성화합니다.
 
     **Tip:**
 
-    To diagnose a hung thread, you can examine `/proc/*PID*/stack`, which displays the kernel stack for both kernel and user threads.
+    중단된 스레드를 진단하려면 커널 및 사용자 스레드 모두에 대한 커널 스택을 표시하는 `/proc/*PID*/stack`을 검사할 수 있습니다.
 
 -   **`kernel.hung_task_timeout_secs`**
 
-    Specifies how long a user or kernel thread can remain in D state before a warning message is generated or the kernel panics, if the value of `kernel.hung_task_panic` is 1. The default value is 120 seconds. A value of 0 disables the timeout.
+    `kernel.hung_task_panic` 값이 1인 경우 경고 메시지가 생성되거나 커널 패닉이 발생하기 전에 사용자 또는 커널 스레드가 D 상태에 머무를 수 있는 기간을 지정합니다. 기본값은 120초입니다. 값이 0이면 시간 초과가 비활성화됩니다.
 
 -   **`kernel.nmi_watchdog`**
 
-    If set to 1 \(default\), enables the nonmaskable interrupt \(NMI\) watchdog thread in the kernel. To use the NMI switch or the OProfile system profiler to generate an undefined NMI, set the value of `kernel.nmi_watchdog` to 0.
+    1\(기본값\)으로 설정하면 커널에서 마스크 불가능한 인터럽트\(NMI\) 감시 스레드를 활성화합니다. NMI 스위치나 OProfile 시스템 프로파일러를 사용하여 정의되지 않은 NMI를 생성하려면 'kernel.nmi_watchdog' 값을 0으로 설정하세요.
 
 -   **`kernel.panic`**
 
