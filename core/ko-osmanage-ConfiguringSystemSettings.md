@@ -303,7 +303,6 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-Records kernel-generated messages, which are picked up by programs such as `dmesg`.
 커널이 생성한 메시시를 기록하며, `dmesg`와 같은 프로그램에서 `kmsg`를 채용합니다.
 
 </td></tr><tr><td>
