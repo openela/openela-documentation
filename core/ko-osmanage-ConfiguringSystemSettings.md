@@ -558,14 +558,14 @@ kernel.sched_shares_ratelimit = 500000
 개별 설정을 표시하려면 `sysctl`에 대한 인수로 해당 이름을 지정하십시오.
 
 ```
-**sysctl net.ipv4.ip\_forward**
+sysctl net.ipv4.ip_forward
 net.ipv4.ip_forward = 0
 ```
 
 설정 값을 변경하려면 다음 명령 형식을 사용하십시오.:
 
 ```
-**sysctl -w net.ipv4.ip\_forward=1**
+sysctl -w net.ipv4.ip_forward=1
 net.ipv4.ip_forward = 1
 ```
 
