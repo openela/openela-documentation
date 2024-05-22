@@ -914,5 +914,5 @@ sudo systemctl enable --now watchdog
 
 Watchdog 서비스는 즉시 시작되어 백그라운드에서 실행됩니다.
 
-**참고:** Watchdog 서비스는 재부팅 후 즉시 시작되고 실행됩니다.
+**Note:** Watchdog 서비스는 재부팅 후 즉시 시작되고 실행됩니다.
 
