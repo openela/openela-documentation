@@ -738,29 +738,29 @@ net.ipv4.ip_forward = 1
 
 ## /sys 가상 파일 시스템
 
-In addition to the `/proc` file system, the kernel exports information to the `/sys` virtual file system \(`sysfs`\). Programs such as the dynamic device manager \(`udev`\), use `/sys` to access device and device driver information.
+커널은 `/proc` 파일 시스템 외에도 `/sys` 가상 파일 시스템\(`sysfs`\)으로 정보를 내보냅니다. 동적 장치 관리자\(`udev`\)와 같은 프로그램은 `/sys`를 사용하여 장치 및 장치 드라이버 정보에 액세스합니다.
 
 **Note:**
 
-`/sys` exposes kernel data structures and control points, which implies that the directory contains circular references, where a directory links to an ancestor directory. Thus, a `find` command used on `/sys` might never stop.
+`/sys`는 커널 데이터 구조와 제어 지점을 나타냅니다. 이는 디렉토리에 상위 디렉토리에 연결되는 순환 참조가 포함되어 있음을 의미합니다. 따라서 `/sys`에 사용된 `find` 명령은 절대 멈추지 않을 수 있습니다.
 
-### Virtual Directories Under the /sys Directory
+### /sys 디렉토리 아래의 가상 디렉토리
 
-The following table describes some useful virtual directories under the `/sys` directory hierarchy.
+다음 표에서는 '/sys' 디렉터리 계층 구조 아래에 있는 몇 가지 유용한 가상 디렉터리에 대해 설명합니다.
 
 <table><thead><tr><th>
 
-Virtual Directory
+가상 디렉터리
 </th><th>
 
-Description
+설명
 </th></tr></thead><tbody><tr><td>
 
 `block`
 
 </td><td>
 
-Contains subdirectories for block devices. For example: `/sys/block/sda`.
+블록 장치에 대한 하위 디렉터리를 포함합니다. 예를 들어: `/sys/block/sda`.
 
 </td></tr><tr><td>
 
@@ -768,7 +768,7 @@ Contains subdirectories for block devices. For example: `/sys/block/sda`.
 
 </td><td>
 
-Contains subdirectories for each physical bus type, such as `pci`, `pcmcia`, `scsi`, or `usb`. Under each bus type, the `devices` directory lists discovered devices, and the `drivers` directory contains directories for each device driver.
+`pci`, `pcmcia`, `scsi` 또는 `usb`와 같은 각 물리적 버스 유형에 대한 하위 디렉터리를 포함합니다. 각 버스 유형 아래의 'devices' 디렉터리에는 검색된 장치가 나열되고, 'drivers' 디렉터리에는 각 장치 드라이버에 대한 디렉터리가 포함됩니다.
 
 </td></tr><tr><td>
 
@@ -776,7 +776,7 @@ Contains subdirectories for each physical bus type, such as `pci`, `pcmcia`, `sc
 
 </td><td>
 
-Contains subdirectories for every class of device that's registered with the kernel.
+커널에 등록된 모든 장치 클래스에 대한 하위 디렉터리를 포함합니다.
 
 </td></tr><tr><td>
 
@@ -784,7 +784,7 @@ Contains subdirectories for every class of device that's registered with the ker
 
 </td><td>
 
-Contains the `char/` and `block/` directories. Inside these two directories are symlinks named *major*:*minor*. These symlinks point to the `sysfs` directory for the particular device. The `/sys/dev` directory provides a quick way to look up the `sysfs` interface for a device from the result of the `stat(2)` operation.
+`char/` 및 `block/` 디렉토리를 포함합니다. 이 두 디렉토리 안에는 *major*:*minor*라는 심볼릭 링크가 있습니다. 이러한 심볼릭 링크는 특정 장치의 'sysfs' 디렉터리를 가리킵니다. `/sys/dev` 디렉토리는 `stat(2)` 작업의 결과에서 장치의 `sysfs` 인터페이스를 찾는 빠른 방법을 제공합니다.
 
 </td></tr><tr><td>
 
@@ -792,7 +792,7 @@ Contains the `char/` and `block/` directories. Inside these two directories are 
 
 </td><td>
 
-Contains the global device hierarchy of all devices on the system. The platform directory contains peripheral devices such as device controllers that are specific to a particular platform. The `system` directory contains non peripheral devices such as CPUs and APICs. The `virtual` directory contains virtual and pseudo devices. See [Managing System Devices](osmanage-ManagingSystemDevices.md#).
+시스템에 있는 모든 장치의 전역 장치 계층 구조를 포함합니다. 플랫폼 디렉터리에는 특정 플랫폼에 특정한 장치 컨트롤러와 같은 주변 장치가 포함되어 있습니다. `system` 디렉토리에는 CPU 및 APIC와 같은 비주변 장치가 포함되어 있습니다. `virtual` 디렉토리에는 가상 장치와 pseudo 장치가 포함되어 있습니다. [시스템 장치 관리](osmanage-ManagingSystemDevices.md)를 참조하세요.
 
 </td></tr><tr><td>
 
@@ -800,7 +800,7 @@ Contains the global device hierarchy of all devices on the system. The platform 
 
 </td><td>
 
-Contains subdirectories for firmware objects.
+펌웨어 개체에 대한 하위 디렉터리가 포함되어 있습니다.
 
 </td></tr><tr><td>
 
@@ -808,7 +808,7 @@ Contains subdirectories for firmware objects.
 
 </td><td>
 
-Contains subdirectories for file system objects.
+파일 시스템 개체에 대한 하위 디렉터리를 포함합니다.
 
 </td></tr><tr><td>
 
@@ -816,7 +816,7 @@ Contains subdirectories for file system objects.
 
 </td><td>
 
-Contains subdirectories for other kernel objects
+커널 개체에 대한 하위 디렉터리를 포함합니다.
 
 </td></tr><tr><td>
 
@@ -824,45 +824,44 @@ Contains subdirectories for other kernel objects
 
 </td><td>
 
-Contains subdirectories for each module loaded into the kernel. You can alter some parameter values for loaded modules. See [About Module Parameters](osmanage-ManagingKernelModules.md#).
+커널에 로드된 각 모듈의 하위 디렉터리를 포함합니다. 로드된 모듈의 일부 매개변수 값을 변경할 수 있습니다. [모듈 매개변수 정보](osmanage-ManagingKernelModules.md 참조)
 
 </td></tr><tr><td>
 
 `power`
 </td><td>
 
-Contains attributes that control the system's power state.
+시스템의 전원 상태를 제어하는 ​​속성을 포함합니다.
 
 </td></tr><tbody></table>
-For more information, see [https://www.kernel.org/doc/Documentation/filesystems/sysfs.txt](https://www.kernel.org/doc/Documentation/filesystems/sysfs.txt).
+자세한 내용은 [https://www.kernel.org/doc/Documentation/filesystems/sysfs.txt](https://www.kernel.org/doc/Documentation/filesystems/sysfs.txt)를 참조하세요.
 
-## Configuring System Date and Time Settings
+## 시스템 날짜 및 시간 설정 구성
 
-System time is based on the POSIX time standard, where time is measured as the number of seconds that have elapsed from 00:00:00 Coordinated Universal Time \(UTC\), Thursday, January 1, 1970. A day is defined as 86400 seconds and leap seconds are subtracted automatically.
+시스템 시간은 POSIX 시간 표준을 기반으로 하며, 여기서 시간은 1970년 1월 1일 목요일 00:00:00 협정 세계시\(UTC\)부터 경과된 초 수로 측정됩니다. 하루는 86400으로 정의됩니다. 초와 윤초는 자동으로 뺍니다.
 
-Date and time representation on a system can be set to match a specific timezone. To list the available timezones, run:
-
+시스템의 날짜 및 시간 표현은 특정 시간대와 일치하도록 설정할 수 있습니다. 사용 가능한 시간대를 나열하려면 다음을 실행하세요.
 ```
 timedatectl list-timezones
 ```
 
-To set the system timezone to match a value returned from the available timezones, you can run:
+사용 가능한 시간대에서 반환된 값과 일치하도록 시스템 시간대를 설정하려면 다음을 실행할 수 있습니다.
 
 ```
 timedatectl set-timezone *America/Los\_Angeles*
 ```
 
-Substitute *America/Los\_Angeles* with a valid timezone entry.
+*America/Los\_Angeles*를 유효한 시간대 항목으로 대체하세요.
 
-This command sets a symbolic link from `/etc/localtime` to point to the appropriate zone information file in `/usr/share/zoneinfo/`. The setting takes effect immediately. Some long running processes that use `/etc/localtime` to detect the current system timezone might not detect a change in system timezone until the process is restarted.
+이 명령은 `/etc/localtime`의 심볼릭 링크를 설정하여 `/usr/share/zoneinfo/`에 있는 적절한 영역 정보 파일을 가리킵니다. 설정은 즉시 적용됩니다. 현재 시스템 시간대를 감지하기 위해 '/etc/localtime'을 사용하는 일부 장기 실행 프로세스는 프로세스가 다시 시작될 때까지 시스템 시간대의 변경 사항을 감지하지 못할 수 있습니다.
 
-Note that timezones are largely used for display purposes or to handle user input. Changing timezone doesn't change the time for the system clock. You can change the presentation for system time in any console by setting the `TZ` environment variable. For example, to see the current time in Tokyo, you can run:
+시간대는 표시 목적이나 사용자 입력 처리를 위해 주로 사용됩니다. 시간대를 변경해도 시스템 시계의 시간은 변경되지 않습니다. `TZ` 환경 변수를 설정하여 모든 콘솔에서 시스템 시간에 대한 표시를 변경할 수 있습니다. 예를 들어 도쿄의 현재 시간을 보려면 다음을 실행하면 됩니다.
 
 ```
 TZ="*Asia/Tokyo*" date
 ```
 
-You can check the system's current date and time configuration by running the `timedatectl` command on its own:
+`timedatectl` 명령을 실행하여 시스템의 현재 날짜 및 시간 구성을 확인할 수 있습니다.
 
 ```
 timedatectl
@@ -878,17 +877,17 @@ System clock synchronized: yes
           RTC in local TZ: no                              
 ```
 
-To set system time manually, use the `timedatectl set-time` command:
+시스템 시간을 수동으로 설정하려면 `timedatectl set-time` 명령을 사용하세요.
 
 ```
 timedatectl set-time "*2021-07-17 01:59:59*"
 ```
 
-This command sets the current system time based on the time specified assuming the currently set system timezone. The command also updates the system Real Time Clock \(RTC\).
+이 명령은 현재 설정된 시스템 시간대를 가정하여 지정된 시간을 기준으로 현재 시스템 시간을 설정합니다. 이 명령은 시스템 실시간 시계\(RTC\)도 업데이트합니다.
 
-Consider configuring the system to use network time synchronization for more accurate time-keeping. Using network time synchronization is important especially when setting up high-availability or when using network-based file systems.
+보다 정확한 시간 유지를 위해 네트워크 시간 동기화를 사용하도록 시스템을 구성하는 것을 고려하십시오. 특히 고가용성을 설정하거나 네트워크 기반 파일 시스템을 사용할 때 네트워크 시간 동기화를 사용하는 것이 중요합니다.
 
-If you configure an NTP service, enable NTP by running the following command:
+NTP 서비스를 구성하는 경우 다음 명령을 실행하여 NTP를 활성화합니다.
 
 ```
 timedatectl set-ntp true****
@@ -896,25 +895,25 @@ timedatectl set-ntp true****
 
 This command enables and starts the `chronyd` service, if available.
 
-## Configuring the Watchdog Service
+## Watchdog 서비스 구성
 
-Watchdog is an Enterprise Linux service that runs in the background to monitor host availability and processes and reports back to the kernel. If the Watchdog service fails to notify the kernel that the system is healthy, the kernel typically automatically reboots the system.
+Watchdog은 백그라운드에서 실행되어 호스트 가용성과 프로세스를 모니터링하고 커널에 다시 보고하는 Enterprise Linux 서비스입니다. Watchdog 서비스가 시스템이 정상임을 커널에 알리지 못하는 경우 일반적으로 커널은 시스템을 자동으로 재부팅합니다.
 
-To install the Watchdog package, run:
+Watchdog 패키지를 설치하려면 다음을 실행하세요.
 
 ```
 sudo dnf install watchdog
 ```
 
-To configure the Watchdog service, edit the `/etc/watchdog.conf` file. The `watchdog.conf` file includes all Watchdog configuration properties. For information on how to edit this file, see the `watchdog.conf(5)` manual page.
+Watchdog 서비스를 구성하려면 '/etc/watchdog.conf' 파일을 편집하세요. `watchdog.conf` 파일에는 모든 Watchdog 구성 속성이 포함되어 있습니다. 이 파일을 편집하는 방법에 대한 자세한 내용은 `watchdog.conf(5)` 매뉴얼 페이지를 참조하세요.
 
-To enable and start the Watchdog service, run:
+Watchdog 서비스를 활성화하고 시작하려면 다음을 실행합니다.
 
 ```
 sudo systemctl enable --now watchdog
 ```
 
-The Watchdog service immediately starts and runs in the background.
+Watchdog 서비스는 즉시 시작되어 백그라운드에서 실행됩니다.
 
-**Note:** The Watchdog service starts and runs immediately after a power reset.
+**참고:** Watchdog 서비스는 재부팅 후 즉시 시작되고 실행됩니다.
 
