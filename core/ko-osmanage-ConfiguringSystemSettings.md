@@ -459,7 +459,7 @@ Times for CPU *N*.
 
 시스템에 대한 정보를 제공하고 커널 기능을 활성화, 비활성화 또는 수정할 수도 있습니다. 쓰기 권한이 있는 모든 파일에 새 설정을 쓸 수 있습니다. 참조: [Modifying Kernel Parameters](osmanage-ConfiguringSystemSettings.md#).
 
- The following subdirectory hierarchies of `/proc/sys` contain virtual files, some of whose values you can alter:
+ /proc/sys의 다음 하위 디렉터리 계층에는 가상 파일이 포함되어 있으며 그 중 일부 값은 변경할 수 있습니다.:
 
  -   **`dev`**
 
@@ -484,7 +484,7 @@ Networking parameters.
 
 </td><td>
 
-Provides information about the usage of System V Interprocess Communication \(IPC\) resources for messages \(`msg`\), semaphores \(`sem`\), and shared memory \(`shm`\).
+메시지(`msg`), 세마포어(`sem`) 및 공유 메모리(`shm`)에 대한 System V IPC(Interprocess Communication) 리소스 사용에 대한 정보를 제공합니다.
 
 </td></tr><tr><td>
 
@@ -492,7 +492,7 @@ Provides information about the usage of System V Interprocess Communication \(IP
 
 </td><td>
 
-Provides information about the available and currently used terminal devices on the system. The `drivers` virtual file lists the devices that are currently configured.
+시스템에서 사용 가능하고 현재 사용되는 터미널 장치에 대한 정보를 제공합니다. `driver` 가상 파일에는 현재 구성된 장치가 나열됩니다.
 
 </td></tr><tr><td>
 
@@ -500,20 +500,20 @@ Provides information about the available and currently used terminal devices on 
 
 </td><td>
 
-Provides information about virtual memory usage.
+가상 메모리 사용량에 대한 정보를 제공합니다.
 
 </td></tr><tbody></table>
-For more information, see the `proc(5)` manual page.
+자세한 내용은 `proc(5)` 매뉴얼 페이지를 참조하세요.
 
 ### Modifying Kernel Parameters
 
-Some virtual files under `/proc`, and especially under `/proc/sys`, are writable. You can adjust settings in the kernel through these files. For example, to change the hostname, you would revise the `/proc/sys/kernel/hostname` file as follows:
+`/proc` 아래, 특히 `/proc/sys` 아래의 일부 가상 파일은 쓰기 가능합니다. 이 파일을 통해 커널의 설정을 조정할 수 있습니다. 예를 들어 호스트 이름을 변경하려면 `/proc/sys/kernel/hostname` 파일을 다음과 같이 수정합니다.:
 
 ```
 echo www.mydomain.com > /proc/sys/kernel/hostname
 ```
 
-Other files take binary or Boolean values, such as the setting of IP forwarding, which is defined in `/proc/sys/net/ipv4/ip_forward`:
+어떠한 파일들은 이진값이나 부울값(0/1)을 사용합니다. 예를 들어 IP 포워딩 세팅의 경우 `/proc/sys/net/ipv4/ip_forward`에 정의합니다.:
 
 ```
 cat /proc/sys/net/ipv4/ip_forward
@@ -532,13 +532,17 @@ cat /proc/sys/net/ipv4/ip_forward
 1
 ```
 
-You can use the `sysctl` command to view or modify values under the `/proc/sys` directory.
+`sysctl` 명령을 사용하여 `/proc/sys` 디렉터리 아래의 값을 보거나 수정할 수 있습니다.
 
 **Note:**
 
 Even `root` can't bypass the file access permissions of virtual file entries under `/proc`. If you change the value of a read-only entry such as `/proc/partitions`, no kernel code exists to service the `write()` system call.
 
 To display the current kernel settings, use the following command:
+
+심지어 `루트`도 `/proc` 아래 가상 파일 항목의 파일 액세스 권한을 우회할 수 없습니다. 예를 들어 `/proc/partitions`와 같은 읽기 전용 항목의 값을 변경할 경우 `write()` 시스템 호출을 서비스하는 커널 코드가 존재하지 않기 때문에 변경할 수 없습니다.
+
+현재 커널 설정을 표시하려면 다음 명령을 사용하십시오.:
 
 ```
 sysctl -a
@@ -558,6 +562,10 @@ kernel.sched_shares_ratelimit = 500000
 The delimiter character in the name of a setting is a period \(`.`\) rather than a slash \(`/`\) in a path relative to `/proc/sys`, such as `net.ipv4.ip_forward`. This setting represents `net/ipv4/ip_forward`. As another example, `kernel.msgmax` represents `kernel/msgmax`.
 
 To display an individual setting, specify its name as the argument to `sysctl`:
+
+설정 이름의 구분 문자는 `net.ipv4.ip_forward`와 같이 `/proc/sys`에 대한 상대 경로에서 슬래시 \(`/`\)가 아닌 마침표 \(`.`\)입니다. 이 설정은 `net/ipv4/ip_forward`를 나타냅니다. 또 다른 예로 `kernel.msgmax`는 `kernel/msgmax`를 나타냅니다.
+
+개별 설정을 표시하려면 `sysctl`에 대한 인수로 해당 이름을 지정하십시오.
 
 ```
 **sysctl net.ipv4.ip\_forward**
