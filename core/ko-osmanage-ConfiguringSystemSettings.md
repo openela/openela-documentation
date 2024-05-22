@@ -358,7 +358,6 @@ Records kernel-generated messages, which are picked up by programs such as `dmes
 
 </td><td>
 
-Displays information about the modules that are currently loaded into the kernel. The `lsmod` command formats and displays the same information, excluding the kernel memory offset of a module.
 현재 커널에 로드된 모듈에 대한 정보를 표시합니다. `lsmod` 명령은 모듈의 커널 메모리 오프셋을 제외하고 동일한 정보를 형식화하고 표시합니다.
 
 </td></tr><tr><td>
@@ -367,7 +366,7 @@ Displays information about the modules that are currently loaded into the kernel
 
 </td><td>
 
-Lists information about all mounted file systems.
+마운트된 모든 파일 시스템에 대한 정보를 나열합니다.
 
 </td></tr><tr><td>
 
@@ -375,7 +374,7 @@ Lists information about all mounted file systems.
 
 </td><td>
 
-Provides information about networking protocol, parameters, and statistics. Each directory and virtual file describes aspects of the configuration of the system's network.
+네트워킹 프로토콜, 매개변수 및 통계에 대한 정보를 제공합니다. 각 디렉터리와 가상 파일은 시스템 네트워크 구성의 측면을 설명합니다.
 
 </td></tr><tr><td>
 
@@ -383,7 +382,7 @@ Provides information about networking protocol, parameters, and statistics. Each
 
 </td><td>
 
-Lists the major and minor device numbers, number of blocks, and name of partitions mounted by the system.
+major 및 minor 장치의 번호, 블록 수, 시스템에 의해 마운트된 파티션 이름을 나열합니다.
 
 </td></tr><tr><td>
 
@@ -391,7 +390,7 @@ Lists the major and minor device numbers, number of blocks, and name of partitio
 
 </td><td>
 
-Provides information about SCSI devices.
+SCSI 장치들의 정보를 제공합니다.
 
 </td></tr><tr><td>
 
@@ -401,7 +400,7 @@ Provides information about SCSI devices.
 
 </td><td>
 
-Provide information about configured SCSI devices, including vendor, model, channel, ID, and LUN data .
+공급업체, 모델, 채널, ID 및 LUN 데이터를 포함하여 구성된 SCSI 장치에 대한 정보를 제공합니다.
 
 </td></tr><tr><td>
 
@@ -409,7 +408,7 @@ Provide information about configured SCSI devices, including vendor, model, chan
 
 </td><td>
 
-Symbolic link to the process that's examining `/proc`.
+`/proc`을 검사하는 프로세스에 대한 심볼릭 링크입니다.
 
 </td></tr><tr><td>
 
@@ -417,7 +416,7 @@ Symbolic link to the process that's examining `/proc`.
 
 </td><td>
 
-Provides detailed information about slab memory usage.
+slab 메모리 사용량에 대한 자세한 정보를 제공합니다.
 
 </td></tr><tr><td>
 
@@ -425,7 +424,7 @@ Provides detailed information about slab memory usage.
 
 </td><td>
 
-Displays information about software interrupts \(`softirqs`\). A `softirq` is similar to a hardware interrupt \(`hardirq`\) and configures the kernel to perform asynchronous processing that would take too long during a hardware interrupt.
+소프트웨어 인터럽트\(`softirqs`\)에 대한 정보를 표시합니다. `softirq`는 하드웨어 인터럽트\(`hardirq`\)와 유사하며 하드웨어 인터럽트 중에 너무 오래 걸리는 비동기 처리를 수행하도록 커널을 구성합니다.
 
 </td></tr><tr><td>
 
@@ -433,11 +432,11 @@ Displays information about software interrupts \(`softirqs`\). A `softirq` is si
 
 </td><td>
 
-Records information about the system from when it was started, including:
+다음을 포함하여 시스템 시작 시부터 시스템에 대한 정보를 기록합니다.
 
  -   **`cpu`**
 
-Total CPU time \(measured in `jiffies`\) spent in user mode, low-priority user mode, system mode, idle, waiting for I/O, handling hardirq events, and handling softirq events.
+사용자 모드, 우선 순위가 낮은 사용자 모드, 시스템 모드, 유휴 I/O 대기, hardirq 이벤트 처리 및 Softirq 이벤트 처리에 소요된 총 CPU 시간(`jiffies`로 측정).
 
 -   **`cpu_N_`**
 
@@ -450,7 +449,7 @@ Times for CPU *N*.
 
 </td><td>
 
-Provides information about swap devices. The units of size and usage are in kilobytes.
+스왑 장치에 대한 정보를 제공합니다. 크기 및 사용량 단위는 킬로바이트입니다.
 
 </td></tr><tr><td>
 
@@ -458,7 +457,7 @@ Provides information about swap devices. The units of size and usage are in kilo
 
 </td><td>
 
-Provides information about the system and also enables you to enable, disable, or modify kernel features. You can write new settings to any file that has write permission. See [Modifying Kernel Parameters](osmanage-ConfiguringSystemSettings.md#).
+시스템에 대한 정보를 제공하고 커널 기능을 활성화, 비활성화 또는 수정할 수도 있습니다. 쓰기 권한이 있는 모든 파일에 새 설정을 쓸 수 있습니다. 참조: [Modifying Kernel Parameters](osmanage-ConfiguringSystemSettings.md#).
 
  The following subdirectory hierarchies of `/proc/sys` contain virtual files, some of whose values you can alter:
 
