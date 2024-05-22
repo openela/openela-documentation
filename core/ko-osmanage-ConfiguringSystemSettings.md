@@ -146,7 +146,7 @@ sudo lspci
 
 -   **`fd/_N_`**
 
-File descriptors.
+파일 디스크립터
 
 -   **`maps`**
 
@@ -178,7 +178,7 @@ File descriptors.
 
 </td><td>
 
-Contains information about the various buses \(such as `pci` and `usb`\) that are available on the system. You can use commands such as `lspci`, `lspcmcia`, and `lsusb` to display information for such devices.
+시스템에서 사용할 수 있는 다양한 버스\(예: `pci` 및 `usb`\)에 대한 정보가 포함되어 있습니다. `lspci`, `lspcmcia`, `lsusb`와 같은 명령을 사용하여 해당 장치에 대한 정보를 표시할 수 있습니다.
 
 </td></tr><tr><td>
 
@@ -186,7 +186,7 @@ Contains information about the various buses \(such as `pci` and `usb`\) that ar
 
 </td><td>
 
-Provides information about the resource control groups that are in use on the system.
+시스템에서 사용 중인 리소스 제어 그룹에 대한 정보를 제공합니다.
 
 </td></tr><tr><td>
 
@@ -194,7 +194,7 @@ Provides information about the resource control groups that are in use on the sy
 
 </td><td>
 
-Lists parameters passed to the kernel at boot time.
+부팅 시 커널에 전달된 매개변수를 나열합니다.
 
 </td></tr><tr><td>
 
@@ -202,7 +202,7 @@ Lists parameters passed to the kernel at boot time.
 
 </td><td>
 
-Provides information about the system's CPUs.
+시스템의 CPU에 대한 정보를 제공합니다.
 
 </td></tr><tr><td>
 
@@ -210,7 +210,7 @@ Provides information about the system's CPUs.
 
 </td><td>
 
-Provides information about all installed cryptographic cyphers.
+설치된 모든 암호화 기법에 대한 정보를 제공합니다.
 
 </td></tr><tr><td>
 
@@ -218,7 +218,7 @@ Provides information about all installed cryptographic cyphers.
 
 </td><td>
 
-Lists the names and major device numbers of all currently configured characters and block devices.
+현재 구성된 모든 문자와 블록 장치의 이름과 주요 장치 번호를 나열합니다.
 
 </td></tr><tr><td>
 
@@ -226,7 +226,7 @@ Lists the names and major device numbers of all currently configured characters 
 
 </td><td>
 
-Lists the direct memory access \(DMA\) channels that are currently in use.
+현재 사용 중인 직접 메모리 액세스\(DMA\) 채널을 나열합니다.
 
 </td></tr><tr><td>
 
