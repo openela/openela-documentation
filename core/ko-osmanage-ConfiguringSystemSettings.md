@@ -6,7 +6,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 이 장에서는 시스템의 구성 설정을 변경하는 데 사용할 수 있는 파일 및 가상 파일 시스템에 대해 설명합니다.
 
-## /etc/sysconfig 디렉토리의 정보
+## /etc/sysconfig 디렉토리
 
 `/etc/sysconfig` 디렉토리에는 시스템 구성을 제어하는 파일이 포함되어 있습니다. 이 디렉터리의 내용은 시스템에 설치한 패키지에 따라 다릅니다.
 
@@ -296,7 +296,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-Presents the system's physical memory in `core` file format that you can examine using a debugger such as `crash` or `gdb`. This file isn't human-readable.
+`crash` 또는 `gdb`와 같은 디버거를 사용하여 검사할 수 있는 `core` 파일 형식으로 시스템의 물리적 메모리를 제공합니다. 이 파일은 사람이 읽을 수 없습니다.
 
 </td></tr><tr><td>
 
@@ -305,6 +305,7 @@ Presents the system's physical memory in `core` file format that you can examine
 </td><td>
 
 Records kernel-generated messages, which are picked up by programs such as `dmesg`.
+커널이 생성한 메시시를 기록하며, `dmesg`와 같은 프로그램에서 `kmsg`를 채용합니다.
 
 </td></tr><tr><td>
 
@@ -312,7 +313,7 @@ Records kernel-generated messages, which are picked up by programs such as `dmes
 
 </td><td>
 
-Displays the system load averages \(number of queued processes\) for the past 1, 5, and 15 minutes, the number of running processes, the total number of processes, and the PID of the process that's running.
+지난 1분, 5분, 15분 동안의 시스템 부하 평균\(대기 중인 프로세스 수\), 실행 중인 프로세스 수, 총 프로세스 수, 실행 중인 프로세스의 PID를 표시합니다.
 
 </td></tr><tr><td>
 
@@ -320,7 +321,7 @@ Displays the system load averages \(number of queued processes\) for the past 1,
 
 </td><td>
 
-Displays information about the file locks that the kernel is currently holding on behalf of processes. The information provided includes:
+프로세스를 대신하여 커널이 현재 보유하고 있는 파일 잠금에 대한 정보를 표시합니다. 제공되는 정보는 다음과 같습니다:
 
  -   lock class \(`FLOCK` or `POSIX`\)
 
@@ -341,7 +342,7 @@ Displays information about the file locks that the kernel is currently holding o
 
 </td><td>
 
-Lists information about multiple-disk RAID devices.
+다중 디스크 RAID 장치에 대한 정보를 나열합니다.
 
 </td></tr><tr><td>
 
@@ -349,7 +350,7 @@ Lists information about multiple-disk RAID devices.
 
 </td><td>
 
-Reports the system's usage of memory in more detail than is available using the `free` or `top` commands.
+`free` 또는 `top` 명령을 사용하여 사용할 수 있는 것보다 더 자세한 시스템의 메모리 사용량을 보고합니다.
 
 </td></tr><tr><td>
 
@@ -358,6 +359,7 @@ Reports the system's usage of memory in more detail than is available using the 
 </td><td>
 
 Displays information about the modules that are currently loaded into the kernel. The `lsmod` command formats and displays the same information, excluding the kernel memory offset of a module.
+현재 커널에 로드된 모듈에 대한 정보를 표시합니다. `lsmod` 명령은 모듈의 커널 메모리 오프셋을 제외하고 동일한 정보를 형식화하고 표시합니다.
 
 </td></tr><tr><td>
 
