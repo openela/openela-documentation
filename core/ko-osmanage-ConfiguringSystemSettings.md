@@ -110,7 +110,6 @@ sudo lspci
 ...
 ```
 
-### Virtual Files and Directories Under /proc
 ### /proc 하위의 가상 파일 및 디렉토리
 
 다음 표에서는 `/proc` 디렉토리 계층 구조 아래에서 가장 유용한 가상 파일과 디렉토리를 설명합니다.
@@ -536,11 +535,7 @@ cat /proc/sys/net/ipv4/ip_forward
 
 **Note:**
 
-Even `root` can't bypass the file access permissions of virtual file entries under `/proc`. If you change the value of a read-only entry such as `/proc/partitions`, no kernel code exists to service the `write()` system call.
-
-To display the current kernel settings, use the following command:
-
-심지어 `루트`도 `/proc` 아래 가상 파일 항목의 파일 액세스 권한을 우회할 수 없습니다. 예를 들어 `/proc/partitions`와 같은 읽기 전용 항목의 값을 변경할 경우 `write()` 시스템 호출을 서비스하는 커널 코드가 존재하지 않기 때문에 변경할 수 없습니다.
+심지어 `root` 유저도 `/proc` 아래 가상 파일 항목의 파일 액세스 권한을 우회할 수 없습니다. 예를 들어 `/proc/partitions`와 같은 읽기 전용 항목의 값을 변경할 경우 `write()` 시스템 호출을 서비스하는 커널 코드가 존재하지 않기 때문에 변경할 수 없습니다.
 
 현재 커널 설정을 표시하려면 다음 명령을 사용하십시오.:
 
@@ -558,10 +553,6 @@ kernel.sched_shares_ratelimit = 500000
 ```
 
 **Note:**
-
-The delimiter character in the name of a setting is a period \(`.`\) rather than a slash \(`/`\) in a path relative to `/proc/sys`, such as `net.ipv4.ip_forward`. This setting represents `net/ipv4/ip_forward`. As another example, `kernel.msgmax` represents `kernel/msgmax`.
-
-To display an individual setting, specify its name as the argument to `sysctl`:
 
 설정 이름의 구분 문자는 `net.ipv4.ip_forward`와 같이 `/proc/sys`에 대한 상대 경로에서 슬래시 \(`/`\)가 아닌 마침표 \(`.`\)입니다. 이 설정은 `net/ipv4/ip_forward`를 나타냅니다. 또 다른 예로 `kernel.msgmax`는 `kernel/msgmax`를 나타냅니다.
 
