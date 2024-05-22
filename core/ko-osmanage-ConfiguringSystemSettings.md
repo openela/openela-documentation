@@ -130,19 +130,19 @@ sudo lspci
 
  -   **`cmdline`**
 
-Command path.
+커맨드 경로
 
 -   **`cwd`**
 
-Symbolic link to the process's current working directory.
+프로세스의 현재 작업 디렉터리에 대한 심볼릭 링크입니다.
 
 -   **`environ`**
 
-Environment variables.
+환경 변수
 
 -   **`exe`**
 
-Symbolic link to the command executable.
+명령 실행 파일에 대한 심볼릭 링크입니다.
 
 -   **`fd/_N_`**
 
@@ -150,20 +150,19 @@ File descriptors.
 
 -   **`maps`**
 
-Memory maps to executable and library files.
+메모리는 실행 파일 및 라이브러리 파일에 매핑됩니다.
 
 -   **`root`**
 
-Symbolic link to the effective root directory for the process.
+프로세스의 유효 루트 디렉터리에 대한 기호 링크입니다.
 
 -   **`stack`**
 
-The contents of the kernel stack.
+커널 스택의 내용입니다.
 
 -   **`status`**
 
-Run state and memory usage.
-
+실행 상태 및 메모리 사용량.
 
 </td></tr><tr><td>
 
@@ -171,7 +170,7 @@ Run state and memory usage.
 
 </td><td>
 
-Provides information for diagnosing memory fragmentation.
+메모리 단편화 진단을 위한 정보를 제공합니다.
 
 </td></tr><tr><td>
 
