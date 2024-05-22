@@ -535,7 +535,7 @@ cat /proc/sys/net/ipv4/ip_forward
 
 **Note:**
 
-심지어 `root` 유저도 `/proc` 아래 가상 파일 항목의 파일 액세스 권한을 우회할 수 없습니다. 예를 들어 `/proc/partitions`와 같은 읽기 전용 항목의 값을 변경할 경우 `write()` 시스템 호출을 서비스하는 커널 코드가 존재하지 않기 때문에 변경할 수 없습니다.
+`root` 유저 마저도 `/proc` 아래 가상 파일 항목의 파일 액세스 권한을 우회할 수 없습니다. 예를 들어 `/proc/partitions`와 같은 읽기 전용 항목의 값을 변경할 경우 `write()` 시스템 호출을 서비스하는 커널 코드가 존재하지 않기 때문에 변경할 수 없습니다.
 
 현재 커널 설정을 표시하려면 다음 명령을 사용하십시오.:
 
@@ -563,7 +563,7 @@ kernel.sched_shares_ratelimit = 500000
 net.ipv4.ip_forward = 0
 ```
 
-To change the value of a setting, use the following command format:
+설정 값을 변경하려면 다음 명령 형식을 사용하십시오.:
 
 ```
 **sysctl -w net.ipv4.ip\_forward=1**
@@ -893,7 +893,7 @@ NTP 서비스를 구성하는 경우 다음 명령을 실행하여 NTP를 활성
 timedatectl set-ntp true****
 ```
 
-This command enables and starts the `chronyd` service, if available.
+이 명령은 가능한 경우 `chronyd` 서비스를 활성화하고 시작합니다.
 
 ## Watchdog 서비스 구성
 
