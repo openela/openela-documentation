@@ -234,13 +234,13 @@ sudo lspci
 
 </td><td>
 
-Contains information about drivers used by the kernel, such as those for nonvolatile RAM \(`nvram`\), the real-time clock \(`rtc`\), and memory allocation for sound \(`snd-page-alloc`\).
+비휘발성 RAM(`nvram`), 실시간 시계(`rtc`) 및 사운드용 메모리 할당(`snd-page-alloc`)과 같이 커널에서 사용하는 드라이버에 대한 정보가 포함되어 있습니다.
 </td></tr><tr><td>
 
 `execdomains`
 </td><td>
 
-Lists the execution domains for binaries that the Enterprise Linux kernel supports.
+Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나열합니다.
 
 </td></tr><tr><td>
 
@@ -248,7 +248,7 @@ Lists the execution domains for binaries that the Enterprise Linux kernel suppor
 
 </td><td>
 
-Lists the file system types that the kernel supports. Entries marked with `nodev` aren't in use.
+커널이 지원하는 파일 시스템 유형을 나열합니다. `nodev`로 표시된 항목은 사용되지 않습니다.
 
 </td></tr><tr><td>
 
@@ -256,7 +256,7 @@ Lists the file system types that the kernel supports. Entries marked with `nodev
 
 </td><td>
 
-Contains information about mounted file systems, organized by file system type.
+파일 시스템 유형별로 구성된 마운트된 파일 시스템에 대한 정보를 포함합니다.
 
 </td></tr><tr><td>
 
@@ -264,7 +264,7 @@ Contains information about mounted file systems, organized by file system type.
 
 </td><td>
 
-Records the number of interrupts per interrupt request queue \(IRQ\) for each CPU after system startup.
+시스템 시작 후 각 CPU에 대한 인터럽트 요청 큐\(IRQ\)당 인터럽트 수를 기록합니다.
 
 </td></tr><tr><td>
 
@@ -272,7 +272,7 @@ Records the number of interrupts per interrupt request queue \(IRQ\) for each CP
 
 </td><td>
 
-Lists the system memory map for each physical device.
+각 물리적 장치에 대한 시스템 메모리 맵을 나열합니다.
 
 </td></tr><tr><td>
 
@@ -280,14 +280,15 @@ Lists the system memory map for each physical device.
 
 </td><td>
 
-Lists the range of I/O port addresses that the kernel uses with devices.
+커널이 장치와 함께 사용하는 I/O 포트 주소 범위를 나열합니다.
+
 </td></tr><tr><td>
 
 `irq` \(directory\)
 
 </td><td>
 
-Contains information about each IRQ. You can configure the affinity between each IRQ and the system CPUs.
+각 IRQ에 대한 정보를 포함합니다. 각 IRQ와 시스템의 CPU 간의 선호도(affinity)를 구성할 수 있습니다.
 
 </td></tr><tr><td>
 
