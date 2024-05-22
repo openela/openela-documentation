@@ -88,7 +88,7 @@ wp                : yes
 ...
 ```
 
-For files that contain nonhuman-readable content, you can use utilities such as `lspci`, `free`, `top`, and `sysctl` to access information. For example, the `lspci` command lists PCI devices on a system:
+사람이 읽을 수 없는 콘텐츠가 포함된 파일의 경우 `lspci`, `free`, `top` 및 `sysctl`과 같은 유틸리티를 사용하여 정보에 액세스할 수 있습니다. 예를 들어, `lspci` 명령은 시스템의 PCI 장치를 나열합니다.
 
 ```
 sudo lspci
@@ -111,22 +111,22 @@ sudo lspci
 ```
 
 ### Virtual Files and Directories Under /proc
+### /proc 하위의 가상 파일 및 디렉토리
 
-The following table describes the most useful virtual files and directories under the `/proc` directory hierarchy.
+다음 표에서는 `/proc` 디렉토리 계층 구조 아래에서 가장 유용한 가상 파일과 디렉토리를 설명합니다.
 
 <table><thead><tr><th>
 
-Virtual File or Directory
+가상 파일과 디렉토리
 </th><th>
-
-Description
+설명
 </th></tr></thead><tbody><tr><td>
 
 `*PID*` \(Directory\)
 
 </td><td>
 
-Provides information about the process with the process ID \(*PID*\). The directory's owner and group is same as the process's. Useful files under the directory include:
+프로세스 ID \(*PID*\)를 사용하여 프로세스에 대한 정보를 제공합니다. 디렉토리의 소유자 및 그룹은 프로세스의 소유자 및 그룹과 동일합니다. 디렉토리 아래의 유용한 파일은 다음과 같습니다.
 
  -   **`cmdline`**
 
