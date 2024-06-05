@@ -47,7 +47,7 @@ Enterprise Linux 릴리스를 실행하는 BIOS 기반 시스템에서 부팅 �
 
 4. 커널은 루트 파일 시스템에 액세스하는 데 필요한 `initramfs` 파일 시스템에서 드라이버 모듈을 로드합니다.
 
-5. 커널은 프로세스 ID 1\(PID 1\)로 `systemd` 프로세스를 시작합니다. [systemd 서비스 관리자 정보](osmanage-WorkingWithSystemServices.md)를 참조하세요.
+5. 커널은 프로세스 ID 1\(PID 1\)로 `systemd` 프로세스를 시작합니다. [systemd 서비스 관리자](ko-osmanage-WorkingWithSystemServices.md#systemd-서비스-관리자)를 참조하세요.
 
     **Note:**
 
@@ -125,8 +125,8 @@ sudo grubby --remove-args="rhgb quiet" --args=rd_LUKS_UUID=luks-39fec799-6a6c-4a
 
 레거시 SysV 실행 수준과 일치하도록 가장 가까운 `systemd`와 동등한 시스템 상태 대상을 지정합니다. *N*은 0에서 6 사이의 정수 값을 사용할 수 있습니다.
 
- Systemd는 레거시 SysV init 시스템을 모방하기 위해 시스템 상태 대상을 매핑합니다. 시스템 상태 대상에 대한 설명은 다음을 참조하세요. [About System-State Targets](osmanage-WorkingWithSystemServices.md#).
-
+ Systemd는 레거시 SysV init 시스템을 모방하기 위해 시스템 상태 대상을 매핑합니다. 시스템 상태 대상에 대한 설명은 다음을 참조하세요. [System-State Targets](ko-osmanage-WorkingWithSystemServices.md#system-state-targets).
+0
 </td></tr><tr><td>
 
 `1`, `s`, `S`, `single`, or `systemd.unit=rescue.target`
