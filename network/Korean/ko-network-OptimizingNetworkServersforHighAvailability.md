@@ -1,5 +1,7 @@
 <!--
-SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-FileCopyrightText: 2024 Mahyun Kim <mahyun.kim@navercorp.com>
+SPDX-FileCopyrightText: 2024 NAVER Cloud Company
+
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 # 고가용성을 위한 네트워크 서버 최적화
