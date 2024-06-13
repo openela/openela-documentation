@@ -1,5 +1,7 @@
 <!--
-SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
+SPDX-FileCopyrightText: 2024 Mahyun Kim <mahyun.kim@navercorp.com>
+SPDX-FileCopyrightText: 2024 NAVER Cloud Company
+
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 # 커널 및 시스템 부팅 관리
@@ -126,7 +128,6 @@ sudo grubby --remove-args="rhgb quiet" --args=rd_LUKS_UUID=luks-39fec799-6a6c-4a
 레거시 SysV 실행 수준과 일치하도록 가장 가까운 `systemd`와 동등한 시스템 상태 대상을 지정합니다. *N*은 0에서 6 사이의 정수 값을 사용할 수 있습니다.
 
  Systemd는 레거시 SysV init 시스템을 모방하기 위해 시스템 상태 대상을 매핑합니다. 시스템 상태 대상에 대한 설명은 다음을 참조하세요. [System-State Targets](ko-osmanage-WorkingWithSystemServices.md#system-state-targets).
-0
 </td></tr><tr><td>
 
 `1`, `s`, `S`, `single`, or `systemd.unit=rescue.target`
