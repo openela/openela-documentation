@@ -3,13 +3,13 @@ SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Configuring System Settings
+# 시스템 설정 구성
 
-This chapter describes the files and virtual file systems that you can use to change the configuration settings for the system.
+이 장에서는 시스템의 구성 설정을 변경하는 데 사용할 수 있는 파일 및 가상 파일 시스템에 대해 설명합니다.
 
-## About the /etc/sysconfig Files
+## /etc/sysconfig 디렉터리
 
-The `/etc/sysconfig` directory contains files that control the system's configuration. The contents of this directory depend on the packages that you have installed on the system.
+/etc/sysconfig 디렉터리에는 시스템 구성을 제어하는 파일이 포함되어 있습니다. 이 디렉터리의 내용은 시스템에 설치한 패키지에 따라 다릅니다.
 
 Certain files that you might find in the `/etc/sysconfig` directory include the following:
 
