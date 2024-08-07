@@ -3,41 +3,41 @@ SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Optimizing Network Servers for High Availability
+# 고가용성을 위한 네트워크 서버 최적화
 
-For systems that provide network services to clients inside the network, network availability becomes a priority to ensure that the services are continuous and interruptions are prevented. With virtual local area networks \(VLANs\), you can also organize the network such that systems with similar functions are grouped together as though they belong to their own virtual networks. This feature improves network management and administration.
+네트워크 내부의 클라이언트에게 네트워크 서비스를 제공하는 시스템의 경우 서비스가 지속되고 중단이 방지되도록 네트워크 가용성이 우선 순위가 됩니다. 가상 근거리 통신망\(VLAN\)을 사용하면 비슷한 기능을 가진 시스템이 자체 가상 네트워크에 속한 것처럼 그룹화되도록 네트워크를 구성할 수도 있습니다. 이 기능은 네트워크 관리를 향상시킵니다.
 
-For a system to avail of these advanced features, it must have several NICs. The more NICs, the better assurances of network availability that a server can provide.
+시스템에서 이러한 고급 기능을 사용하려면 여러 개의 NIC가 있어야 합니다. NIC가 많을수록 서버가 제공할 수 있는 네트워크 가용성이 더 확실하게 보장됩니다.
 
-## Working With Network Bonding
+## 네트워크 본딩 작업
 
-A system's physical network interfaces that are connected to a network switch can be grouped together into a single logical interface to provide better throughput or availability. This grouping, or aggregation, of physical network interfaces is known as a network bond.
+네트워크 스위치에 연결된 시스템의 물리적 네트워크 인터페이스는 더 나은 처리량이나 가용성을 제공하기 위해 단일 논리 인터페이스로 그룹화될 수 있습니다. 물리적 네트워크 인터페이스의 이러한 그룹화 또는 집합을 네트워크 Bond라고 합니다.
 
-A bonded network interface can increase data throughput by load balancing or can provide redundancy by activating failover from one component device to another. By default, a bonded interface appears similar to a normal network device to the kernel, but it sends out network packets over the available secondary devices by using a round-robin scheduler. You can configure bonding module parameters in the bonded interface's configuration file to alter the behavior of load-balancing and device failover.
+본딩된 네트워크 인터페이스는 로드 밸런싱을 통해 데이터 처리량을 늘리거나 한 구성 요소 장치에서 다른 구성 요소 장치로의 장애 조치를 활성화하여 중복성을 제공할 수 있습니다. 기본적으로 Bond된 인터페이스는 일반 네트워크 장치와 유사하게 커널에 표시되지만 라운드 로빈 스케줄러를 사용하여 사용 가능한 보조 장치를 통해 네트워크 패킷을 보냅니다. Bond된 인터페이스의 구성 파일에서 Bond 모듈 매개변수를 구성하여 로드 밸런싱 및 네트워크 장치의 장애 조치 동작을 변경할 수 있습니다.
 
-The network bonding driver within the kernel can be used to configure the network bond in different modes to take advantage of different bonding features, depending on the requirements and the available network infrastructure. For example, the `balance-rr` mode can be used to provide basic round-robin load-balancing and fault tolerance across a set of physical network interfaces; while the `active-backup` mode provides basic fault tolerance for high availability configurations. Some bonding modes, such as `802.3ad`, or dynamic link aggregation, require particular hardware features and configuration on the switch that the physical interfaces connect to. Basic load-balancing modes \(`balance-rr` and `balance-xor`\) work with any switch that supports EtherChannel or trunking. Advanced load-balancing modes \(`balance-tlb` and `balance-alb`\) don't impose requirements on the switching hardware, but do require that the device driver for each component interfaces implement certain specific features such as support for `ethtool` or the ability to change the hardware address while the device is active.
+요구 사항 및 사용 가능한 네트워크 인프라에 따라 다양한 본딩 기능을 활용하기 위해 커널 내의 네트워크 본딩 드라이버를 사용하여 다양한 모드에서 네트워크 본딩을 구성할 수 있습니다. 예를 들어 `balance-rr` 모드를 사용하면 일련의 물리적 네트워크 인터페이스에 걸쳐 기본 라운드 로빈 로드 밸런싱 및 내결함성을 제공할 수 있습니다. `802.3ad` 또는 동적 링크 집계와 같은 일부 본딩 모드에는 물리적 인터페이스가 연결되는 스위치에 대한 특정 하드웨어 기능 및 구성이 필요합니다. 기본 로드 밸런싱 모드`(balance-rr 및 Balance-xor)`는 EtherChannel 또는 트렁킹을 지원하는 모든 스위치에서 작동합니다. 고급 로드 밸런싱 모드 `(balance-tlb and balance-alb)`는 스위칭 하드웨어에 대한 요구 사항을 부과하지 않지만 각 구성 요소 인터페이스의 장치 드라이버가 `ethtool` 지원 또는 장치가 활성화된 동안 하드웨어 주소를 변경하는 기능과 같은 특정 기능을 구현하도록 요구합니다.
 
-For more information on the kernel bonding driver, see the upstream documentation at [https://www.kernel.org/doc/Documentation/networking/bonding.txt](https://www.kernel.org/doc/Documentation/networking/bonding.txt) or included at `/usr/share/doc/iputils-*/README.bonding`.
+커널 본딩 드라이버에 대한 자세한 내용은 [https://www.kernel.org/doc/Documentation/networking/bonding.txt](https://www.kernel.org/doc/Documentation/)에서 업스트림 문서를 참조하세요.
 
 **Note:**
 
-For network configurations where systems are directly cabled together for high availability, a switch is required to support certain network interface bonding features such as automatic failover. Otherwise, the mechanism might not work.
+고가용성을 위해 시스템을 직접 케이블로 연결하는 네트워크 구성의 경우 자동 장애 조치와 같은 특정 네트워크 인터페이스 본딩 기능을 지원하려면 스위치가 필요합니다. 그렇지 않으면 메커니즘이 작동하지 않을 수 있습니다.
 
-### Configuring Network Bonding
+### 네트워크 Bonding 구성
 
-You can configure network bonding either by using the command line or the Network Connections Editor.
+커맨드라인이나 네트워크 연결 편집기를 사용하여 네트워크 본딩을 구성할 수 있습니다.
 
-#### Using the Command Line
+#### 커맨드라인 사용
 
-1. Add a bond interface using the `nmcli connection add` command.
+1. `nmcli Connection add` 명령을 사용하여 Bond 인터페이스를 추가합니다.
 
    ```
    sudo nmcli connection add type bond con-name *"Bond Connection 1"* ifname *bond0* bond.options "mode=active-backup"
    ```
 
-   Take note to set the bond connection name, the bond interface name, and, importantly, the bond mode option. In this example, the mode is set to `active-backup`. If you don't set the bond connection name, then the bond interface name is also used as the connection name.
+   Bond 연결 이름, BOND 인터페이스 이름, 그리고 가장 중요한 Bond 모드 옵션을 설정하는 데 유의하십시오. 이 예에서는 모드가 `active-backup`으로 설정되어 있습니다. Bond 연결 이름을 설정하지 않으면 Bond 인터페이스 이름이 연결 이름으로도 사용됩니다.
 
-2. Optionally configure the IP address for the bond interface using the `nmcli connection modify` command. By default the interface is configured to use DHCP, but if you require static IP addressing, manually configure the address. For example, to configure IPv4 settings for the bond, type:
+2. 선택적으로 `nmcli 연결 수정` 명령을 사용하여 본드 인터페이스의 IP 주소를 구성합니다. 기본적으로 인터페이스는 DHCP를 사용하도록 구성되어 있지만 고정 IP 주소 지정이 필요한 경우 주소를 수동으로 구성하십시오. 예를 들어 본드에 대한 IPv4 설정을 구성하려면 다음을 입력합니다.:
 
    ```
    sudo nmcli connection modify *"Bond Connection 1"* ipv4.addresses '*192.0.2.2/24*'
@@ -55,7 +55,7 @@ You can configure network bonding either by using the command line or the Networ
    sudo nmcli connection modify *"Bond Connection 1"* ipv4.method manual
    ```
 
-3. Add the physical network interfaces to the bond as secondary-type interfaces using the `nmcli connection add` command. For example:
+3. `nmcli Connection add` 명령을 사용하여 물리적 네트워크 인터페이스를 본드에 보조 유형 인터페이스로 추가합니다. 예를 들어:
 
    ```
    sudo nmcli connection add type ethernet slave-type bond con-name *bond0-if1* ifname *enp1s0* master *bond0*
@@ -65,15 +65,15 @@ You can configure network bonding either by using the command line or the Networ
    sudo nmcli connection add type ethernet slave-type bond con-name *bond0-if2* ifname *enp2s0* master *bond0*
    ```
 
-   Give each secondary a connection name, and select the interface name for each interface that you want to add. You can get a list of available interfaces by running the `nmcli device` command. Specify the interface name of the bond to which you want to attach the secondary network interfaces.
+   각 보조 연결 이름을 지정하고 추가하려는 각 인터페이스의 인터페이스 이름을 선택합니다. `nmcli device` 명령을 실행하여 사용 가능한 인터페이스 목록을 얻을 수 있습니다. 보조 네트워크 인터페이스를 연결하려는 본드의 인터페이스 이름을 지정합니다.
 
-4. Start the bond interface.
+4. 본드 인터페이스를 시작합니다.
 
    ```
    sudo nmcli connection up *"Bond Connection 1"*
    ```
 
-5. Verify that the network interfaces have been added to the bond correctly. You can check this by looking at the device list again.
+5. 네트워크 인터페이스가 본드에 올바르게 추가되었는지 확인하십시오. 이는 장치 목록을 다시 보면 확인할 수 있습니다.
 
    ```
    sudo nmcli device
@@ -85,110 +85,110 @@ You can configure network bonding either by using the command line or the Networ
    enp2s0   ethernet  connected  bond0-if2
    ```
 
-#### Using the Network Connections Editor
+#### 네트워크 연결 편집기 사용
 
-1. Start the editor:
+1. 편집기 시작:
 
    ```
    sudo nm-connection-editor
    ```
 
-   The Network Connections window opens.
+   네트워크 연결 창이 열립니다.
 
-2. To add a connection, use the plus \(+\) button at the bottom of the window.
+2. 연결을 추가하려면 창 하단에 있는 더하기 \(+\) 버튼을 사용하세요.
 
-   This step opens another window that prompts you for the type of connection to create.
+   이 단계에서는 생성할 연결 유형을 묻는 또 다른 창이 열립니다.
 
-3. From the window's drop down list and under the Virtual section, select **Bond**, then click **Create**.
+3. 창의 드롭다운 목록과 가상 섹션 아래에서 **본드**를 선택한 다음 **만들기**를 클릭합니다.
 
-   The Network Bond Editor window opens.
+   네트워크 본드 편집기 창이 열립니다.
 
-   Network Bond Editor
+   네트워크 본드 편집기
 
-   ![The figure shows the Network Connections interface editor open and ready to configure a new bonded network interface.](images/BondEditor.png)
+   ![그림은 네트워크 연결 인터페이스 편집기가 열려 있고 새 본딩된 네트워크 인터페이스를 구성할 준비가 되어 있음을 보여줍니다.](images/BondEditor.png)
 
-4. Optionally configure a connection name for the bond.
+4. 선택적으로 본드에 대한 연결 이름을 구성합니다.
 
-5. Add physical network interfaces to the network bond by clicking on the **Add** button.
+5. **추가** 버튼을 클릭하여 네트워크 본드에 물리적 네트워크 인터페이스를 추가합니다.
 
-   1. A new window that where you can select the type of physical interface to add to the network bond. For example, you can select the **Ethernet** type to add an Ethernet interface to the network bond. Click the **Create** button to configure the secondary interface.
+   1. 네트워크 본드에 추가할 물리적 인터페이스 유형을 선택할 수 있는 새 창입니다. 예를 들어 **이더넷** 유형을 선택하여 네트워크 연결에 이더넷 인터페이스를 추가할 수 있습니다. **만들기** 버튼을 클릭하여 보조 인터페이스를 구성합니다.
 
-   2. Optionally configure a name for the secondary interface.
+   2. 선택적으로 보조 인터페이스의 이름을 구성합니다.
 
-   3. In the **Device** field, select the physical network interface to add as a secondary to the bond. Note that if a device is already configured for networking it's not listed as available to configure within the bond.
+   3. **디바이스** 필드에서 본드에 보조 인터페이스로 추가할 물리적 네트워크 인터페이스를 선택합니다. 장치가 이미 네트워킹용으로 구성된 경우 본드 내에서 구성할 수 있는 것으로 나열되지 않습니다.
 
-   4. Click **Save** to add the secondary device to the network bond.
+   4. **저장**을 클릭하여 네트워크 연결에 보조 기기를 추가합니다.
 
-   Repeat these steps for all the physical network interfaces that make up the bonded interface.
+   본딩된 인터페이스를 구성하는 모든 물리적 네트워크 인터페이스에 대해 이 단계를 반복합니다.
 
-6. Configure the bonding mode that you want to use for the network bond.
+6. 네트워크 연결에 사용할 연결 모드를 구성합니다.
 
-   Select the bonding mode from the **Mode** drop down list. Note that some modes might require more configuration on the network switch.
+   **모드** 드롭다운 목록에서 본딩 모드를 선택합니다. 일부 모드에서는 네트워크 스위치에 추가 구성이 필요할 수 있습니다.
 
-7. Configure other bond parameters such as link monitoring as required if you don't want to use the default settings.
+7. 기본 설정을 사용하지 않으려면 필요에 따라 링크 모니터링과 같은 기타 연결 매개변수를 구성하십시오.
 
-   If you don't intend to use DHCP for network bond IP configuration, set the IP addressing by clicking on the **IPv4** and **IPv6** tabs.
+   네트워크 본드 IP 구성에 DHCP를 사용하지 않으려면 **IPv4** 및 **IPv6** 탭을 클릭하여 IP 주소 지정을 설정하세요.
 
-8. Click the **Save** button to save the configuration and to create the network bond.
+8. **저장** 버튼을 클릭하여 구성을 저장하고 네트워크 연결을 생성합니다.
 
-#### Verifying the Network Bond Status
+#### 네트워크 본드 상태 확인
 
-1. Run the following command to obtain information about the network bond with device name _bond0_:
+1. 다음 명령을 실행하여 장치 이름이 _bond0_인 네트워크 연결에 대한 정보를 얻습니다.:
 
    ```
    cat /proc/net/bonding/*bond0*
    ```
 
-   The output shows the bond configuration and status, including which bond secondaries are active. The output also provides information about the status of each secondary interface.
+   출력에는 활성화된 보조 본드를 포함하여 본드 구성 및 상태가 표시됩니다. 출력에서는 각 보조 인터페이스의 상태에 대한 정보도 제공합니다.
 
-2. Temporarily disconnect the physical cable that's connected to one of the secondary interfaces. No other reliable method is available to test link failure.
+2. 보조 인터페이스 중 하나에 연결된 물리적 케이블을 일시적으로 연결 해제합니다. 링크 실패를 테스트하는 데 사용할 수 있는 다른 신뢰할 수 있는 방법은 없습니다.
 
-3. Check the status of the bond link as shown in the initial step for this procedure. The status of the secondary interface would indicate that the interface is down and a link failure has occurred.
+3. 이 절차의 초기 단계에 표시된 대로 연결 링크의 상태를 확인합니다. 보조 인터페이스의 상태는 인터페이스가 작동 중지되고 링크 오류가 발생했음을 나타냅니다.
 
-## Configuring VLANs With Untagged Data Frames
+## 태그가 지정되지 않은 데이터 프레임으로 VLAN 구성
 
-A VLAN is a group of machines that can communicate as though they're attached to the same physical network. With a VLAN, you can group systems regardless of their actual physical location on a LAN. In a VLAN that uses untagged data frames, you create the broadcast domain by assigning the ports of network switches to the same permanent VLAN ID or PVID \(other than 1, which is the default VLAN\). All the ports that you assign with this PVID are in a single broadcast domain. Broadcasts between devices in the same VLAN aren't visible to other ports with a different VLAN, even if they exist on the same switch.
+VLAN은 동일한 물리적 네트워크에 연결된 것처럼 통신할 수 있는 시스템 그룹입니다. VLAN을 사용하면 LAN의 실제 물리적 위치에 관계없이 시스템을 그룹화할 수 있습니다. 태그가 지정되지 않은 데이터 프레임을 사용하는 VLAN에서는 네트워크 스위치의 포트를 동일한 영구 VLAN ID 또는 PVID\(기본 VLAN인 1이 아님\)에 할당하여 브로드캐스트 도메인을 생성합니다. 이 PVID로 할당하는 모든 포트는 단일 브로드캐스트 도메인에 있습니다. 동일한 VLAN에 있는 장치 간 브로드캐스트는 동일한 스위치에 존재하더라도 다른 VLAN을 사용하는 다른 포트에 표시되지 않습니다.
 
-You can use the Network Settings editor or the `nmcli` command to create a VLAN device for an Ethernet interface.
+네트워크 설정 편집기나 `nmcli` 명령을 사용하여 이더넷 인터페이스용 VLAN 장치를 생성할 수 있습니다.
 
-To create a VLAN device from the command line:
+커맨드라인에서 VLAN 장치를 생성하려면:
 
 ```
 sudo nmcli con add type vlan con-name bond0-pvid10 ifname bond0-pvid10 dev bond0 id 10
 ```
 
-Running the previous command sets up the VLAN device `bond0-pvid10` with a PVID of 10 for the bonded interface `bond0`. In addition to the regular interface, `bond0`, which uses the physical LAN, you now have a VLAN device, `bond0-pvid10`, which can use untagged frames to access the virtual LAN.
+이전 명령을 실행하면 연결된 인터페이스 'bond0'에 대해 PVID가 10인 VLAN 장치 'bond0-pvid10'이 설정됩니다. 물리적 LAN을 사용하는 일반 인터페이스 `bond0` 외에도 이제 태그가 지정되지 않은 프레임을 사용하여 가상 LAN에 액세스할 수 있는 VLAN 장치 `bond0-pvid10`이 있습니다.
 
 **Note:**
 
-You don't need to create virtual interfaces for the component interfaces of a bonded interface. However, you must set the PVID on each switch port to which they connect.
+본딩된 인터페이스의 구성 요소 인터페이스에 대해서는 가상 인터페이스를 생성할 필요가 없습니다. 그러나 연결되는 각 스위치 포트에 PVID를 설정해야 합니다.
 
-You can also use the command to set up a VLAN device for a non bonded interface, for example:
+또한 명령을 사용하여 본딩되지 않은 인터페이스에 대한 VLAN 장치를 설정할 수도 있습니다.
 
 ```
 sudo nmcli con add type vlan con-name en1-pvid5 ifname en1-pvid5 dev en1 id 5
 ```
 
-To obtain information about the configured VLAN interfaces, view the files in the `/proc/net/vlan` directory.
+구성된 VLAN 인터페이스에 대한 정보를 얻으려면 `/proc/net/vlan` 디렉터리에 있는 파일을 확인하세요.
 
-You can also use the `ip` command to create VLAN devices. However, such devices don't persist across system reboots.
+VLAN 장치를 생성하려면 `ip` 명령을 사용할 수도 있습니다. 그러나 이러한 장치는 시스템 재부팅 후에도 지속되지 않습니다.
 
-For example, you would create a VLAN interface `en1.5` for `en1` with a PVID of `5` as follows:
-
-```
-sudo ip link add link eth1 name eth1.5 type vlan id 5
-```
-
-For more information, see the `ip(8)` manual page.
-
-### Creating VLAN Devices by Using the ip Command
-
-You can use the `ip` command to create VLAN devices. However, such devices don't persist across system reboots.
-
-For example, you would create a VLAN interface `en1.5` for `en1` with a PVID of `5` as follows:
+예를 들어, 다음과 같이 PVID가 `5`인 `en1`에 대한 VLAN 인터페이스 `en1.5`를 생성합니다.:
 
 ```
 sudo ip link add link eth1 name eth1.5 type vlan id 5
 ```
 
-For more information, see the `ip(8)` manual page.
+자세한 내용은 `ip(8)` 매뉴얼 페이지를 참조하세요.
+
+### ip 명령을 사용하여 VLAN 장치 생성
+
+VLAN 장치를 생성하려면 `ip` 명령을 사용할 수 있습니다. 그러나 이러한 장치는 시스템 재부팅 후에도 지속되지 않습니다.
+
+예를 들어, 다음과 같이 PVID가 `5`인 `en1`에 대한 VLAN 인터페이스 `en1.5`를 생성합니다.:
+
+```
+sudo ip link add link eth1 name eth1.5 type vlan id 5
+```
+
+자세한 내용은 `ip(8)` 매뉴얼 페이지를 참조하세요.
