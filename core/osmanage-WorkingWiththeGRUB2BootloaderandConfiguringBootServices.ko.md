@@ -3,120 +3,120 @@ SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Managing Kernels and System Boot
+# 커널 및 시스템 부팅 관리
 
-This chapter describes the Enterprise Linux boot process and how to configure and use the GRand Unified Bootloader \(GRUB\) version 2 and boot-related kernel parameters.
+이 장에서는 Enterprise Linux 부팅 프로세스와 GRand Unified Bootloader\(GRUB\) 버전 2 및 부팅 관련 커널 매개 변수를 구성하고 사용하는 방법에 대해 설명합니다.
 
-## About the Boot Process
+## 부팅 프로세스
 
-Understanding the Enterprise Linux boot process can help you troubleshoot problems when booting a system. The boot process involves several files, and errors in these files are the usual cause of boot problems. Boot processes and configuration differ depending on whether the hardware uses UEFI firmware or legacy BIOS to handle system boot.
+Enterprise Linux 부팅 프로세스를 이해하면 시스템 부팅 시 문제를 해결하는 데 도움이 될 수 있습니다. 부팅 프로세스에는 여러 파일이 포함되며 이러한 파일의 오류는 부팅 문제의 일반적인 원인입니다. 부팅 프로세스 및 구성은 하드웨어가 시스템 부팅을 처리하기 위해 UEFI 펌웨어를 사용하는지 아니면 레거시 BIOS를 사용하는지에 따라 다릅니다.
 
-### About UEFI-Based Booting
+### UEFI 기반 부팅
 
-On a UEFI-based system running the Enterprise Linux release, the system boot process uses the following sequence:
+Enterprise Linux 릴리스를 실행하는 UEFI 기반 시스템에서 시스템 부팅 프로세스는 다음 순서를 사용합니다.:
 
-1. The system's UEFI firmware performs a power-on self-test \(POST\) and then detects and initializes peripheral devices and the hard disk.
+1. 시스템의 UEFI 펌웨어는 전원 공급 시 자체 테스트\(POST\)를 수행한 다음 주변 장치와 하드 디스크를 감지하고 초기화합니다.
 
-2. UEFI searches for a GPT partition with a specific globally unique identifier \(GUID\) that identifies it as the EFI System Partition \(ESP\). This partition contains EFI applications such as boot loaders. In case of the presence of multiple boot devices, the UEFI boot manager uses the appropriate ESP based on the order that's defined in the boot manager. With the `efibootmgr` tool, you can define a different order, if you don't want to use the default definition.
+2. UEFI는 EFI 시스템 파티션\(ESP\)으로 식별하는 특정 전역 고유 식별자\(GUID\)를 사용하여 GPT 파티션을 검색합니다. 이 파티션에는 부트로더와 같은 EFI 응용 프로그램이 포함되어 있습니다. 여러 부팅 장치가 있는 경우 UEFI 부팅 관리자는 부팅 관리자에 정의된 순서에 따라 적절한 ESP를 사용합니다. 기본 정의를 사용하지 않으려면 `efibootmgr` 도구를 사용하여 다른 순서를 정의할 수 있습니다.
 
-3. The UEFI boot manager checks whether Secure Boot is enabled. If Secure Boot is disabled, the boot manager runs the GRUB 2 bootloader on the ESP.
+3. UEFI 부팅 관리자는 보안 부팅이 활성화되어 있는지 확인합니다. 보안 부팅이 비활성화된 경우 부팅 관리자는 ESP에서 GRUB 2 부트로더를 실행합니다.
 
-   Otherwise, the boot manager requests a certificate from the boot loader and validates this against keys stored in the UEFI Secure Boot key database. To handle the certificate validation process, the environment is configured to perform a 2-stage boot process and the `shim.efi` application that's responsible for certification is loaded first before loading the GRUB 2 bootloader. If the certificate is valid, the boot loader runs and, in turn, validates the kernel that it's configured to load.
+   그렇지 않으면 부팅 관리자가 부트 로더에서 인증서를 요청하고 UEFI 보안 부팅 키 데이터베이스에 저장된 키와 비교하여 이를 검증합니다. 인증서 유효성 검사 프로세스를 처리하기 위해 2단계 부팅 프로세스를 수행하도록 환경이 구성되고 GRUB 2 부트로더를 로드하기 전에 인증을 담당하는 `shim.efi` 애플리케이션이 먼저 로드됩니다. 인증서가 유효하면 부트 로더가 실행되고 로드하도록 구성된 커널의 유효성을 검사합니다.
 
-4. The boot loader loads the `vmlinuz` kernel image file into memory and extracts the contents of the `initramfs` image file into a temporary, memory-based file system \(`tmpfs`\).
+4. 부트 로더는 `vmlinuz` 커널 이미지 파일을 메모리에 로드하고 `initramfs` 이미지 파일의 내용을 임시 메모리 기반 파일 시스템\(`tmpfs`\)으로 추출합니다.
 
-5. The kernel loads the driver modules from the `initramfs` file system that are needed to access the root file system.
+5. 커널은 루트 파일 시스템에 액세스하는 데 필요한 `initramfs` 파일 시스템에서 드라이버 모듈을 로드합니다.
 
-6. The kernel starts the `systemd` process with a process ID of 1 \(PID 1\). See [About the systemd Service Manager](osmanage-WorkingWithSystemServices.md#).
+6. 커널은 프로세스 ID 1\(PID 1\)로 `systemd` 프로세스를 시작합니다. 참조: [systemd 서비스 관리자](ko-osmanage-WorkingWithSystemServices.md#systemd-서비스-관리자).
 
-7. `systemd` runs any additional processes defined for it.
-
-   **Note:**
-
-   Specify any other actions to be processed during the boot process by defining your own `systemd` unit. This method is the preferred approach than using the `/etc/rc.local` file.
-
-### About BIOS-Based Booting
-
-On a BIOS-based system running the Enterprise Linux release, the boot process is as follows:
-
-1. The system's BIOS performs a power-on self-test \(POST\), and then detects and initializes any peripheral devices and the hard disk.
-
-2. The BIOS reads the Master Boot Record \(MBR\) into memory from the boot device. The MBR stores information about the organization of partitions on that device, the partition table, and the boot signature which is used for error detection. The MBR also includes the pointer to the boot loader program \(GRUB 2\). The boot program itself can be on the same device or on another device.
-
-3. The boot loader loads the `vmlinuz` kernel image file into memory and extracts the contents of the `initramfs` image file into a temporary, memory-based file system \(`tmpfs`\).
-
-4. The kernel loads the driver modules from the `initramfs` file system that are needed to access the root file system.
-
-5. The kernel starts the `systemd` process with a process ID of 1 \(PID 1\). See [About the systemd Service Manager](osmanage-WorkingWithSystemServices.md#) for more information.
-
-6. `systemd` runs any additional processes defined for it.
+7. `systemd`는 정의된 추가 프로세스를 실행합니다.
 
    **Note:**
 
-   Specify any other actions to be processed during the boot process by defining user `systemd` units. This method is the preferred approach than using the `/etc/rc.local` file.
+   자신만의 `systemd` 유닛을 정의하여 부팅 프로세스 중에 처리할 다른 작업을 지정하세요. 이 방법은 `/etc/rc.local` 파일을 사용하는 것보다 선호되는 접근 방식입니다.
 
-## About the GRUB 2 Bootloader
+### BIOS 기반 부팅
 
-In addition to Enterprise Linux, GRUB 2 can load and chain-load many proprietary operating systems. GRUB 2 understands the formats of file systems and kernel executable files. Therefore, it can load an arbitrary OS without needing to know the exact location of the kernel on the boot device. GRUB 2 requires only the file name and drive partitions to load a kernel. You can configure this information by using the GRUB 2 menu or by entering it on the command line.
+Enterprise Linux 릴리스를 실행하는 BIOS 기반 시스템에서 부팅 프로세스는 다음과 같습니다.
 
-GRUB 2 behavior is based on configuration files. On BIOS-based systems, the configuration file is `/boot/grub2/grub.cfg`. On UEFI-based systems, the configuration file is `/boot/efi/EFI/redhat/grub.cfg`. Each kernel version's boot parameters are stored in independent configuration files in `/boot/loader/entries`. Each kernel configuration is stored with the file name `*machine\_id*-*kernel\_version*.el8.*arch*.conf`.
+1. 시스템의 BIOS는 전원 공급 시 자체 테스트\(POST\)를 수행한 다음 모든 주변 장치와 하드 디스크를 감지하고 초기화합니다.
+
+2. BIOS는 부팅 장치의 마스터 부트 레코드\(MBR\)를 메모리로 읽습니다. MBR은 해당 장치의 파티션 구성, 파티션 테이블 및 오류 감지에 사용되는 부팅 서명에 대한 정보를 저장합니다. MBR에는 부트 로더 프로그램\(GRUB 2\)에 대한 포인터도 포함되어 있습니다. 부팅 프로그램 자체는 동일한 장치에 있을 수도 있고 다른 장치에 있을 수도 있습니다.
+
+3. 부트 로더는 `vmlinuz` 커널 이미지 파일을 메모리에 로드하고 `initramfs` 이미지 파일의 내용을 임시 메모리 기반 파일 시스템\(`tmpfs`\)으로 추출합니다.
+
+4. 커널은 루트 파일 시스템에 액세스하는 데 필요한 `initramfs` 파일 시스템에서 드라이버 모듈을 로드합니다.
+
+5. 커널은 프로세스 ID 1\(PID 1\)을 사용하여 `systemd` 프로세스를 시작합니다. [systemd 서비스 관리자](ko-osmanage-WorkingWithSystemServices.md#systemd-서비스-관리자)를 참조하세요.
+
+6. [System-State Targets](ko-osmanage-WorkingWithSystemServices.md#system-state-targets).
+
+   **Note:**
+
+   사용자 `systemd` 단위를 정의하여 부팅 프로세스 중에 처리할 다른 작업을 지정합니다. 이 방법은 `/etc/rc.local` 파일을 사용하는 것보다 선호되는 접근 방식입니다.
+
+## GRUB 2 부트로더
+
+Enterprise Linux 외에도 GRUB 2는 많은 독점 운영 체제를 로드하고 체인 로드할 수 있습니다. GRUB 2는 파일 시스템과 커널 실행 파일의 형식을 이해합니다. 따라서 부팅 장치에서 커널의 정확한 위치를 알 필요 없이 임의의 OS를 로드할 수 있습니다. GRUB 2에서는 커널을 로드하기 위해 파일 이름과 드라이브 파티션만 필요합니다. GRUB 2 메뉴를 사용하거나 커맨드라인에 입력하여 이 정보를 구성할 수 있습니다.
+
+GRUB 2 동작은 구성 파일을 기반으로 합니다. BIOS 기반 시스템에서 구성 파일은 `/boot/grub2/grub.cfg`입니다. UEFI 기반 시스템에서 구성 파일은 `/boot/efi/EFI/redhat/grub.cfg`입니다. 각 커널 버전의 부팅 매개변수는 `/boot/loader/entries`의 독립적인 구성 파일에 저장됩니다. 각 커널 구성은 `*machine\_id*-*kernel\_version*.el8.*arch*.conf` 파일 이름으로 저장됩니다.
 
 **Note:**
 
-Don't edit the GRUB 2 configuration file directly.
+GRUB 2 구성 파일을 직접 편집하지 마십시오.
 
-The `grub2-mkconfig` command generates the configuration file using the template scripts in `/etc/grub.d` and menu-configuration settings taken from the configuration file, `/etc/default/grub`.
+`grub2-mkconfig` 명령은 `/etc/grub.d`의 템플릿 스크립트와 구성 파일 `/etc/default/grub`에서 가져온 메뉴 구성 설정을 사용하여 구성 파일을 생성합니다.
 
-The default menu entry is set by the value of the `GRUB_DEFAULT` parameter in `/etc/default/grub`. If `GRUB_DEFAULT` is set to `saved`, you can use the `grub2-set-default` and `grub2-reboot` commands to specify the default entry. The command `grub2-set-default` sets the default entry for all subsequent reboots, while `grub2-reboot` sets the default entry for the next reboot only.
+기본 메뉴 항목은 `/etc/default/grub`의 `GRUB_DEFAULT` 매개변수 값으로 설정됩니다. `GRUB_DEFAULT`가 `saved`로 설정된 경우 `grub2-set-default` 및 `grub2-reboot` 명령을 사용하여 기본 항목을 지정할 수 있습니다. `grub2-set-default` 명령은 모든 후속 재부팅에 대한 기본 항목을 설정하는 반면, `grub2-reboot`는 다음 재부팅에 대한 기본 항목만 설정합니다.
 
-If you specify a numeric value as the value of `GRUB_DEFAULT` or as an argument to either `grub2-reboot` or `grub2-set-default`, GRUB 2 counts the menu entries in the configuration file starting at 0 for the first entry.
+숫자 값을 `GRUB_DEFAULT` 값이나 `grub2-reboot` 또는 `grub2-set-default`에 대한 인수로 지정하면 GRUB 2는 첫 번째 항목에 대해 0부터 시작하는 구성 파일의 메뉴 항목 수를 계산합니다.
 
-For more information about using, configuring, and customizing GRUB 2, see the [GNU GRUB Manual](https://www.gnu.org/software/grub/manual/grub/grub.html), which is also installed as `/usr/share/doc/grub2-tools-2.00/grub.html`.
+GRUB 2 사용, 구성, 사용자 정의에 대한 자세한 내용은 \`로도 설치되는 [GNU GRUB 매뉴얼](https://www.gnu.org/software/grub/manual/grub/grub.html)을 참조하세요.
 
-## About Linux Kernels
+## Linux 커널
 
-The Linux Foundation provides a hub for open source developers to code, manage, and scale different open technology projects. It also manages the Linux Kernel Organization that exists to distribute various versions of the Linux kernel which is at the core of all Linux distributions, including those used by Enterprise Linux. The Linux kernel manages the interactions between the computer hardware and user space applications that run on Enterprise Linux.
+Linux Foundation은 오픈 소스 개발자가 다양한 개방형 기술 프로젝트를 코딩, 관리 및 확장할 수 있는 허브를 제공합니다. 또한 Enterprise Linux에서 사용되는 것을 포함하여 모든 Linux 배포판의 핵심인 Linux 커널의 다양한 버전을 배포하기 위해 존재하는 Linux 커널 조직을 관리합니다. Linux 커널은 Enterprise Linux에서 실행되는 컴퓨터 하드웨어와 사용자 공간 애플리케이션 간의 상호 작용을 관리합니다.
 
-OpenELA includes **Red Hat Compatible Kernel** \(RHCK\), which is fully compatible with the Linux kernel that's distributed in a corresponding Red Hat Enterprise Linux \(RHEL\) release. You can use RHCK to ensure full compatibility with applications that run on Red Hat Enterprise Linux.
+OpenELA에는 해당 Red Hat Enterprise Linux\(RHEL\) 릴리스에 배포된 Linux 커널과 완벽하게 호환되는 **Red Hat 호환 커널** \(RHCK\)이 포함되어 있습니다. RHCK를 사용하면 Red Hat Enterprise Linux에서 실행되는 애플리케이션과의 완전한 호환성을 보장할 수 있습니다.
 
-**Important:** Linux kernels are critical for running applications in the Enterprise Linux user space. Therefore, you must keep the kernel current with the latest bug fixes, enhancements, and security updates provided by OpenELA.
+**중요:** Linux 커널은 Enterprise Linux 사용자 공간에서 애플리케이션을 실행하는 데 중요합니다. 따라서 OpenELA에서 제공하는 최신 버그 수정, 개선 사항 및 보안 업데이트를 통해 커널을 최신 상태로 유지해야 합니다.
 
-## Managing Kernels in GRUB 2 Using `grubby`
+## `grubby`를 사용하여 GRUB 2에서 커널 관리
 
-You can use the `grubby` command to view and manage kernels.
+`grubby` 명령을 사용하여 커널을 보고 관리할 수 있습니다.
 
-Use the following command to display the kernels that are installed and configured on the system:
+다음 명령을 사용하여 시스템에 설치 및 구성된 커널을 표시하십시오.:
 
 ```
 sudo grubby --info=ALL
 ```
 
-To configure a specific kernel as the default boot kernel, run:
+특정 커널을 기본 부팅 커널로 구성하려면 다음을 실행하세요.:
 
 ```
 sudo grubby --set-default /boot/vmlinuz-4.18.0-80.el8.x86_64
 ```
 
-You can also use the `grubby` command to update a kernel configuration entry to add or remove kernel boot arguments, for example:
+또한 `grubby` 명령을 사용하여 커널 구성 항목을 업데이트하여 커널 부팅 인수를 추가하거나 제거할 수도 있습니다.
 
 ```
 sudo grubby --remove-args="rhgb quiet" --args=rd_LUKS_UUID=luks-39fec799-6a6c-4ac1-ac7c-1d68f2e6b1a4 \
 --update-kernel /boot/vmlinuz-4.18.0-80.el8.x86_64
 ```
 
-For more information about the `grubby` command, see the `grubby(8)` manual page.
+`grubby` 명령에 대한 자세한 내용은 `grubby(8)` 매뉴얼 페이지를 참조하세요.
 
-## Kernel Boot Parameters
+## 커널 부팅 매개변수
 
-The following table describes some commonly used kernel boot parameters.
+다음 표에서는 일반적으로 사용되는 몇 가지 커널 부팅 매개변수에 대해 설명합니다.
 
 <table><thead><tr><th>
 
-Option
+옵션
 
 </th><th>
 
-Description
+설명
 
 </th></tr></thead><tbody><tr><td>
 
@@ -124,9 +124,9 @@ Description
 
 </td><td>
 
-Specifies the nearest `systemd`-equivalent system-state target to match a legacy SysV run level. _N_ can take an integer value between 0 and 6.
+레거시 SysV 실행 수준과 일치하도록 가장 가까운 `systemd`와 동등한 시스템 상태 대상을 지정합니다. _N_은 0에서 6 사이의 정수 값을 사용할 수 있습니다.
 
-Systemd maps system-state targets to mimic the legacy SysV init system. For a description of system-state targets, see [About System-State Targets](osmanage-WorkingWithSystemServices.md#).
+Systemd는 레거시 SysV init 시스템을 모방하기 위해 시스템 상태 대상을 매핑합니다. 시스템 상태 대상에 대한 설명은 다음을 참조하세요.
 
 </td></tr><tr><td>
 
@@ -134,7 +134,7 @@ Systemd maps system-state targets to mimic the legacy SysV init system. For a de
 
 </td><td>
 
-Specifies the rescue shell. The system boots to single-user mode prompts for the `root` password.
+복구 셸을 지정합니다. 시스템이 단일 사용자 모드로 부팅되면 `root` 비밀번호를 묻는 메시지가 나타납니다.
 
 </td></tr><tr><td>
 
@@ -142,7 +142,7 @@ Specifies the rescue shell. The system boots to single-user mode prompts for the
 
 </td><td>
 
-Specifies the `systemd` target for multiuser, nongraphical login.
+다중 사용자, 비그래픽 로그인을 위한 `systemd` 대상을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -150,7 +150,7 @@ Specifies the `systemd` target for multiuser, nongraphical login.
 
 </td><td>
 
-Specifies the `systemd` target for multiuser, graphical login.
+다중 사용자, 그래픽 로그인을 위한 `systemd` 대상을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -158,7 +158,7 @@ Specifies the `systemd` target for multiuser, graphical login.
 
 </td><td>
 
-Specifies emergency mode. The system boots to single-user mode and prompts for the `root` password. Fewer services are started than when in rescue mode.
+비상 모드를 지정합니다. 시스템이 단일 사용자 모드로 부팅되고 `root` 비밀번호를 묻는 메시지가 표시됩니다. 복구 모드에 있을 때보다 시작되는 서비스 수가 적습니다.
 
 </td></tr><tr><td>
 
@@ -166,7 +166,7 @@ Specifies emergency mode. The system boots to single-user mode and prompts for t
 
 </td><td>
 
-Specifies the keyboard type, which is written to `/etc/sysconfig/keyboard` in the `initramfs`.
+`initramfs`의 `/etc/sysconfig/keyboard`에 기록되는 키보드 유형을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -174,7 +174,7 @@ Specifies the keyboard type, which is written to `/etc/sysconfig/keyboard` in th
 
 </td><td>
 
-Specifies the keyboard layout, which is written to `/etc/sysconfig/keyboard` in the `initramfs`.
+`initramfs`의 `/etc/sysconfig/keyboard`에 기록되는 키보드 레이아웃을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -182,7 +182,7 @@ Specifies the keyboard layout, which is written to `/etc/sysconfig/keyboard` in 
 
 </td><td>
 
-Specifies the system language and code set, which is written to `/etc/sysconfig/i18n` in the `initramfs`.
+`initramfs`의 `/etc/sysconfig/i18n`에 기록되는 시스템 언어 및 코드 세트를 지정합니다.
 
 </td></tr><tr><td>
 
@@ -190,7 +190,7 @@ Specifies the system language and code set, which is written to `/etc/sysconfig/
 
 </td><td>
 
-Specifies the number of loop devices \(`/dev/loop*`\) that are available for accessing files as block devices. The default and maximum values of _N_ are 8 and 255.
+블록 장치로 파일에 액세스하는 데 사용할 수 있는 루프 장치 수\(`/dev/loop*`\)를 지정합니다. _N_의 기본값과 최대값은 8과 255입니다.
 
 </td></tr><tr><td>
 
@@ -198,7 +198,7 @@ Specifies the number of loop devices \(`/dev/loop*`\) that are available for acc
 
 </td><td>
 
-Disables Ksplice Uptrack updates from being applied to the kernel.
+Ksplice Uptrack 업데이트가 커널에 적용되지 않도록 합니다.
 
 </td></tr><tr><td>
 
@@ -206,7 +206,7 @@ Disables Ksplice Uptrack updates from being applied to the kernel.
 
 </td><td>
 
-Reduces debugging output.
+디버깅 출력을 줄입니다.
 
 </td></tr><tr><td>
 
@@ -214,7 +214,7 @@ Reduces debugging output.
 
 </td><td>
 
-Activates an encrypted Linux Unified Key Setup \(LUKS\) partition with the specified UUID.
+지정된 UUID를 사용하여 암호화된 Linux 통합 키 설정\(LUKS\) 파티션을 활성화합니다.
 
 </td></tr><tr><td>
 
@@ -222,7 +222,7 @@ Activates an encrypted Linux Unified Key Setup \(LUKS\) partition with the speci
 
 </td><td>
 
-Specifies an LVM volume group and volume to be activated.
+활성화할 LVM 볼륨 그룹과 볼륨을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -230,7 +230,7 @@ Specifies an LVM volume group and volume to be activated.
 
 </td><td>
 
-Disables detection of an encrypted LUKS partition.
+암호화된 LUKS 파티션 감지를 비활성화합니다.
 
 </td></tr><tr><td>
 
@@ -238,7 +238,7 @@ Disables detection of an encrypted LUKS partition.
 
 </td><td>
 
-Specifies to use the Red Hat graphical boot display to indicate the progress of booting.
+Red Hat 그래픽 부팅 디스플레이를 사용하여 부팅 진행 상황을 표시하도록 지정합니다.
 
 </td></tr><tr><td>
 
@@ -246,7 +246,7 @@ Specifies to use the Red Hat graphical boot display to indicate the progress of 
 
 </td><td>
 
-Disables Device-Mapper \(DM\) RAID detection.
+Device-Mapper\(DM\) RAID 감지를 비활성화합니다.
 
 </td></tr><tr><td>
 
@@ -254,7 +254,7 @@ Disables Device-Mapper \(DM\) RAID detection.
 
 </td><td>
 
-Disables Multiple Device \(MD\) RAID detection.
+다중 장치\(MD\) RAID 감지를 비활성화합니다.
 
 </td></tr><tr><td>
 
@@ -262,7 +262,7 @@ Disables Multiple Device \(MD\) RAID detection.
 
 </td><td>
 
-Specifies that the root file system is to be mounted read-only, and specifies the root file system by the device path of its LVM volume \(where _vg_ is the name of the volume group\).
+루트 파일 시스템이 읽기 전용으로 마운트되도록 지정하고 LVM 볼륨\(여기서 _vg_는 볼륨 그룹의 이름\)의 장치 경로로 루트 파일 시스템을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -270,7 +270,7 @@ Specifies that the root file system is to be mounted read-only, and specifies th
 
 </td><td>
 
-Specifies that the root \(`/`\) file system is to be mounted read-writable at boot time, and specifies the root partition by its UUID.
+부팅 시 루트 \(`/`\) 파일 시스템이 읽기/쓰기 가능하게 마운트되도록 지정하고 해당 UUID로 루트 파티션을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -278,7 +278,7 @@ Specifies that the root \(`/`\) file system is to be mounted read-writable at bo
 
 </td><td>
 
-Disables SELinux.
+SELinux를 비활성화합니다.
 
 </td></tr><tr><td>
 
@@ -286,7 +286,7 @@ Disables SELinux.
 
 </td><td>
 
-Specifies the console font, which is written to `/etc/sysconfig/i18n` in the `initramfs`.
+`initramfs`의 `/etc/sysconfig/i18n`에 기록되는 콘솔 글꼴을 지정합니다.
 
 </td></tr><tbody></table>
 The kernel boot parameters that were last used to boot a system are recorded in `/proc/cmdline`, for example:
@@ -301,29 +301,29 @@ crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M resume=/dev/mapper/ol-swap rd.lvm.l
 rd.lvm.lv=ol/swap rhgb quiet
 ```
 
-For more information, see the `kernel-command-line(7)` manual page.
+자세한 내용은 `kernel-command-line(7)` 매뉴얼 페이지를 참조하세요.
 
-## Modifying Kernel Boot Parameters Before Booting
+## 부팅하기 전에 커널 부팅 매개변수 수정
 
-To modify boot parameters before booting a kernel, follow these steps:
+커널을 부팅하기 전에 부팅 매개변수를 수정하려면 다음 단계를 따르세요.:
 
-1. When the GRUB boot menu appears at the beginning of the boot process, use the arrow keys to highlight the required kernel and press the space bar.
+1. 부팅 프로세스 시작 시 GRUB 부팅 메뉴가 나타나면 화살표 키를 사용하여 필요한 커널을 강조 표시하고 스페이스바를 누릅니다.
 
-2. Press E to edit the boot configuration for the kernel.
+2. E를 눌러 커널의 부팅 구성을 편집합니다.
 
-3. Use the arrow keys to bring the cursor to the end of the line that starts with `linux`, which is the boot configuration line for the kernel.
+3. 화살표 키를 사용하여 커널의 부팅 구성 라인인 `linux`로 시작하는 라인의 끝으로 커서를 이동합니다.
 
-4. Modify the boot parameters.
+4. 부팅 매개변수를 수정합니다.
 
-   You can add parameters such as `systemd.target=runlevel1.target`, which instructs the system to boot into the rescue shell.
+   시스템이 복구 셸로 부팅하도록 지시하는 `systemd.target=runlevel1.target`과 같은 매개변수를 추가할 수 있습니다.
 
-5. Press Ctrl+X to boot the system.
+5. Ctrl X를 눌러 시스템을 부팅합니다.
 
-## Modifying GRUB 2 Default Kernel Boot Parameters
+## GRUB 2 기본 커널 부팅 매개변수 수정
 
-To modify the boot parameters for the GRUB 2 configuration so that these parameters are applied by default at every reboot, follow these steps:
+재부팅할 때마다 이러한 매개변수가 기본적으로 적용되도록 GRUB 2 구성에 대한 부팅 매개변수를 수정하려면 다음 단계를 수행하십시오.:
 
-1. Edit `/etc/default/grub` and add parameter settings to the `GRUB_CMDLINE_LINUX` definition, for example:
+1. 예를 들어 `/etc/default/grub`을 편집하고 `GRUB_CMDLINE_LINUX` 정의에 매개변수 설정을 추가합니다.:
 
    ```
    GRUB_CMDLINE_LINUX="vconsole.font=latarcyrheb-sun16 vconsole.keymap=uk 
@@ -331,18 +331,18 @@ To modify the boot parameters for the GRUB 2 configuration so that these paramet
    rhgb quiet **systemd.unit=runlevel3.target**"
    ```
 
-   This example adds the parameter `systemd.unit=runlevel3.target` so that the system boots into multiuser, nongraphical mode by default.
+   이 예에서는 시스템이 기본적으로 다중 사용자, 비그래픽 모드로 부팅되도록 `systemd.unit=runlevel3.target` 매개변수를 추가합니다.
 
-2. Rebuild `/boot/grub2/grub.cfg`:
+2. `/boot/grub2/grub.cfg`를 다시 빌드하세요:
 
    ```
    sudo grub2-mkconfig -o /boot/grub2/grub.cfg
    ```
 
-   The change takes effect at the next system reboot of all configured kernels.
+   변경 사항은 구성된 모든 커널이 다음에 시스템을 재부팅할 때 적용됩니다.
 
 **Note:**
 
-For systems that boot with UEFI, the `grub.cfg` file is located in the `/boot/efi/EFI/redhat` directory because the boot configuration is stored on a dedicated FAT32-formatted partition.
+UEFI로 부팅하는 시스템의 경우 부팅 구성이 전용 FAT32 형식 파티션에 저장되기 때문에 `grub.cfg` 파일은 `/boot/efi/EFI/redhat` 디렉터리에 있습니다.
 
-After the system has successfully booted, the `EFI` folder on that partition is mounted inside the `/boot/efi` directory on the root file system for Enterprise Linux.
+시스템이 성공적으로 부팅되면 해당 파티션의 `EFI` 폴더가 Enterprise Linux용 루트 파일 시스템의 `/boot/efi` 디렉터리 내에 마운트됩니다.
