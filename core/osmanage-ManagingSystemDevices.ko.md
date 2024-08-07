@@ -3,17 +3,17 @@ SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Managing System Devices
+# 시스템 장치 관리
 
-This chapter describes how the system uses device files and how the Udev device manager dynamically creates or removes device node files.
+이 장에서는 시스템이 장치 파일을 사용하는 방법과 Udev 장치 관리자가 장치 노드 파일을 동적으로 생성하거나 제거하는 방법을 설명합니다.
 
-## About Device Files
+## 장치 파일
 
-The `/dev` directory contains _device files_ or _device nodes_ that provide access to peripheral devices such as hard disks, to resources on peripheral devices such as disk partitions, and pseudo devices such as a random number generator.
+`/dev` 디렉토리에는 하드 디스크와 같은 주변 장치, 디스크 파티션과 같은 주변 장치의 리소스, 난수 생성기와 같은 의사 장치에 대한 액세스를 제공하는 _장치 파일_ 또는 _장치 노드_가 포함되어 있습니다.
 
-The `/dev` directory has several subdirectory hierarchies, each of which holds device files that relate to a certain type of device. However, the contents of these subdirectories are implemented as symbolic links to corresponding files in `/dev`. Thus, the files can be accessed either through the linked file in `/dev` or the corresponding file in the subdirectory.
+`/dev` 디렉토리에는 여러 하위 디렉토리 계층이 있으며 각 하위 디렉토리에는 특정 유형의 장치와 관련된 장치 파일이 들어 있습니다. 그러나 이러한 하위 디렉터리의 내용은 `/dev`의 해당 파일에 대한 심볼릭 링크로 구현됩니다. 따라서 파일은 `/dev`에 연결된 파일이나 하위 디렉터리의 해당 파일을 통해 액세스할 수 있습니다.
 
-Using the `ls -l /dev` command lists files, some of which are flagged as being either type `b` \(for _block_\) or type `c` \(for _character_\). These devices have an associated pair of numbers that identify the device to the system.
+`ls -l /dev` 명령을 사용하면 파일 목록이 표시되며, 그 중 일부는 `b` 유형(_블록_\의 경우) 또는 `c` 유형(_문자_\의 경우)으로 표시됩니다. 이러한 장치에는 시스템에서 장치를 식별하는 연관된 번호 쌍이 있습니다.
 
 ```
 ls -l /dev
@@ -74,11 +74,11 @@ brw-rw----. 1 root disk      8,  17 Aug 20 08:36 sdb1
 crw-rw----. 1 root cdrom    21,   0 Aug 20 08:36 sg0
 ```
 
-Block devices support random access to data, seeking media for data, and typically buffers data while data is being written or read. Examples of block devices include hard disks, CD-ROM drives, flash memory, and other addressable memory devices.
+블록 장치는 데이터에 대한 임의 액세스를 지원하여 데이터용 미디어를 찾고 일반적으로 데이터를 쓰거나 읽는 동안 데이터를 버퍼링합니다. 블록 장치의 예로는 하드 디스크, CD-ROM 드라이브, 플래시 메모리 및 기타 주소 지정이 가능한 메모리 장치가 있습니다.
 
-Character devices support the streaming of data to or from a device. The data isn't typically buffered nor is random access granted to data on a device. The kernel writes data to or reads data from a character device 1 byte at a time. Examples of character devices include keyboards, mice, terminals, pseudo terminals, and tape drives. `tty0` and `tty1` are character device files that correspond to terminal devices so users can log in from serial terminals or terminal emulators.
+문자 장치는 장치와의 데이터 스트리밍을 지원합니다. 데이터는 일반적으로 버퍼링되지 않으며 장치의 데이터에 대한 임의 액세스가 허용되지 않습니다. 커널은 한 번에 1바이트씩 문자 장치에 데이터를 쓰거나 읽습니다. 문자 장치의 예로는 키보드, 마우스, 터미널, 의사 터미널 및 테이프 드라이브가 있습니다. `tty0`과 `tty1`은 사용자가 직렬 터미널이나 터미널 에뮬레이터에서 로그인할 수 있도록 터미널 장치에 해당하는 문자 장치 파일입니다.
 
-Pseudo terminals secondary devices emulate real terminal devices to interact with software. For example, a user might log in to a terminal device such as `/dev/tty1`, which then uses the pseudo terminal primary device, `/dev/pts/ptmx`, to interact with an underlying pseudo terminal device. The character device files for pseudo terminal secondary and primary devices are located in the `/dev/pts` directory, as shown in the following example:
+모조 터미널 (Pseudo terminal - Pty) 보조 장치는 실제 터미널 장치를 에뮬레이트하여 소프트웨어와 상호 작용합니다. 예를 들어, 사용자는 `/dev/tty1`과 같은 터미널 장치에 로그인한 다음 의사 터미널 기본 장치인 `/dev/pts/ptmx`를 사용하여 기본 모조 터미널 장치와 상호 작용할 수 있습니다. 모조 터미널 보조 및 기본 장치의 문자 장치 파일은 다음 예와 같이 `/dev/pts` 디렉터리에 있습니다.:
 
 ```
 ls -l /dev/pts
@@ -92,7 +92,7 @@ crw--w----. 1 guest tty  136, 2 Mar 17 10:11 2
 c---------. 1 root  root   5, 2 Mar 17 08:16 ptmx
 ```
 
-Some device entries, such as `stdin` for the standard input, are symbolically linked through the `self` subdirectory of the `proc` file system. The pseudo-terminal device file to which they actually point depends on the context of the process.
+표준 입력용 `stdin`과 같은 일부 장치 항목은 `proc` 파일 시스템의 `self` 하위 디렉터리를 통해 기호적으로 연결됩니다. 실제로 가리키는 의사 터미널 장치 파일은 프로세스의 컨텍스트에 따라 다릅니다.
 
 ```
 ls -l /proc/self/fd/[012]
@@ -105,15 +105,15 @@ lrwx------. 1 root root 64 Oct  7 08:23 /proc/self/fd/2 -> /dev/pts/0
 
 ```
 
-Character devices, such as `null`, `random`, `urandom`, and `zero` are examples of pseudo devices that provide access to virtual functionality implemented in software rather than to physical hardware.
+`null`, `random`, `urandom` 및 `zero`와 같은 문자 장치는 물리적 하드웨어가 아닌 소프트웨어에 구현된 가상 기능에 대한 액세스를 제공하는 모조 장치의 예입니다.
 
-`/dev/null` is a data sink. Data that you write to `/dev/null` effectively disappears but the write operation succeeds. Reading from `/dev/null` returns `EOF` \(end-of-file\).
+`/dev/null`은 데이터 싱크입니다. `/dev/null`에 쓴 데이터는 사실상 사라지지만 쓰기 작업은 성공합니다. `/dev/null`에서 읽으면 `EOF`\(파일 끝\)이 반환됩니다.
 
-`/dev/zero` is a data source of an unlimited number of 0-value bytes.
+`/dev/zero`는 0 바이트 값을 무제한으로 사용할 수 있는 데이터 소스입니다.
 
-`/dev/random` and `/dev/urandom` are data sources of streams of pseudo random bytes. To maintain high-entropy output, `/dev/random` blocks if its entropy pool doesn't contain sufficient bits of noise. `/dev/urandom` doesn't block and, thereforem, the entropy of its output might not be as consistently high as that of `/dev/random`. However, neither `/dev/random` nor `/dev/urandom` are considered to be truly random enough for the purposes of secure cryptography such as military-grade encryption.
+`/dev/random` 및 `/dev/urandom`은 모조 난수 바이트 스트림의 데이터 소스입니다. 높은 엔트로피 출력을 유지하기 위해 엔트로피 풀에 충분한 노이즈 비트가 포함되어 있지 않으면 `/dev/random`이 차단됩니다. `/dev/urandom`은 차단되지 않으므로 출력의 엔트로피가 `/dev/random`의 엔트로피만큼 일관되게 높지 않을 수 있습니다. 그러나 `/dev/random` 또는 `/dev/urandom`은 군사보안급 암호화와 같은 보안 암호화 목적에 충분히 무작위인 것으로 간주되지 않습니다.
 
-You can find out the size of the entropy pool and the entropy value for `/dev/random` from virtual files under `/proc/sys/kernel/random`:
+`/proc/sys/kernel/random` 아래의 가상 파일에서 엔트로피 풀의 크기와 `/dev/random`에 대한 엔트로피 값을 확인할 수 있습니다.:
 
 ```
 cat /proc/sys/kernel/random/poolsize
@@ -131,27 +131,27 @@ cat /proc/sys/kernel/random/entropy_avail
 3467
 ```
 
-For more information, see the `null(4)`, `pts(4)`, and `random(4)` manual pages.
+자세한 내용은 `null(4)`, `pts(4)` 및 `random(4)` 매뉴얼 페이지를 참조하세요.
 
-## About the Udev Device Manager
+## Udev 장치 관리자
 
-The Udev device manager dynamically creates or removes device node files at boot time . When creating a device node, `udev` reads the device’s `/sys` directory for attributes such as the label, serial number, and bus device number.
+Udev 장치 관리자는 부팅 시 장치 노드 파일을 동적으로 생성하거나 제거합니다. 장치 노드를 생성할 때 `udev`는 장치의 `/sys` 디렉터리에서 레이블, 일련 번호, 버스 장치 번호와 같은 속성을 읽습니다.
 
-Udev can use persistent device names to guarantee consistent naming of devices across reboots, regardless of their order of discovery. Persistent device names are especially important when using external storage devices.
+Udev는 검색 순서에 관계없이 재부팅 시 일관된 장치 이름 지정을 보장하기 위해 영구 장치 이름을 사용할 수 있습니다. 영구 장치 이름은 외부 저장 장치를 사용할 때 특히 중요합니다.
 
-The configuration file for `udev` is `/etc/udev/udev.conf`, in which you can define the `udev_log` logging priority, which can be set to `err`, `info` and `debug`. Note that the default value is `err`.
+`udev`에 대한 구성 파일은 `/etc/udev/udev.conf`이며, 여기서 `udev_log` 로깅 우선순위를 정의할 수 있으며 `err`, `info` 및 `debug`로 설정할 수 있습니다. 기본값은 `err`입니다.
 
-For more information, see the `udev(7)` manual page.
+자세한 내용은 `udev(7)` 매뉴얼 페이지를 참조하세요.
 
-## About Udev Rules
+## Udev 규칙
 
-`udev` service \(`systemd-udevd`\) reads the rules files at system start-up and stores the rules in memory. If the kernel discovers a new device or an existing device goes offline, the kernel sends an event action \(_uevent_\) notification to `udev`, which matches the in-memory rules against the device attributes in the `/sys` directory to identify the device.
+`udev` 서비스\(`systemd-udevd`\)는 시스템 시작 시 규칙 파일을 읽고 규칙을 메모리에 저장합니다. 커널이 새 장치를 발견하거나 기존 장치가 오프라인 상태가 되면 커널은 `/sys`의 장치 속성에 대해 메모리 내 규칙과 일치하는 이벤트 작업 \(_uevent_\) 알림을 `udev`에 보냅니다.
 
-Multiple rules files exist in different directories. However, you only need to know about `/etc/udev/rules.d/*.rules` files because these are the only rules files that you can modify. See [Modifying Udev Rules](osmanage-ManagingSystemDevices.md#).
+여러 규칙 파일이 서로 다른 디렉터리에 존재합니다. 그러나 `/etc/udev/rules.d/*.rules` 파일은 수정할 수 있는 유일한 규칙 파일이므로 이것만 알면 됩니다. [Udev 규칙 수정](ko-osmanage-ManagingSystemDevices.md#udev-규칙-수정).
 
-Udev processes the rules files in lexical order, regardless of the directory of the rule files. Rules files in `/etc/udev/rules.d` override rules files of the same name in other locations.
+Udev는 규칙 파일의 디렉터리에 관계없이 어휘 순서로 규칙 파일을 처리합니다. `/etc/udev/rules.d`에 있는 규칙 파일은 다른 위치에 있는 동일한 이름의 규칙 파일을 재정의합니다.
 
-The following rules are extracted from the file `/lib/udev/rules.d/50-udev- default.rules` and illustrate the syntax of udev rules:
+다음 규칙은 `/lib/udev/rules.d/50-udev-default.rules` 파일에서 추출되며 udev 규칙의 구문을 보여줍니다.:
 
 ```
 # do not edit this file, it will be overwritten on update
@@ -183,7 +183,7 @@ ACTION=="remove", NAME=="?*", TEST=="/lib/udev/devices/$name", \
     OPTIONS+="ignore_remove"
 ```
 
-A rule either assigns a value to a key or it tries to find a match for a key by comparing its current value with the specified value. The following table shows the assignment and comparison operators that you can use.
+규칙은 키에 값을 할당하거나 현재 값을 지정된 값과 비교하여 키와 일치하는 항목을 찾으려고 시도합니다. 다음 표에서는 사용할 수 있는 할당 및 비교 연산자를 보여줍니다.
 
 <table><thead><tr><th>
 
@@ -199,7 +199,7 @@ Description
 
 </td><td>
 
-Assign a value to a key, overwriting any previous value.
+키에 값을 할당하여 이전 값을 덮어씁니다.
 
 </td></tr><tr><td>
 
@@ -207,7 +207,7 @@ Assign a value to a key, overwriting any previous value.
 
 </td><td>
 
-Assign a value by appending it to the key's current list of values.
+키의 현재 값 목록에 값을 추가하여 값을 할당합니다.
 
 </td></tr><tr><td>
 
@@ -215,7 +215,7 @@ Assign a value by appending it to the key's current list of values.
 
 </td><td>
 
-Assign a value to a key. This value cannot be changed by any further rules.
+키에 값을 할당합니다. 이 값은 추가 규칙에 의해 변경될 수 없습니다.
 
 </td></tr><tr><td>
 
@@ -223,7 +223,7 @@ Assign a value to a key. This value cannot be changed by any further rules.
 
 </td><td>
 
-Match the key's current value against the specified value for equality.
+키의 현재 값을 지정된 값과 일치하는지 비교합니다.
 
 </td></tr><tr><td>
 
@@ -231,7 +231,7 @@ Match the key's current value against the specified value for equality.
 
 </td><td>
 
-Match the key's current value against the specified value for equality.
+키의 현재 값을 지정된 값과 일치하는지 않는지 비교합니다.
 
 </td></tr><tbody></table>
 You can use the following shell-style pattern-matching characters in values.
@@ -250,7 +250,7 @@ Description
 
 </td><td>
 
-Matches a single character.
+단일 문자와 일치합니다.
 
 </td></tr><tr><td>
 
@@ -258,7 +258,7 @@ Matches a single character.
 
 </td><td>
 
-Matches any number of characters, including zero.
+0을 포함하여 모든 문자 수와 일치합니다.
 
 </td></tr><tr><td>
 
@@ -266,7 +266,7 @@ Matches any number of characters, including zero.
 
 </td><td>
 
-Matches any single character or character from a range of characters specified within the brackets. For example, `tty[sS][0-9]` would match `ttys7` or `ttyS7`.
+단일 문자 또는 대괄호 안에 지정된 문자 범위의 문자와 일치합니다. 예를 들어 `tty[sS][0-9]`는 `ttys7` 또는 `ttyS7`과 일치합니다.
 
 </td></tr><tbody></table>
 The following table describes commonly used match keys in rules.
@@ -285,7 +285,7 @@ Description
 
 </td><td>
 
-Matches the name of the action that led to an event. For example, `ACTION="add"` or `ACTION="remove"`.
+이벤트를 발생시킨 작업의 이름과 일치합니다. 예를 들어 `ACTION="추가"` 또는 `ACTION="제거"`입니다.
 
 </td></tr><tr><td>
 
@@ -293,7 +293,7 @@ Matches the name of the action that led to an event. For example, `ACTION="add"`
 
 </td><td>
 
-Matches a value for the device property _key_. For example, `ENV{DEVTYPE}=="disk"`.
+장치 속성 _key_의 값과 일치합니다. 예를 들어 `ENV{DEVTYPE}=="disk"`입니다.
 
 </td></tr><tr><td>
 
@@ -301,7 +301,7 @@ Matches a value for the device property _key_. For example, `ENV{DEVTYPE}=="disk
 
 </td><td>
 
-Matches the name of the device that is affected by an event. For example, `KERNEL=="dm-*"` for disk media.
+이벤트의 영향을 받는 장치의 이름과 일치합니다. 예를 들어 디스크 미디어의 경우 `KERNEL=="dm-*"`입니다.
 
 </td></tr><tr><td>
 
@@ -309,7 +309,7 @@ Matches the name of the device that is affected by an event. For example, `KERNE
 
 </td><td>
 
-Matches the name of a device file or network interface. For example, `NAME="?*"` for any name that consists of one or more characters.
+장치 파일 또는 네트워크 인터페이스의 이름과 일치합니다. 예를 들어 하나 이상의 문자로 구성된 이름의 경우 `NAME="?*"`입니다.
 
 </td></tr><tr><td>
 
@@ -317,7 +317,7 @@ Matches the name of a device file or network interface. For example, `NAME="?*"`
 
 </td><td>
 
-Matches the subsystem of the device that is affected by an event. For example, `SUBSYSTEM=="tty"`.
+이벤트의 영향을 받는 장치의 하위 시스템과 일치합니다. 예를 들어 `SUBSYSTEM=="tty"`입니다.
 
 </td></tr><tr><td>
 
@@ -325,12 +325,12 @@ Matches the subsystem of the device that is affected by an event. For example, `
 
 </td><td>
 
-Tests wheter the specified file or path exists; for example, `TEST=="/lib/udev/devices/$name"`, where `$name` is the name of the currently matched device file.
+예를 들어 `TEST=="/lib/udev/devices/$name"`, 여기서 `$name`은 현재 일치하는 장치 파일의 이름입니다.
 
 </td></tr><tbody></table>
 Other match keys include `ATTR{*filename*}`, `ATTRS{*filename*}`, `DEVPATH`, `DRIVER`, `DRIVERS`, `KERNELS`, `PROGRAM`, `RESULT`, `SUBSYSTEMS`, and `SYMLINK`.
 
-The following table describes commonly used assignment keys in rules.
+다음 표에서는 규칙에서 일반적으로 사용되는 할당 키를 설명합니다.
 
 <table><thead><tr><th>
 
@@ -346,7 +346,7 @@ Description
 
 </td><td>
 
-Specifies a value for the device property _key_, such as `GROUP="disk"`.
+`GROUP="disk"`와 같은 장치 속성 _key_의 값을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -354,7 +354,7 @@ Specifies a value for the device property _key_, such as `GROUP="disk"`.
 
 </td><td>
 
-Specifies the group for a device file, such as `GROUP="disk"`.
+`GROUP="disk"`와 같은 장치 파일의 그룹을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -362,27 +362,27 @@ Specifies the group for a device file, such as `GROUP="disk"`.
 
 </td><td>
 
-Specifies a set of variables for the device property, depending on _type_:
+_type_에 따라 장치 속성에 대한 변수 세트를 지정합니다.
 
 - **`cmdline`**
 
-Import a single property from the boot `kernel` command line. For simple flags, `udev` sets the value of the property to 1. For example, `IMPORT{cmdline}="nodmraid"`.
+부팅 `커널` 커맨드라인에서 단일 속성을 가져옵니다. 간단한 플래그의 경우 `udev`는 속성 값을 1로 설정합니다. 예를 들어 `IMPORT{cmdline}="nodmraid"`입니다.
 
 - **`db`**
 
-Interpret the specified value as an index into the device database and import a single property, which must have already been set by an earlier event. For example, `IMPORT{db}="DM_UDEV_LOW_PRIORITY_FLAG"`.
+지정된 값을 장치 데이터베이스에 대한 인덱스로 해석하고 이전 이벤트에 의해 이미 설정되어 있어야 하는 단일 속성을 가져옵니다. 예를 들어 `IMPORT{db}="DM_UDEV_LOW_PRIORITY_FLAG"`입니다.
 
 - **`file`**
 
-Interpret the specified value as the name of a text file and import its contents, which must be in environmental key format. For example, `IMPORT{file}="keyfile"`.
+지정된 값을 텍스트 파일의 이름으로 해석하고 환경 키 형식이어야 하는 해당 내용을 가져옵니다. 예를 들어 `IMPORT{file}="keyfile"`입니다.
 
 - **`parent`**
 
-Interpret the specified value as a key-name filter and import the stored keys from the database entry for the parent device. For example `IMPORT{parent}="ID_*"`.
+지정된 값을 키 이름 필터로 해석하고 상위 장치에 대한 데이터베이스 항목에서 저장된 키를 가져옵니다. 예를 들어 `IMPORT{parent}="ID_*"`입니다.
 
 - **`program`**
 
-Run the specified value as an external program and imports its result, which must be in environmental key format. For example `IMPORT{program}="usb_id --export %p"`.
+지정된 값을 외부 프로그램으로 실행하고 해당 결과를 가져옵니다. 예를 들어 `IMPORT{program}="usb_id --export %p"`입니다.
 
 </td></tr><tr><td>
 
@@ -390,7 +390,7 @@ Run the specified value as an external program and imports its result, which mus
 
 </td><td>
 
-Specifies the permissions for a device file, such as `MODE="0640"`.
+`MODE="0640"`과 같은 장치 파일에 대한 권한을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -398,7 +398,7 @@ Specifies the permissions for a device file, such as `MODE="0640"`.
 
 </td><td>
 
-Specifies the name of a device file, such as `NAME="em1"`.
+`NAME="em1"`과 같은 장치 파일의 이름을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -406,7 +406,7 @@ Specifies the name of a device file, such as `NAME="em1"`.
 
 </td><td>
 
-Specifies rule and device options, such as `OPTIONS+="ignore_remove"`, which means that the device file isn't removed if the device is removed.
+`OPTIONS ="ignore_remove"`와 같은 규칙 및 장치 옵션을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -414,7 +414,7 @@ Specifies rule and device options, such as `OPTIONS+="ignore_remove"`, which mea
 
 </td><td>
 
-Specifies the owner for a device file, such as `GROUP="root"`.
+`GROUP="root"`와 같은 장치 파일의 소유자를 지정합니다.
 
 </td></tr><tr><td>
 
@@ -422,7 +422,7 @@ Specifies the owner for a device file, such as `GROUP="root"`.
 
 </td><td>
 
-Specifies a command to be run after the device file has been created, such as `RUN+="/usr/bin/eject $kernel"`, where `$kernel` is the kernel name of the device.
+`RUN ="/usr/bin/eject $kernel"`과 같이 장치 파일이 생성된 후에 실행할 명령을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -430,12 +430,12 @@ Specifies a command to be run after the device file has been created, such as `R
 
 </td><td>
 
-Specifies the name of a symbolic link to a device file, such as `SYMLINK+="disk/by-uuid/$env{ID_FS_UUID_ENC}"`, where `$env{}` is substituted with the specified device property.
+`SYMLINK ="disk/by-uuid/$env{ID_FS_UUID_ENC}"`와 같이 장치 파일에 대한 심볼릭 링크의 이름을 지정합니다.
 
 </td></tr><tbody></table>
 Other assignment keys include `ATTR{*key*}`, `GOTO`, `LABEL`, `RUN`, and `WAIT_FOR`.
 
-The following table describes the string substitutions that are commonly used with the `GROUP`, `MODE`, `NAME`, `OWNER`, `PROGRAM`, `RUN`, and `SYMLINK` keys.
+다음 표에서는 `GROUP`, `MODE`, `NAME`, `OWNER`, `PROGRAM`, `RUN` 및 `SYMLINK` 키와 함께 일반적으로 사용되는 문자열 대체를 설명합니다.
 
 <table><thead><tr><th>
 
@@ -453,7 +453,7 @@ Description
 
 </td><td>
 
-Specifies the value of a device attribute from a file under `/sys`, such as `ENV{MATCHADDR}="$attr{address}"`.
+`ENV{MATCHADDR}="$attr{address}"`와 같이 `/sys` 아래 파일의 장치 속성 값을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -463,7 +463,7 @@ Specifies the value of a device attribute from a file under `/sys`, such as `ENV
 
 </td><td>
 
-The device path of the device in the `sysfs` file system under `/sys`, such as `RUN+="keyboard-force-release.sh $devpath common-volume-keys"`.
+`/sys` 아래의 `sysfs` 파일 시스템에 있는 장치의 장치 경로입니다(예: `RUN ="keyboard-force-release.sh $devpath common-volume-keys"`).
 
 </td></tr><tr><td>
 
@@ -473,7 +473,7 @@ The device path of the device in the `sysfs` file system under `/sys`, such as `
 
 </td><td>
 
-Specifies the value of a device property, such as `SYMLINK+="disk/by-id/md-name-$env{MD_NAME}-part%n"`.
+`SYMLINK ="disk/by-id/md-name-$env{MD_NAME}-part%n"`과 같은 장치 속성 값을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -483,7 +483,7 @@ Specifies the value of a device property, such as `SYMLINK+="disk/by-id/md-name-
 
 </td><td>
 
-Specifies the kernel name for the device.
+장치의 커널 이름을 지정합니다.
 
 </td></tr><tr><td>
 
@@ -493,7 +493,7 @@ Specifies the kernel name for the device.
 
 </td><td>
 
-Specifies the major number of a device, such as `IMPORT{program}="udisks-dm-export %M %m"`.
+`IMPORT{program}="udisks-dm-export %M %m"`과 같이 장치의 주요 번호를 지정합니다.
 
 </td></tr><tr><td>
 
@@ -503,7 +503,7 @@ Specifies the major number of a device, such as `IMPORT{program}="udisks-dm-expo
 
 </td><td>
 
-Specifies the minor number of a device, such as `RUN+="$env{LVM_SBIN_PATH}/lvm pvscan --cache --major $major --minor $minor"`.
+`RUN ="$env{LVM_SBIN_PATH}/lvm pvscan --cache --major $major --minor $minor"`와 같이 장치의 부 번호를 지정합니다.
 
 </td></tr><tr><td>
 
@@ -511,18 +511,18 @@ Specifies the minor number of a device, such as `RUN+="$env{LVM_SBIN_PATH}/lvm p
 
 </td><td>
 
-Specifies the device file of the current device, such as `TEST=="/lib/udev/devices/$name"`.
+`TEST=="/lib/udev/devices/$name"`과 같이 현재 장치의 장치 파일을 지정합니다.
 
 </td></tr><tbody></table>
 Udev expands the strings specified for `RUN` immediately before its program is run, which is after udev has finished processing all other rules for the device. For the other keys, `udev` expands the strings while it's processing the rules.
 
-For more information, see the `udev(7)` manual page.
+자세한 내용은 `udev(7)` 매뉴얼 페이지를 참조하세요.
 
-## Querying Udev and Sysfs
+## Udev 및 Sysfs 쿼리
 
-You can use the `udevadm` command to query the `udev` database and `sysfs`.
+`udevadm` 명령을 사용하여 `udev` 데이터베이스와 `sysfs`를 쿼리할 수 있습니다.
 
-To query the `sysfs` device path relative to `/sys` that corresponds to the device file `/dev/sda`:
+장치 파일 `/dev/sda`에 해당하는 `/sys`를 기준으로 `sysfs` 장치 경로를 쿼리하려면:
 
 ```
 udevadm info --query=path --name=/dev/sda
@@ -532,7 +532,7 @@ udevadm info --query=path --name=/dev/sda
 /devices/pci0000:00/0000:00:0d.0/host0/target0:0:0/0:0:0:0/block/sda
 ```
 
-To query the symbolic links that point to `/dev/sda`, use the following command:
+`/dev/sda`를 가리키는 심볼릭 링크를 쿼리하려면 다음 명령을 사용하십시오.:
 
 ```
 udevadm info --query=symlink --name=/dev/sda
@@ -545,7 +545,7 @@ disk/by-id/scsi-SATA_VBOX_HARDDISK_VB6ad0115d-356e4c09
 disk/by-path/pci-0000:00:0d.0-scsi-0:0:0:0
 ```
 
-To query the properties of `/dev/sda`, use the following command:
+`/dev/sda`의 속성을 쿼리하려면 다음 명령을 사용하십시오.:
 
 ```
 udevadm info --query=property --name=/dev/sda
@@ -585,7 +585,7 @@ UDISKS_ATA_SMART_IS_AVAILABLE=0
 DEVLINKS=/dev/block/8:0 /dev/disk/by-id/ata-VBOX_HARDDISK_VB579a85b0-bf6debae ...
 ```
 
-To query the entire information for `/dev/sda`, use the following command:
+`/dev/sda`에 대한 전체 정보를 쿼리하려면 다음 명령을 사용하십시오.:
 
 ```
 udevadm info --query=all --name=/dev/sda
@@ -631,7 +631,7 @@ E: UDISKS_ATA_SMART_IS_AVAILABLE=0
 E: DEVLINKS=/dev/block/8:0 /dev/disk/by-id/ata-VBOX_HARDDISK_VB579a85b0-bf6debae ...
 ```
 
-To display all of the properties of `/dev/sda`, as well as the parent devices that `udev` has found in `/sys`, use the following command:
+`/dev/sda`의 모든 속성과 `udev`가 `/sys`에서 찾은 상위 장치를 표시하려면 다음 명령을 사용하십시오.:
 
 ```
 udevadm info --attribute-walk --name=/dev/sda
@@ -711,25 +711,25 @@ udevadm info --attribute-walk --name=/dev/sda
     DRIVERS==""
 ```
 
-The command starts at the device that's specified by the device path and walks the chain of parent devices. For every device that the command finds, the command displays the possible attributes for the device and its parent devices by using the match key format for `udev` rules.
+명령은 장치 경로에 지정된 장치에서 시작하여 상위 장치 체인 위로 이동합니다. 명령이 찾은 모든 장치에 대해 명령은 `udev` 규칙의 일치 키 형식을 사용하여 장치 및 해당 상위 장치에 대해 가능한 속성을 표시합니다.
 
-For more information, see the `udevadm(8)` manual page.
+자세한 내용은 `udevadm(8)` 매뉴얼 페이지를 참조하세요.
 
-## Modifying Udev Rules
+## Udev 규칙 수정
 
-The order in which rules are evaluated is important. Udev processes rules in lexical order. If you want to add custom rules, you need `udev` to locate and evaluate these rules before the default rules.
+규칙이 평가되는 순서가 중요합니다. Udev는 규칙을 어휘순으로 처리합니다. 사용자 정의 규칙을 추가하려면 기본 규칙보다 먼저 이러한 규칙을 찾고 평가하기 위해 `udev`가 필요합니다.
 
-The following example illustrates how to implement a `udev` rules file that adds a symbolic link to the disk device `/dev/sdb`.
+다음 예에서는 디스크 장치 `/dev/sdb`에 심볼릭 링크를 추가하는 `udev` 규칙 파일을 구현하는 방법을 보여줍니다.
 
-1. Create a rule file under `/etc/udev/rules.d` with a file name such as `10-local.rules` that udev reads before any other rules file.
+1. udev가 다른 규칙 파일보다 먼저 읽는 `10-local.rules`와 같은 파일 이름을 사용하여 `/etc/udev/rules.d` 아래에 규칙 파일을 만듭니다.
 
-   The following rule in `10-local.rules` creates the symbolic link `/dev/my_disk`, which points to `/dev/sdb`:
+   `10-local.rules`의 다음 규칙은 `/dev/sdb`를 가리키는 심볼릭 링크 `/dev/my_disk`를 생성합니다.:
 
    ```
    KERNEL=="sdb", ACTION=="add", SYMLINK="my_disk"
    ```
 
-   Listing the device files in `/dev` shows that `udev` hasn't yet applied the rule:
+   `/dev`에 장치 파일을 나열하면 `udev`가 아직 규칙을 적용하지 않았음을 알 수 있습니다.:
 
    ```
    ls /dev/sd* /dev/my_disk
@@ -740,7 +740,7 @@ The following example illustrates how to implement a `udev` rules file that adds
    /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
    ```
 
-2. To simulate how `udev` applies its rules to create a device, you can use the `udevadm test` command with the device path of `sdb` listed under the `/sys/class/block` hierarchy, for example:
+2. `udev`가 규칙을 적용하여 장치를 생성하는 방법을 시뮬레이션하려면 `/sys/class/block` 계층 아래에 ​​나열된 `sdb` 장치 경로와 함께 `udevadm test` 명령을 사용할 수 있습니다.
 
    ```
    udevadm test /sys/class/block/sdb
@@ -765,13 +765,13 @@ The following example illustrates how to implement a `udev` rules file that adds
    ...
    ```
 
-3. Restart the `systemd-udevd` service:
+3. `systemd-udevd` 서비스를 다시 시작하세요.:
 
    ```
    sudo systemctl restart systemd-udevd
    ```
 
-   After `udev` processes the rules files, the symbolic link `/dev/my_disk` has been added:
+   `udev`가 규칙 파일을 처리한 후 `/dev/my_disk` 심볼릭 링크가 추가되었습니다.:
 
    ```
    ls -F /dev/sd* /dev/my_disk
@@ -781,4 +781,4 @@ The following example illustrates how to implement a `udev` rules file that adds
    /dev/my_disk@  /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
    ```
 
-4. \(Optional\) To undo the changes, remove `/etc/udev/rules.d/10-local.rules` and `/dev/my_disk`, then run `systemctl restart systemd-udevd` again.
+4. \(선택 사항\) 변경 사항을 취소하려면 `/etc/udev/rules.d/10-local.rules` 및 `/dev/my_disk`를 제거한 다음 `systemctl restart systemd-udevd`를 다시 실행하세요.
