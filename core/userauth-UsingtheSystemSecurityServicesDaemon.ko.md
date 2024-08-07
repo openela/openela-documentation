@@ -3,39 +3,39 @@ SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Using the System Security Services Daemon
+# 시스템 보안 서비스 데몬 사용
 
-The System Security Services Daemon \(SSSD\) feature provides access on a client system to remote identity and authentication providers. The SSSD acts as an intermediary between local clients and any back-end provider that you configure.
+시스템 보안 서비스 데몬\(SSSD\) 기능은 클라이언트 시스템에서 원격 ID 및 인증 공급자에 대한 액세스를 제공합니다. SSSD는 로컬 클라이언트와 사용자가 구성하는 백엔드 공급자 간의 중개자 역할을 합니다.
 
-The benefits of configuring SSSD include the following:
+SSSD를 구성하면 다음과 같은 이점이 있습니다.
 
-- Reduced system load
+- 시스템 부하 감소
 
-  Clients do not have to contact the identification or authentication servers directly.
+  클라이언트는 식별 또는 인증 서버에 직접 접속할 필요가 없습니다.
 
-- Offline authentication
+- 오프라인 인증
 
-  You can configure SSSD to maintain a cache of user identities and credentials.
+  사용자 ID 및 자격 증명의 캐시를 유지하도록 SSSD를 구성할 수 있습니다.
 
-- Single sign-on access
+- 싱글 사인온 액세스
 
-  If you configure SSSD to store network credentials, users need only authenticate once per session with the local system to access network resources.
+  네트워크 자격 증명을 저장하도록 SSSD를 구성하는 경우 사용자는 로컬 시스템에서 세션당 한 번만 인증하면 네트워크 리소스에 액세스할 수 있습니다.
 
-Because the Enterprise Linux `sssd` profile is used by default, the SSSD service is also automatically installed and enabled on a newly installed system. The default configuration uses the Pluggable Authentication Modules \(PAM\) and the Name Service Switch \(NSS\) for managing access and authentication on a system. No further configuration is required, unless you wish to use different authentication services or wish to customize the configuration to use alternative values to the default settings.
+Enterprise Linux `sssd` 프로필이 기본적으로 사용되므로 SSSD 서비스도 새로 설치된 시스템에 자동으로 설치되고 활성화됩니다. 기본 구성에서는 시스템의 액세스 및 인증을 관리하기 위해 플러그형 인증 모듈\(PAM\) 및 이름 서비스 스위치\(NSS\)를 사용합니다. 다른 인증 서비스를 사용하거나 기본 설정에 대한 대체 값을 사용하도록 구성을 사용자 정의하려는 경우가 아니면 추가 구성이 필요하지 않습니다.
 
-See [https://sssd.io/](https://sssd.io/) for more information about SSSD.
+SSSD에 대한 자세한 내용은 [https://sssd.io/](https://sssd.io/)를 참조하세요.
 
-## Customizing SSSD
+## SSSD 사용자 정의
 
-By default the SSSD service used by the `sssd` profile uses Pluggable Authentication Modules \(PAM\) and the Name Service Switch \(NSS\) for managing access and authentication on a system. As you enable additional features for the profile to customize SSSD authentication, you must also configure SSSD for the enabled feature.
+기본적으로 `sssd` 프로필에 사용되는 SSSD 서비스는 시스템 액세스 및 인증 관리를 위해 플러그형 인증 모듈\(PAM\)과 이름 서비스 스위치\(NSS\)를 사용합니다. SSSD 인증을 사용자 정의하기 위해 프로필에 대한 추가 기능을 활성화하면 활성화된 기능에 대해 SSSD도 구성해야 합니다.
 
-You customize an SSSD configuration by creating configuration files within the `/etc/sssd/conf.d` directory. Each configuration file must have the `.conf` suffix to enable it when SSSD is started. Configuration files use ini-style syntax as format. The content consist of sections, which are identified by square brackets, and parameters, which are listed as `key = value` entries. The manual pages provided for SSSD are comprehensive and provide detailed information on the options that are available.
+`/etc/sssd/conf.d` 디렉토리 내에 구성 파일을 생성하여 SSSD 구성을 사용자 정의합니다. SSSD가 시작될 때 활성화하려면 각 구성 파일에 `.conf` 접미사가 있어야 합니다. 구성 파일은 ini 스타일 구문을 형식으로 사용합니다. 콘텐츠는 대괄호로 식별되는 섹션과 `키 = 값` 항목으로 나열되는 매개변수로 구성됩니다. SSSD용으로 제공되는 매뉴얼 페이지는 포괄적이며 사용 가능한 옵션에 대한 자세한 정보를 제공합니다.
 
-The following example shows how you might configure SSSD to authenticate against an LDAP provider with Kerberos configured:
+다음 예에서는 Kerberos가 구성된 LDAP 공급자에 대해 인증하도록 SSSD를 구성하는 방법을 보여줍니다.:
 
-1. Create a configuration file for the feature and store it in `/etc/sssd/conf.d`, for example `/etc/sssd/conf.d/00-ldap.conf`
+1. 기능에 대한 구성 파일을 생성하고 `/etc/sssd/conf.d`에 저장합니다(예: `/etc/sssd/conf.d/00-ldap.conf`).
 
-2. Configure `/etc/sssd/conf.d/00-ldap.conf` with parameter definitions, such as the following:
+2. 다음과 같은 매개변수 정의로 `/etc/sssd/conf.d/00-ldap.conf`를 구성합니다.:
 
    ```
    [sssd]
@@ -72,79 +72,79 @@ The following example shows how you might configure SSSD to authenticate against
 
    - **`[sssd]`**
 
-     Contains configuration settings for SSSD monitor options, domains, and services. The SSSD monitor service manages the services that SSSD provides.
+     SSSD 모니터 옵션, 도메인 및 서비스에 대한 구성 설정이 포함되어 있습니다. SSSD 모니터 서비스는 SSSD가 제공하는 서비스를 관리합니다.
 
-     - `services` defines the supported services, which should include `nss` for the Name Service Switch and `pam` for Pluggable Authentication Modules.
+     - 여기에는 이름 서비스 스위치용 `nss`와 플러그형 인증 모듈용 `pam`이 포함되어야 합니다.
 
-     - The `domains` entry specifies the name of the sections that define authentication domains.
+     - `domains` 항목은 인증 도메인을 정의하는 섹션의 이름을 지정합니다.
 
    - **`[domain/LDAP]`**
 
-     Defines a domain for an LDAP identity provider that uses Kerberos authentication. Each domain defines where user information is stored, the authentication method, and any configuration options. SSSD can work with LDAP identity providers such as OpenLDAP, Red Hat Directory Server, IPA, and Microsoft Active Directory, and it can use either native LDAP or Kerberos authentication.
+     Kerberos 인증을 사용하는 LDAP ID 공급자에 대한 도메인을 정의합니다. 각 도메인은 사용자 정보가 저장되는 위치, 인증 방법 및 구성 옵션을 정의합니다. SSSD는 OpenLDAP, Red Hat Directory Server, IPA 및 Microsoft Active Directory와 같은 LDAP ID 공급자와 작동할 수 있으며 기본 LDAP 또는 Kerberos 인증을 사용할 수 있습니다.
 
-     - `id_provider` specifies the type of provider \(in this example, LDAP\).
+     - `id_provider`는 공급자 유형\(이 예에서는 LDAP\)을 지정합니다.
 
-     - `ldap_uri` specifies a comma-separated list of the Universal Resource Identifiers \(URIs\) of the LDAP servers, in order of preference, to which SSSD can connect.
+     - `ldap_uri`는 SSSD가 연결할 수 있는 LDAP 서버의 Universal Resource Identifiers\(URIs\) 목록을 쉼표로 구분하여 지정합니다.
 
-     - `ldap_search_base` specifies the base distinguished name \(`dn`\) that SSSD should use when performing LDAP user operations on a relative distinguished name \(RDN\) such as a common name \(`cn`\).
+     - `ldap_search_base`는 일반 이름 \(`cn`\)과 같은 상대 고유 이름 \(RDN\)에 대해 LDAP 사용자 작업을 수행할 때 SSSD가 사용해야 하는 기본 고유 이름 \(`dn`\)을 지정합니다.
 
-     - `auth_provider` entry specifies the authentication provider \(in this example, Kerberos\).
+     - `auth_provider` 항목은 인증 공급자\(이 예에서는 Kerberos\)를 지정합니다.
 
-     - `krb5_server` specifies a comma-separated list of Kerberos servers, in order of preference, to which SSSD can connect.
+     - `krb5_server`는 SSSD가 연결할 수 있는 Kerberos 서버의 목록을 선호도 순으로 쉼표로 구분하여 지정합니다.
 
-     - `krb5_realm` specifies the Kerberos realm.
+     - `krb5_realm`은 Kerberos 영역을 지정합니다.
 
-     - `cache_credentials` specifies if SSSD caches user credentials such as tickets, session keys, and other identifying information to support offline authentication and single sign-on.
+     - `cache_credentials`는 SSSD가 티켓, 세션 키, 기타 식별 정보와 같은 사용자 자격 증명을 캐시하여 오프라인 인증 및 Single Sign-On을 지원하는지 여부를 지정합니다.
 
        **Note:**
 
-       To allow SSSD to use Kerberos authentication with an LDAP server, you must configure the LDAP server to use both Simple Authentication and Security Layer \(SASL\) and the Generic Security Services API \(GSSAPI\). For more information about configuring SASL and GSSAPI for OpenLDAP, see [https://www.openldap.org/doc/admin24/sasl.html](https://www.openldap.org/doc/admin24/sasl.html).
+       SSSD가 LDAP 서버에서 Kerberos 인증을 사용하도록 허용하려면 단순 인증 및 보안 계층\(SASL\)과 일반 보안 서비스 API\(GSSAPI\)를 모두 사용하도록 LDAP 서버를 구성해야 합니다. OpenLDAP용 SASL 및 GSSAPI 구성에 대한 자세한 내용은 [https://www.openldap.org/doc/admin24/sasl.html](https://www.openldap.org/doc/admin24/sasl.html)을 참조하세요.
 
-     - `min_id` and `max_id` specify upper and lower limits on the values of user and group IDs.
+     - `min_id` 및 `max_id`는 사용자 및 그룹 ID 값의 상한 및 하한을 지정합니다.
 
-     - `enumerate` specifies whether SSSD caches the complete list of users and groups that are available on the provider. The recommended setting is `False` unless a domain contains relatively few users or groups.
+     - `enumerate`는 SSSD가 공급자에서 사용할 수 있는 사용자 및 그룹의 전체 목록을 캐시할지 여부를 지정합니다. 도메인에 상대적으로 적은 수의 사용자나 그룹이 포함되어 있지 않는 한 권장 설정은 `False`입니다.
 
    - **`[nss]`**
 
-     Configures the Name Service Switch \(NSS\) module that integrates the SSS database with NSS.
+     SSS 데이터베이스를 NSS와 통합하는 이름 서비스 스위치\(NSS\) 모듈을 구성합니다.
 
-     - `filter_users` and `filter_groups` prevent NSS from extracting information about the specified users and groups being retrieved from SSS.
+     - `filter_users` 및 `filter_groups`는 NSS가 SSS에서 검색되는 지정된 사용자 및 그룹에 대한 정보를 추출하는 것을 방지합니다.
 
-     - `reconnection_retries` specifies the number of times that SSSD should try to reconnect if a data provider crashes.
+     - `reconnection_retries`는 데이터 공급자가 충돌할 경우 SSSD가 다시 연결을 시도해야 하는 횟수를 지정합니다.
 
-     - `enum_cache_timeout` specifies the number of seconds for which SSSD caches user information requests.
+     - `enum_cache_timeout`은 SSSD가 사용자 정보 요청을 캐시하는 시간(초)을 지정합니다.
 
    - **`[pam]`**
 
-     Configures the PAM module that integrates SSSD with PAM.
+     SSSD를 PAM과 통합하는 PAM 모듈을 구성합니다.
 
-     - `offline_credentials_expiration` specifies the number of days for which to allow cached logins if the authentication provider is offline.
+     - `offline_credentials_expiration`은 인증 공급자가 오프라인인 경우 캐시된 로그인을 허용하는 일수를 지정합니다.
 
-     - `offline_failed_login_attempts` specifies how many failed login attempts are allowed if the authentication provider is offline.
+     - `offline_failed_login_attempts`는 인증 공급자가 오프라인인 경우 허용되는 로그인 시도 실패 횟수를 지정합니다.
 
-     - `offline_failed_login_delay` specifies how many minutes after the limit of allowed failed login attempts have been exceeded before a new login attempt is permitted.
+     - `offline_failed_login_delay`는 허용된 실패한 로그인 시도 제한이 초과된 후 새로운 로그인 시도가 허용되기까지의 시간(분)을 지정합니다.
 
-3. Change the mode of `/etc/sssd/conf.d/00-ldap.conf` to 0600:
+3. `/etc/sssd/conf.d/00-ldap.conf` 모드를 0600으로 변경합니다.:
 
    ```
    sudo chmod 0600 /etc/sssd/conf.d/00-ldap.conf
    ```
 
-4. If it's not started yet, enable the SSSD service:
+4. 아직 시작되지 않은 경우 SSSD 서비스를 활성화하십시오.:
 
-5. Select the `sssd` profile.
+5. `sssd` 프로필을 선택하세요.
 
    ```
    sudo authselect select sssd
    ```
 
-For more information about the SSSD service, see the `sssd(8)` manual page and [https://pagure.io/SSSD/sssd/](https://pagure.io/SSSD/sssd/). Also, you can consult `sssd.conf(5)`, `sssd-ldap(5)`, `sssd-krb5(5)`, `sssd-ipa(5)`, and other manual pages.
+SSSD 서비스에 대한 자세한 내용은 `sssd(8)` 매뉴얼 페이지와 [https://pagure.io/SSSD/sssd/](https://pagure.io/SSSD/sssd/)를 참조하세요. 또한 `sssd.conf(5)`, `sssd-ldap(5)`, `sssd-krb5(5)`, `sssd-ipa(5)` 및 기타 매뉴얼 페이지를 참조할 수 있습니다.
 
-## About Pluggable Authentication Modules
+## 플러그형 인증 모듈
 
-The Pluggable Authentication Modules \(PAM\) feature is an authentication mechanism used by the `sssd` profile that allows you to configure how applications use authentication to verify the identity of a user. The PAM configuration files, which are located in the `/etc/pam.d` directory, describe the authentication procedure for an application. The name of each configuration file is the same as, or is similar to, the name of the application for which the module provides authentication. For example, the configuration files for `passwd` and `sudo` are named `passwd` and `sudo`.
+플러그형 인증 모듈\(PAM\) 기능은 `sssd` 프로필에서 사용하는 인증 메커니즘으로, 애플리케이션에서 인증을 사용하여 사용자의 신원을 확인하는 방법을 구성할 수 있습니다. `/etc/pam.d` 디렉토리에 있는 PAM 구성 파일은 애플리케이션에 대한 인증 절차를 설명합니다. 각 구성 파일의 이름은 모듈이 인증을 제공하는 애플리케이션의 이름과 동일하거나 유사합니다. 예를 들어 `passwd` 및 `sudo`에 대한 구성 파일의 이름은 `passwd` 및 `sudo`입니다.
 
-Each PAM configuration file contains a list or _stack_ of calls to authentication modules. For example, the following listing shows the default content of the `login` configuration file:
+각 PAM 구성 파일에는 인증 모듈에 대한 호출 목록 또는 _스택_이 포함되어 있습니다. 예를 들어 다음 목록은 `login` 구성 파일의 기본 콘텐츠를 보여줍니다.:
 
 ```
 #%PAM-1.0
@@ -167,58 +167,58 @@ session    include      postlogin
 -session   optional     pam_ck_connector.so
 ```
 
-Comments in the file start with a `#` character. The remaining lines each define an operation type, a control flag, the name of a module such as `pam_rootok.so` or the name of an included configuration file such as `system-auth`, and any arguments to the module. PAM provides authentication modules as shared libraries in `/usr/lib64/security`.
+파일의 주석은 `#` 다음으로 시작합니다. 나머지 행은 각각 작업 유형, 제어 플래그, `pam_rootok.so`와 같은 모듈 이름 또는 포함된 구성 파일(`system-auth`와 같은) 이름, 모듈에 대한 인수를 정의합니다. PAM은 인증 모듈을 `/usr/lib64/security`에서 공유 라이브러리로 제공합니다.
 
-For a particular operation type, PAM reads the stack from top to bottom and calls the modules listed in the configuration file. Each module generates a success or failure result when called.
+특정 작업 유형의 경우 PAM은 스택을 위에서 아래로 읽고 구성 파일에 나열된 모듈을 호출합니다. 각 모듈은 호출 시 성공 또는 실패 결과를 생성합니다.
 
-The following operation types are defined for use:
+다음 작업 유형이 사용되도록 정의됩니다.:
 
 - **`auth`**
 
-  The module tests whether a user is authenticated or authorized to use a service or application. For example, the module might request and verify a password. Such modules can also set credentials, such as a group membership or a Kerberos ticket.
+  모듈은 사용자가 서비스나 애플리케이션을 사용할 수 있도록 인증되었는지 또는 권한이 있는지 테스트합니다. 예를 들어 모듈은 비밀번호를 요청하고 확인할 수 있습니다. 이러한 모듈은 그룹 멤버십이나 Kerberos 티켓과 같은 자격 증명을 설정할 수도 있습니다.
 
 - **`account`**
 
-  The module tests whether an authenticated user is allowed access to a service or application. For example, the module might check if a user account has expired or if a user is allowed to use a service at a given time.
+  이 모듈은 인증된 사용자가 서비스나 애플리케이션에 액세스할 수 있는지 여부를 테스트합니다. 예를 들어 모듈은 사용자 계정이 만료되었는지 또는 사용자가 특정 시간에 서비스를 사용할 수 있는지 확인할 수 있습니다.
 
 - **`password`**
 
-  The module handles updates to an authentication token.
+  모듈은 인증 토큰 업데이트를 처리합니다.
 
 - **`session`**
 
-  The module configures and manages user sessions, performing tasks such as mounting or unmounting a user's home directory.
+  모듈은 사용자 세션을 구성 및 관리하여 사용자의 홈 디렉터리 마운트 또는 마운트 해제와 같은 작업을 수행합니다.
 
-If the operation type is preceded with a dash \(`-`\), PAM does not add an create a system log entry if the module is missing.
+작업 유형 앞에 대시 \(`-`\)가 붙는 경우 PAM은 모듈이 누락된 경우 시스템 로그 항목 생성을 추가하지 않습니다.
 
-Except for `include`, the control flags tell PAM what to do with the result of running a module. The following control flags are defined for use:
+`include`를 제외하고 제어 플래그는 PAM에게 모듈 실행 결과로 무엇을 할지 알려줍니다. 다음 제어 플래그는 사용을 위해 정의됩니다.:
 
 - **`optional`**
 
-  The module is required for authentication if it's the only module listed for a service.
+  서비스에 대해 나열된 유일한 모듈인 경우 인증을 위해 모듈이 필요합니다.
 
 - **`required`**
 
-  The module must succeed for access to be granted. PAM continues to mprocess the remaining modules in the stack whether the module succeeds or fails. PAM doesn't immediately inform the user of the failure.
+  액세스 권한을 부여하려면 모듈이 성공해야 합니다. PAM은 모듈의 성공 여부에 관계없이 스택의 나머지 모듈을 계속해서 처리합니다. PAM은 사용자에게 오류를 즉시 알리지 않습니다.
 
 - **`requisite`**
 
-  The module must succeed for access to be granted. If the module succeeds, PAM continues to process the remaining modules in the stack. However, if the module fails, PAM notifies the user immediately and doesn't continue to process the remaining modules in the stack.
+  액세스 권한을 부여하려면 모듈이 성공해야 합니다. 모듈이 성공하면 PAM은 스택의 나머지 모듈을 계속 처리합니다. 그러나 모듈이 실패하면 PAM은 사용자에게 즉시 알리고 스택의 나머지 모듈을 계속 처리하지 않습니다.
 
 - **`sufficient`**
 
-  If the module succeeds, PAM doesn't process any remaining modules of the same operation type. If the module fails, PAM processes the remaining modules of the same operation type to determine overall success or failure.
+  모듈이 성공하면 PAM은 동일한 작업 유형의 나머지 모듈을 처리하지 않습니다. 모듈이 실패하면 PAM은 동일한 작업 유형의 나머지 모듈을 처리하여 전반적인 성공 또는 실패를 결정합니다.
 
-The control flag field can also define one or more rules that specify the action that PAM takes depending on the value that a module returns. Each rule takes the form `*value*=*action*`, and the rules are enclosed in square brackets, for example:
+제어 플래그 필드는 모듈이 반환하는 값에 따라 PAM이 수행하는 작업을 지정하는 하나 이상의 규칙을 정의할 수도 있습니다. 각 규칙은 `*value*=*action*` 형식을 취하고 규칙은 대괄호로 묶입니다.
 
 ```
 [user_unknown=ignore success=ok ignore=ignore default=bad]
 ```
 
-If the result that's returned by a module matches a value, PAM uses the corresponding action, or, if there is no match, it uses the default action.
+모듈에서 반환된 결과가 값과 일치하면 PAM은 해당 작업을 사용하고, 일치하는 항목이 없으면 기본 작업을 사용합니다.
 
-The `include` flag specifies that PAM must also consult the PAM configuration file specified as the argument.
+`include` 플래그는 PAM이 인수로 지정된 PAM 구성 파일도 참조해야 함을 지정합니다.
 
-Most authentication modules and PAM configuration files have their own manual pages. Relevant files are stored in the `/usr/share/doc/pam` directory.
+대부분의 인증 모듈과 PAM 구성 파일에는 자체 매뉴얼 페이지가 있습니다. 관련 파일은 `/usr/share/doc/pam` 디렉토리에 저장됩니다.
 
-For more information, see the `pam(8)` manual page. In addition, each PAM module has its own manual page, for example `pam_unix(8)`, `postlogin(5)`, and `system-auth(5)`.
+자세한 내용은 `pam(8)` 매뉴얼 페이지를 참조하세요. 또한 각 PAM 모듈에는 `pam_unix(8)`, `postlogin(5)` 및 `system-auth(5)`와 같은 자체 매뉴얼 페이지가 있습니다.
