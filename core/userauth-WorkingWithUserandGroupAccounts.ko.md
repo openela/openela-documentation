@@ -3,123 +3,123 @@ SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Working With User and Group Accounts
+# 사용자 및 그룹 계정 작업
 
-By default, a new installation of Enterprise Linux uses local user and group accounts for authentication, permissions handling, and access to resources. When working with local accounts for users and groups, you use three main commands: `useradd`, `groupadd`, and `usermod`. Through these commands and their different options, you can add or delete users and groups, as well as modify user or group settings.
+기본적으로 Enterprise Linux를 새로 설치하면 인증, 권한 처리 및 리소스 액세스를 위해 로컬 사용자 및 그룹 계정이 사용됩니다. 사용자 및 그룹의 로컬 계정으로 작업할 때 `useradd`, `groupadd` 및 `usermod`라는 세 가지 주요 명령을 사용합니다. 이러한 명령과 다양한 옵션을 통해 사용자 및 그룹을 추가하거나 삭제할 수 있을 뿐만 아니라 사용자 또는 그룹 설정을 수정할 수도 있습니다.
 
-## About User and Group Accounts
+## 사용자 및 그룹 계정
 
-To implement system authentication, Enterprise Linux uses two types of accounts: user and group. Together, these accounts hold information such as passwords, home directories for users, login shells, group settings and memberships, and so on. The information is used to ensure that only authorized logins are granted access to the system. Users without credentials, or whose credentials do not match the information in these accounts, are locked out of the system.
+시스템 인증을 구현하기 위해 Enterprise Linux는 사용자와 그룹이라는 두 가지 유형의 계정을 사용합니다. 이러한 계정에는 비밀번호, 사용자 홈 디렉터리, 로그인 셸, 그룹 설정 및 멤버십 등과 같은 정보가 포함됩니다. 이 정보는 승인된 로그인에만 시스템 액세스 권한이 부여되도록 하는 데 사용됩니다. 자격 증명이 없거나 자격 증명이 해당 계정의 정보와 일치하지 않는 사용자는 시스템에서 잠깁니다.
 
-By default, user and group information is located locally in the system. However, in an enterprise environment that might have hundreds of servers and thousands of users, user and group account information is better stored in a central repository rather than in files on individual servers. User and group information is configured on a central server and then retrieved through services such as the Lightweight Directory Access Protocol \(LDAP\) or the Network Information Service \(NIS\). Central management of this information is more efficient than storing and configuring user and group information locally.
+기본적으로 사용자 및 그룹 정보는 시스템의 로컬 위치에 있습니다. 그러나 수백 대의 서버와 수천 명의 사용자가 있는 엔터프라이즈 환경에서는 사용자 및 그룹 계정 정보가 개별 서버의 파일보다 중앙 저장소에 저장되는 것이 더 좋습니다. 사용자 및 그룹 정보는 중앙 서버에 구성된 다음 Lightweight Directory Access Protocol\(LDAP\) 또는 네트워크 정보 서비스\(NIS\)와 같은 서비스를 통해 검색됩니다. 이 정보를 중앙에서 관리하는 것은 사용자 및 그룹 정보를 로컬로 저장하고 구성하는 것보다 더 효율적입니다.
 
-## Where User and Group Information Is Stored Locally
+## 사용자 및 그룹 정보가 로컬로 저장되는 위치
 
-Unless you select a different authentication mechanism during installation or use the `authselect` command to create an authentication profile, Enterprise Linux verifies a user's identity by using the information that is stored in the `/etc/passwd` and `/etc/shadow` files.
+설치 중에 다른 인증 메커니즘을 선택하거나 `authselect` 명령을 사용하여 인증 프로필을 생성하지 않는 한 Enterprise Linux는 `/etc/passwd` 및 `/etc/shadow`에 저장된 정보를 사용하여 사용자의 신원을 확인합니다.
 
-The `/etc/passwd` file stores account information for each user such as his or her unique user ID \(or _UID_, which is an integer\), username, home directory, and login shell. A user logs in using his or her username, but the operating system uses the associated UID. When the user logs in, he or she is placed in his or her home directory and his or her login shell runs.
+`/etc/passwd` 파일은 각 사용자의 고유한 사용자 ID\(또는 _UID_(정수\)), 사용자 이름, 홈 디렉터리 및 로그인 셸과 같은 각 사용자의 계정 정보를 저장합니다. 사용자는 자신의 사용자 이름을 사용하여 로그인하지만 운영 체제는 연결된 UID를 사용합니다. 사용자가 로그인하면 해당 사용자는 자신의 홈 디렉터리에 배치되고 로그인 쉘이 실행됩니다.
 
-The `/etc/group` file stores information about groups of users. A user also belongs to one or more groups, and each group can contain one or more users. If you can grant access privileges to a group, all members of the group receive the same access privileges. Each group account has a unique group ID \(_GID_, again an integer\) and an associated group name.
+`/etc/group` 파일은 사용자 그룹에 대한 정보를 저장합니다. 또한 사용자는 하나 이상의 그룹에 속하며 각 그룹에는 하나 이상의 사용자가 포함될 수 있습니다. 그룹에 접근 권한을 부여할 수 있는 경우 그룹의 모든 구성원은 동일한 접근 권한을 받습니다. 각 그룹 계정에는 고유한 그룹 ID \(_GID_\) 및 관련 그룹 이름이 있습니다.
 
-By default, Enterprise Linux implements the _user private group_ \(_UPG_\) scheme where adding a user account also creates a corresponding UPG with the same name as the user, and of which the user is the only member.
+기본적으로 Enterprise Linux는 사용자 계정을 추가하면 사용자와 이름이 동일하고 사용자가 유일한 구성원인 해당 UPG도 생성하는 _사용자 개인 그룹_ \(_UPG_\) 구성표를 구현합니다.
 
-By default, both users and groups use shadow passwords, which are cryptographically hashed and stored in `/etc/shadow` and `/etc/gshadow` respectively. These shadow password files are readable only by the administraor. The administrator can set a group password that a user must enter to become a member of the group. If a group does not have a password, a user can only join the group if the administrator adds that user as a member.
+기본적으로 사용자와 그룹 모두 암호화 방식으로 해시되어 `/etc/shadow` 및 `/etc/gshadow`에 각각 저장되는 섀도우 비밀번호를 사용합니다. 이러한 섀도우 비밀번호 파일은 관리자만 읽을 수 있습니다. 관리자는 사용자가 그룹의 구성원이 되기 위해 입력해야 하는 그룹 비밀번호를 설정할 수 있습니다. 그룹에 비밀번호가 없으면 관리자가 해당 사용자를 구성원으로 추가한 경우에만 사용자는 그룹에 가입할 수 있습니다.
 
-A user can use the `newgrp` command to log into a new group or to change the current group ID during a login section. If the user has a password, he or she can add group membership on a permanent basis. See the `newgrp(1)` manual page.
+사용자는 `newgrp` 명령을 사용하여 새 그룹에 로그인하거나 로그인 섹션 중에 현재 그룹 ID를 변경할 수 있습니다. 사용자에게 비밀번호가 있으면 영구적으로 그룹 멤버십을 추가할 수 있습니다. `newgrp(1)` 매뉴얼 페이지를 참조하세요.
 
-The `/etc/login.defs` file defines parameters for password aging and related security policies.
+`/etc/login.defs` 파일은 비밀번호 만료 및 관련 보안 정책에 대한 매개변수를 정의합니다.
 
-For more information about the content of these files, see the `group(5)`, `gshadow(5)`, `login.defs(5)`, `passwd(5)`, and `shadow(5)` manual pages.
+이 파일의 내용에 대한 자세한 내용은 `group(5)`, `gshadow(5)`, `login.defs(5)`, `passwd(5)` 및 `shadow(5)` 매뉴얼을 참조하세요.
 
-## Creating User Accounts
+## 사용자 계정 만들기
 
-1. Type the following command:
+1. 다음 명령을 입력하십시오:
 
    ```
    sudo useradd [*options*] *username*
    ```
 
-   You can specify options to change the account's settings from the default ones.
+   계정 설정을 기본 설정에서 변경하는 옵션을 지정할 수 있습니다.
 
-   By default, if you specify a username argument with no additional options, `useradd` creates a locked user account using the next available UID and assigns a user private group \(UPG\) rather than the value defined for `GROUP` as the user's group.
+   기본적으로 추가 옵션 없이 사용자 이름 인수를 지정하면 `useradd`는 사용 가능한 다음 UID를 사용하여 잠긴 사용자 계정을 생성하고 `GROUP`에 대해 정의된 값 대신 사용자 비공개 그룹 \(UPG\)을 사용자의 그룹으로 할당합니다.
 
    **Note:**
 
-   A maxmimum of 32 characters can be used for a username.
+   사용자 이름에는 최대 32자를 사용할 수 있습니다.
 
-   Usernames can begin with lowercase \(a-z\) and uppercase \(A-Z\) letters, digits \(0-9\), or underscores \(\_\).
+   사용자 이름은 소문자 \(a-z\), 대문자 \(A-Z\), 숫자 \(0-9\) 또는 밑줄 \(\_\)로 시작할 수 있습니다.
 
-   Usernames can contain all starting characters but can also contain dashes \(-\) and can end with a dollar character \($\).
+   사용자 이름은 모든 시작 문자를 포함할 수 있지만 대시 \(-\)도 포함할 수 있고 달러 문자 \($\)로 끝날 수도 있습니다.
 
-   Fully numeric usernames and usernames containing only a period \(.\) or double period \(..\) are disallowed.
+   완전 숫자 사용자 이름과 마침표 \(.\) 또는 이중 마침표 \(..\)만 포함하는 사용자 이름은 허용되지 않습니다.
 
-   Usernames starting with a period \(.\) character, although allowed, are discouraged because they can cause issues for some software and resulting home directories are also likely to be hidden.
+   마침표 \(.\) 문자로 시작하는 사용자 이름은 허용되기는 하지만 일부 소프트웨어에 문제를 일으킬 수 있고 결과적으로 홈 디렉터리도 숨겨질 수 있으므로 사용하지 않는 것이 좋습니다.
 
-2. Assign a password to the account.
+2. 계정에 비밀번호를 할당하세요.
 
    ```
    sudo passwd *username*         
    ```
 
-   The command prompts you to enter a password for the account.
+   이 명령은 계정의 비밀번호를 입력하라는 메시지를 표시합니다.
 
-   To change the password non-interactively \(for example, from a script\), use the `chpasswd` command instead:
+   비밀번호를 비대화형으로\(예: 스크립트에서\) 변경하려면 대신 'chpasswd' 명령을 사용하세요.:
 
    ```
    echo "*username*:*password*" | chpasswd
    ```
 
-You can use the `newusers` command to create several user accounts at the same time.
+`newusers` 명령을 사용하여 동시에 여러 사용자 계정을 만들 수 있습니다.
 
-For more information, see the `chpasswd(8)`, `newusers(8)`, `passwd(1)`, and `useradd(8)` manual pages.
+자세한 내용은 `chpasswd(8)`, `newusers(8)`, `passwd(1)` 및 `useradd(8)` 매뉴얼 페이지를 참조하세요.
 
-## Locking an Account
+## 계정 잠금
 
-To lock a user's account, use the `passwd -l` command.
+사용자 계정을 잠그려면 `passwd -l` 명령을 사용하세요.
 
 ```
 sudo passwd -l *username*
 ```
 
-To unlock the account, use the`passwd -u` command.
+계정 잠금을 해제하려면 `passwd -u` 명령을 사용하세요.
 
 ```
 sudo passwd -u *username*
 ```
 
-For more information, see the `passwd(1)` manual page.
+자세한 내용은 `passwd(1)` 매뉴얼 페이지를 참조하세요.
 
-## Modifying or Deleting User Accounts
+## 사용자 계정 수정 또는 삭제
 
-To modify a user account, use the `usermod` command.
+사용자 계정을 수정하려면 'usermod' 명령을 사용하세요.
 
 ```
 sudo usermod [*options*] *username*
 ```
 
-For example, to add a user to a supplementary group \(other than the user's default login group\):
+예를 들어, 보조 그룹\(사용자의 기본 로그인 그룹\이 아닌)에 사용자를 추가하려면:
 
 ```
 sudo usermod -aG *groupname* *username*
 ```
 
-You can use the `groups` command to display the groups to which a user belongs, for example:
+예를 들어 `groups` 명령을 사용하여 사용자가 속한 그룹을 표시할 수 있습니다.:
 
 ```
 sudo groups *username*
 ```
 
-To delete a user's account, use the `userdel` command:
+사용자 계정을 삭제하려면 `userdel` 명령을 사용하세요.:
 
 ```
 sudo userdel *username*               
 ```
 
-For more information, see the `groups(1)`, `userdel(8)` and `usermod(8)` manual pages.
+자세한 내용은 `groups(1)`, `userdel(8)` 및 `usermod(8)` 매뉴얼 페이지를 참조하세요.
 
-## Changing Default Settings for User Accounts
+## 사용자 계정의 기본 설정 변경
 
-To display the default settings for a user account, use the following command:
+사용자 계정의 기본 설정을 표시하려면 다음 명령을 사용하십시오.:
 
 ```
 sudo useradd -D
@@ -135,11 +135,11 @@ SKEL=/etc/skel
 CREATE_MAIL_SPOOL=yes
 ```
 
-`INACTIVE`: Specifies after how many days the system locks an account if a user's password expires. If set to 0, the system locks the account immediately. If set to -1, the system doesn't lock the account.
+`INACTIVE`: 사용자 비밀번호가 만료된 경우 시스템이 계정을 잠그는 기간(일)을 지정합니다. 0으로 설정하면 시스템이 즉시 계정을 잠급니다. -1로 설정하면 시스템이 계정을 잠그지 않습니다.
 
-`SKEL`: Defines a template directory, whose contents are copied to a newly created user’s home directory. The contents of this directory matches the default shell defined by `SHELL`.
+`SKEL`: 새로 생성된 사용자의 홈 디렉토리에 내용이 복사되는 템플릿 디렉토리를 정의합니다. 이 디렉토리의 내용은 `SHELL`에 의해 정의된 기본 쉘과 일치합니다.
 
-You can specify options to `useradd -D` to change the default settings for user accounts. For example, to change the defaults for `INACTIVE`, `HOME` and `SHELL`:
+사용자 계정의 기본 설정을 변경하려면 `useradd -D` 옵션을 지정할 수 있습니다. 예를 들어 `INACTIVE`, `HOME` 및 ​`SHELL`에 대한 기본값을 변경하려면:
 
 ```
 sudo useradd -D -f 3 -b /home2 -s /bin/sh
@@ -147,82 +147,82 @@ sudo useradd -D -f 3 -b /home2 -s /bin/sh
 
 **Note:**
 
-If you change the default login shell, you would probably also create a `SKEL` template directory that contains contents that are appropriate to the new shell.
+기본 로그인 셸을 변경하는 경우 새 셸에 적합한 콘텐츠가 포함된 `SKEL` 템플릿 디렉터리도 생성할 수도 있습니다.
 
-If you specify `/sbin/nologin` for a user's `SHELL`, that user can't log into the system directly but processes can run with that user's ID. This setting is typically used for services that run as users other than `root`.
+사용자의 `SHELL`에 `/sbin/nologin`을 지정하면 해당 사용자는 시스템에 직접 로그인할 수 없지만 해당 사용자의 ID로 프로세스를 실행할 수 있습니다. 이 설정은 일반적으로 '루트' 이외의 사용자로 실행되는 서비스에 사용됩니다.
 
-The default settings are stored in the `/etc/default/useradd` file.
+기본 설정은 `/etc/default/useradd` 파일에 저장됩니다.
 
-For more information, see [Configuring Password Ageing](userauth-WorkingWithUserandGroupAccounts.md#) and the `useradd(8)` manual page.
+자세한 내용은 [비밀번호 만료 구성](ko-userauth-WorkingWithUserandGroupAccounts.md#비밀번호-만료-구성)을 참조하세요.
 
-## Creating Groups
+## 그룹 만들기
 
-To create a group, use the `groupadd` command.
+그룹을 생성하려면 `groupadd` 명령을 사용하세요.
 
 ```
 sudo groupadd [*options*] *groupname*
 ```
 
-Typically, you might want to use the `-g` option to specify the group ID \(GID\). For example:
+일반적으로 `-g` 옵션을 사용하여 그룹 ID \(GID\)를 지정할 수 있습니다. 예를 들어:
 
 ```
 sudo groupadd -g 1000 devgrp
 ```
 
-For more information, see the `groupadd(8)` manual page.
+자세한 내용은 `groupadd(8)` 매뉴얼 페이지를 참조하세요.
 
-## Modifying or Deleting Groups
+## 그룹 수정 또는 삭제
 
-To modify a group, use the `groupmod` command:
+그룹을 수정하려면 `groupmod` 명령을 사용하세요.:
 
 ```
 sudo groupmod [*options*] *username*
 ```
 
-To delete a user's account, use the `groupdel` command:
+사용자 계정을 삭제하려면 `groupdel` 명령을 사용하세요.:
 
 ```
 sudo groupdel *username*
 ```
 
-For more information, see the `groupdel(8)` and `groupmod(8)` manual pages.
+자세한 내용은 `groupdel(8)` 및 `groupmod(8)` 매뉴얼 페이지를 참조하세요.
 
-## Configuring Group Access Modes to Directories
+## 디렉토리에 대한 그룹 액세스 모드 구성
 
-Users whose primary group isn't a UPG have a `umask` of 0022 set by `/etc/profile` or `/etc/bashrc`, which prevents other users, including other members of the primary group, from modifying any file that the user owns.
+기본 그룹이 UPG가 아닌 사용자는 `/etc/profile` 또는 `/etc/bashrc`에 의해 설정된 `umask` 0022를 가지며, 이는 기본 그룹의 다른 구성원을 포함한 다른 사용자가 UPG에 있는 파일을 수정하는 것을 방지합니다.
 
-A user whose primary group is a UPG has a `umask` of 0002. No other user has the same group.
+기본 그룹이 UPG인 사용자의 `umask`는 0002입니다. 다른 사용자는 동일한 그룹을 갖지 않습니다.
 
-To grant users in the same group write access to files within the same directory, change the group ownership on the directory to the group, and set the `setgid` bit on the directory:
+동일한 그룹의 사용자에게 동일한 디렉토리 내의 파일에 대한 쓰기 액세스 권한을 부여하려면 디렉토리의 그룹 소유권을 그룹으로 변경하고 디렉토리에 `setgid` 비트를 설정하십시오.:
 
 ```
 sudo chgrp *groupname* *directory*
 sudo chmod g+s *directory*
 ```
 
-Files that are created in such a directory have their group set to that of the directory rather than the primary group of the user who creates the file.
+이러한 디렉터리에 생성된 파일의 그룹은 파일을 생성한 사용자의 기본 그룹이 아닌 디렉터리의 그룹으로 설정됩니다.
 
-The restricted deletion bit prevents unprivileged users from removing or renaming a file in the directory unless they own either the file or the directory.
+제한된 삭제 비트는 권한이 없는 사용자가 파일이나 디렉터리를 소유하지 않는 한 디렉터리에서 파일을 제거하거나 이름을 바꾸는 것을 방지합니다.
 
-To set the restricted deletion bit on a directory:
+디렉터리에 제한된 삭제 비트를 설정하려면:
 
 ```
 sudo chmod a+t *directory*    
 ```
 
-For more information, see the `chmod(1)` manual page.
+자세한 내용은 `chmod(1)` 매뉴얼 페이지를 참조하세요.
 
-## Configuring Password Ageing
+## 비밀번호 만료 구성
 
-To specify how users' passwords are aged, edit the following settings in the `/etc/login.defs` file:
+사용자 비밀번호의 유효 기간을 지정하려면 `/etc/login.defs` 파일에서 다음 설정을 편집하세요.:
 
 <table><thead><tr><th>
 
-Setting
+세팅
 
 </th><th>
 
-Description
+설명
 
 </th></tr></thead><tbody><tr><td>
 
@@ -230,7 +230,7 @@ Description
 
 </td><td>
 
-Maximum number of days for which a password can be used before it must be changed. The default value is 99,999 days.
+비밀번호를 변경해야 하기 전까지 비밀번호를 사용할 수 있는 최대 일수입니다. 기본값은 99,999일입니다.
 
 </td></tr><tr><td>
 
@@ -238,7 +238,7 @@ Maximum number of days for which a password can be used before it must be change
 
 </td><td>
 
-Minimum number of days allowed between password changes. The default value is 0 days.
+비밀번호 변경 사이에 허용되는 최소 일수입니다. 기본값은 0일입니다.
 
 </td></tr><tr><td>
 
@@ -246,23 +246,23 @@ Minimum number of days allowed between password changes. The default value is 0 
 
 </td><td>
 
-Number of days before a password expires that a warning is displayed. The default value is 7 days.
+비밀번호가 만료되기 전에 경고가 표시되는 일 수입니다. 기본값은 7일입니다.
 
 </td></tr><tbody></table>
 For more information, see the `login.defs(5)` manual page.
 
-To change how long a user's account can be inactive before it's locked, use the `usermod` command. For example, to set the inactivity period to 30 days:
+사용자 계정이 잠기기 전까지 비활성 상태로 있을 수 있는 기간을 변경하려면 `usermod` 명령을 사용하세요. 예를 들어 비활성 기간을 30일로 설정하려면:
 
 ```
 sudo usermod -f 30 *username*
 ```
 
-To change the default inactivity period for new user accounts, use the `useradd` command:
+새 사용자 계정의 기본 비활성 기간을 변경하려면 `useradd` 명령을 사용하세요.:
 
 ```
 sudo useradd -D -f 30
 ```
 
-A value of -1 specifies that user accounts aren't locked because of inactivity.
+-1 값은 비활성으로 인해 사용자 계정이 잠기지 않도록 지정합니다.
 
-For more information, see the `useradd(8)` and `usermod(8)` manual pages.
+자세한 내용은 `useradd(8)` 및 `usermod(8)` 매뉴얼 페이지를 참조하세요.
