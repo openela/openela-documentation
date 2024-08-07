@@ -3,17 +3,17 @@ SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Managing System Services With systemd
+# systemd를 사용하여 시스템 서비스 관리
 
-The`systemd` daemon is the system initialization and service manager in Enterprise Linux. This chapter describes how to use `systemd`to manage system processes, services and `systemd` targets.
+`systemd` 데몬은 Enterprise Linux의 시스템 초기화 및 서비스 관리자입니다. 이 장에서는 `systemd`를 사용하여 시스템 프로세스, 서비스 및 `systemd` 대상을 관리하는 방법을 설명합니다.
 
-## About the systemd Service Manager
+## systemd 서비스 관리자
 
-The `systemd` daemon is the first process that starts after a system boots and is the final process that's running when the system shuts down. `systemd` controls the final stages of booting and prepares the system for use. It also speeds up booting by loading services concurrently.
+`systemd` 데몬은 시스템 부팅 후 시작되는 첫 번째 프로세스이며 시스템이 종료될 때 실행되는 마지막 프로세스입니다. `systemd`는 부팅의 마지막 단계를 제어하고 시스템 사용을 준비합니다. 또한 서비스를 동시에 로드하여 부팅 속도를 높입니다.
 
-`systemd` reads its configuration from files in the `/etc/systemd` directory. For example, the `/etc/systemd/system.conf` file controls how `systemd` handles system initialization.
+`systemd`는 `/etc/systemd` 디렉터리의 파일에서 구성을 읽습니다. 예를 들어 `/etc/systemd/system.conf` 파일은 `systemd`가 시스템 초기화를 처리하는 방법을 제어합니다.
 
-The `systemd` daemon starts services during the boot process by reading the symbolic link `/etc/systemd/system/default.target`. The following example shows the value of `/etc/systemd/system/default.target` on a system configured to boot to a multiuser mode without a graphical user interface, a target called `multi-user.target`:
+`systemd` 데몬은 `/etc/systemd/system/default.target` 심볼릭 링크를 읽어 부팅 프로세스 중에 서비스를 시작합니다. 다음 예에서는 그래픽 사용자 인터페이스 없이  multi-user 모드로 부팅하도록 구성된 시스템(`multi-user.target`이라는 대상)의 `/etc/systemd/system/default.target` 값을 보여줍니다.:
 
 ```
 sudo ls -l /etc/systemd/system/default.target
@@ -25,21 +25,21 @@ sudo ls -l /etc/systemd/system/default.target
 
 **Note:**
 
-You can use a kernel boot parameter to override the default system target. See [Kernel Boot Parameters](osmanage-WorkingWiththeGRUB2BootloaderandConfiguringBootServices.md#).
+커널 부팅 매개변수를 사용하여 기본 시스템 target을 재정의할 수 있습니다. 참고: [커널 부팅 매개변수](ko-osmanage-WorkingWiththeGRUB2BootloaderandConfiguringBootServices.md#커널-부팅-매개변수).
 
 ### systemd Units
 
-`systemd` organizes the different types of resources it manages into units. Most units are configured in unit configuration files that enable you to configure these units according to system needs. In addition to the files, you can also use `systemd` runtime commands to configure the units.
+`systemd`는 관리하는 다양한 유형의 리소스를 단위(Unit)로 구성합니다. 대부분의 Unit은 시스템 요구 사항에 따라 이러한 Unit을 구성할 수 있는 Unit 구성 파일에 구성됩니다. 파일 외에도 `systemd` 런타임 명령을 사용하여 단위를 구성할 수도 있습니다.
 
-The following list describes some system units that you can manage on an Enterprise Linux system by using `systemd`:
+다음 목록에서는 `systemd`를 사용하여 Enterprise Linux 시스템에서 관리할 수 있는 일부 시스템 장치를 설명합니다.:
 
 - **Services**
 
-  Service unit configuration files have the filename format _service\_name_.`service`, for example `sshd.service`, `crond.service`, and `httpd.service`.
+  서비스 단위 구성 파일의 파일 이름 형식은 _service\_name_.`service`입니다(예: `sshd.service`, `crond.service` 및 `httpd.service`).
 
-  Service units start and control daemons and the processes of which the daemons consist.
+  서비스 단위는 데몬과 데몬을 구성하는 프로세스를 시작하고 제어합니다.
 
-  The following example shows how you might start the `systemd` service unit for the Apache HTTP server, `httpd.service`:
+  다음 예에서는 Apache HTTP 서버 `httpd.service`에 대한 `systemd` 서비스 단위를 시작하는 방법을 보여줍니다.:
 
   ```
   sudo systemctl start httpd.service
@@ -47,17 +47,17 @@ The following list describes some system units that you can manage on an Enterpr
 
 - **Targets**
 
-  Target unit configuration files have the filename format _target\_name_.`target`, for example `graphical.target`.
+  target 장치 구성 파일의 파일 이름 형식은 _target\_name_.`target`입니다(예: `graphical.target`).
 
-  Targets are similar to runlevels. A system reaches different targets during the boot process as resources get configured. For example, a system reaches `network-pre.target` before it reaches the target `network-online.target`.
+  target은 런레벨과 유사합니다. 리소스가 구성됨에 따라 부팅 프로세스 중에 시스템은 다른 target에 도달합니다. 예를 들어 시스템은 `network-online.target` target에 도달하기 전에 `network-pre.target`에 도달합니다.
 
-  Many target units have dependencies. For example, the activation of`graphical.target` \(for a graphical session\) fails unless `multi-user.target` \(for multiuser system\) is also active.
+  많은 target 단위에는 종속성이 있습니다. 예를 들어, `multi-user.target` \(multi-user 시스템의 경우\)도 활성화되어 있지 않으면 `graphical.target` \(그래픽 세션의 경우\) 활성화가 실패합니다.
 
 - **File System Mount Points**
 
-  Mount unit configuration files have the filename format _mount\_point\_name_.`mount`.
+  마운트 장치 구성 파일의 파일 이름 형식은 _mount\_point\_name_.`mount`입니다.
 
-  Mount units enable you to mount filesystems at boot time. For example, you can run the following command to mount the temporary file system \(`tmpfs`\) on `/tmp` at boot time:
+  마운트 유닛을 사용하면 부팅 시 파일 시스템을 마운트할 수 있습니다. 예를 들어 다음 명령을 실행하여 부팅 시 `/tmp`에 임시 파일 시스템 \(`tmpfs`\)을 마운트할 수 있습니다.:
 
   ```
   sudo systemctl enable tmp.mount
@@ -65,39 +65,39 @@ The following list describes some system units that you can manage on an Enterpr
 
 - **Devices**
 
-  Device unit configuration files have the filename format _device\_unit\_name_.`device`.
+  장치 장치 구성 파일의 파일 이름 형식은 _device\_unit\_name_.`device`입니다.
 
-  Device units are named after the `/sys` and `/dev` paths they control. For example, the device `/dev/sda5` is exposed in systemd as `dev-sda5.device`.
+  장치 장치의 이름은 해당 장치가 제어하는 ​​`/sys` 및 `/dev` 경로를 따라 지정됩니다. 예를 들어 `/dev/sda5` 장치는 systemd에서 `dev-sda5.device`로 노출됩니다.
 
-  Device units enable you to implement device-based activation.
+  장치 단위를 사용하면 장치 기반 활성화를 구현할 수 있습니다.
 
 - **Sockets**
 
-  Socket unit configuration files have the filename format _socket\_unit\_name_.`socket`.
+  소켓 장치 구성 파일의 파일 이름 형식은 _socket\_unit\_name_.`socket`입니다.
 
-  Each "\*.`socket`" file needs a corresponding "\*.`service`" file to configure the service to start on incoming traffic on the socket.
+  소켓의 수신 트래픽에서 서비스가 시작되도록 구성하려면 각 "\*.`socket`" 파일에 해당하는 "\*.`service`" 파일이 필요합니다.
 
-  Socket units enable you to implement socket-based activation.
+  소켓 유닛을 사용하면 소켓 기반 활성화를 구현할 수 있습니다.
 
 - **Timers**
 
-  Timer unit configuration files have the filename format _timer\_unit\_name_.`timer`.
+  타이머 장치 구성 파일의 파일 이름 형식은 _timer\_unit\_name_.`timer`입니다.
 
-  Each "\*.`timer`" file needs a corresponding "\*.`service`" file to configure the service to start at a configured timer event. A `Unit` configuration entry can be used to specify a service that's named differently to the timer unit, if required.
+  구성된 타이머 이벤트에서 서비스가 시작되도록 구성하려면 각 "\*.`timer`" 파일에 해당하는 "\*.`service`" 파일이 필요합니다. 필요한 경우 `Unit` 구성 항목을 사용하여 타이머 단위와 다르게 이름이 지정된 서비스를 지정할 수 있습니다.
 
-  Timer units can control when service units are run and can act as an alternative to using the cron daemon. Timer units can be configured for calendar time events, monotonic time events, and can be run asynchronously.
+  타이머 장치는 서비스 장치가 실행되는 시기를 제어할 수 있으며 cron 데몬 사용의 대안으로 작동할 수 있습니다. 타이머 단위는 달력 시간 이벤트, 단조로운 시간 이벤트에 대해 구성할 수 있으며 비동기적으로 실행될 수 있습니다.
 
-Paths to `systemd` unit configuration files vary depending on their purpose and whether `systemd` is running in 'user' or 'system' mode. For example, configuration for units that are installed from packages might be available in `/usr/lib/systemd/system` or in `/usr/local/lib/systemd/system`, while a user mode configuration unit is likely to be stored in `$HOME/.config/systemd/user`. See the `systemd.unit(5)` manual page for more information.
+`systemd` 장치 구성 파일의 경로는 목적과 `systemd`가 `User` 모드에서 실행되는지 `System` 모드에서 실행되는지 여부에 따라 다릅니다. 예를 들어, 패키지에서 설치된 장치에 대한 구성은 `/usr/lib/systemd/system` 또는 `/usr/local/lib/systemd/system`에서 사용할 수 있는 반면, 사용자 모드 구성 단위는 다음과 같습니다. 자세한 내용은 `systemd.unit(5)` 매뉴얼 페이지를 참조하세요.
 
-See [About System-State Targets](osmanage-WorkingWithSystemServices.md#).
+참조: [System-State Targets](ko-osmanage-WorkingWithSystemServices.md#system-state-targets).
 
 ## About System-State Targets
 
-By using system-state targets, you can control `systemd` so that it starts only the services that are required for a specific purpose. For example, you set the default target to `multi-user.target` on a production server so that the graphical user interface isn't used when the system boots. In a case where you need to troubleshoot or perform diagnostics, you might consider setting the target to `rescue.target`, where only `root` logs onto the system to run the minimum number of services.
+system-state target을 사용하면 특정 목적에 필요한 서비스만 시작하도록 `systemd`를 제어할 수 있습니다. 예를 들어, 시스템 부팅 시 그래픽 사용자 인터페이스가 사용되지 않도록 프로덕션 서버에서 기본 target을 `multi-user.target`으로 설정합니다. 문제를 해결하거나 진단을 수행해야 하는 경우 target을 `rescue.target`으로 설정하는 것을 고려할 수 있습니다.
 
-Each run level defines the services that `systemd` stops or starts. As an example, `systemd` starts network services for `multi-user.target` and the X Window System for `graphical.target`, and stops both services for `rescue.target`.
+각 실행 수준은 `systemd`가 중지하거나 시작하는 서비스를 정의합니다. 예를 들어 `systemd`는 `multi-user.target`에 대한 네트워크 서비스와 `graphical.target`에 대한 X Window System을 시작하고 `rescue.target`에 대한 두 서비스를 모두 중지합니다.
 
-[Table 1](osmanage-WorkingWithSystemServices.md#ol-systemctltgt) shows the commonly used system-state targets and the equivalent runlevel targets.
+[Table 1](ko-osmanage-WorkingWithSystemServices.md#ol-systemctltgt) 일반적으로 사용되는 system-state target과 이에 상응하는 실행 수준 target을 보여줍니다.
 
 <table><thead><tr><th>
 
@@ -121,7 +121,7 @@ Description
 
 </td><td>
 
-Set up a multiuser system with networking and display manager.
+네트워킹 및 디스플레이 관리자를 사용하여 multi-user 시스템을 설정합니다.
 
 </td></tr><tr><td>
 
@@ -137,7 +137,7 @@ Set up a multiuser system with networking and display manager.
 
 </td><td>
 
-Set up a nongraphical multiuser system with networking.
+네트워킹을 사용하여 비그래픽 multi-user 시스템을 설정합니다.
 
 </td></tr><tr><td>
 
@@ -149,7 +149,7 @@ Set up a nongraphical multiuser system with networking.
 
 </td><td>
 
-Shut down and power off the system.
+시스템을 종료하고 전원을 끕니다.
 
 </td></tr><tr><td>
 
@@ -161,7 +161,7 @@ Shut down and power off the system.
 
 </td><td>
 
-Shut down and reboot the system.
+시스템을 종료하고 재부팅합니다.
 
 </td></tr><tr><td>
 
@@ -178,11 +178,11 @@ Set up a rescue shell.
 </td></tr><tbody></table>
 Note that `runlevel*` targets are implemented as symbolic links.
 
-For more information, see the `systemd.target(5)` manual page.
+자세한 내용은 `systemd.target(5)` 매뉴얼 페이지를 참조하세요.
 
-### Displaying Default and Active System-State Targets
+### 기본 및 활성 System-State Targets 표시
 
-To display the default system-state target, use the `systemctl get-default` command:
+기본 시스템 상태 target을 표시하려면 `systemctl get-default` 명령을 사용하세요.:
 
 ```
 sudo systemctl get-default
@@ -192,7 +192,7 @@ sudo systemctl get-default
 graphical.target
 ```
 
-To display the active targets on a system, use the `systemctl list-units --type target` command:
+시스템의 활성 target을 표시하려면 `systemctl list-units --type target` 명령을 사용하세요.:
 
 ```
 sudo systemctl list-units --type target [--all]
@@ -233,15 +233,15 @@ SUB    = The low-level unit activation state, values depend on unit type.
 To show all installed unit files use 'systemctl list-unit-files'.
 ```
 
-The output for a system with the `graphical` target active shows that this target depends on other active targets, including `network` and `sound` to support networking and sound.
+`graphical` target이 활성화된 시스템의 출력은 이 target이 네트워킹과 사운드를 지원하기 위해 `network` 및 `sound`를 포함한 다른 활성 target에 의존한다는 것을 보여줍니다.
 
-Use the `--all` option to include inactive targets in the list.
+목록에 비활성 target을 포함하려면 `--all` 옵션을 사용하세요.
 
-For more information, see the `systemctl(1)` and `systemd.target(5)` manual pages.
+자세한 내용은 `systemctl(1)` 및 `systemd.target(5)` 매뉴얼 페이지를 참조하세요.
 
 **Note:**
 
-Target is only one of `systemd` types of units. To display all the types of units, use the following command:
+target은 `systemd` 유형의 장치 중 하나일 뿐입니다. 모든 유형의 단위를 표시하려면 다음 명령을 사용하십시오.:
 
 ```
 sudo systemctl -t help
@@ -262,9 +262,9 @@ slice
 scope
 ```
 
-### Changing Default and Active System-State Targets
+### 기본 및 활성 System-State Targets 변경
 
-Use the `systemctl set-default` command to change the default system-state target:
+기본 시스템 상태 target을 변경하려면 `systemctl set-default` 명령을 사용하세요.:
 
 ```
 sudo systemctl set-default multi-user.target
@@ -277,17 +277,17 @@ Created symlink /etc/systemd/system/default.target → /usr/lib/systemd/system/m
 
 **Note:**
 
-This command changes the target to which the default target is linked, but doesn't change the state of the system.
+이 명령은 기본 target이 연결된 대상을 변경하지만 시스템 상태는 변경하지 않습니다.
 
-To change the current active system target, use the `systemctl isolate` command, for example:
+현재 활성 시스템 target을 변경하려면 `systemctl isolate` 명령을 사용하십시오.
 
 ```
 sudo systemctl isolate multi-user.target
 ```
 
-For more information, see the `systemctl(1)` manual page.
+자세한 내용은 `systemctl(1)` 매뉴얼 페이지를 참조하세요.
 
-## Shutting Down, Suspending, and Rebooting the System
+## 시스템 종료, 일시 중지 및 재부팅
 
 <table><thead><tr><th>
 
@@ -303,7 +303,7 @@ Description
 
 </td><td>
 
-Halt the system.
+시스템을 정지합니다.
 
 </td></tr><tr><td>
 
@@ -311,7 +311,7 @@ Halt the system.
 
 </td><td>
 
-Put the system into hibernation.
+시스템을 최대 절전 모드로 전환합니다.
 
 </td></tr><tr><td>
 
@@ -319,7 +319,7 @@ Put the system into hibernation.
 
 </td><td>
 
-Put the system into hibernation and suspend its operation.
+시스템을 최대 절전 모드로 전환하고 작동을 일시 중지합니다.
 
 </td></tr><tr><td>
 
@@ -327,7 +327,7 @@ Put the system into hibernation and suspend its operation.
 
 </td><td>
 
-Halt and power off the system.
+시스템을 정지하고 전원을 끕니다.
 
 </td></tr><tr><td>
 
@@ -335,7 +335,7 @@ Halt and power off the system.
 
 </td><td>
 
-Reboot the system.
+시스템을 재부팅합니다.
 
 </td></tr><tr><td>
 
@@ -343,38 +343,38 @@ Reboot the system.
 
 </td><td>
 
-Suspend the system.
+시스템을 일시 중단(절전상태전환)합니다.
 
 </td></tr><tbody></table>
 For more information, see the `systemctl(1)` manual page.
 
-## Managing Services
+## 서비스 관리
 
-Services in an Enterprise Linux system are managed by the `systemctl *subcommand*` command.
+Enterprise Linux 시스템의 서비스는 `systemctl *subcommand*` 명령으로 관리됩니다.
 
-Examples of subcommands are `enable`, `disable`, `stop`, `start`, `restart`, reload, and `status`.
+하위 명령의 예로는 `enable`, `disable`, `stop`, `start`, `restart`, reload 및 `status`가 있습니다.
 
-For more information, see the `systemctl(1)` manual page.
+자세한 내용은 `systemctl(1)` 매뉴얼 페이지를 참조하세요.
 
-### Starting and Stopping Services
+### 서비스 시작 및 중지
 
-To start a service, use the `systemctl start` command:
+서비스를 시작하려면 `systemctl start` 명령을 사용하세요.:
 
 ```
 sudo systemctl start *sshd*
 ```
 
-To stop a service, use the `systemctl stop` command:
+서비스를 중지하려면 `systemctl stop` 명령을 사용하세요.:
 
 ```
 sudo systemctl stop *sshd*
 ```
 
-Changing the state of a service only lasts while the system remains at the same state. If you stop a service and then change the system-state target to one in which the service is configured to run \(for example, by rebooting the system\), the service restarts. Similarly, starting a service doesn't enable the service to start following a reboot. See [Enabling and Disabling Services](osmanage-WorkingWithSystemServices.md#).
+서비스 상태 변경은 시스템이 동일한 상태로 유지되는 동안에만 지속됩니다. 서비스를 중지한 다음 system-state target을 서비스가 실행되도록 구성된 상태로 변경하면\(예: 시스템 재부팅\) 서비스가 다시 시작됩니다. 마찬가지로 서비스를 시작해도 재부팅 후 서비스가 시작되지는 않습니다. 참조: [서비스 활성화 및 비활성화](ko-osmanage-WorkingWithSystemServices.md#서비스-활성화-및-비활성화)
 
-### Enabling and Disabling Services
+### 서비스 활성화 및 비활성화
 
-You can use the `systemctl` command to enable or disable a service from starting when the system boots, for example:
+`systemctl` 명령을 사용하여 시스템 부팅 시 서비스 시작을 활성화하거나 비활성화할 수 있습니다.
 
 ```
 sudo systemctl enable *httpd*
@@ -384,9 +384,9 @@ sudo systemctl enable *httpd*
 Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /usr/lib/systemd/system/httpd.service.
 ```
 
-The `enable` command activates a service by creating a symbolic link for the lowest-level system-state target at which the service should start. In the previous example, the command creates the symbolic link `httpd.service` for the `multi-user` target.
+`enable` 명령은 서비스가 시작되어야 하는 가장 낮은 수준의  system-state target에 대한 심볼릭 링크를 생성하여 서비스를 활성화합니다. 이전 예에서 이 명령은 `multi-user` target에 대한 심볼릭 링크 `httpd.service`를 생성합니다.
 
-Disabling a service removes the symbolic link:
+서비스를 비활성화하면 심볼릭 링크가 제거됩니다.:
 
 ```
 sudo systemctl disable *httpd*
@@ -396,7 +396,7 @@ sudo systemctl disable *httpd*
 Removed /etc/systemd/system/multi-user.target.wants/httpd.service.
 ```
 
-To check whether a service is enabled, use `is-enabled` subcommand as shown in the following examples:
+서비스가 활성화되었는지 확인하려면 다음 예와 같이 `is-enabled` 하위 명령을 사용하세요.:
 
 ```
 sudo systemctl is-enabled *httpd*
@@ -414,7 +414,7 @@ sudo systemctl is-enabled *sshd*
 enabled
 ```
 
-After running the `systemctl disable` command, the service can still be started or stopped by user accounts, scripts, and other processes. However, if you need to ensure that the service might be started inadvertently, for example, by a conflicting service, then use the `systemctl mask` command as follows:
+`systemctl 비활성화` 명령을 실행한 후에도 사용자 계정, 스크립트 및 기타 프로세스에 의해 서비스가 시작되거나 중지될 수 있습니다. 그러나 서비스 충돌 등으로 인해 서비스가 실수로 시작될 수 있는지 확인해야 하는 경우 다음과 같이 `systemctl Mask` 명령을 사용하세요.:
 
 ```
 sudo systemctl mask *httpd*
@@ -424,7 +424,7 @@ sudo systemctl mask *httpd*
 Created symlink from '/etc/systemd/system/multi-user.target.wants/httpd.service' to '/dev/null'
 ```
 
-The `mask` command sets the the service reference to `/dev/null`. If you try to start a service that has been masked, you will receive an error as shown in the following example:
+`mask` 명령은 서비스 참조를 `/dev/null`로 설정합니다. 마스킹된 서비스를 시작하려고 하면 다음 예시와 같은 오류가 발생합니다.:
 
 ```
 sudo systemctl start *httpd*
@@ -434,17 +434,17 @@ sudo systemctl start *httpd*
 Failed to start httpd.service: Unit is masked.
 ```
 
-To relink the service reference back to the matching service unit configuration file, use the `systemctl unmask` command:
+서비스 참조를 일치하는 서비스 단위 구성 파일에 다시 연결하려면 `systemctl unmask` 명령을 사용하세요.:
 
 ```
 sudo systemctl unmask *httpd*
 ```
 
-For more information, see the `systemctl(1)` manual page.
+자세한 내용은 `systemctl(1)` 매뉴얼 페이지를 참조하세요.
 
-### Displaying the Status of Services
+### 서비스 상태 표시
 
-To check whether a service is running, use the `is-active` subcommand. The output would either be _active_\) or _inactive_, as shown in the following examples:
+서비스가 실행 중인지 확인하려면 `is-active` 하위 명령을 사용하세요. 다음 예에 표시된 대로 출력은 _활성_\) 또는 _비활성_이 됩니다.:
 
 ```
 sudo systemctl is-active *httpd*
@@ -462,7 +462,7 @@ systemctl is-active *sshd*
 inactive
 ```
 
-The `status` subcommand provides a detailed summary of the status of a service, including a tree that displays the tasks in the control group \(`CGroup`\) that the service implements:
+`status` 하위 명령은 서비스가 구현하는 제어 그룹\(`CGroup`\)의 작업을 표시하는 트리를 포함하여 서비스 상태에 대한 자세한 요약을 제공합니다.:
 
 ```
 sudo systemctl status *httpd*
@@ -489,9 +489,9 @@ Jul 17 00:14:32 Unknown httpd[11832]: Server configured, listening on: port 80
 Jul 17 00:14:32 Unknown systemd[1]: Started The Apache HTTP Server.
 ```
 
-A `cgroup` is a collection of processes that are bound together so that you can control their access to system resources. In the example, the `cgroup` for the `httpd` service is `httpd.service`, which is in the `system` slice.
+`cgroup`은 시스템 리소스에 대한 액세스를 제어할 수 있도록 함께 바인딩된 프로세스 모음입니다. 이 예에서 `httpd` 서비스의 `cgroup`은 `system` 슬라이스에 있는 `httpd.service`입니다.
 
-Slices divide the `cgroups` on a system into different categories. To display the slice and `cgroup` hierarchy, use the `systemd-cgls` command:
+슬라이스는 시스템의 `cgroups`을 여러 카테고리로 나눕니다. 슬라이스 및 `cgroup` 계층 구조를 표시하려면 `systemd-cgls` 명령을 사용하십시오.:
 
 ```
 sudo systemd-cgls
@@ -541,42 +541,42 @@ Control group /:
   │ └─1781 /usr/sbin/sshd
 ```
 
-The `system.slice` contains services and other system processes. `user.slice` contains user processes, which run within transient cgroups called _scopes_. In the example, the processes for the user with ID 1000 are running in the scope `session-7.scope` under the slice `/user.slice/user-1000.slice`.
+`system.slice`에는 서비스 및 기타 시스템 프로세스가 포함되어 있습니다. `user.slice`에는 _scopes_라는 임시 cgroup 내에서 실행되는 사용자 프로세스가 포함되어 있습니다. 이 예에서는 ID가 1000인 사용자에 대한 프로세스가 `/user.slice/user-1000.slice` 슬라이스 아래의 `session-7.scope` 범위에서 실행 중입니다.
 
-You can use the `systemctl` command to limit the CPU, I/O, memory, and other resources that are available to the processes in service and scope cgroups. See [Controlling Access to System Resources](osmanage-WorkingWithSystemServices.md#).
+`systemctl` 명령을 사용하여 서비스 및 범위 cgroup의 프로세스에 사용할 수 있는 CPU, I/O, 메모리 및 기타 리소스를 제한할 수 있습니다. [시스템 리소스에 대한 액세스 제어](ko-osmanage-WorkingWithSystemServices.md#시스템-리소스에-대한-액세스-제어)를 참조하세요.
 
-For more information, see the `systemctl(1)` and `systemd-cgls(1)` manual pages.
+systemd-분석 확인 /etc/systemd/system/update.\*
 
-### Controlling Access to System Resources
+### 시스템 리소스에 대한 액세스 제어
 
-Use the `systemctl` command to control a cgroup's access to system resources, for example:
+예를 들어 `systemctl` 명령을 사용하여 시스템 리소스에 대한 cgroup의 액세스를 제어합니다.:
 
 ```
 sudo systemctl [--runtime] set-property *httpd* CPUShares=512 MemoryLimit=1G
 ```
 
-`CPUShare` controls access to CPU resources. As the default value is 1024, a value of 512 halves the access to CPU time that the processes in the `cgroup` have. Similarly, `MemoryLimit` controls the maximum amount of memory that the `cgroup` can use.
+`CPUShare`는 CPU 리소스에 대한 액세스를 제어합니다. 기본값은 1024이므로 값 512는 `cgroup`의 프로세스가 갖는 CPU 시간에 대한 액세스를 절반으로 줄입니다. 마찬가지로 `MemoryLimit`은 `cgroup`이 사용할 수 있는 최대 메모리 양을 제어합니다.
 
 **Note:**
 
-You don't need to specify the `.service` extension to the name of a service.
+서비스 이름에 `.service` 확장자를 지정할 필요가 없습니다.
 
-If you specify the `--runtime` option, the setting doesn't persist across system reboots.
+`--runtime` 옵션을 지정하면 시스템 재부팅 후에도 설정이 유지되지 않습니다.
 
-Alternatively, you can change the resource settings for a service under the `[Service]` heading in the service's configuration file in `/usr/lib/systemd/system`. After editing the file, make `systemd` reload its configuration files and then restart the service:
+또는 `/usr/lib/systemd/system`에 있는 서비스 구성 파일의 `[서비스]` 제목 아래에서 서비스에 대한 리소스 설정을 변경할 수 있습니다. 파일을 편집한 후 `systemd`가 구성 파일을 다시 로드하도록 한 다음 서비스를 다시 시작하세요.:
 
 ```
 sudo systemctl daemon-reload
 sudo systemctl restart *service*
 ```
 
-You can run general commands within scopes and use `systemctl` to control the access that these transient cgroups have to system resources. To run a command within in a scope, use the `systemd-run` command:
+범위 내에서 일반 명령을 실행하고 `systemctl`을 사용하여 이러한 임시 cgroup이 시스템 리소스에 대해 갖는 액세스를 제어할 수 있습니다. 범위 내에서 명령을 실행하려면 `systemd-run` 명령을 사용하세요.:
 
 ```
 sudo systemd-run --scope --unit=*group\_name* [--slice=*slice\_name*]
 ```
 
-If you don't want to create the group under the default `system` slice, you can specify another slice or the name of a new slice. The following example runs a command named `mymonitor` in `mymon.scope` under `myslice.slice`:
+기본 `system` 슬라이스 아래에 그룹을 생성하지 않으려면 다른 슬라이스를 지정하거나 새 슬라이스의 이름을 지정할 수 있습니다. 다음 예에서는 `myslice.slice` 아래의 `mymon.scope`에서 `mymonitor`라는 명령을 실행합니다.:
 
 ```
 sudo systemd-run --scope --unit=*mymon* --slice=*myslice* mymonitor
@@ -588,19 +588,19 @@ Running as unit mymon.scope.
 
 **Note:**
 
-If you don't specify the `--scope` option, the control group is a created as a service rather than as a scope.
+`--scope` 옵션을 지정하지 않으면 제어 그룹은 범위가 아닌 서비스로 생성됩니다.
 
-You can then use `systemctl` to control the access that a scope has to system resources in the same way as for a service. However, unlike a service, you must specify the `.scope` extension, for example:
+그런 다음 `systemctl`을 사용하여 서비스와 동일한 방식으로 시스템 리소스에 대한 범위의 액세스를 제어할 수 있습니다. 그러나 서비스와 달리 `.scope` 확장자를 지정해야 합니다.
 
 ```
 sudo systemctl --runtime set-property *mymon.scope* CPUShares=256
 ```
 
-For more information see the `systemctl(1)`, `systemd-cgls(1)`, and `systemd.resource-control(5)` manual pages.
+자세한 내용은 `systemctl(1)`, `systemd-cgls(1)` 및 `systemd.resource-control(5)` 매뉴얼 페이지를 참조하세요.
 
-### Running systemctl on a Remote System
+### 원격 시스템에서 systemctl 실행
 
-If the `sshd` service is running on a remote Enterprise Linux system, specify the `-H` option with the `systemctl` command to control the system remotely, for example:
+`sshd` 서비스가 원격 Enterprise Linux 시스템에서 실행 중인 경우 `systemctl` 명령과 함께 `-H` 옵션을 지정하여 시스템을 원격으로 제어합니다.
 
 ```
 sudo systemctl -H root@10.0.0.2 status sshd
@@ -616,37 +616,37 @@ sshd.service - OpenSSH server daemon
    CGroup: /system.slice/sshd.service
 ```
 
-For more information see the `systemctl(1)` manual page.
+자세한 내용은 `systemctl(1)` 매뉴얼 페이지를 참조하세요.
 
-## Modifying systemd Service Unit Files
+## systemd 서비스 단위 파일 수정
 
-To change the configuration of `systemd` services, copy the files with `.service`, `.target`, `.mount` and `.socket` extensions from `/usr/lib/systemd/system` to `/etc/systemd/system`.
+`systemd` 서비스의 구성을 변경하려면 `.service`, `.target`, `.mount` 및 `.socket` 확장자를 가진 파일을 `/usr/lib/systemd/system`에서 `/etc/ 시스템/시스템`.
 
-After you have copied the files, you can edit the versions in`/etc/systemd/system`. The files in `/etc/systemd/system` take precedence over the versions in `/usr/lib/systemd/system`. Files in `/etc/systemd/system` aren't overwritten when you update a package that touches files in `/usr/lib/systemd/system`.
+파일을 복사한 후 `/etc/systemd/system`에서 버전을 편집할 수 있습니다. `/etc/systemd/system`에 있는 파일은 `/usr/lib/systemd/system`에 있는 버전보다 우선합니다. `/usr/lib/systemd/system`의 파일과 관련된 패키지를 업데이트할 때 `/etc/systemd/system`의 파일을 덮어쓰지 않습니다.
 
-To revert to the default `systemd` configuration for a particular service, you can either rename or delete the copies in `/etc/systemd/system`.
+특정 서비스에 대한 기본 `systemd` 구성으로 되돌리려면 `/etc/systemd/system`에서 복사본의 이름을 바꾸거나 복사본을 삭제하면 됩니다.
 
-The following sections describe the different parts of a service unit file that you cand edit and customize for a system.
+다음 섹션에서는 시스템에 대해 편집하고 사용자 정의할 수 있는 서비스 단위 파일의 다양한 부분을 설명합니다.
 
-### About Service Unit Files
+### 서비스 단위 파일
 
-Services run based on their corresponding service unit files. A service unit file typically contains the following sections, with each section having its respective defined options that determine how a specific service runs:
+서비스는 해당 서비스 단위 파일을 기반으로 실행됩니다. 서비스 단위 파일에는 일반적으로 다음 섹션이 포함되어 있으며, 각 섹션에는 특정 서비스 실행 방법을 결정하는 각각의 정의된 옵션이 있습니다.:
 
 - **`[Unit]`**
 
-  Contains information about the service.
+  서비스에 대한 정보가 포함되어 있습니다.
 
 - **`[_UnitType_]`:**
 
-  Contains options that are specific to the unit type of the file. For example, in a service unit file this section is titled `[Service]` and contains options that are specific to units of the service type, such as `ExecStart` or `StandardOutput`.
+  파일의 단위 유형과 관련된 옵션이 포함되어 있습니다. 예를 들어 서비스 단위 파일에서 이 섹션의 제목은 `[Service]`이며 `ExecStart` 또는 `StandardOutput`과 같은 서비스 유형 단위와 관련된 옵션을 포함합니다.
 
-  Only those unit types that offer options specific to their type have such a section.
+  해당 유형에 특정한 옵션을 제공하는 장치 유형에만 해당 섹션이 있습니다.
 
 - **`[Install]`**
 
-  Contains installation information for the specific unit. The information in this section is used by the `systemctl enable` and `systemctl disable` commands.
+  특정 장치에 대한 설치 정보가 포함되어 있습니다. 이 섹션의 정보는 `systemctl 활성화` 및 `systemctl 비활성화` 명령에 사용됩니다.
 
-A service unit file might contain the following configurations for a service.
+서비스 단위 파일에는 서비스에 대한 다음 구성이 포함될 수 있습니다.
 
 ```nocopybutton
 [Unit]
@@ -661,29 +661,29 @@ ExecStart=/usr/lib/systemd/helloworld.sh
 WantedBy=default.target
 ```
 
-[Configurable Options in Service Unit Files](osmanage-WorkingWithSystemServices.md#) describes some commonly used configured options available under each section. A complete list is also available in the `systemd.service(5)` and `systemd.unit(5)` manual pages.
+[서비스 단위 파일의 구성 가능한 옵션](ko-osmanage-WorkingWithSystemServices.md#서비스-단위-파일의-구성-가능한-옵션) 각 섹션에서 일반적으로 사용되는 구성 옵션 중 일부를 설명합니다. 전체 목록은 `systemd.service(5)` 및 `systemd.unit(5)` 매뉴얼 페이지에서도 확인할 수 있습니다.
 
-### Configurable Options in Service Unit Files
+### 서비스 단위 파일의 구성 가능한 옵션
 
-Each of the following lists deals with a separate section of the service unit file.
+다음 목록은 각각 서비스 단위 파일의 별도 섹션을 다룹니다.
 
-#### Description of Options Under \[Unit\] Section
+#### \[Unit\] 섹션 아래 옵션에 대한 설명
 
-The following list provides a general overview of the commonly used configurable options available in the `[Unit]` section of service unit file:
+다음 목록은 서비스 단위 파일의 `[Unit]` 섹션에서 일반적으로 사용되는 구성 가능 옵션에 대한 일반적인 개요를 제공합니다.:
 
 - **`Description`**
 
-  Provides information about the service. The information is displayed when you run the `systemctl status` command on the unit.
+  서비스에 대한 정보를 제공합니다. 해당 정보는 장치에서 `systemctl status` 명령을 실행하면 표시됩니다.
 
 - **`Documentation`**
 
-  Contains a space-separated list of URIs referencing documentation for this unit or its configuration.
+  이 장치 또는 해당 구성에 대한 문서를 참조하는 공백으로 구분된 URI 목록을 포함합니다.
 
 - **`After`**
 
-  Configures the unit to only run after the units listed in the option finish starting up.
+  옵션에 나열된 장치가 시작을 마친 후에만 장치가 실행되도록 구성합니다.
 
-  In the following example, if the file _var3_.`service` has the following entry, then it's only started after units `*var1*.service` and `*var2*.service` have started:
+  다음 예에서 _var3_.`service` 파일에 다음 항목이 있으면 `*var1*.service` 및 `*var2*.service` 단위가 시작된 후에만 시작됩니다.:
 
   ```
    After=*var1*.service *var2*.service
@@ -691,125 +691,125 @@ The following list provides a general overview of the commonly used configurable
 
 - **`Requires`**
 
-  Configures a unit to have requirement dependencies on other units. If a unit is activated, those listed in its `Requires` option are also activated.
+  다른 장치에 대한 요구 사항 종속성을 갖도록 장치를 구성합니다. 유닛이 활성화되면 `Requires` 옵션에 나열된 유닛도 활성화됩니다.
 
 - **`Wants`**
 
-  A less stringent version of the `Requires` option. For example, a specific unit can be activated even if one of those listed in its `Wants` option fails to start.
+  `Requires` 옵션의 덜 엄격한 버전입니다. 예를 들어 `Wants` 옵션에 나열된 장치 중 하나가 시작되지 않더라도 특정 장치를 활성화할 수 있습니다.
 
-#### Description of Options Under \[Service\] Section
+#### \[Service\] 섹션 아래 옵션에 대한 설명
 
-This following list gives a general overview of the commonly used configurable options available in the `[Service]` section of a service unit file.
+다음 목록은 서비스 단위 파일의 `[Service]` 섹션에서 일반적으로 사용되는 구성 가능한 옵션에 대한 일반적인 개요를 제공합니다.
 
 - **`Type`**
 
-  Configures the process start-up type for the service unit.
+  서비스 단위에 대한 프로세스 시작 유형을 구성합니다.
 
-  By default, this parameter's value is `simple`, which indicates that the service's main process is that which is started by the `ExecStart` parameter.
+  이는 서비스의 기본 프로세스가 `ExecStart` 매개변수에 의해 시작되는 프로세스임을 나타냅니다.
 
-  Typically, if a service's type is `simple`, then the definition can be omitted from the file.
+  일반적으로 서비스 유형이 `simple`인 경우 파일에서 정의를 생략할 수 있습니다.
 
 - **`StandardOutput`**
 
-  Configures the how the service's events are logged. For example, consider a service unit file has the following entry:
+  서비스의 이벤트가 기록되는 방식을 구성합니다. 예를 들어 서비스 단위 파일에 다음 항목이 있다고 가정합니다.:
 
   ```
   StandardOutput=journal
   ```
 
-  In the example, the value `journal` indicates that the events are recorded in the journal, which can be viewed by using the `journalctl` command.
+  예시에서 `journal` 값은 이벤트가 저널에 기록되었음을 나타내며 `journalctl` 명령을 사용하여 볼 수 있습니다.
 
 - **`ExecStart`**
 
-  Specifies the full path and command that starts the service, for example, `/usr/bin/npm start`.
+  서비스를 시작하는 전체 경로와 명령을 지정합니다(예: `/usr/bin/npm start`).
 
 - **`ExecStop`**
 
-  Specifies the commands to run to stop the service started through `ExecStart`.
+  `ExecStart`를 통해 시작된 서비스를 중지하기 위해 실행할 명령을 지정합니다.
 
 - **`ExecReload`**
 
-  Specifies the commands to run to trigger a configuration reload in the service.
+  서비스에서 구성 다시 로드를 트리거하기 위해 실행할 명령을 지정합니다.
 
 - **`Restart`**
 
-  Configures whether the service is to be restarted when the service process exits, is stopped, or when a timeout is reached.
+  서비스 프로세스가 종료되거나 중지되거나 시간 초과에 도달할 때 서비스를 다시 시작할지 여부를 구성합니다.
 
-  **Note:** This option doesn't apply when the process is stopped cleanly by a `systemd` operation, for example a `systemctl stop` or `systemctl restart`. In these cases, the service isn't restarted by this configuration option.
+  **Note:** 이 옵션은 `systemctl stop` 또는 `systemctl restart`와 같은 `systemd` 작업에 의해 프로세스가 완전히 중지된 경우에는 적용되지 않습니다. 이러한 경우 이 구성 옵션으로 서비스가 다시 시작되지 않습니다.
 
 - **`RemainAfterExit`**
 
-  A Boolean value that configures whether the service is to be considered active even when all of its processes have exited. The default value is `no`.
+  모든 프로세스가 종료된 경우에도 서비스가 활성 상태로 간주되는지 여부를 구성하는 부울 값입니다. 기본값은 `no`입니다.
 
-#### Description of Options Under \[Install\] Section
+#### \[Install\] 섹션 아래 옵션에 대한 설명
 
-This following list gives a general overview of the commonly used configurable options available in the `[Install]` section of service unit file.
+다음 목록은 서비스 단위 파일의 `[Intall]` 섹션에서 일반적으로 사용되는 구성 가능한 옵션에 대한 일반적인 개요를 제공합니다.
 
 - **`Alias`**
 
-  A space-separated list of names for a unit.
+  공백으로 구분된 장치 이름 목록입니다.
 
-  At installation time, `systemctl enable` creates symlinks from these names to the unit filename.
+  설치 시 `systemctl 활성화`는 이러한 이름에서 장치 파일 이름으로의 심볼릭 링크를 생성합니다.
 
-  Aliases are only effective when the unit is enabled.
+  alias는 장치가 활성화된 경우에만 유효합니다.
 
 - **`RequiredBy`**
 
-  Configures the service to be required by other units.
+  다른 장치에 필요한 서비스를 구성합니다.
 
-  For example, consider a unit file `*var1*.service` that has the following configuration added to it:
+  예를 들어, 다음 구성이 추가된 유닛 파일 `*var1*.service`를 생각해 보세요.:
 
   ```
   RequiredBy=*var2*.service *var3*.service
   ```
 
-  When `*var1*.service` is enabled, both `*var2*.service` and `*var3*.service` are granted a `Requires` dependency upon `*var1*.service`. This dependency is defined by a symbolic link that's created in the `.requires` folder of each dependent service \(`*var2*.service` and `var3.service`\) that points to the `*var1*.service` system unit file.
+  `*var1*.service`가 활성화되면 `*var2*.service`와 `*var3*.service` 모두 `*var1*.service`에 대한 `Requires` 종속성이 부여됩니다. 이 종속성은 `*var1*.service` 시스템을 가리키는 각 종속 서비스\(`*var2*.service` 및 `var3.service`\)의 `.requires` 폴더에 생성된 기호 링크로 정의됩니다.
 
 - **`WantedBy`**
 
-  Specifies a list of units that are to be granted a `wants` dependency upon the service whose file you're editing.
+  파일을 편집 중인 서비스에 대해 'Wants' 종속성을 부여할 유닛 목록을 지정합니다.
 
-  For example, consider a unit file `*var1*.service` that has the following configuration added to it:
+  예를 들어, 다음 구성이 추가된 유닛 파일 `*var1*.service`를 생각해 보세요.:
 
   ```
   WantedBy=*var2*.service *var3*.service
   ```
 
-  When `*var1*.service` is enabled, both `*var2*.service`and `*var3*.service` are granted a `Wants` dependency upon `*var1*.service`. This dependency is defined by a symbolic link that's created in the “`.wants`” folder of each dependent service \(`*var2*.service` and `var3.service`\) that points to the system unit file for `*var1*.service` .
+  `*var1*.service`가 활성화되면 `*var2*.service`와 `*var3*.service` 모두 `*var1*.service`에 대한 `Wants` 종속성이 부여됩니다. 이 종속성은 `*에 대한 시스템 장치 파일을 가리키는 각 종속 서비스 \(`_var2_.service`및`var3.service`\)의 ".wants`" 폴더에 생성된 기호 링크로 정의됩니다.
 
 - **`Also`**
 
-  Lists additional units to install or remove when the unit is installed or removed.
+  장치를 설치하거나 제거할 때 설치하거나 제거할 추가 장치를 나열합니다.
 
 - **`DefaultInstance`**
 
-  The `DefaultInstance` option applies to template unit files only.
+  `DefaultInstance` 옵션은 템플릿 단위 파일에만 적용됩니다.
 
-  Template unit files enable the creation of multiple units from a single configuration file. The `DefaultInstance` option specifies the instance for which the unit is enabled if the template is enabled without any explicitly set instance.
+  템플릿 단위 파일을 사용하면 단일 구성 파일에서 여러 단위를 생성할 수 있습니다. `DefaultInstance` 옵션은 명시적으로 설정된 인스턴스 없이 템플릿이 활성화된 경우 장치가 활성화되는 인스턴스를 지정합니다.
 
-## Creating a User-Based systemd Service
+## 사용자 기반 시스템 서비스 생성
 
-In addition to the system-wide `systemd` files, `systemd` enables you to create user-based services that you can run from a user level without requiring root access and privileges. These user-based services are under user control and are configurable independent of system services.
+시스템 전체 `systemd` 파일 외에도 `systemd`를 사용하면 루트 액세스 및 권한 없이 사용자 수준에서 실행할 수 있는 사용자 기반 서비스를 만들 수 있습니다. 이러한 사용자 기반 서비스는 사용자 제어 하에 있으며 시스템 서비스와 독립적으로 구성 가능합니다.
 
-The following are some distinguishing features of user-based `systemd` services:
+다음은 사용자 기반 `systemd` 서비스의 몇 가지 구별되는 특징입니다.
 
-- User-based `systemd` services are linked with a specific user account.
-- They're created under the associated user’s home directory in `$HOME/.config/systemd/user/`.
-- After these services are enabled, they start when the associated user logs in. This behavior differs from that of enabled `systemd` services which start when the system boots.
+- 사용자 기반 `systemd` 서비스는 특정 사용자 계정과 연결됩니다.
+- 연결된 사용자의 홈 디렉터리 `$HOME/.config/systemd/user/` 아래에 생성됩니다.
+- 이러한 서비스가 활성화되면 관련 사용자가 로그인할 때 시작됩니다. 이 동작은 시스템 부팅 시 시작되는 활성화된 `systemd` 서비스의 동작과 다릅니다.
 
-To create a user based service:
+사용자 기반 서비스를 생성하려면:
 
-1. Create the service's unit file in the `~/.config/systemd/user` directory, for example:
+1. 예를 들어 `~/.config/systemd/user` 디렉터리에 서비스의 단위 파일을 만듭니다.:
 
    ```
    touch ~/.config/systemd/user/*myservice*.service
    ```
 
-2. Open the unit file and specify the values to the options you want to use, such as `Description`, `ExecStart`, `WantedBy`, and so on.
+2. 유닛 파일을 열고 `Description`, `ExecStart`, `WantedBy` 등과 같이 사용하려는 옵션에 대한 값을 지정합니다.
 
-   For reference, see [Configurable Options in Service Unit Files](osmanage-WorkingWithSystemServices.md#) and the `systemd.service(5)` and `systemd.unit(5)` manual pages.
+   자세한 내용은 [서비스 단위 파일의 구성 가능한 옵션](ko-osmanage-WorkingWithSystemServices.md#서비스-단위-파일의-구성-가능한-옵션)을 참조하세요.
 
-3. Enable the service to start automatically when you log in.
+3. 로그인할 때 서비스가 자동으로 시작되도록 활성화합니다.
 
    ```
    sudo systemctl --user enable *myservice*.service
@@ -817,51 +817,51 @@ To create a user based service:
 
    **Note:**
 
-   When you log out, the service is stopped unless the root user has enabled processes to continue to run for the user.
+   로그아웃하면 루트 사용자가 해당 사용자에 대해 프로세스가 계속 실행되도록 활성화하지 않은 한 서비스가 중지됩니다.
 
-4. Start the service.
+4. 서비스를 시작합니다.
 
    ```
    sudo systemctl --user start *myservice*.service
    ```
 
-5. Verify that the service is running.
+5. 서비스가 실행 중인지 확인합니다.
 
    ```
    sudo systemctl --user status *myservice*.service
    ```
 
-## Using Timer Units to Control Service Unit Runtime
+## 타이머 장치를 사용하여 서비스 장치 런타임 제어
 
-Timer units can be configured to control when service units run. You can use timer units instead of configuring the `cron` daemon for time-based events. Timer units can be more complicated to configure than creating a crontab entry. However, timer units are more configurable and the services that they control can be configured for better logging and deeper integration with `systemd` architecture.
+서비스 장치가 실행되는 시기를 제어하도록 타이머 장치를 구성할 수 있습니다. 시간 기반 이벤트에 대해 `cron` 데몬을 구성하는 대신 타이머 장치를 사용할 수 있습니다. 타이머 단위는 crontab 항목을 생성하는 것보다 구성하기가 더 복잡할 수 있습니다. 그러나 타이머 장치는 더 쉽게 구성할 수 있으며 더 나은 로깅과 `systemd` 아키텍처와의 심층 통합을 위해 타이머 장치가 제어하는 ​​서비스를 구성할 수 있습니다.
 
-Timer units are started, enabled, and stopped similarly to service units. For example, to enable and start a timer unit immediately, type:
+타이머 장치는 서비스 장치와 유사하게 시작, 활성화 및 중지됩니다. 예를 들어 타이머 장치를 즉시 활성화하고 시작하려면 다음을 입력합니다.:
 
 ```
 sudo systemctl enable --now *myscript*.timer
 ```
 
-To list all existing timers on the system, to see when they last ran, and when they're next configured to run, type:
+시스템의 모든 기존 타이머를 나열하고, 마지막으로 실행된 시간과 다음에 실행되도록 구성되는 시간을 확인하려면 다음을 입력하십시오.:
 
 ```
 systemctl list-timers
 ```
 
-For more information about system timers, see the `systemd.timer(5)` and `systemd.time(7)` manual pages.
+시스템 타이머에 대한 자세한 내용은 `systemd.timer(5)` 및 `systemd.time(7)` 매뉴얼 페이지를 참조하세요.
 
-### Configuring a Realtime Timer Unit
+### 실시간 타이머 장치 구성
 
-**Realtime timers** activate on a calendar event, similar to events in a crontab. The option `OnCalendar` specifies when the timer runs a service.
+**실시간 타이머**는 crontab의 이벤트와 유사하게 캘린더 이벤트에서 활성화됩니다. `OnCalendar` 옵션은 타이머가 서비스를 실행하는 시기를 지정합니다.
 
-- If needed, create a `.service` file that defines the service to be triggered by the timer unit. In the following procedure, the sample service is `/etc/systemd/system/update.service` which is a service unit that runs an update script.
+- 필요한 경우 타이머 장치에 의해 트리거될 서비스를 정의하는 `.service` 파일을 만듭니다. 다음 절차에서 샘플 서비스는 업데이트 스크립트를 실행하는 서비스 단위인 `/etc/systemd/system/update.service`입니다.
 
-  For more information about creating service units, see [Creating a User-Based systemd Service](osmanage-WorkingWithSystemServices.md#).
+  서비스 단위 생성에 대한 자세한 내용은 다음을 참조하세요.[사용자 기반 시스템 서비스 생성](ko-osmanage-WorkingWithSystemServices.md#사용자-기반-시스템-서비스-생성).
 
-- Decide the time and frequency for running the service. In this procedure, the timer is configured to run the service every 2 hours from Monday to Friday.
+- 서비스 실행 시간과 빈도를 결정합니다. 이 절차에서는 월요일부터 금요일까지 2시간마다 서비스를 실행하도록 타이머를 구성합니다.
 
-This task shows you how to create a system timer to trigger a service to run based on a calendar event. The definition of the calendar event is similar to entries that you put in a cron job.
+이 작업에서는 달력 이벤트에 따라 서비스가 실행되도록 트리거하는 시스템 타이머를 만드는 방법을 보여줍니다. 캘린더 이벤트의 정의는 크론 작업에 입력하는 항목과 유사합니다.
 
-1. Create the `/etc/systemd/system/update.timer` with the following content:
+1. 다음 내용으로 `/etc/systemd/system/update.timer`를 생성합니다.:
 
    ```
    [Unit]
@@ -875,55 +875,57 @@ This task shows you how to create a system timer to trigger a service to run bas
    WantedBy=multi-user.target
    ```
 
-   Defining `OnCalendar` can vary from a simple wetting such as `OnCalendar=weekly` definitions that are more detailed. However, the format for defining settings is constant, as follows:
+   `OnCalendar` 정의는 더 자세한 `OnCalendar=weekly` 정의와 같은 단순한 젖음부터 다양할 수 있습니다. 그러나 설정을 정의하는 형식은 다음과 같이 일정합니다.:
 
    ```
    DayofWeek Year-Month-Day Hour:Minute:Second
    ```
 
-   The following definition means "the first 4 days of each month at 12:00 o'clock noon, but only if that day is either a Monday or a Tuesday":
+   다음 정의는 "매월 첫 4일 정오 12시(단, 해당 날짜가 월요일 또는 화요일인 경우에만 해당)"를 의미합니다.:
 
    ```
    OnCalendar=Mon,Tue *-*-01..04 12:00:00
    ```
 
-   For other ways to define `OnCalendar` and for more timer options that you can configure in the system timer file, see the `systemd.timer(5)` and `systemd.time(7)` manual pages.
+   `OnCalendar`를 정의하는 다른 방법과 시스템 타이머 파일에서 구성할 수 있는 추가 타이머 옵션에 대해서는 `systemd.timer(5)` 및 `systemd.time(7)` 매뉴얼 페이지를 참조하세요.
 
-2. Check that all the files related to this timer are configured correctly.
+2. 이 타이머와 관련된 모든 파일이 올바르게 구성되었는지 확인하십시오.
 
    ```
    systemd-analyze verify /etc/systemd/system/update.*
    ```
 
-   Any detected errors are reported on the screen.
+   감지된 오류는 화면에 보고됩니다.
 
-3. Start the timer.
+3. 타이머를 시작하세요.
 
    ```
    sudo systemctl start update.timer
    ```
 
-   This command starts the timer for the current session only.
+   이 명령은 현재 세션에 대해서만 타이머를 시작합니다.
 
-4. Ensure that the timer starts when the system is booted.
+4. 시스템이 부팅될 때 타이머가 시작되는지 확인합니다.
 
+   ````
+   sudo systemctl 활성화 update.timer
    ```
-   sudo systemctl enable update.timer
-   ```
 
-### Configuring a Monotonic Timer Unit
+   ````
 
-**Monotonic timers** that activate after a time span relative to a varying starting point, such as a boot event, or when a particular `systemd` unit becomes active. These timer units stop if the computer is temporarily suspended or shut down. Monotonic timers are configured by using the `On*Type*Sec` option, where _Type_ is the name of the event to which the timer is related. Common monotonic timers include `OnBootSec` and `OnUnitActiveSec`.
+### Monotonic 타이머 장치 구성
 
-- If needed, create a `.service` file that defines the service to be triggered by the timer unit. In the following procedure, the sample service is `/etc/systemd/system/update.service` which is a service unit that runs an update script.
+**Monotonic 타이머**는 부팅 이벤트와 같은 다양한 시작 지점을 기준으로 일정 시간이 지난 후 또는 특정 `systemd` 장치가 활성화될 때 활성화됩니다. 컴퓨터가 일시적으로 중단되거나 종료되면 이러한 타이머 장치가 중지됩니다. 여기서 _Type_은 타이머와 관련된 이벤트의 이름입니다. 일반적인 단조 타이머에는 `OnBootSec` 및 `OnUnitActiveSec`이 포함됩니다.
 
-  For more information about creating service units, see [Creating a User-Based systemd Service](osmanage-WorkingWithSystemServices.md#).
+- 필요한 경우 타이머 장치에 의해 트리거될 서비스를 정의하는 `.service` 파일을 만듭니다. 다음 절차에서 샘플 서비스는 업데이트 스크립트를 실행하는 서비스 단위인 `/etc/systemd/system/update.service`입니다.
 
-- Decide the time and frequency for running the service. In this procedure, the timer is configured to run the service 10 minutes after a system boot, and every 2 hours from when the service is last activated.
+  서비스 단위 생성에 대한 자세한 내용은 다음을 참조하세요.[사용자 기반 시스템 서비스 생성](ko-osmanage-WorkingWithSystemServices.md#사용자-기반-시스템-서비스-생성).
 
-This task shows you how to create a system timer to trigger a service to run at specific events, which are when the system boots or after 2 hours have lapsed from the timer's activation.
+- 서비스 실행 시간과 빈도를 결정합니다. 이 절차에서는 시스템 부팅 후 10분, 서비스가 마지막으로 활성화된 후 2시간마다 서비스를 실행하도록 타이머가 구성됩니다.
 
-1. Create the `/etc/systemd/system/update.timer` with the following content:
+이 작업에서는 시스템이 부팅될 때 또는 타이머 활성화 후 2시간이 경과한 후의 특정 이벤트에서 서비스가 실행되도록 트리거하는 시스템 타이머를 생성하는 방법을 보여줍니다.
+
+1. 다음 내용으로 `/etc/systemd/system/update.timer`를 생성합니다.:
 
    ```
    [Unit]
@@ -940,61 +942,63 @@ This task shows you how to create a system timer to trigger a service to run at 
 
    For more timer options that you can configure in the system timer, see the `systemd.timer(5)` and `systemd.time(7)` manual pages.
 
-2. Check that all the files related to this timer are configured correctly.
+2. 이 타이머와 관련된 모든 파일이 올바르게 구성되었는지 확인하십시오.
 
    ```
    systemd-analyze verify /etc/systemd/system/update.*
    ```
 
-   Any detected errors are reported on the screen.
+   감지된 오류는 화면에 보고됩니다.
 
-3. Start the timer.
+3. 타이머를 시작하세요.
 
    ```
    sudo systemctl start update.timer
    ```
 
-   This command starts the timer for the current session only.
+   이 명령은 현재 세션에 대해서만 타이머를 시작합니다.
 
-4. Ensure that the timer starts when the system is booted.
+4. 시스템이 부팅될 때 타이머가 시작되는지 확인합니다.
 
+   ````
+   sudo systemctl 활성화 update.timer
    ```
-   sudo systemctl enable update.timer
-   ```
 
-### Running a Transient Timer Unit
+   ````
 
-Transient timers are temporary timers that are valid only for the current session. These timers can be created to run a program or script directly without requiring service or timer units to be configured within `systemd`. These units are generated by using the `systemd-run` command. See the `systemd-run(1)` manual page for more information.
+### 임시 타이머 장치 실행
 
-The parameter options that you would add to the `*unit-file*.timer` file also serve as arguments when you use `systemd-run` command to run a transient timer unit.
+임시 타이머는 현재 세션에만 유효한 임시 타이머입니다. 이러한 타이머는 `systemd` 내에서 서비스나 타이머 장치를 구성할 필요 없이 프로그램이나 스크립트를 직접 실행하도록 생성될 수 있습니다. 이러한 단위는 `systemd-run` 명령을 사용하여 생성됩니다. 자세한 내용은 `systemd-run(1)` 매뉴얼 페이지를 참조하세요.
 
-The following examples show how to use `systemd-run` to activate transient timers.
+`*unit-file*.timer` 파일에 추가하는 매개변수 옵션은 임시 타이머 단위를 실행하기 위해 `systemd-run` 명령을 사용할 때 인수 역할도 합니다.
 
-- Run `update.service` after 2 hours have elapsed.
+다음 예에서는 `systemd-run`을 사용하여 임시 타이머를 활성화하는 방법을 보여줍니다.
+
+- 2시간이 지난 후 `update.service`를 실행하세요.
 
   ```
   sudo systemd-run --on-active="2h" --unit update.service
   ```
 
-- Create `~/tmp/myfile` after 1 hour.
+- 1시간 후에 `~/tmp/myfile`을 생성합니다.
 
   ```
   sudo systemd-run --on-active="1h" /bin/touch ~/tmp/myfile
   ```
 
-- Run `~/myscripts/update.sh` 5 minutes after the service manager is started. Use this syntax to run a service after the service manager has started at user login.
+- 서비스 관리자가 시작된 후 5분 후에 `~/myscripts/update.sh`를 실행합니다. 사용자 로그인 시 서비스 관리자가 시작된 후 서비스를 실행하려면 이 구문을 사용합니다.
 
   ```
   sudo systemd-run --on-startup="5m" ~/myscripts/update.sh
   ```
 
-- Run `myjob.service` 10 minutes after system boot.
+- 시스템 부팅 후 10분 후에 `myjob.service`를 실행합니다.
 
   ```
   sudo systemd-run --on-boot="10m" --unit myjob.service
   ```
 
-- Run `report.service` at the end of the day.
+- 하루가 끝나면 `report.service`를 실행하세요.
 
   ```
   sudo systemd-run --on-calendar="17:00:00"
