@@ -3,33 +3,33 @@ SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Managing Resources
+# 리소스 관리
 
-This chapter describes how to manage the use of resources in an Enterprise Linux system.
+이 장에서는 Enterprise Linux 시스템에서 리소스 사용을 관리하는 방법을 설명합니다.
 
-## About Control Groups
+## 컨트롤 그룹
 
-Control groups \(`cgroups`\) are a collection of resources, such as CPU, memory, network, and so on, which have collective settings on how these resources are used by applications and processes. `Cgroups` constitute a functionality in Enterprise Linux that enables you to further manage the use of resources by setting limits, prioritizing, isolating, or allocating these resources. Thus, you can control resource use on a granular level to obtain a more efficient system performance. Control groups are important in system configurations that host multiple virtual machines, Kubernetes clusters, and so on, whose applications compete over resource use.
+컨트롤 그룹\(`cgroups`\)은 CPU, 메모리, 네트워크 등과 같은 리소스 모음으로, 애플리케이션과 프로세스에서 이러한 리소스를 사용하는 방법에 대한 집합적 설정을 갖습니다. `Cgroups`은 제한을 설정하고, 우선 순위를 지정하고, 격리하거나 리소스를 할당하여 리소스 사용을 추가로 관리할 수 있는 Enterprise Linux의 기능을 구성합니다. 따라서 보다 효율적인 시스템 성능을 얻기 위해 세부적인 수준에서 리소스 사용을 제어할 수 있습니다. 컨트롤 그룹은 애플리케이션이 리소스 사용을 놓고 경쟁하는 여러 가상 머신, Kubernetes 클러스터 등을 호스팅하는 시스템 구성에서 중요합니다.
 
-Enterprise Linux supports two types of control groups:
+Enterprise Linux는 두 가지 유형의 컨트롤 그룹을 지원합니다.:
 
-- **Control groups version 1 \(`cgroups v1`\)**
+- **컨트롤 그룹 버전 1 \(`cgroups v1`\)**
 
-  These groups provide a per-resource controller hierarchy. Each resource, such as CPU, memory, I/O, and so on, has its own control group hierarchy. A disadvantage of this group is the difficulty of establishing proper coordination of resource use among groups that might belong to different process hierarchies.
+  이러한 그룹은 리소스별 컨트롤러 계층 구조를 제공합니다. CPU, 메모리, I/O 등과 같은 각 리소스에는 자체 컨트롤 그룹 계층 구조가 있습니다. 이 그룹의 단점은 서로 다른 프로세스 계층에 속할 수 있는 그룹 간에 리소스 사용을 적절하게 조정하는 것이 어렵다는 것입니다.
 
-- **Control groups version 2 \(`cgroups v2)`**
+- **컨트롤 그룹 버전 2 \(`cgroups v2)`**
 
-  These groups provide a single control group hierarchy against which all resource controllers are mounted. In this hierarchy, you can obtain better proper coordination of resource uses across different resource controllers. This version is an improvement over `cgroups v1` whose over flexibility prevented proper coordination of resource use among the system consumers.
+  이러한 그룹은 모든 리소스 컨트롤러가 마운트되는 단일 컨트롤 그룹 계층 구조를 제공합니다. 이 계층 구조에서는 다양한 리소스 컨트롤러에서 리소스 사용을 보다 적절하게 조정할 수 있습니다. 이 버전은 과도한 유연성으로 인해 시스템 소비자 간의 리소스 사용이 적절하게 조정되지 않는 `cgroups v1`보다 개선되었습니다.
 
-Both versions are present in Enterprise Linux. However, by default, the `cgroups v2` functionality is enabled and mounted on Enterprise Linux 9 systems.
+두 버전 모두 Enterprise Linux에 있습니다. 그러나 Enterprise Linux 9에서는 `cgroups v2`이 Default로 활성화되고 마운트되어 사용됩니다.
 
-For more information about control groups of both versions, see the `cgroups(7)` and `sysfs(5)` manual pages.
+두 버전의 컨트롤 그룹에 대한 자세한 내용은 `cgroups(7)` 및 `sysfs(5)` 매뉴얼 페이지를 참조하세요.
 
-## About Kernel Resource Controllers
+## 커널 리소스 컨트롤러
 
-Control groups manage resource use through _kernel resource controllers_. A kernel resource controller represents a single resource, such as CPU time, memory, network bandwidth, or disk I/O.
+컨트롤 그룹은 _커널 리소스 컨트롤러_를 통해 리소스 사용을 관리합니다. 커널 리소스 컨트롤러는 CPU 시간, 메모리, 네트워크 대역폭 또는 디스크 I/O와 같은 단일 리소스를 나타냅니다.
 
-To identify mounted resource controllers in the system, check the contents of the `/procs/cgroups` file, for example:
+시스템에 마운트된 리소스 컨트롤러를 식별하려면 `/procs/cgroups` 파일의 내용을 확인하십시오.
 
 ```
 sudo less /proc/cgroups
@@ -53,11 +53,11 @@ rdma    0       103     1
 misc    0       103     1
 ```
 
-For a detailed explanation of the kernel resource controllers of both `cgroups v1` and `cgroups v2`, see the `cgrouops(7)` manual page.
+`cgroups v1`과 `cgroups v2`의 커널 리소스 컨트롤러에 대한 자세한 설명은 `cgrouops(7)` 매뉴얼 페이지를 참조하세요.
 
-## About the Control Group File System
+## 컨트롤 그룹 파일 시스템
 
-In Enterprise Linux, the `cgroup` functionality is mounted as a file system in `/sys/fs/cgroup`. This directory is also called the root control group. The contents of the directory differ depending on which `cgroup` version is mounted on the system. For `cgroups v2`, the directory contents are as follows:
+Enterprise Linux에서 `cgroup` 기능은 `/sys/fs/cgroup`에 파일 시스템으로 마운트됩니다. 이 디렉터리는 루트 컨트롤 그룹이라고도 합니다. 디렉토리의 내용은 시스템에 마운트된 `cgroup` 버전에 따라 다릅니다. `cgroups v2`의 경우 디렉터리 내용은 다음과 같습니다.:
 
 ```
 ls /sys/fs/cgroup
@@ -75,33 +75,33 @@ cpu.pressure            memory.numa_stat       user.slice
 cpuset.cpus.effective   memory.pressure
 ```
 
-To create a new control group, create a child group or subdirectory in the root control group.
+새 컨트롤 그룹을 생성하려면 루트 컨트롤 그룹에 하위 그룹이나 하위 디렉터리를 생성하십시오.
 
 ```
 sudo mkdir /sys/fs/cgroup/MyGroup
 ```
 
-The child group is automatically populated with resource controllers that you have enabled for the new group. For sample procedures that create child groups where you can implement resource management for an application, see [Setting CPU Weight to Regulate Distribution of CPU Time](osmanage-ManagingResources.md#) and [Setting CPU Bandwidth to Regulate Distribution of CPU Time](osmanage-ManagingResources.md#).
+하위 그룹은 새 그룹에 대해 활성화한 리소스 컨트롤러로 자동으로 채워집니다. [CPU 시간 분배를 위한 제어 그룹 준비](ko-osmanage-ManagingResources.md#cpu-시간-분배를-위한-제어-그룹-준비).
 
-To destroy a child group, ensure that the child group itself doesn't contain other child groups, then remove the directory from the root control group.
+하위 그룹을 삭제하려면 하위 그룹 자체에 다른 하위 그룹이 포함되어 있지 않은지 확인한 다음 루트 컨트롤 그룹에서 디렉터리를 제거합니다.
 
 ```
 sudo rm -rf /sys/fs/cgroup/MyGroup
 ```
 
-## About Control Groups and systemd
+## 컨트롤 그룹 및 systemd
 
-Control groups can be used by the `systemd` system and service manager for resource management. `Systemd` uses these groups to organize units and services that consume resources. For more information about `systemd`, see [About the systemd Service Manager](osmanage-WorkingWithSystemServices.md#).
+컨트롤 그룹은 리소스 관리를 위해 `systemd` 시스템 및 서비스 관리자에서 사용할 수 있습니다. `Systemd`는 이러한 그룹을 사용하여 리소스를 소비하는 장치와 서비스를 구성합니다. [systemd 서비스 관리자](ko-osmanage-WorkingWithSystemServices.md#systemd-서비스-관리자).
 
-`Systemd` supports different unit types, three of which are for resource control purposes:
+`Systemd`는 다양한 단위 유형을 지원하며 그 중 3개는 리소스 제어 목적으로 사용됩니다.:
 
-- **Service**: A process or a group of processes whose settings are based on a unit configuration file. Services encompass specified processes in a "collection" so that `systemd` can start or stop the processes as one set. Service names follow the format `*name*.service`.
+- **Service**: 설정이 장치 구성 파일을 기반으로 하는 프로세스 또는 프로세스 그룹입니다. 서비스는 지정된 프로세스를 "컬렉션"으로 포함하므로 `systemd`가 프로세스를 하나의 세트로 시작하거나 중지할 수 있습니다. 서비스 이름은 `*name*.service` 형식을 따릅니다.
 
-- **Scope**: A group of externally created processes, such as user sessions, containers, virtual machines, and so on. Similar to services, scopes encapsulate these created processes and are started or stopped by the arbitrary processes and then registered by `systemd` at runtime. Scope names follow the format `*name*.scope`.
+- **Scope**: 사용자 세션, 컨테이너, 가상 머신 등과 같이 외부에서 생성된 프로세스 그룹입니다. 서비스와 마찬가지로 범위는 생성된 프로세스를 캡슐화하고 임의 프로세스에 의해 시작 또는 중지된 다음 런타임 시 `systemd`에 의해 등록됩니다. 범위 이름은 `*name*.scope` 형식을 따릅니다.
 
-- **Slice**: A group of hierarchically organized units in which services and scopes are located. Thus, slices themselves don't contain processes. Rather, the scopes and services in a slice define the processes. Every name of a slice unit corresponds to the path to a location in the hierarchy. Root slices, typically `user.slice` for all user-based processes and `system.slice` for system-based processes, are automatically created in the hierarchy. Parent slices exist immediately below the root slice and follow the format `*parent-name*.slice`. These root slices can then have subslices on multiple levels.
+- **Slice**: 서비스와 범위가 위치한 계층적으로 구성된 단위 그룹입니다. 따라서 슬라이스 자체에는 프로세스가 포함되어 있지 않습니다. 오히려 슬라이스의 범위와 서비스가 프로세스를 정의합니다. 슬라이스 단위의 모든 이름은 계층 구조의 특정 위치에 대한 경로에 해당합니다. 루트 슬라이스(일반적으로 모든 사용자 기반 프로세스의 경우 `user.slice`, 시스템 기반 프로세스의 경우 `system.slice`)는 계층 구조에 자동으로 생성됩니다. 상위 슬라이스는 루트 슬라이스 바로 아래에 존재하며 `*parent-name*.slice` 형식을 따릅니다. 그러면 이러한 루트 슬라이스는 여러 수준의 하위 슬라이스를 가질 수 있습니다.
 
-The service, the scope, and the slice units directly map to objects in the control group hierarchy. When these units are activated, they map directly to control group paths that are built from the unit names. To display the mapping between the `systemd` resource unit types and control groups, type:
+서비스, ​​범위 및 조각 단위는 컨트롤 그룹 계층 구조의 개체에 직접 매핑됩니다. 이러한 유닛이 활성화되면 유닛 이름으로 구성된 컨트롤 그룹 경로에 직접 매핑됩니다. `systemd` 리소스 단위 유형과 컨트롤 그룹 간의 매핑을 표시하려면 다음을 입력합니다.:
 
 ```
 sudo systemd-cgls
@@ -152,69 +152,69 @@ Working directory /sys/fs/cgroup:
 ...
 ```
 
-For an example of how to use `systemd` commands such as `systemctl` to manage resources, see [Controlling Access to System Resources](osmanage-WorkingWithSystemServices.md#). For further technical details, see the `systemctl(1)`, `systemd-cgls(1)`, and `systemd.resource-control(5)` manual pages.
+`systemctl`과 같은 `systemd` 명령을 사용하여 리소스를 관리하는 방법에 대한 예는 [시스템 리소스에 대한 액세스 제어](ko-osmanage-WorkingWithSystemServices.md#시스템-리소스에-대한-액세스-제어)를 참조하세요. `systemctl(1)`, `systemd-cgls(1)`, and `systemd.resource-control(5)` manual pages.
 
-## About Resource Distribution Models
+## 리소스 분배 모델
 
-The following distribution models provide you ways of implementing control or regulation in distributing resources for use by `cgroups v2`:
+다음 분배 모델은 `cgroups v2`에서 사용할 리소스 분배에 대한 제어 또는 규제를 구현하는 방법을 제공합니다.:
 
 - **Weights**
 
-  In this model, the weights of all the control groups are totaled. Each group receives a fraction of the resource based on the ratio of the group's weight against the total weight.
+  이 모델에서는 모든 컨트롤 그룹의 가중치가 합산됩니다. 각 그룹은 전체 가중치에 대한 그룹의 가중치 비율에 따라 자원의 일부를 받습니다.
 
-  Consider 10 control groups, each with a weight of 100 for a combined total of 1000. In this case, each group can use a tenth of a specified resource.
+  10개의 컨트롤 그룹을 고려하면 각각의 가중치는 100이므로 총합은 1000이 됩니다. 이 경우 각 그룹은 지정된 리소스의 10분의 1을 사용할 수 있습니다.
 
-  Weight is typically used to distribute stateless resources. To apply this resource, the `CPUWeight` option is used.
+  가중치는 일반적으로 상태 비저장 리소스를 배포하는 데 사용됩니다. 이 리소스를 적용하려면 `CPUWeight` 옵션이 사용됩니다.
 
 - **Limits**
 
-  To implement this distribution model, the `MemoryMax` option is used.
+  이 분배 모델을 구현하기 위해 `MemoryMax` 옵션이 사용됩니다.
 
 - **Protections**
 
-  In this model, a group is assigned a _protected boundary_. If the group's resource usage remains within the protected amount, the kernel can't deprive the group of the use of the resource in favor of other groups that are competing for the same resource. In this model, an overcommitment of resources is allowed.
+  이 모델에서는 그룹에 _보호된 경계_가 할당됩니다. 그룹의 리소스 사용량이 보호된 양 내에서 유지되는 경우 커널은 동일한 리소스를 놓고 경쟁하는 다른 그룹을 위해 그룹의 리소스 사용을 박탈할 수 없습니다. 이 모델에서는 리소스의 과도한 할당이 허용됩니다.
 
-  To implement this model, the `MemoryLow` option is used.
+  이 모델을 구현하기 위해 `MemoryLow` 옵션이 사용됩니다.
 
 - **Allocations**
 
-  In this model, a specific absolute amount is allocated for the use of finite type of resources, such as real-time budget.
+  이 모델에서는 real-time budget과 같은 유한한 유형의 리소스 사용을 위해 특정의 절대 양이 할당됩니다.
 
-## Using cgroups v2 to Manage Resources for Applications
+## cgroups v2를 사용하여 애플리케이션 리소스 관리
 
-This section describes how to use `cgroups v2` to manage the resource use of applications and processes that are running in the system. The procedures focus on regulating CPU use by these applications so that CPU consumption becomes more efficient.
+이 섹션에서는 `cgroups v2`를 사용하여 시스템에서 실행 중인 애플리케이션과 프로세스의 리소스 사용을 관리하는 방법을 설명합니다. 절차에서는 CPU 소비가 보다 효율적이 되도록 이러한 애플리케이션의 CPU 사용을 규제하는 데 중점을 둡니다.
 
-To prevent applications from overuse of CPU time, you can use `cgroups v2` to set limits so that the applications' use of the resource is better regulated. In the sections that follow, CPU resource control is implemented by using two methods:
+애플리케이션이 CPU 시간을 과도하게 사용하는 것을 방지하려면 `cgroups v2`를 사용하여 제한을 설정하여 애플리케이션의 리소스 사용이 더 잘 규제되도록 할 수 있습니다. 다음 섹션에서는 두 가지 방법을 사용하여 CPU 리소스 제어를 구현합니다.
 
-- Setting CPU bandwidth
+- CPU 대역폭 설정
 
-- Setting CPU weight
+- CPU 가중치 설정
 
-### Enabling cgroups v2
+### cgroups v2 활성화
 
-At boot time, Enterprise Linux 9 mounts `cgroups v2` by default.
+부팅 시 Enterprise Linux 9는 기본적으로 `cgroups v2`를 마운트합니다.
 
-1. Verify that `cgroups v2` is enabled and mounted on the system.
+1. `cgroups v2`가 활성화되어 시스템에 마운트되어 있는지 확인하세요.
 
    ```
    sudo mount -l | grep cgroup
    ```
 
    ```nocopybutton
-   cgroup2 on /sys/fs/cgroup type cgroup2 (rw,nosuid,nodev,noexec,relatime,seclabel,nsdelegate,memory_recursiveprot)
+   /sys/fs/cgroup의 cgroup2 유형 cgroup2(rw,nosuid,nodev,noexec,relatime,seclabel,nsdelegate,memory_recursiveprot)
    ```
 
-2. Optionally, check the contents of `/sys/fs/cgroup` directory, which is also called the root control group.
+2. 추가적으로 루트 제어 그룹이라고도 하는 `/sys/fs/cgroup` 디렉터리의 내용을 확인합니다.
 
    ```
    ll /sys/fs/cgroup/
    ```
 
-   For `cgroups v2`, the files in the directory should have prefixes to their file names, for example, `cgroup`.\*, `cpu`.\*, `memory`.\*, and so on. See [About the Control Group File System](osmanage-ManagingResources.md#).
+   `cgroups v2`의 경우 디렉터리에 있는 파일에는 파일 이름 앞에 접두사가 있어야 합니다. (예, `cgroup`.\*, `cpu`.\*, `memory`.\*, 등) [컨트롤 그룹 파일 시스템](ko-osmanage-ManagingResources.md#컨트롤-그룹-파일-시스템).
 
-### Preparing the Control Group for Distribution of CPU Time
+### CPU 시간 분배를 위한 제어 그룹 준비
 
-1. Verify that in the root control group, the `cpu` and `cpuset` controllers are available in the `/sys/fs/cgroup/cgroup.controllers` file.
+1. 루트 제어 그룹의 `/sys/fs/cgroup/cgroup.controllers` 파일에서 `cpu` 및 `cpuset` 컨트롤러를 사용할 수 있는지 확인하세요.
 
    ```
    sudo cat /sys/fs/cgroup/cgroup.controllers
@@ -224,16 +224,16 @@ At boot time, Enterprise Linux 9 mounts `cgroups v2` by default.
    **cpuset****cpu** io memory hugetlb pids rdma misc
    ```
 
-2. Add the CPU controllers to the `cgroup.subtree_control` file.
+2. `cgroup.subtree_control` 파일에 CPU 컨트롤러를 추가합니다.
 
-   By default, only the `memory` and `pids` controllers are in the file. To add the CPU controllers, type:
+   기본적으로 `memory` 및 `pids` 컨트롤러만 파일에 있습니다. CPU 컨트롤러를 추가하려면 다음을 입력하십시오.:
 
    ```
    echo "+cpu" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
    echo "+cpuset" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
    ```
 
-3. Optionally, verify that the CPU controllers have been properly added.
+3. 추가적으로 CPU 컨트롤러가 제대로 추가되었는지 확인합니다.
 
    ```
    sudo cat /sys/fs/cgroup/cgroup.subtree_control
@@ -243,13 +243,13 @@ At boot time, Enterprise Linux 9 mounts `cgroups v2` by default.
    cpuset cpu memory pids
    ```
 
-4. Create a child group under the root control group to become the new control group for managing CPU resources on applications.
+4. 루트 제어 그룹 아래에 하위 그룹을 생성하여 애플리케이션의 CPU 리소스를 관리하기 위한 새 제어 그룹이 됩니다.
 
    ```
    sudo mkdir /sys/fs/cgroup/MyGroup
    ```
 
-5. Optionally, list the contents of the new subdirectory or child group.
+5. 새 하위 디렉터리 또는 하위 그룹의 내용을 나열합니다.
 
    ```
    ll /sys/fs/cgroup/MyGroup
@@ -283,16 +283,16 @@ At boot time, Enterprise Linux 9 mounts `cgroups v2` by default.
    -rw-r—​r--. 1 root root 0 Jun  1 10:33 pids.max
    ```
 
-   Based on the CPU controllers that you added to `/sys/fs/cgroup/cgroup.subtree_control`, the contents of the `MyGroup` that are inherited from the root control group are now more limited. Thus, only `cpuset`.\*, `cpu`.\*, `memory`.\*, and `pids`.\* files are in the `MyGroup` directory.
+   `/sys/fs/cgroup/cgroup.subtree_control`에 추가한 CPU 컨트롤러에 따라 루트 제어 그룹에서 상속된 `MyGroup`의 내용이 이제 더 제한됩니다. 따라서 `cpuset`.\*, `cpu`.\*, `memory`.\* 및 `pids`.\* 파일만 `MyGroup` 디렉터리에 있습니다.
 
-6. Enable the CPU-related controllers in `MyGroup`'s `cgroup.subtre_control` files.
+6. `MyGroup`의 `cgroup.subtre_control` 파일에서 CPU 관련 컨트롤러를 활성화합니다.
 
    ```
    echo "+cpu" | sudo tee /sys/fs/cgroup/MyGroup/cgroup.subtree_control
    echo "+cpuset" | sudo tee /sys/fs/cgroup/MyGroup/cgroup.subtree_control
    ```
 
-7. Optionally, verify that the CPU controllers are enabled for child groups under `MyGroup`.
+7. 선택적으로 `MyGroup` 아래의 하위 그룹에 대해 CPU 컨트롤러가 활성화되어 있는지 확인하세요.
 
    ```
    sudo cat /sys/fs/cgroup/MyGroup/cgroup.subtree_control
@@ -302,11 +302,11 @@ At boot time, Enterprise Linux 9 mounts `cgroups v2` by default.
    cpuset cpu
    ```
 
-### Setting CPU Bandwidth to Regulate Distribution of CPU Time
+### CPU 시간 분배를 조절하기 위한 CPU 대역폭 설정
 
-This procedure is based on the following assumptions:
+이 절차는 다음 가정을 기반으로 합니다.:
 
-- The application that's consuming CPU resources excessively is `sha1sum`, as shown in the following sample output of the `top` command:
+- `top` 명령의 다음 샘플 출력에 표시된 것처럼 CPU 리소스를 과도하게 소비하는 애플리케이션은 `sha1sum`입니다.:
 
   ```
   sudo top
@@ -324,11 +324,11 @@ This procedure is based on the following assumptions:
   ...
   ```
 
-  In the sample output, the `sha1sum` processes have PIDs 34500 and 34501.
+  샘플 출력에서 ​​`sha1sum` 프로세스의 PID는 34500 및 34501입니다.
 
-- The current system has multiple CPUs.
+- 현재 시스템에는 여러 개의 CPU가 있습니다.
 
-  To display the number of CPUs in the system, you can use the following command:
+  시스템의 CPU 수를 표시하려면 다음 명령을 사용할 수 있습니다.:
 
   ```
   sudo cat /sys/fs/cgroup/cpuset.cpus.effective
@@ -340,19 +340,19 @@ This procedure is based on the following assumptions:
 
   The sample output indicates a dual-core system.
 
-**Important:**
+**중요:**
 
-As a prerequisite to the following procedure, you must complete the preparations of `cgroup-v2` as described in [Preparing the Control Group for Distribution of CPU Time](osmanage-ManagingResources.md#). If you skipped those preparations, you can't complete this procedure.
+다음 절차의 전제 조건으로, 다음에 설명된 대로 `cgroup-v2` 준비를 완료해야 합니다. 해당 준비를 건너뛴 경우 이 절차를 완료할 수 없습니다.
 
-1. Create a `tasks` directory in the `MyGroup` subdirectory.
+1. `MyGroup` 하위 디렉터리에 `tasks` 디렉터리를 만듭니다.
 
    ```
    sudo mkdir /sys/fs/cgroup/MyGroup/tasks
    ```
 
-   This directory defines a child group with files that relate only to `cpu` and `cpuset` controllers.
+   이 디렉터리는 `cpu` 및 `cpuset` 컨트롤러에만 관련된 파일이 포함된 하위 그룹을 정의합니다.
 
-2. Optionally, list the contents of the new subdirectory.
+2. 선택적으로 새 하위 디렉터리의 내용을 나열합니다.
 
    ```
    ll /sys/fs/cgroup/MyGroup/tasks
@@ -384,7 +384,7 @@ As a prerequisite to the following procedure, you must complete the preparations
    -rw-r—​r--. 1 root root 0 Jun  1 11:45 memory.pressure
    ```
 
-3. In the `tasks` directory, set the processes that you want to regulate for CPU time to use the same CPU.
+3. `tasks` 디렉터리에서 동일한 CPU를 사용하도록 CPU 시간을 규제하려는 프로세스를 설정합니다.
 
    ```
    echo "1" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cpuset.cpus
@@ -400,17 +400,17 @@ As a prerequisite to the following procedure, you must complete the preparations
    1
    ```
 
-5. Configure the CPU bandwidth to set restrictions within the `MyGroup/tasks` child control group.
+5. `MyGroup/tasks` 하위 제어 그룹 내에서 제한을 설정하려면 CPU 대역폭을 구성하세요.
 
    ```
    echo "200000 1000000"n | sudo tee /sys/fs/cgroup/MyGroup/tasks/cpu.max
    ```
 
-   In the command, the value 20000 represents the quota of time in microseconds that's allowed for all processes collectively in a child group to run during a specified period. That period, in turn, is defined by the value 1000000. Specifically, the processes in the `/sys/fs/cgroup/MyGroup/tasks` group can run on the CPU for only 0.2 seconds, or one fifth, of every second.
+   명령에서 값 20000은 지정된 기간 동안 하위 그룹의 모든 프로세스가 집합적으로 실행되도록 허용되는 시간 할당량(마이크로초)을 나타냅니다. 해당 기간은 값 1000000으로 정의됩니다. 특히 `/sys/fs/cgroup/MyGroup/tasks` 그룹의 프로세스는 0.2초, 즉 매초의 1/5 동안만 CPU에서 실행될 수 있습니다.
 
-   If the quota is exhausted by the control group within the defined period, then the processes are suspended until the next period.
+   정의된 기간 내에 컨트롤 그룹에 의해 할당량이 소진되면 프로세스는 다음 기간까지 일시 중지됩니다.
 
-6. Optionally, verify the time quotas.
+6. 선택적으로 시간 할당량을 확인합니다.
 
    ```
    sudo cat /sys/fs/cgroup/MyGroup/tasks/cpu.max
@@ -420,14 +420,14 @@ As a prerequisite to the following procedure, you must complete the preparations
    200000 1000000
    ```
 
-7. Add the PIDs of the applications to the child group.
+7. 하위 그룹에 애플리케이션의 PID를 추가합니다.
 
    ```
    echo "34500" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cgroup.procs
    echo "34501" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cgroup.procs
    ```
 
-8. Verify that the applications are running in the specified control group.
+8. 지정된 제어 그룹에서 애플리케이션이 실행되고 있는지 확인하십시오.
 
    ```
    sudo cat /proc/34500/cgroup /proc/34501/cgroup
@@ -438,7 +438,7 @@ As a prerequisite to the following procedure, you must complete the preparations
    0::/MyGroup/tasks
    ```
 
-9. Check the current CPU consumption after you have set the CPU bandwidth.
+9. CPU 대역폭을 설정한 후 현재 CPU 사용량을 확인하십시오.
 
    ```
    top
@@ -456,13 +456,13 @@ As a prerequisite to the following procedure, you must complete the preparations
    ...
    ```
 
-   Because the `MyGroup/tasks` group is limited to a total of 20% of CPU use, then each `sha1sum` process is now limited to 10% of CPU time.
+   `MyGroup/tasks` 그룹은 CPU 사용량의 총 20%로 제한되므로 이제 각 `sha1sum` 프로세스는 CPU 시간의 10%로 제한됩니다.
 
-### Setting CPU Weight to Regulate Distribution of CPU Time
+### CPU 시간 분배를 조절하기 위한 CPU 가중치 설정
 
-This procedure is based on the following assumptions:
+이 절차는 다음 가정을 기반으로 합니다.:
 
-- The application that's consuming CPU resources excessively is `sha1sum`, as shown in the following sample output of the `top` command:
+- `top` 명령의 다음 샘플 출력에 표시된 것처럼 CPU 리소스를 과도하게 소비하는 애플리케이션은 `sha1sum`입니다.:
 
   ```
   sudo top
@@ -481,11 +481,11 @@ This procedure is based on the following assumptions:
   ...
   ```
 
-  In the output, the `sha1sum` processes have PIDs 33301, 33302, and 33303.
+  출력에서 `sha1sum` 프로세스의 PID는 33301, 33302, 33303입니다.
 
-- The current system has multiple CPUs.
+- 현재 시스템에는 여러 개의 CPU가 있습니다.
 
-  To display the number of CPUs in the system, type:
+  시스템의 CPU 수를 표시하려면 다음을 입력하십시오.:
 
   ```
   sudo cat /sys/fs/cgroup/cpuset.cpus.effective
@@ -497,11 +497,11 @@ This procedure is based on the following assumptions:
 
   The sample output indicates a dual-core system.
 
-**Important:**
+**중요:**
 
-As a prerequisite to the following procedure, you must complete the preparations of `cgroup-v2` as described in [Preparing the Control Group for Distribution of CPU Time](osmanage-ManagingResources.md#). If you skipped those preparations, you can't complete this procedure.
+다음 절차의 전제 조건으로, 다음에 설명된 대로 `cgroup-v2` 준비를 완료해야 합니다. 해당 준비를 건너뛴 경우 이 절차를 완료할 수 없습니다.
 
-1. Create 3 child groups in the `MyGroup` subdirectory.
+1. `MyGroup` 하위 디렉터리에 하위 그룹 3개를 만듭니다.
 
    ```
    sudo mkdir /sys/fs/cgroup/MyGroup/g1
@@ -509,7 +509,7 @@ As a prerequisite to the following procedure, you must complete the preparations
    sudo mkdir /sys/fs/cgroup/MyGroup/g3
    ```
 
-2. Configure the CPU weight for each child group.
+2. 각 하위 그룹의 CPU 가중치를 구성합니다.
 
    ```
    echo "150" | sudo tee /sys/fs/cgroup/MyGroup/g1/cpu.weight
@@ -517,7 +517,7 @@ As a prerequisite to the following procedure, you must complete the preparations
    echo "50" | sudo tee /sys/fs/cgroup/MyGroup/g3/cpu.weight
    ```
 
-3. Apply the application PIDs to their corresponding child groups.
+3. 해당 하위 그룹에 애플리케이션 PID를 적용합니다.
 
    ```
    echo "33301" | sudo tee /sys/fs/cgroup/Example/g1/cgroup.procs
@@ -525,11 +525,11 @@ As a prerequisite to the following procedure, you must complete the preparations
    echo "33303" | sudo /sys/fs/cgroup/Example/g3/cgroup.procs
    ```
 
-   These commands set the selected applications to become members of the `MyGroup/g*/` control groups. The CPU time for each `sha1sum` process depends on the CPU time distribution as configured for each group.
+   이 명령은 선택한 애플리케이션을 `MyGroup/g*/` 제어 그룹의 구성원으로 설정합니다. 각 `sha1sum` 프로세스의 CPU 시간은 각 그룹에 구성된 CPU 시간 분포에 따라 달라집니다.
 
-   The weights of the `g1`, `g2`, and `g3` groups that have running processes are summed up at the level of `MyGroup`, which is the parent control group.
+   실행 중인 프로세스가 있는 `g1`, `g2`, `g3` 그룹의 가중치는 상위 제어 그룹인 `MyGroup` 수준에서 합산됩니다.
 
-   With this configuration, when all processes run at the same time, the kernel allocates to each of the `sha1sum` processes the proportionate CPU time based on their respective `cgroup`'s `cpu.weight` file, as follows:
+   이 구성을 사용하면 모든 프로세스가 동시에 실행될 때 커널은 다음과 같이 각 `sha1sum` 처리에 해당 `cgroup`의 `cpu.weight` 파일을 기반으로 비례적인 CPU 시간을 할당합니다.:
 
    | Child group | `cpu.weight` setting | Percent of CPU time allocation                        |
    | ----------- | -------------------- | ----------------------------------------------------- |
@@ -537,9 +537,9 @@ As a prerequisite to the following procedure, you must complete the preparations
    | g2          | 100                  | ~33% \(100/300\) |
    | g3          | 50                   | ~16% \(50/300\)  |
 
-   If one child group has no running processes, then the CPU time allocation for running processes is recalculated based on the total weight of the remaining child groups with running processes. For example, if the `g2` child group doesn't have any running processes, then the total weight becomes 200, which is the weight of `g1+g3`. In this case, the CPU time for `g1` becomes 150/200 \(~75%\) and for `g3`, 50/200 \(~25%\)
+   하나의 하위 그룹에 실행 중인 프로세스가 없으면 실행 중인 프로세스에 대한 CPU 시간 할당은 실행 중인 프로세스가 있는 나머지 하위 그룹의 총 가중치를 기준으로 다시 계산됩니다. 예를 들어 `g2` 하위 그룹에 실행 중인 프로세스가 없으면 총 가중치는 `g1 g3`의 가중치인 200이 됩니다. 이 경우 `g1`의 CPU 시간은 150/200\(~75%\)가 되고 `g3`의 경우 50/200\(~25%\)가 됩니다.
 
-4. Check that the applications are running in the specified control groups.
+4. 지정된 제어 그룹에서 애플리케이션이 실행되고 있는지 확인하십시오.
 
    ```
    sudo cat /proc/33301/cgroup /proc/33302/cgroup /proc/33303/cgroup
@@ -551,7 +551,7 @@ As a prerequisite to the following procedure, you must complete the preparations
    0::/MyGroup/g3
    ```
 
-5. Check the current CPU consumption after you have set the CPU weights.
+5. CPU 가중치를 설정한 후 현재 CPU 사용량을 확인하십시오.
 
    ```
    top
@@ -569,6 +569,6 @@ As a prerequisite to the following procedure, you must complete the preparations
    ...
    ```
 
-## Using cgroups v2 to Manage Resources for Users
+## cgroups v2를 사용하여 사용자 리소스 관리
 
-The previous sample procedures describe how to manage applications' use of system resources. You can also manage resource use by directly implementing resource filters to users who log in to the system.
+이전 샘플 절차에서는 애플리케이션의 시스템 리소스 사용을 관리하는 방법을 설명합니다. 시스템에 로그인하는 사용자에게 리소스 필터를 직접 구현하여 리소스 사용을 관리할 수도 있습니다.
