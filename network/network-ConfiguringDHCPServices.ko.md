@@ -3,158 +3,158 @@ SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Configuring DHCP Services
+# DHCP 서비스 구성
 
-The Dynamic Host Configuration Protocol \(DHCP\) enables client systems to obtain network configuration information from a DHCP server each time they connect to the network. The DHCP server is configured with a range of IP addresses and other network configuration parameters that clients need.
+동적 호스트 구성 프로토콜\(DHCP\)을 사용하면 클라이언트 시스템이 네트워크에 연결할 때마다 DHCP 서버에서 네트워크 구성 정보를 얻을 수 있습니다. DHCP 서버는 클라이언트에 필요한 다양한 IP 주소와 기타 네트워크 구성 매개변수로 구성됩니다.
 
-When you configure an Enterprise Linux system as a DHCP client, the client daemon, `dhclient`, contacts the DHCP server to obtain the networking parameters. As DHCP is broadcast-based, the client must be on the same subnet as either a server or a relay agent. If a client can't be on the same subnet as the server, a DHCP relay agent can be used to pass DHCP messages between subnets.
+Enterprise Linux 시스템을 DHCP 클라이언트로 구성하면 클라이언트 데몬 `dhclient`가 DHCP 서버에 연결하여 네트워킹 매개변수를 얻습니다. DHCP는 브로드캐스트 기반이므로 클라이언트는 서버 또는 릴레이 에이전트와 동일한 서브넷에 있어야 합니다. 클라이언트가 서버와 동일한 서브넷에 있을 수 없는 경우 DHCP 릴레이 에이전트를 사용하여 서브넷 간에 DHCP 메시지를 전달할 수 있습니다.
 
-The server provides a lease for the IP address that it assigns to a client. The client can request specific terms for the lease, such as the duration. You can configure a DHCP server to limit the terms that it can grant for a lease. If a client remains connected to the network, `dhclient` automatically renews the lease before it expires. You can configure the DHCP server to provide the same IP address to a client, based on the MAC address of its network interface.
+서버는 클라이언트에 할당하는 IP 주소에 대한 임대를 제공합니다. 클라이언트는 기간과 같은 임대에 대한 특정 조건을 요청할 수 있습니다. 임대에 부여할 수 있는 조건을 제한하도록 DHCP 서버를 구성할 수 있습니다. 클라이언트가 네트워크에 계속 연결되어 있으면 `dhclient`는 임대가 만료되기 전에 자동으로 갱신합니다. 네트워크 인터페이스의 MAC 주소를 기반으로 클라이언트에 동일한 IP 주소를 제공하도록 DHCP 서버를 구성할 수 있습니다.
 
-The advantages of using DHCP include the following:
+DHCP를 사용하면 다음과 같은 이점이 있습니다.:
 
-- Centralized management of IP addresses
+- IP 주소의 중앙 집중식 관리
 
-- Ease of adding new clients to a network
+- 네트워크에 새 클라이언트를 쉽게 추가할 수 있음
 
-- Reuse of IP addresses reducing the total number of IP addresses that are required
+- IP 주소 재사용으로 필요한 총 IP 주소 수 감소
 
-- Reconfiguration of the IP address space on the DHCP server without needing to reconfigure each client
+- 각 클라이언트를 재구성할 필요 없이 DHCP 서버에서 IP 주소 공간 재구성
 
-For more information about DHCP, see [RFC 2131](https://datatracker.ietf.org/doc/html/rfc2131). Likewise, see the following manual pages:
+DHCP에 대한 자세한 내용은 [RFC 2131](https://datatracker.ietf.org/doc/html/rfc2131)을 참조하세요. 마찬가지로 다음 매뉴얼 페이지를 참조하십시오.:
 
 - `dhcpd(8)`
 - `dhcp-options(5)`
 
-## Setting Up the Server's Network Interfaces
+## 서버의 네트워크 인터페이스 설정
 
-By default, the `dhcpd` service processes requests on those network interfaces that connect them to subnets that are defined in the DHCP configuration file.
+기본적으로 `dhcpd` 서비스는 DHCP 구성 파일에 정의된 서브넷에 연결하는 네트워크 인터페이스에 대한 요청을 처리합니다.
 
-Suppose that a DHCP server has mutliple interfaces. Through its interface `enp0s1`, the server is connected to the same subnet as the clients that the server is configured to serve. In this case, `enp0s1` must be set in the DHCP service to enable the server to monitor and process incoming requests on that interface.
+DHCP 서버에 여러 인터페이스가 있다고 가정합니다. `enp0s1` 인터페이스를 통해 서버는 서버가 서비스를 제공하도록 구성된 클라이언트와 동일한 서브넷에 연결됩니다. 이 경우 서버가 해당 인터페이스에서 들어오는 요청을 모니터링하고 처리할 수 있도록 DHCP 서비스에 `enp0s1`을 설정해야 합니다.
 
-Before proceeding to either of the following procedures, ensure that you meet the following requirements:
+다음 절차 중 하나를 진행하기 전에 다음 요구 사항을 충족하는지 확인하십시오.
 
-- You have the proper administrative privileges to configure DHCP.
-- You have installed the `dhcp-server` package.
+- DHCP를 구성할 수 있는 적절한 관리 권한이 있습니다.
+- `dhcp-server` 패키지를 설치했습니다.
 
-  If not, install the package with the following command:
+  그렇지 않은 경우 다음 명령을 사용하여 패키지를 설치하십시오.:
 
   ```
   sudo dnf install dhcp-server
   ```
 
-Configure the network interfaces as follows:
+다음과 같이 네트워크 인터페이스를 구성합니다.:
 
-- For IPv4 networks:
-  1. Copy the `/usr/lib/systemd/system/dhcpd.service` file to the `/etc/systemd/system/` directory.
+- IPv4 네트워크의 경우:
+  1. `/usr/lib/systemd/system/dhcpd.service` 파일을 `/etc/systemd/system/` 디렉토리에 복사합니다.
 
      ```
      sudo cp /usr/lib/systemd/system/dhcpd.service /etc/systemd/system/
      ```
 
-  2. Edit the `/etc/systemd/system/dhcpd.service` by locating the line that defines the `ExecStart` parameter.
+  2. `ExecStart` 매개변수를 정의하는 줄을 찾아 `/etc/systemd/system/dhcpd.service`를 편집합니다.
 
-  3. Append the interface names on which the `dhcpd` service should listen.
+  3. `dhcpd` 서비스가 수신해야 하는 인터페이스 이름을 추가합니다.
 
-     See the sample entries in bold.
+     굵게 표시된 샘플 항목을 참조하세요.
 
      ```
      ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
      ```
 
-  4. Reload the `systemd` manager configuration.
+  4. `systemd` 관리자 구성을 다시 로드하세요.
 
      ```
      sudo systemctl daemon-reload
      ```
 
-  5. Restart the `dhcpd` service configuration.
+  5. `dhcpd` 서비스 구성을 다시 시작하세요.
 
      ```
      sudo systemctl restart dhcpd.service
      ```
 
-     Alternatively, you can also type:
+     또는 다음을 입력할 수도 있습니다.:
 
      ```
      sudo systemctl restart dhcpd
      ```
 
-- For IPv6 networks:
-  1. Copy the `/usr/lib/systemd/system/dhcpd6.service` file to the `/etc/systemd/system/` directory.
+- IPv6 네트워크의 경우:
+  1. `/usr/lib/systemd/system/dhcpd6.service` 파일을 `/etc/systemd/system/` 디렉터리에 복사합니다.
 
      ```
      sudo cp /usr/lib/systemd/system/dhcpd6.service /etc/systemd/system/
      ```
 
-  2. Edit the `/etc/systemd/system/dhcpd6.service` file by locating the line that defines the `ExecStart` parameter.
+  2. `ExecStart` 매개변수를 정의하는 줄을 찾아 `/etc/systemd/system/dhcpd6.service` 파일을 편집합니다.
 
-  3. Append the names of the interfaces on which the `dhcpd6` service should listen.
+  3. `dhcpd6` 서비스가 수신해야 하는 인터페이스의 이름을 추가합니다.
 
-     See the sample entries in bold.
+     굵게 표시된 샘플 항목을 참조하세요.
 
      ```
      ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd6.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
      ```
 
-  4. Reload the `systemd` manager configuration.
+  4. `systemd` 관리자 구성을 다시 로드하세요.
 
      ```
      sudo systemctl daemon-reload
      ```
 
-  5. Restart the `dhcpd` service configuration.
+  5. `dhcpd` 서비스 구성을 다시 시작하세요.
 
      ```
      sudo systemctl restart dhcpd6.service
      ```
 
-     Alternatively, you can also type:
+     또는 다음을 입력할 수도 있습니다.
 
      ```
      sudo systemctl restart dhcpd6
      ```
 
-## Understanding DHCP Declarations
+## DHCP 선언 이해
 
-The way the DHCP provides services to its clients is defined through parameters and declarations in the `/etc/dhcp/dhcpd.conf` file for IPv4 networks and `/etc/dhcp/dhcpd6.conf` file for IPv6 networks. The file would contain details such as client networks, address leases, IP address pools, and so on.
+DHCP가 클라이언트에 서비스를 제공하는 방식은 IPv4 네트워크의 경우 `/etc/dhcp/dhcpd.conf` 파일, IPv6 네트워크의 경우 `/etc/dhcp/dhcpd6.conf` 파일의 매개변수 및 선언을 통해 정의됩니다. 파일에는 클라이언트 네트워크, 주소 임대, IP 주소 풀 등과 같은 세부 정보가 포함됩니다.
 
-**Note:** In a newly installed Enterprise Linux system, both the `dhcpd.conf` and `dhcpd6.conf` files are empty. If the server is being configured for DHCP for the first time, then you can use the templates so you can be guided in configuring the files. Type one of the following commands:
+**참고:** 새로 설치된 Enterprise Linux 시스템에서는 `dhcpd.conf` 및 `dhcpd6.conf` 파일이 모두 비어 있습니다. 서버가 처음으로 DHCP에 대해 구성되는 경우 템플릿을 사용하여 파일 구성에 대한 안내를 받을 수 있습니다. 다음 명령 중 하나를 입력하십시오.:
 
-- For IPv4
+- IPv4의 경우
 
   ```
   cp /usr/share/doc/dhcp-server/dhcpd.conf.example /etc/dhcp/dhcpd.conf
   ```
 
-- For IPv6
+- IPv6의 경우
 
   ```
   cp /usr/share/doc/dhcp-server/dhcpd6.conf.example /etc/dhcp/dhcpd6.conf
   ```
 
-Then when you open either file, examples, and explanations are available for reference.
+그런 다음 두 파일 중 하나를 열면 참조를 위해 예제와 설명을 사용할 수 있습니다.
 
-The information in the configuration file consists of a combination of the following declarations:
+구성 파일의 정보는 다음 선언의 조합으로 구성됩니다.:
 
-- [Global Settings](network-ConfiguringDHCPServices.md#section_lhj_gwj_ptb)
-- [Subnet Declarations](network-ConfiguringDHCPServices.md#section_gdx_vrk_ptb)
-- [Shared-network Declarations](network-ConfiguringDHCPServices.md#section_uqm_wrk_ptb)
-- [Host Declarations](network-ConfiguringDHCPServices.md#section_mn3_xrk_ptb)
-- [Group Declarations](network-ConfiguringDHCPServices.md#section_hb5_xrk_ptb)
+- [전역 설정](ko-network-ConfiguringDHCPServices.md#전역-설정)
+- [서브넷 선언](ko-network-ConfiguringDHCPServices.md#서브넷-선언)
+- [공유 네트워크 선언](ko-network-ConfiguringDHCPServices.md#공유-네트워크-선언)
+- [호스트 선언](ko-network-ConfiguringDHCPServices.md#호스트-선언)
+- [그룹 선언](ko-network-ConfiguringDHCPServices.md#그룹-선언)
 
-### Global Settings
+### 전역 설정
 
-Global parameters define settings that apply to all networks that are supported or serviced by the DHCP server.
+전역 매개변수는 DHCP 서버가 지원하거나 서비스하는 모든 네트워크에 적용되는 설정을 정의합니다.
 
-Consider the following settings that would globally apply through out the entire network:
+전체 네트워크에 전역적으로 적용되는 다음 설정을 고려하십시오.
 
-- Domain name of the company network: `example.com`.d
-- Network's DNS servers: `dn1.example.com` and `dns2.example.com`
-- Lease time assigned to all clients: 12 hours \(43200 seconds\)
-- Maximum lease time that can be assigned: 24 hours \(86400 seconds\)
+- 회사 네트워크의 도메인 이름: `example.com`.d
+- 네트워크의 DNS 서버: `dn1.example.com` 및 `dns2.example.com`
+- 모든 클라이언트에게 할당된 임대 시간: 12시간\(43200초\)
+- 할당 가능한 최대 임대 시간: 24시간\(86400초\)
 
-In this case, you would configure the global settings in the configuration file as follows:
+이 경우 구성 파일에서 전역 설정을 다음과 같이 구성합니다.:
 
 ```
 option domain-name "example.com";
@@ -164,24 +164,24 @@ max-lease-time 86400;
 authoritative;
 ```
 
-The `authoritative` parameter identifies the server as an official or primary server for DHCP services. The parameter is typically used in a setup that has multiple DHCP servers. Servers with the `authoritative` parameter have priority to process requests over servers without the parameter.
+`authoritative` 매개변수는 서버를 DHCP 서비스의 공식 서버 또는 기본 서버로 식별합니다. 이 매개변수는 일반적으로 여러 DHCP 서버가 있는 설정에서 사용됩니다. `authoritative` 매개변수가 있는 서버는 매개변수가 없는 서버보다 요청을 처리하는 데 우선순위를 갖습니다.
 
-### Subnet Declarations
+### 서브넷 선언
 
-A `subnet` declaration provides details about a subnet to which the DHCP server is directly connected and where the systems in that subnet are also being served as clients.
+'서브넷' 선언은 DHCP 서버가 직접 연결된 서브넷과 해당 서브넷의 시스템이 클라이언트 역할을 하는 위치에 대한 세부 정보를 제공합니다.
 
-Consider the following configuration of a DHCP server:
+DHCP 서버의 다음 구성을 고려하십시오.
 
-- The server's `enp0s1` interface is directly connected to the 192.0.2.0/24 network.
-- The systems in the 192.0.2.0/24 network are DHCP clients.
-- The topology of this client subnet is as follows:
-  - Subnet's DNS server: 192.0.2.1.
-  - Subnet gateway: 192.0.2.1.
-  - Broadcast address: 192.0.2.255.
-  - Address range for clients: 192.0.2.10 through 192.0.2.100.
-  - Maximum lease time for each client: 86,400 seconds \(1 day\).
+- 서버의 `enp0s1` 인터페이스는 192.0.2.0/24 네트워크에 직접 연결됩니다.
+- 192.0.2.0/24 네트워크의 시스템은 DHCP 클라이언트입니다.
+- 이 클라이언트 서브넷의 토폴로지는 다음과 같습니다.
+  - 서브넷의 DNS 서버: 192.0.2.1.
+  - 서브넷 게이트웨이: 192.0.2.1.
+  - 방송주소 : 192.0.2.255.
+  - 클라이언트 주소 범위: 192.0.2.10 ~ 192.0.2.100.
+  - 각 클라이언트의 최대 임대 시간: 86,400초\(1일\).
 
-In this case, you would enter the following declaration in `dhcp.conf`:
+이 경우 `dhcp.conf`에 다음 선언을 입력합니다.:
 
 ```
 
@@ -194,7 +194,7 @@ subnet 192.0.2.0 netmask 255.255.255.0 {
 }
 ```
 
-On an IPv6 network environment, a `subnet` declaration in the `dhcpd6.conf` file would resemble the following example:
+IPv6 네트워크 환경에서 `dhcpd6.conf` 파일의 `서브넷` 선언은 다음 예와 유사합니다.:
 
 ```
 subnet6 2001:db8:0:1::/64 {
@@ -204,19 +204,19 @@ subnet6 2001:db8:0:1::/64 {
 }
 ```
 
-### Shared-network Declarations
+### 공유 네트워크 선언
 
-You define a `shared-network` declaration if the DHCP server needs to provide servers to clients in other subnets that aren't directly connected to the server.
+DHCP 서버가 서버에 직접 연결되지 않은 다른 서브넷의 클라이언트에 서버를 제공해야 하는 경우 '공유 네트워크' 선언을 정의합니다.
 
-Consider the following example, which expands but slightly differs from the scenario in the preceding section:
+확장되었지만 이전 섹션의 시나리오와 약간 다른 다음 예제를 고려하십시오.:
 
-- The DHCP server belongs to the 192.0.2.0/24 network but doesn't provide services to the systems in this network.
-- The server processes requests from clients in the following remote subnets:
+- DHCP 서버는 192.0.2.0/24 네트워크에 속하지만 이 네트워크의 시스템에 서비스를 제공하지 않습니다.
+- 서버는 다음 원격 서브넷에 있는 클라이언트의 요청을 처리합니다.:
   - 192.168.5.0/24.
   - 198.51.100.0/24.
-- The remote subnets share the same DNS server, but each subnet has its own router and IP address range.
+- 원격 서브넷은 동일한 DNS 서버를 공유하지만 각 서브넷에는 자체 라우터와 IP 주소 범위가 있습니다.
 
-In this case, you would enter the following declarations in `dhcp.conf`:
+이 경우 `dhcp.conf`에 다음 선언을 입력합니다.:
 
 ```
 shared-network example {
@@ -241,9 +241,9 @@ subnet 192.0.2.0 netmask 255.255.255.0 {
 
 ```
 
-In the preceding example, the final `subnet` declaration refers to the server's own network and is outside the `shared-network` scope. The declaration is called an empty declaration because it defines the server's subnet. Because the server doesn't provide services to this subnet, no added entries are added, such as lease, address range, DNS information, and so on. Though empty, the declaration is required, otherwise, the `dhcpd` service doesn't start.
+앞의 예에서 마지막 `서브넷` 선언은 서버 자체 네트워크를 참조하며 `공유 네트워크` 범위 외부에 있습니다. 선언은 서버의 서브넷을 정의하므로 빈 선언이라고 합니다. 서버는 이 서브넷에 서비스를 제공하지 않으므로 임대, 주소 범위, DNS 정보 등과 같은 추가 항목이 추가되지 않습니다. 그렇지 않으면 `dhcpd` 서비스가 시작되지 않습니다.
 
-On an IPv6 network environment, a `shared-network` declaration in the `dhcpd6.conf` file would resemble the following example:
+IPv6 네트워크 환경에서 `dhcpd6.conf` 파일의 `shared-network` 선언은 다음 예와 유사합니다.:
 
 ```
 shared-network example {
@@ -264,18 +264,18 @@ subnet6 2001:db8:0:1::50:0/120 {
 }
 ```
 
-### Host Declarations
+### 호스트 선언
 
-You define a `host` declaration if a client needs to have a static IP address.
+클라이언트가 고정 IP 주소를 가져야 하는 경우 `host` 선언을 정의합니다.
 
-Consider the following example of a client printer in the server's 192.0.2.0/24 network. This time, the server provides DHCP services to the subnet.
+서버의 192.0.2.0/24 네트워크에 있는 클라이언트 프린터의 다음 예를 고려하십시오. 이번에는 서버가 서브넷에 DHCP 서비스를 제공합니다.
 
-- Printer's MAC address: 52:54:00:72:2f:6e.
-- Printer's IP address: 192.0.2.130
+- 프린터의 MAC 주소: 52:54:00:72:2f:6e.
+- 프린터의 IP 주소: 192.0.2.130
 
-  **Important:** A client's fixed IP address must be outside the pool of dynamic IP addresses distributed to other clients. Otherwise, address conflicts might occur.
+  **중요:** 클라이언트의 고정 IP 주소는 다른 클라이언트에 배포된 동적 IP 주소 풀 외부에 있어야 합니다. 그렇지 않으면 주소 충돌이 발생할 수 있습니다.
 
-In this case, you would enter the following declaration in `dhcp.conf`:
+이 경우 `dhcp.conf`에 다음 선언을 입력합니다.:
 
 ```
 host printer.example.com {
@@ -284,9 +284,9 @@ host printer.example.com {
 }
 ```
 
-Systems are identified by the hardware ethernet address, and not the name in the `host` declaration. Thus, the host name might change, but the client continues to receive services through the ethernet address.
+시스템은 '호스트' 선언의 이름이 아닌 하드웨어 이더넷 주소로 식별됩니다. 따라서 호스트 이름은 변경될 수 있지만 클라이언트는 이더넷 주소를 통해 계속해서 서비스를 받습니다.
 
-On an IPv6 network environment, a `host` declaration in the `dhcpd6.conf` file would resemble the following example:
+IPv6 네트워크 환경에서 `dhcpd6.conf` 파일의 `host` 선언은 다음 예와 유사합니다.:
 
 ```
 host server.example.com {
@@ -295,17 +295,17 @@ host server.example.com {
 }
 ```
 
-### Group Declarations
+### 그룹 선언
 
-You define a `group` declaration to apply the same parameters to multiple shared networks, subnets, and hosts all at the same time.
+여러 공유 네트워크, 서브넷 및 호스트에 동일한 매개변수를 동시에 적용하려면 '그룹' 선언을 정의합니다.
 
-Consider this example:
+다음 예를 고려하십시오.
 
-- The DHCP server belongs to and serves the subnet 192.0.2.0/24.
-- One client requires a fixed address, while the rest of the clients use dynamic IP addresses from the server.
-- All the clients use the same DNS server.
+- DHCP 서버는 서브넷 192.0.2.0/24에 속하고 서비스를 제공합니다.
+- 한 클라이언트에는 고정 주소가 필요하고 나머지 클라이언트는 서버의 동적 IP 주소를 사용합니다.
+- 모든 클라이언트는 동일한 DNS 서버를 사용합니다.
 
-In this case, you would enter the following declaration in `dhcp.conf`:
+이 경우 `dhcp.conf`에 다음 선언을 입력합니다.:
 
 ```
 
@@ -326,7 +326,7 @@ group {
 }
 ```
 
-On an IPv6 network environment, a `group` declaration in the `dhcpd6.conf` file would resemble the following example:
+IPv6 네트워크 환경에서 `dhcpd6.conf` 파일의 `group` 선언은 다음 예와 유사합니다.:
 
 ```
 group {
@@ -350,115 +350,115 @@ subnet6 2001:db8:0:1::/64 {
 }
 ```
 
-## Activating the DHCP Services
+## DHCP 서비스 활성화
 
-All the DHCP services are defined in the server's `/etc/dhcp/dhcpd.conf` or `/etc/dhcp/dhcpd6.conf` file. To configure and then activate the configured services, follow these steps:
+모든 DHCP 서비스는 서버의 `/etc/dhcp/dhcpd.conf` 또는 `/etc/dhcp/dhcpd6.conf` 파일에 정의되어 있습니다. 구성된 서비스를 구성한 후 활성화하려면 다음 단계를 수행하십시오.
 
-- For IPv4 networks:
-  1. Open the `/etc/dhcp/dhcpd.conf` file.
+- IPv4 네트워크의 경우:
+  1. `/etc/dhcp/dhcpd.conf` 파일을 엽니다.
 
-  2. Add parameters and declarations to the file.
+  2. 파일에 매개변수와 선언을 추가합니다.
 
-     For guidance, see [Understanding DHCP Declarations](network-ConfiguringDHCPServices.md#) or to the comments and notes in the `/usr/share/doc/dhcp-server/dhcpd.conf.example` template.
+     지침은 [DHCP 선언 이해](ko-network-ConfiguringDHCPServices.md#dhcp-선언-이해)를 참조하세요.
 
-  3. Optionally, set the `dhcpd` service to start automatically in a server reboot.
+  3. 선택적으로 'dhcpd' 서비스가 서버 재부팅 시 자동으로 시작되도록 설정하세요.
 
      ```
      sudo systemctl enable dhcpd
      ```
 
-  4. Start or restart the `dhcpd` service.
+  4. `dhcpd` 서비스를 시작하거나 다시 시작하세요.
 
      ```
      sudo systemctl start dhcpd
      ```
 
-- For IPv6 networks:
-  1. Open the `/etc/dhcp/dhcpd6.conf` file.
+- IPv6 네트워크의 경우:
+  1. `/etc/dhcp/dhcpd6.conf` 파일을 엽니다.
 
-  2. Add parameters and declarations to the file.
+  2. 파일에 매개변수와 선언을 추가합니다.
 
-     For guidance, see [Understanding DHCP Declarations](network-ConfiguringDHCPServices.md#) or to the comments and notes in the `/usr/share/doc/dhcp-server/dhcpd6.conf.example` template.
+     지침은 [DHCP 선언 이해](ko-network-ConfiguringDHCPServices.md#dhcp-선언-이해) 또는 `/usr/share/doc/dhcp-server/dhcpd6.conf.example` 템플릿의 설명 및 메모를 참조하세요.
 
-  3. Optionally, set the `dhcpd6` service to start automatically in case of a server reboot.
+  3. 선택적으로 서버 재부팅 시 `dhcpd6` 서비스가 자동으로 시작되도록 설정합니다.
 
      ```
      sudo systemctl enable dhcpd6
      ```
 
-  4. Start or restart the `dhcpd` service.
+  4. `dhcpd` 서비스를 시작하거나 다시 시작하세요.
 
      ```
      sudo systemctl start dhcpd6
      ```
 
-## Recovering From a Corrupted Lease Database
+## 손상된 임대 데이터베이스에서 복구
 
-The `dhcpd` service maintains lease information, such as IP addresses, MAC addresses, and lease expiry times, in the following flat-file databases:
+`dhcpd` 서비스는 다음 플랫 파일 데이터베이스에 IP 주소, MAC 주소, 임대 만료 시간과 같은 임대 정보를 유지합니다.:
 
-- For DHCPv4: `/var/lib/dhcpd/dhcpd.leases`.
-- For DHCPv6: `/var/lib/dhcpd/dhcpd6.leases`.
+- DHCPv4의 경우: `/var/lib/dhcpd/dhcpd.leases`.
+- DHCPv6의 경우: `/var/lib/dhcpd/dhcpd6.leases`.
 
-To prevent the lease database files from becoming too large with stale data, the `dhcpd` service periodically regenerates the files through the following mechanism:
+오래된 데이터로 인해 임대 데이터베이스 파일이 너무 커지는 것을 방지하기 위해 'dhcpd' 서비스는 다음 메커니즘을 통해 주기적으로 파일을 재생성합니다.
 
-1. The service renames the existing lease files:
-   - `/var/lib/dhcpd/dhcpd.leases` is renamed to `/var/lib/dhcpd/dhcpd.leases~`
-   - `/var/lib/dhcpd/dhcpd6.leases` is renamed to `/var/lib/dhcpd/dhcpd6.leases~`
-2. The service re-creates brand new `dhcpd.leases` and `dhcpd6.leases` files.
+1. 서비스는 기존 임대 파일의 이름을 바꿉니다.
+   - `/var/lib/dhcpd/dhcpd.leases`는 `/var/lib/dhcpd/dhcpd.leases~`로 이름이 변경되었습니다.
+   - `/var/lib/dhcpd/dhcpd6.leases`는 `/var/lib/dhcpd/dhcpd6.leases~`로 이름이 변경되었습니다.
+2. 이 서비스는 새로운 `dhcpd.leases` 및 `dhcpd6.leases` 파일을 다시 생성합니다.
 
-If a lease database file is corrupted, you need to restore the lease database from the last known backup of the database.
+임대 데이터베이스 파일이 손상된 경우 마지막으로 알려진 데이터베이스 백업에서 임대 데이터베이스를 복원해야 합니다.
 
-Typically, the most recent backup of a lease database is the `*filename*.leases~` file.
+일반적으로 임대 데이터베이스의 가장 최근 백업은 `*filename*.leases~` 파일입니다.
 
-**Note:** A backup instance is a snapshot taken at a particular point in time, and therefore might not reflect the latest state of the system.
+**Note:** 백업 인스턴스는 특정 시점에 생성된 스냅샷이므로 시스템의 최신 상태를 반영하지 않을 수 있습니다.
 
-Ensure that you have the required administrative privileges and complete the following steps:
+필요한 관리 권한이 있는지 확인하고 다음 단계를 완료하세요.:
 
-- For DHCPv4
-  1. Stop the `dhcpd` service:
+- DHCPv4의 경우
+  1. `dhcpd` 서비스 중지:
 
      ```
      sudo systemctl stop dhcpd
      ```
 
-  2. Rename the corrupt lease database:
+  2. 손상된 임대 데이터베이스 이름 바꾸기:
 
      ```
      sudo mv /var/lib/dhcpd/dhcpd.leases /var/lib/dhcpd/dhcpd.leases.corrupt
      ```
 
-  3. Restore the lease database from its corresponding `*filename*.leases~` backup file.
+  3. 해당 `*filename*.leases~` 백업 파일에서 임대 데이터베이스를 복원합니다.
 
      ```
      sudo cp -p /var/lib/dhcpd/dhcpd.leases~ /var/lib/dhcpd/dhcpd.leases
      ```
 
-  4. Start the `dhcpd` service:
+  4. `dhcpd` 서비스를 시작하세요:
 
      ```
      sudo systemctl start dhcpd
      ```
 
-- For DHCPv6
-  1. Stop the `dhcpd` service:
+- DHCPv6의 경우
+  1. `dhcpd` 서비스 중지:
 
      ```
      sudo systemctl stop dhcpd6
      ```
 
-  2. Rename the corrupt lease database:
+  2. 손상된 임대 데이터베이스 이름 바꾸기:
 
      ```
      sudo mv /var/lib/dhcpd/dhcpd6.leases /var/lib/dhcpd/dhcpd6.leases.corrupt
      ```
 
-  3. Restore the lease database from its corresponding `*filename*.leases~` backup file.
+  3. 해당 `*filename*.leases~` 백업 파일에서 임대 데이터베이스를 복원합니다.
 
      ```
      sudo cp -p /var/lib/dhcpd/dhcpd6.leases~ /var/lib/dhcpd/dhcpd6.leases
      ```
 
-  4. Start the `dhcpd6` service:
+  4. `dhcpd6` 서비스를 시작하세요:
 
      ```
      sudo systemctl start dhcpd6
