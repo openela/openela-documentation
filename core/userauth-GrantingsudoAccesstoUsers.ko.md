@@ -3,19 +3,19 @@ SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Granting sudo Access to Users
+# 사용자에게 sudo 액세스 권한 부여
 
-In Enterprise Linux, only administrators can perform privileged tasks on the system.
+Enterprise Linux에서는 관리자만 시스템에서 권한 있는 작업을 수행할 수 있습니다.
 
-To grant users additional privileges, an administrator can use the `visudo` command to either create a new configuration file in the `/etc/sudoers.d` directory or modify the `/etc/sudoers` file.
+사용자에게 추가 권한을 부여하기 위해 관리자는 `visudo` 명령을 사용하여 `/etc/sudoers.d` 디렉터리에 새 구성 파일을 생성하거나 `/etc/sudoers` 파일을 수정할 수 있습니다.
 
-Privileges that an administrator assigns by using configuration files in the `/etc/sudoers.d` directory are preserved between system upgrades and skipped automatically by the `sudo` command if they are invalid. Administrators can also change file ownership and permissions for each configuration file. For more information, see [Adding User Authorizations in the sudoers.d Directory](userauth-GrantingsudoAccesstoUsers.md#).
+관리자가 `/etc/sudoers.d` 디렉토리의 구성 파일을 사용하여 할당한 권한은 시스템 업그레이드 간에 유지되며 유효하지 않은 경우 `sudo` 명령에 의해 자동으로 건너뜁니다. 관리자는 각 구성 파일에 대한 파일 소유권과 권한을 변경할 수도 있습니다. 자세한 내용은, 참조: [sudoers.d 디렉토리에 사용자 권한 추가](ko-userauth-GrantingsudoAccesstoUsers.md#sudoersd-디렉토리에-사용자-권한-추가).
 
-Alternatively, an administrator can assign privileges directly in the `/etc/sudoers` file by using the `visudo` command. For more information, see [Adding User Authorizations in the sudoers File](userauth-GrantingsudoAccesstoUsers.md#).
+또는 관리자가 `visudo` 명령을 사용하여 `/etc/sudoers` 파일에서 직접 권한을 할당할 수 있습니다. [sudoers 파일에 사용자 권한 추가](ko-userauth-GrantingsudoAccesstoUsers.md#sudoers-파일에-사용자-권한-추가).
 
-## About Administrative Access on Enterprise Linux
+## Enterprise Linux의 관리 액세스
 
-By default, any user can elevate to a `root` shell by running the `su` command and provide the `root` user password:
+기본적으로 모든 사용자는 `su` 명령을 실행하고 `root` 사용자 비밀번호를 제공하여 `root` 셸로 승격할 수 있습니다.:
 
 ```
 su
@@ -25,7 +25,7 @@ su
 Password:
 ```
 
-Any user can also perform single administrative tasks in the same shell, but those commands can't be run until that user provides the `root` user password:
+모든 사용자는 동일한 셸에서 단일 관리 작업을 수행할 수도 있지만 해당 사용자가 `root` 사용자 비밀번호를 제공할 때까지는 해당 명령을 실행할 수 없습니다.:
 
 ```
 su -c "whoami"
@@ -39,23 +39,23 @@ Password:
 root
 ```
 
-Elevating to a `root` shell by using the `su` command can work for single user environments and workstations because only one person needs to administer the system and know the `root` user password. However, this approach is inadequate for shared systems with several users and administrators that require varying levels of access.
+`su` 명령을 사용하여 `root` 셸로 승격하면 한 사람만 시스템을 관리하고 `root` 사용자 비밀번호를 알아야 하기 때문에 단일 사용자 환경과 워크스테이션에서 작동할 수 있습니다. 그러나 이 접근 방식은 다양한 수준의 액세스가 필요한 여러 사용자 및 관리자가 있는 공유 시스템에는 적합하지 않습니다.
 
-Don't share the `root` user password with anyone else or let remote users sign in as the `root` user, both of these actions constitute poor and highly risky security practices.
+`root` 사용자 비밀번호를 다른 사람과 공유하거나 원격 사용자가 `root` 사용자로 로그인하도록 허용하지 마십시오.
 
-The `sudo` command is better suited for shared systems because any user can supply their own credentials when they elevate to a `root` shell:
+`sudo` 명령은 모든 사용자가 `root` 셸로 승격할 때 자신의 자격 증명을 제공할 수 있기 때문에 공유 시스템에 더 적합합니다.:
 
 ```
 sudo -s
 ```
 
-Users can exit from the `root` shell in the same way they would have if they had elevated directly with the `su` command and provided the `root` user password:
+사용자는 `su` 명령으로 직접 권한을 높이고 `root` 사용자 비밀번호를 제공한 경우와 동일한 방식으로 `root` 셸을 종료할 수 있습니다.:
 
 ```
 exit
 ```
 
-In addition, users can run the `sudo` command to perform single administrative tasks with elevated permissions:
+또한 사용자는 `sudo` 명령을 실행하여 상승된 권한으로 단일 관리 작업을 수행할 수 있습니다.:
 
 ```
 sudo whoami
@@ -65,27 +65,27 @@ sudo whoami
 root
 ```
 
-For more information, see the `su(1)`, `sudo(8)` and `sudoers(5)` manual pages.
+자세한 내용은 `su(1)`, `sudo(8)` 및 `sudoers(5)` 매뉴얼 페이지를 참조하세요.
 
 **Note:**
 
-You can optionally disable the `root` user during the Enterprise Linux installation process and grant `sudo` administrator privileges to the first user.
+Enterprise Linux 설치 프로세스 중에 `root` 사용자를 선택적으로 비활성화하고 첫 번째 사용자에게 `sudo` 관리자 권한을 부여할 수 있습니다.
 
-## Using the sudo Command
+## sudo 명령 사용
 
-If a user has been granted `sudo` access then that user can run administrative commands with elevated privileges:
+사용자에게 `sudo` 액세스 권한이 부여된 경우 해당 사용자는 높은 권한으로 관리 명령을 실행할 수 있습니다.:
 
 ```
 sudo *command*
 ```
 
-Depending on the `sudoer` configuration, the user might also be prompted for a password.
+`sudoer` 구성에 따라 사용자에게 비밀번호를 묻는 메시지가 표시될 수도 있습니다.
 
-In some situations, a user might have set environment variables that they want to reuse or preserve while running elevated commands, and they can do so by using the `-E` option.
+어떤 상황에서는 사용자가 승격된 명령을 실행하는 동안 재사용하거나 보존하려는 환경 변수를 설정했을 수 있으며 `-E` 옵션을 사용하여 그렇게 할 수 있습니다.
 
-For example, if the Enterprise Linux system is connected to an enterprise intranet or virtual private network \(VPN\), proxy settings might apply to obtain outbound Internet access.
+예를 들어, Enterprise Linux 시스템이 기업 인트라넷 또는 가상 사설망\(VPN\)에 연결된 경우 아웃바운드 인터넷 액세스를 얻기 위해 프록시 설정이 적용될 수 있습니다.
 
-The environment variables on which terminal commands rely for proxy access are `http_proxy`, `https_proxy` and `no_proxy`, and you can set them in the `~/.bashrc` configuration file:
+프록시 액세스를 위해 터미널 명령이 의존하는 환경 변수는 `http_proxy`, `https_proxy` 및 `no_proxy`이며 `~/.bashrc` 구성 파일에서 설정할 수 있습니다.:
 
 ```
 export http_proxy=http://proxy.example.com:8080
@@ -93,13 +93,13 @@ export https_proxy=https://proxy.example.com:8080
 export no_proxy=localhost,127.0.0.1
 ```
 
-Run the `source` command to refresh the session environment variables without signing out:
+로그아웃하지 않고 `source` 명령을 실행하여 세션 환경 변수를 새로 고칩니다.:
 
 ```
 source ~/.bashrc
 ```
 
-The `sudo` command can use the proxy settings that you have configured as environment variables within the user's session. For example, to run the `curl` command with administrative privileges:
+`sudo` 명령은 사용자 세션 내에서 환경 변수로 구성한 프록시 설정을 사용할 수 있습니다. 예를 들어 관리자 권한으로 `curl` 명령을 실행하려면:
 
 ```
 sudo -E curl https://www.example.com
@@ -107,85 +107,86 @@ sudo -E curl https://www.example.com
 
 **Note:**
 
-An administrator can optionally set system-wide proxy environment variables by configuring them in a shell script and then saving that file in the `/etc/profile.d/` directory.
+관리자는 선택적으로 쉘 스크립트에서 구성한 다음 `/etc/profile.d/` 디렉토리에 해당 파일을 저장하여 시스템 전체 프록시 환경 변수를 설정할 수 있습니다.
 
-You can also use `sudo` access to start an elevated `root` shell. The `-s` option elevates the user to a `root` shell as the `root` user. The `-i` option elevates the user to a `root` shell while preserving both the user profile and shell configuration:
+또한 `sudo` 액세스를 사용하여 승격된 `root` 셸을 시작할 수도 있습니다. `-s` 옵션은 사용자를 `root` 사용자로서 `root` 쉘로 승격시킵니다. `-i` 옵션은 사용자 프로필과 쉘 구성을 모두 유지하면서 사용자를 `root` 쉘로 승격시킵니다.:
 
 ```
 sudo -i
 ```
 
-When you have finished running administrative commands, exit the `root` shell and return to the standard user privilege level by using the `exit` command.
+관리 명령 실행을 마쳤으면 `root` 셸을 종료하고 `exit` 명령을 사용하여 표준 사용자 권한 수준으로 돌아갑니다.
 
-## Using the visudo Command
+## visudo 명령 사용
 
-To edit the `/etc/sudoers` file in the `vi` text editor without risking any change conflicts from other users on the system, use the `visudo` command:
+시스템의 다른 사용자와의 변경 충돌 위험 없이 `vi` 텍스트 편집기에서 `/etc/sudoers` 파일을 편집하려면 `visudo` 명령을 사용하십시오.:
 
 ```
 sudo visudo
 ```
 
-To learn more about how to configure the the `/etc/sudoers` file, see [Adding User Authorizations in the sudoers File](userauth-GrantingsudoAccesstoUsers.md#) and the `visudo(8)` manual page.
+[sudoers 파일에 사용자 권한 추가](ko-userauth-GrantingsudoAccesstoUsers.md#sudoers-파일에-사용자-권한-추가) 그리고 `visudo(8)` 매뉴얼 페이지.
 
-Administrators can also use the `visudo` command to manage permission files for individual users in the `/etc/sudoers.d/` directory. For more information, see [Adding User Authorizations in the sudoers.d Directory](userauth-GrantingsudoAccesstoUsers.md#).
+관리자는 `visudo` 명령을 사용하여 `/etc/sudoers.d/` 디렉토리에 있는 개별 사용자의 권한 파일을 관리할 수도 있습니다. 자세한 내용은, 참조: sudoers 파일에 사용자 권한 추가
+.
 
-## Adding User Authorizations in the sudoers.d Directory
+## sudoers.d 디렉토리에 사용자 권한 추가
 
-To set privileges for a specific user, add a file for them in the `/etc/sudoers.d` directory. For example, to set `sudo` permissions for the user `alice`:
+특정 사용자에 대한 권한을 설정하려면 해당 사용자에 대한 파일을 `/etc/sudoers.d` 디렉터리에 추가하세요. 예를 들어 `alice` 사용자에게 `sudo` 권한을 설정하려면:
 
 ```
 sudo visudo -f /etc/sudoers.d/alice
 ```
 
-You can append permissions to `/etc/sudoers.d/alice` in the following format:
+다음 형식으로 `/etc/sudoers.d/alice`에 권한을 추가할 수 있습니다.:
 
 ```
 *username*        *hostname*=*command*
 ```
 
-`username` is the name of the user, `hostname` is the name of any hosts for which you're defining permissions, and `command` is the permitted command with full executable path and options. If you don't specify options, then the user can run the command with full options.
+`username`은 사용자의 이름이고 `hostname`은 권한을 정의하는 호스트의 이름이며 `command`는 전체 실행 파일 경로와 옵션이 포함된 허용되는 명령입니다. 옵션을 지정하지 않으면 사용자는 전체 옵션을 사용하여 명령을 실행할 수 있습니다.
 
-For example, to grant the user `alice` permission to install packages with the `sudo dnf` command on all hosts:
+예를 들어, 모든 호스트에 `sudo dnf` 명령을 사용하여 패키지를 설치할 수 있는 `alice` 권한을 사용자에게 부여하려면:
 
 ```
 alice           ALL = /usr/bin/dnf
 ```
 
-You can also add several comma separated commands on the same line. To allow the user `alice` to run both the `sudo dnf` and `sudo yum` commands on all hosts:
+같은 줄에 여러 개의 쉼표로 구분된 명령을 추가할 수도 있습니다. 사용자 `alice`가 모든 호스트에서 `sudo dnf` 및 `sudo yum` 명령을 모두 실행할 수 있도록 허용하려면:
 
 ```
 alice           ALL = /usr/bin/dnf, /usr/bin/yum
 ```
 
-The `alice` user still needs to use `sudo` when they run privileged commands:
+`alice` 사용자는 권한 있는 명령을 실행할 때 여전히 `sudo`를 사용해야 합니다.:
 
 ```
 sudo dnf install *package*
 ```
 
-## Adding User Authorizations in the sudoers File
+## sudoers 파일에 사용자 권한 추가
 
-To set user privileges directly in the `/etc/sudoers` file, run the `visudo` command without specifying a file location:
+`/etc/sudoers` 파일에서 직접 사용자 권한을 설정하려면 파일 위치를 지정하지 않고 `visudo` 명령을 실행하세요.:
 
 ```
 sudo visudo
 ```
 
-You can append permissions to the `/etc/sudoers` file in the same format that you would if you were adding those permissions to user files in the `/etc/sudoers.d/` directory.
+`/etc/sudoers.d/` 디렉토리의 사용자 파일에 해당 권한을 추가하는 경우와 동일한 형식으로 `/etc/sudoers` 파일에 권한을 추가할 수 있습니다.
 
-In both cases, you can use aliases to permit broader permission categories instead of specifying each command individually. The `ALL` alias functions as a wildcard for all permissions, so to set the user `bob` to have sudo permission for all commands on all hosts:
+두 경우 모두 각 명령을 개별적으로 지정하는 대신 별칭을 사용하여 더 넓은 권한 범주를 허용할 수 있습니다. `ALL` 별칭은 모든 권한에 대한 와일드카드로 작동하므로 사용자 `bob`이 모든 호스트의 모든 명령에 대해 sudo 권한을 갖도록 설정합니다.:
 
 ```
 bob             ALL=(ALL)       ALL
 ```
 
-More aliased categories are listed in the `/etc/sudoers` file and the `sudoers(5)` manual page. You can create aliases in the following format:
+더 많은 별칭 카테고리는 `/etc/sudoers` 파일과 `sudoers(5)` 매뉴얼 페이지에 나열되어 있습니다. 다음 형식으로 별칭을 만들 수 있습니다.:
 
 ```
 Cmnd_Alias *ALIAS* = *command*
 ```
 
-In addition, you can also add several comma separated aliases on the same line. For example, to grant the user `alice` permission to manage system services and software packages:
+또한 같은 줄에 여러 개의 쉼표로 구분된 별칭을 추가할 수도 있습니다. 예를 들어 사용자 `alice`에게 시스템 서비스 및 소프트웨어 패키지를 관리할 수 있는 권한을 부여하려면:
 
 ```
 Cmnd_Alias SOFTWARE = /bin/rpm, /usr/bin/up2date, /usr/bin/yum
@@ -193,51 +194,51 @@ Cmnd_Alias SERVICES = /sbin/service, /sbin/chkconfig, /usr/bin/systemctl start, 
 alice           ALL= SERVICES, SOFTWARE
 ```
 
-Both users still need to use `sudo` when they run privileged commands:
+두 사용자 모두 권한 있는 명령을 실행할 때 `sudo`를 사용해야 합니다.:
 
 ```
 sudo systemctl restart *service*
 ```
 
-## Using Groups to Manage User Authorizations
+## 그룹을 사용하여 사용자 권한 관리
 
-Instead of specifying different levels of `sudo` access for each individual user you can optionally manage `sudo` access at group level by adding the `%` symbol to the group name.
+각 개별 사용자에 대해 서로 다른 `sudo` 액세스 수준을 지정하는 대신 그룹 이름에 `%` 기호를 추가하여 선택적으로 그룹 수준에서 `sudo` 액세스를 관리할 수 있습니다.
 
-For example, to define permissions for an existing group called `example` in the `/etc/sudoers.d/` directory and then add the user `alice` to that group:
+예를 들어, `/etc/sudoers.d/` 디렉토리에 `example`이라는 기존 그룹에 대한 권한을 정의한 다음 해당 그룹에 `alice` 사용자를 추가하려면:
 
-1. Create the `/etc/sudoers.d/example` file by using the `visudo` command:
+1. `visudo` 명령을 사용하여 `/etc/sudoers.d/example` 파일을 생성합니다.:
 
    ```
    sudo visudo /etc/sudoers.d/example
    ```
 
-2. Grant the `example` group permissions to manage system services and software packages:
+2. 시스템 서비스 및 소프트웨어 패키지를 관리하기 위해 `example` 그룹 권한을 부여합니다.:
 
    ```
    %example        ALL= SERVICES, SOFTWARE
    ```
 
-3. Add the the `alice` user to the `example` group:
+3. `example` 그룹에 `alice` 사용자를 추가합니다.:
 
    ```
    sudo usermod -aG example alice
    ```
 
-Or, you can set group permissions directly in the `/etc/sudoers` file. For example, to grant the user `bob` full `sudo` access on all hosts, enable the existing group `wheel`, and then add the user `bob` to it:
+또는 `/etc/sudoers` 파일에서 직접 그룹 권한을 설정할 수 있습니다. 예를 들어 `bob` 사용자에게 모든 호스트에서 전체 `sudo` 액세스 권한을 부여하려면 기존 그룹 `wheel`을 활성화한 다음 이 그룹에 `bob` 사용자를 추가합니다.:
 
-1. Open the `/etc/sudoers` file by using the `visudo` command:
+1. `visudo` 명령을 사용하여 `/etc/sudoers` 파일을 엽니다.:
 
    ```
    sudo visudo
    ```
 
-2. Remove the comment `#` symbol from the beginning of the following line in the `/etc/sudoers` file:
+2. `/etc/suiders` 파일에서 다음 행의 처음부터 주석 `#` 기호를 제거합니다.:
 
    ```
    %wheel          ALL=(ALL)       ALL
    ```
 
-3. Add the `bob` user to the `wheel` group to grant them full `sudo` access on all hosts:
+3. `bob` 사용자를 `wheel` 그룹에 추가하여 모든 호스트에서 전체 `sudo` 액세스 권한을 부여하세요.:
 
    ```
    sudo usermod -aG wheel bob
