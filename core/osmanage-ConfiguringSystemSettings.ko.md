@@ -3,19 +3,19 @@ SPDX-FileCopyrightText: 2023,2024 Oracle and/or its affiliates.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# 시스템 설정 구성
+# Configuring System Settings
 
-이 장에서는 시스템의 구성 설정을 변경하는 데 사용할 수 있는 파일 및 가상 파일 시스템에 대해 설명합니다.
+This chapter describes the files and virtual file systems that you can use to change the configuration settings for the system.
 
-## /etc/sysconfig 디렉터리
+## About the /etc/sysconfig Files
 
-`/etc/sysconfig` 디렉터리에는 시스템 구성을 제어하는 파일이 포함되어 있습니다. 이 디렉터리의 내용은 시스템에 설치한 패키지에 따라 다릅니다.
+The `/etc/sysconfig` directory contains files that control the system's configuration. The contents of this directory depend on the packages that you have installed on the system.
 
-`/etc/sysconfig` 디렉터리에서 찾을 수 있는 특정 파일은 다음과 같습니다.
+Certain files that you might find in the `/etc/sysconfig` directory include the following:
 
 - **`atd`**
 
-  `atd` 데몬에 대한 커맨드라인 파라메터를 지정합니다.
+  Specifies command line arguments for the `atd` daemon.
 
 - **`autofs`**
 
@@ -23,54 +23,53 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 - **`crond`**
 
-  부팅 시 `crond` 데몬에 파라메터를 전달합니다.
+  Passes arguments to the `crond` daemon at boot time.
 
 - **`chronyd`**
 
-  부팅 시 NTP 서비스에 사용되는 `chronyd` 데몬에 파라메터를 전달합니다.
+  Passes arguments to the `chronyd` daemon used for NTP services at boot time.
 
 - **`firewalld`**
 
-  부팅 시 방화벽 데몬(`firewalld`)에 파라메터를 전달합니다.
+  Passes arguments to the firewall daemon \(`firewalld`\) at boot time.
 
 - **`grub`**
 
-  Specifies default settings for the GRUB 2 bootloader. 이는 디렉터리에 상위 디렉터리에 연결되는 순환 참조가 포함되어 있음을 의미합니다. For more information, see [About the GRUB 2 Bootloader](osmanage-WorkingWiththeGRUB2BootloaderandConfiguringBootServices.md#).
+  Specifies default settings for the GRUB 2 bootloader. This file is a symbolic link to `/etc/default/grub`. For more information, see [About the GRUB 2 Bootloader](osmanage-WorkingWiththeGRUB2BootloaderandConfiguringBootServices.md#).
 
 - **`named`**
 
-  부팅 시 이름(name) 서비스 데몬에 파라메터를 전달합니다. `named` 데몬몬 BIND(Berkeley Internet Name Domain) 배포의 일부인 DNS(Domain Name System) 서버입니다. 이 서버는 호스트 이름을 네트워크의 IP 주소와 연결하는 테이블을 유지 관리합니다.
+  Passes arguments to the name service daemon at boot time. The `named` daemon is a Domain Name System \(DNS\) server that's part of the Berkeley Internet Name Domain \(BIND\) distribution. This server maintains a table that associates host names with IP addresses on the network.
 
 - **`samba`**
 
-  Windows 클라이언트에 대한 파일 공유 연결, NetBIOS-over-IP 이름(name) 지정 서비스 및 도메인 컨트롤러에 대한 연결 관리를 지원하기 위해 부팅 시 `smbd`, `nmbd` 및 `winbindd` 데몬에 파라메터를 전달합니다.
+  Passes arguments to the `smbd`, `nmbd`, and `winbindd` daemons at boot time to support file-sharing connectivity for Windows clients, NetBIOS-over-IP naming service, and connection management to domain controllers.
 
 - **`selinux`**
 
-  시스템의 SELinux 상태를 제어합니다. 이 파일은 `/etc/selinux/config`에 대한 심볼릭 링크입니다.
+  Controls the state of SELinux on the system. This file is a symbolic link to `/etc/selinux/config`.
 
 - **`snapper`**
 
-  `snapper` 유틸리티의 목록을 정의합니다.
+  Defines a list of`snapper` utility.
 
 - **`sysstat`**
 
-  **`sysstat`**
-  `sar`와 같은 시스템 활동 데이터 수집기 유틸리티들에 대한 로깅 파라메터를 설정합니다.
+  Configures logging parameters for system activity data collector utilities such as `sar`.
 
-더 많은 정보는 `/usr/share/doc/initscripts*/sysconfig.txt` 파일을 참조 하십시오.
+For more information, see `/usr/share/doc/initscripts*/sysconfig.txt`.
 
-## /proc 가상 파일시스템
+## About the /proc Virtual File System
 
-`/proc` 디렉터리 계층 구조의 파일에는 시스템 하드웨어 및 시스템에서 실행 중인 프로세스에 대한 정보가 포함되어 있습니다. 쓰기 권한이 있는 특정 파일에 기록하여 커널 구성을 변경할 수 있습니다.
+The files in the `/proc` directory hierarchy contain information about the system hardware and the processes that are running on the system. You can change the configuration of the kernel by writing to certain files that have write permission.
 
-`/proc` 디렉터리 아래에 있는 파일은 기본 데이터 구조 및 시스템 정보에 대한 탐색 가능한 보기를 제공하기 위해 커널이 요청 시 생성하는 가상 파일입니다. 따라서 `/proc`은 가상 파일 시스템의 예입니다. 대부분의 가상 파일은 크기가 0바이트로 표시되지만, 볼 때 많은 양의 정보가 포함되어 있습니다.
+Files that are under the `/proc` directory are virtual files that the kernel creates on demand to present a browsable view of the underlying data structures and system information. As such, `/proc` is an example of a virtual file system. Most virtual files are listed as 0 bytes in size, but they contain large amount of information when viewed.
 
-`/proc/interrupts`, `/proc/meminfo`, `/proc/mounts` 및 `/proc/partitions`와 같은 가상 파일은 시스템 하드웨어에 대한 보기를 제공합니다. `/proc/filesystems` 및 `/proc/sys` 아래의 파일과 같은 다른 파일은 시스템 구성에 대한 정보를 제공하고 필요에 따라 구성을 변경할 수 있습니다.
+Virtual files such as `/proc/interrupts`, `/proc/meminfo`, `/proc/mounts`, and `/proc/partitions` provide a view of the system’s hardware. Other files, such as `/proc/filesystems` and the files under `/proc/sys`, provide information about the system's configuration and through which you can change configurations as needed.
 
-관련 항목에 대한 정보가 포함된 파일은 가상 디렉터리로 그룹화됩니다. 시스템에서 실행 중인 각 프로세스에 대한 별도의 디렉터리가 `/proc` 디렉터리에 존재합니다. 디렉터리 이름은 숫자로 된 프로세스 ID에 해당합니다. 예를 들어 `/proc/1`은 PID가 1인 `systemd` 프로세스에 해당합니다.
+Files that contain information about related topics are grouped into virtual directories. A separate directory exists in the `/proc` directory for each process that's running on the system. The directory's name corresponds to the numeric process ID. For example, `/proc/1` corresponds to the `systemd` process that has a PID of 1.
 
-가상 파일을 검사하려면 다음 예와 같이 `cat`, `less`, `view`와 같은 명령을 사용할 수 있습니다.
+To examine virtual files, you can use commands such as `cat`, `less`, and `view`, as shown in the following example:
 
 ```
 cat /proc/cpuinfo
@@ -98,7 +97,7 @@ wp                : yes
 ...
 ```
 
-사람이 읽을 수 없는 콘텐츠가 포함된 파일의 경우 `lspci`, `free`, `top` 및 `sysctl`과 같은 유틸리티를 사용하여 정보에 액세스할 수 있습니다. 예를 들어, `lspci` 명령은 시스템의 PCI 장치를 나열합니다.
+For files that contain nonhuman-readable content, you can use utilities such as `lspci`, `free`, `top`, and `sysctl` to access information. For example, the `lspci` command lists PCI devices on a system:
 
 ```
 sudo lspci
@@ -120,17 +119,17 @@ sudo lspci
 ...
 ```
 
-### /proc 하위의 가상 파일 및 디렉터리
+### Virtual Files and Directories Under /proc
 
-다음 표에서는 `/proc` 디렉터리 계층 구조 아래에서 가장 유용한 가상 파일과 디렉터리를 설명합니다.
+The following table describes the most useful virtual files and directories under the `/proc` directory hierarchy.
 
 <table><thead><tr><th>
 
-가상 파일과 디렉터리
+Virtual File or Directory
 
 </th><th>
 
-설명
+Description
 
 </th></tr></thead><tbody><tr><td>
 
@@ -138,23 +137,23 @@ sudo lspci
 
 </td><td>
 
-프로세스 ID \(_PID_\)를 사용하여 프로세스에 대한 정보를 제공합니다. 디렉터리의 소유자 및 그룹은 프로세스의 소유자 및 그룹과 동일합니다. 디렉터리 아래의 유용한 파일은 다음과 같습니다.
+Provides information about the process with the process ID \(_PID_\). The directory's owner and group is same as the process's. Useful files under the directory include:
 
 - **`cmdline`**
 
-커맨드 경로
+Command path.
 
 - **`cwd`**
 
-프로세스의 현재 작업 디렉터리에 대한 심볼릭 링크입니다.
+Symbolic link to the process's current working directory.
 
 - **`environ`**
 
-환경 변수
+Environment variables.
 
 - **`exe`**
 
-명령 실행 파일에 대한 심볼릭 링크입니다.
+Symbolic link to the command executable.
 
 - **`fd/_N_`**
 
@@ -162,19 +161,19 @@ File descriptors.
 
 - **`maps`**
 
-메모리는 실행 파일 및 라이브러리 파일에 매핑됩니다.
+Memory maps to executable and library files.
 
 - **`root`**
 
-프로세스의 유효 루트 디렉터리에 대한 기호 링크입니다.
+Symbolic link to the effective root directory for the process.
 
 - **`stack`**
 
-커널 스택의 내용입니다.
+The contents of the kernel stack.
 
 - **`status`**
 
-실행 상태 및 메모리 사용량.
+Run state and memory usage.
 
 </td></tr><tr><td>
 
@@ -182,7 +181,7 @@ File descriptors.
 
 </td><td>
 
-메모리 단편화 진단을 위한 정보를 제공합니다.
+Provides information for diagnosing memory fragmentation.
 
 </td></tr><tr><td>
 
@@ -190,7 +189,7 @@ File descriptors.
 
 </td><td>
 
-시스템에서 사용할 수 있는 다양한 버스\(예: `pci` 및 `usb`\)에 대한 정보가 포함되어 있습니다. `lspci`, `lspcmcia`, `lsusb`와 같은 명령을 사용하여 해당 장치에 대한 정보를 표시할 수 있습니다.
+Contains information about the various buses \(such as `pci` and `usb`\) that are available on the system. You can use commands such as `lspci`, `lspcmcia`, and `lsusb` to display information for such devices.
 
 </td></tr><tr><td>
 
@@ -198,7 +197,7 @@ File descriptors.
 
 </td><td>
 
-시스템에서 사용 중인 리소스 제어 그룹에 대한 정보를 제공합니다.
+Provides information about the resource control groups that are in use on the system.
 
 </td></tr><tr><td>
 
@@ -206,7 +205,7 @@ File descriptors.
 
 </td><td>
 
-부팅 시 커널에 전달된 파라메터를 나열합니다.
+Lists parameters passed to the kernel at boot time.
 
 </td></tr><tr><td>
 
@@ -214,7 +213,7 @@ File descriptors.
 
 </td><td>
 
-시스템의 CPU에 대한 정보를 제공합니다.
+Provides information about the system's CPUs.
 
 </td></tr><tr><td>
 
@@ -222,7 +221,7 @@ File descriptors.
 
 </td><td>
 
-설치된 모든 암호화 기법에 대한 정보를 제공합니다.
+Provides information about all installed cryptographic cyphers.
 
 </td></tr><tr><td>
 
@@ -230,7 +229,7 @@ File descriptors.
 
 </td><td>
 
-현재 구성된 모든 문자와 블록 장치의 이름과 주요 장치 번호를 나열합니다.
+Lists the names and major device numbers of all currently configured characters and block devices.
 
 </td></tr><tr><td>
 
@@ -238,7 +237,7 @@ File descriptors.
 
 </td><td>
 
-현재 사용 중인 직접 메모리 액세스\(DMA\) 채널을 나열합니다.
+Lists the direct memory access \(DMA\) channels that are currently in use.
 
 </td></tr><tr><td>
 
@@ -246,7 +245,7 @@ File descriptors.
 
 </td><td>
 
-비휘발성 RAM(`nvram`), 실시간 시계(`rtc`) 및 사운드용 메모리 할당(`snd-page-alloc`)과 같이 커널에서 사용하는 드라이버에 대한 정보가 포함되어 있습니다.
+Contains information about drivers used by the kernel, such as those for nonvolatile RAM \(`nvram`\), the real-time clock \(`rtc`\), and memory allocation for sound \(`snd-page-alloc`\).
 
 </td></tr><tr><td>
 
@@ -254,7 +253,7 @@ File descriptors.
 
 </td><td>
 
-Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나열합니다.
+Lists the execution domains for binaries that the Enterprise Linux kernel supports.
 
 </td></tr><tr><td>
 
@@ -262,7 +261,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-커널이 지원하는 파일 시스템 유형을 나열합니다. `nodev`로 표시된 항목은 사용되지 않습니다.
+Lists the file system types that the kernel supports. Entries marked with `nodev` aren't in use.
 
 </td></tr><tr><td>
 
@@ -270,7 +269,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-파일 시스템 유형별로 구성된 마운트된 파일 시스템에 대한 정보를 포함합니다.
+Contains information about mounted file systems, organized by file system type.
 
 </td></tr><tr><td>
 
@@ -278,7 +277,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-시스템 시작 후 각 CPU에 대한 인터럽트 요청 큐\(IRQ\)당 인터럽트 수를 기록합니다.
+Records the number of interrupts per interrupt request queue \(IRQ\) for each CPU after system startup.
 
 </td></tr><tr><td>
 
@@ -286,7 +285,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-각 물리적 장치에 대한 시스템 메모리 맵을 나열합니다.
+Lists the system memory map for each physical device.
 
 </td></tr><tr><td>
 
@@ -294,7 +293,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-커널이 장치와 함께 사용하는 I/O 포트 주소 범위를 나열합니다.
+Lists the range of I/O port addresses that the kernel uses with devices.
 
 </td></tr><tr><td>
 
@@ -302,7 +301,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-각 IRQ에 대한 정보를 포함합니다. 각 IRQ와 시스템의 CPU 간의 선호도(affinity)를 구성할 수 있습니다.
+Contains information about each IRQ. You can configure the affinity between each IRQ and the system CPUs.
 
 </td></tr><tr><td>
 
@@ -310,7 +309,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-`crash` 또는 `gdb`와 같은 디버거를 사용하여 검사할 수 있는 `core` 파일 형식으로 시스템의 물리적 메모리를 제공합니다. 이 파일은 사람이 읽을 수 없습니다.
+Presents the system's physical memory in `core` file format that you can examine using a debugger such as `crash` or `gdb`. This file isn't human-readable.
 
 </td></tr><tr><td>
 
@@ -318,7 +317,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-커널이 생성한 메시시를 기록하며, `dmesg`와 같은 프로그램에서 `kmsg`를 채용합니다.
+Records kernel-generated messages, which are picked up by programs such as `dmesg`.
 
 </td></tr><tr><td>
 
@@ -326,7 +325,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-지난 1분, 5분, 15분 동안의 시스템 부하 평균\(대기 중인 프로세스 수\), 실행 중인 프로세스 수, 총 프로세스 수, 실행 중인 프로세스의 PID를 표시합니다.
+Displays the system load averages \(number of queued processes\) for the past 1, 5, and 15 minutes, the number of running processes, the total number of processes, and the PID of the process that's running.
 
 </td></tr><tr><td>
 
@@ -334,7 +333,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-프로세스를 대신하여 커널이 현재 보유하고 있는 파일 잠금에 대한 정보를 표시합니다. 제공되는 정보는 다음과 같습니다:
+Displays information about the file locks that the kernel is currently holding on behalf of processes. The information provided includes:
 
 - lock class \(`FLOCK` or `POSIX`\)
 
@@ -354,7 +353,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-다중 디스크 RAID 장치에 대한 정보를 나열합니다.
+Lists information about multiple-disk RAID devices.
 
 </td></tr><tr><td>
 
@@ -362,7 +361,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-`free` 또는 `top` 명령을 사용하여 사용할 수 있는 것보다 더 자세한 시스템의 메모리 사용량을 보고합니다.
+Reports the system's usage of memory in more detail than is available using the `free` or `top` commands.
 
 </td></tr><tr><td>
 
@@ -370,7 +369,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-현재 커널에 로드된 모듈에 대한 정보를 표시합니다. `lsmod` 명령은 모듈의 커널 메모리 오프셋을 제외하고 동일한 정보를 형식화하고 표시합니다.
+Displays information about the modules that are currently loaded into the kernel. The `lsmod` command formats and displays the same information, excluding the kernel memory offset of a module.
 
 </td></tr><tr><td>
 
@@ -378,7 +377,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-마운트된 모든 파일 시스템에 대한 정보를 나열합니다.
+Lists information about all mounted file systems.
 
 </td></tr><tr><td>
 
@@ -386,7 +385,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-네트워킹 프로토콜, 파라메터 및 통계에 대한 정보를 제공합니다. 각 디렉터리와 가상 파일은 시스템 네트워크 구성의 측면을 설명합니다.
+Provides information about networking protocol, parameters, and statistics. Each directory and virtual file describes aspects of the configuration of the system's network.
 
 </td></tr><tr><td>
 
@@ -394,7 +393,7 @@ Enterprise Linux 커널이 지원하는 바이너리의 실행 도메인을 나�
 
 </td><td>
 
-major 및 minor 장치의 번호, 블록 수, 시스템에 의해 마운트된 파티션 이름을 나열합니다.
+Lists the major and minor device numbers, number of blocks, and name of partitions mounted by the system.
 
 </td></tr><tr><td>
 
@@ -402,7 +401,7 @@ major 및 minor 장치의 번호, 블록 수, 시스템에 의해 마운트된 �
 
 </td><td>
 
-SCSI 장치들의 정보를 제공합니다.
+Provides information about SCSI devices.
 
 </td></tr><tr><td>
 
@@ -412,7 +411,7 @@ SCSI 장치들의 정보를 제공합니다.
 
 </td><td>
 
-공급업체, 모델, 채널, ID 및 LUN 데이터를 포함하여 구성된 SCSI 장치에 대한 정보를 제공합니다.
+Provide information about configured SCSI devices, including vendor, model, channel, ID, and LUN data .
 
 </td></tr><tr><td>
 
@@ -420,7 +419,7 @@ SCSI 장치들의 정보를 제공합니다.
 
 </td><td>
 
-`/proc`을 검사하는 프로세스에 대한 심볼릭 링크입니다.
+Symbolic link to the process that's examining `/proc`.
 
 </td></tr><tr><td>
 
@@ -428,7 +427,7 @@ SCSI 장치들의 정보를 제공합니다.
 
 </td><td>
 
-slab 메모리 사용량에 대한 자세한 정보를 제공합니다.
+Provides detailed information about slab memory usage.
 
 </td></tr><tr><td>
 
@@ -436,7 +435,7 @@ slab 메모리 사용량에 대한 자세한 정보를 제공합니다.
 
 </td><td>
 
-소프트웨어 인터럽트\(`softirqs`\)에 대한 정보를 표시합니다. `softirq`는 하드웨어 인터럽트\(`hardirq`\)와 유사하며 하드웨어 인터럽트 중에 너무 오래 걸리는 비동기 처리를 수행하도록 커널을 구성합니다.
+Displays information about software interrupts \(`softirqs`\). A `softirq` is similar to a hardware interrupt \(`hardirq`\) and configures the kernel to perform asynchronous processing that would take too long during a hardware interrupt.
 
 </td></tr><tr><td>
 
@@ -444,11 +443,11 @@ slab 메모리 사용량에 대한 자세한 정보를 제공합니다.
 
 </td><td>
 
-다음을 포함하여 시스템 시작 시부터 시스템에 대한 정보를 기록합니다.
+Records information about the system from when it was started, including:
 
 - **`cpu`**
 
-사용자 모드, 우선 순위가 낮은 사용자 모드, 시스템 모드, 유휴 I/O 대기, hardirq 이벤트 처리 및 Softirq 이벤트 처리에 소요된 총 CPU 시간(`jiffies`로 측정).
+Total CPU time \(measured in `jiffies`\) spent in user mode, low-priority user mode, system mode, idle, waiting for I/O, handling hardirq events, and handling softirq events.
 
 - **`cpu_N_`**
 
@@ -460,7 +459,7 @@ Times for CPU _N_.
 
 </td><td>
 
-스왑 장치에 대한 정보를 제공합니다. 크기 및 사용량 단위는 킬로바이트입니다.
+Provides information about swap devices. The units of size and usage are in kilobytes.
 
 </td></tr><tr><td>
 
@@ -468,9 +467,9 @@ Times for CPU _N_.
 
 </td><td>
 
-시스템에 대한 정보를 제공하고 커널 기능을 활성화, 비활성화 또는 수정할 수도 있습니다. 쓰기 권한이 있는 모든 파일에 새 설정을 쓸 수 있습니다. 참조: [커널 파라메터 수정](ko-osmanage-ConfiguringSystemSettings.md#커널-파라메터-수정).
+Provides information about the system and also enables you to enable, disable, or modify kernel features. You can write new settings to any file that has write permission. See [Modifying Kernel Parameters](osmanage-ConfiguringSystemSettings.md#).
 
-/proc/sys의 다음 하위 디렉터리 계층에는 가상 파일이 포함되어 있으며 그 중 일부 값은 변경할 수 있습니다.:
+The following subdirectory hierarchies of `/proc/sys` contain virtual files, some of whose values you can alter:
 
 - **`dev`**
 
@@ -494,7 +493,7 @@ Networking parameters.
 
 </td><td>
 
-메시지(`msg`), 세마포어(`sem`) 및 공유 메모리(`shm`)에 대한 System V IPC(Interprocess Communication) 리소스 사용에 대한 정보를 제공합니다.
+Provides information about the usage of System V Interprocess Communication \(IPC\) resources for messages \(`msg`\), semaphores \(`sem`\), and shared memory \(`shm`\).
 
 </td></tr><tr><td>
 
@@ -502,7 +501,7 @@ Networking parameters.
 
 </td><td>
 
-시스템에서 사용 가능하고 현재 사용되는 터미널 장치에 대한 정보를 제공합니다. `driver` 가상 파일에는 현재 구성된 장치가 나열됩니다.
+Provides information about the available and currently used terminal devices on the system. The `drivers` virtual file lists the devices that are currently configured.
 
 </td></tr><tr><td>
 
@@ -510,20 +509,20 @@ Networking parameters.
 
 </td><td>
 
-가상 메모리 사용량에 대한 정보를 제공합니다.
+Provides information about virtual memory usage.
 
 </td></tr><tbody></table>
 For more information, see the `proc(5)` manual page.
 
-### 커널 파라메터 수정
+### Modifying Kernel Parameters
 
-`/proc` 아래, 특히 `/proc/sys` 아래의 일부 가상 파일은 쓰기 가능합니다. 이 파일을 통해 커널의 설정을 조정할 수 있습니다. 예를 들어 호스트 이름을 변경하려면 `/proc/sys/kernel/hostname` 파일을 다음과 같이 수정합니다.:
+Some virtual files under `/proc`, and especially under `/proc/sys`, are writable. You can adjust settings in the kernel through these files. For example, to change the hostname, you would revise the `/proc/sys/kernel/hostname` file as follows:
 
 ```
 echo www.mydomain.com > /proc/sys/kernel/hostname
 ```
 
-예를 들어 IP 포워딩 세팅의 경우 `/proc/sys/net/ipv4/ip_forward`에 정의합니다.:
+Other files take binary or Boolean values, such as the setting of IP forwarding, which is defined in `/proc/sys/net/ipv4/ip_forward`:
 
 ```
 cat /proc/sys/net/ipv4/ip_forward
@@ -542,13 +541,13 @@ cat /proc/sys/net/ipv4/ip_forward
 1
 ```
 
-`sysctl` 명령을 사용하여 `/proc/sys` 디렉터리 아래의 값을 보거나 수정할 수 있습니다.
+You can use the `sysctl` command to view or modify values under the `/proc/sys` directory.
 
 **Note:**
 
-`root` 유저 마저도 `/proc` 아래 가상 파일 항목의 파일 액세스 권한을 우회할 수 없습니다. 예를 들어 `/proc/partitions`와 같은 읽기 전용 항목의 값을 변경할 경우 `write()` 시스템 호출을 서비스하는 커널 코드가 존재하지 않기 때문에 변경할 수 없습니다.
+Even `root` can't bypass the file access permissions of virtual file entries under `/proc`. If you change the value of a read-only entry such as `/proc/partitions`, no kernel code exists to service the `write()` system call.
 
-현재 커널 설정을 표시하려면 다음 명령을 사용하십시오.:
+To display the current kernel settings, use the following command:
 
 ```
 sysctl -a
@@ -565,23 +564,23 @@ kernel.sched_shares_ratelimit = 500000
 
 **Note:**
 
-설정 이름의 구분 문자는 `net.ipv4.ip_forward`와 같이 `/proc/sys`에 대한 상대 경로에서 슬래시 \(`/`\)가 아닌 마침표 \(`.`\)입니다. 이 설정은 `net/ipv4/ip_forward`를 나타냅니다. 또 다른 예로 `kernel.msgmax`는 `kernel/msgmax`를 나타냅니다.
+The delimiter character in the name of a setting is a period \(`.`\) rather than a slash \(`/`\) in a path relative to `/proc/sys`, such as `net.ipv4.ip_forward`. This setting represents `net/ipv4/ip_forward`. As another example, `kernel.msgmax` represents `kernel/msgmax`.
 
-개별 설정을 표시하려면 `sysctl`에 대한 인수로 해당 이름을 지정하십시오.
+To display an individual setting, specify its name as the argument to `sysctl`:
 
 ```
-sysctl net.ipv4.ip_forward
+**sysctl net.ipv4.ip\_forward**
 net.ipv4.ip_forward = 0
 ```
 
-설정 값을 변경하려면 다음 명령 형식을 사용하십시오.:
+To change the value of a setting, use the following command format:
 
 ```
-sysctl -w net.ipv4.ip_forward=1
+**sysctl -w net.ipv4.ip\_forward=1**
 net.ipv4.ip_forward = 1
 ```
 
-이러한 방식으로 변경한 사항은 시스템이 재부팅될 때까지만 적용됩니다. 시스템을 재부팅한 후에도 구성 변경 사항을 유지하려면 구성 파일로 `/etc/sysctl.d` 디렉터리에 추가해야 합니다. 이 디렉터리의 파일에 대한 모든 변경 사항은 시스템을 재부팅하거나 `sysctl --system` 명령을 실행하면 적용됩니다.
+Changes that you make in this way remain in force only until the system is rebooted. To make configuration changes persist after the system is rebooted, you must add them to the `/etc/sysctl.d` directory as a configuration file. Any changes that you make to the files in this directory take effect when the system reboots or if you run the `sysctl --system` command, for example:
 
 ```
 echo 'net.ipv4.ip_forward=1' > /etc/sysctl.d/ip_forward.conf
@@ -635,135 +634,135 @@ sysctl net.ipv4.ip_forward
 net.ipv4.ip_forward = 1
 ```
 
-자세한 내용은 `sysctl(8)` 및 `sysctl.d(5)` 매뉴얼 페이지를 참조하세요.
+For more information, see the `sysctl(8)` and `sysctl.d(5)` manual pages.
 
-### 시스템 성능을 제어하는 ​​파라메터
+### Parameters That Control System Performance
 
-다음 파라메터는 시스템 성능의 다양한 측면을 제어합니다.
+The following parameters control various aspects of system performance:
 
 - **`fs.file-max`**
 
-  모든 프로세스에 대해 열린 파일의 최대 수를 지정합니다. 파일 핸들 부족에 대한 메시지가 표시되면 이 파라메터의 값을 늘리십시오.
+  Specifies the maximum number of open files for all processes. Increase the value of this parameter if you see messages about running out of file handles.
 
 - **`net.core.netdev_max_backlog`**
 
-  인터페이스가 커널이 처리할 수 있는 것보다 더 빠른 속도로 패킷을 수신하는 경우 사용되는 수신자 백로그 대기열의 크기를 지정합니다. 이 대기열이 너무 작으면 네트워크가 아닌 수신자에서 패킷이 손실됩니다.
+  Specifies the size of the receiver backlog queue, which is used if an interface receives packets faster than the kernel can process them. If this queue is too small, packets are lost at the receiver, rather than on the network.
 
 - **`net.core.rmem_max`**
 
-  최대 읽기 소켓 버퍼 크기를 지정합니다. 네트워크 패킷 손실을 최소화하려면 이 버퍼가 들어오는 네트워크 패킷을 처리할 수 있을 만큼 커야 합니다.
+  Specifies the maximum read socket buffer size. To minimize network packet loss, this buffer must be large enough to handle incoming network packets.
 
 - **`net.core.wmem_max`**
 
-  최대 쓰기 소켓 버퍼 크기를 지정합니다. 네트워크 패킷 손실을 최소화하려면 이 버퍼가 나가는 네트워크 패킷을 처리할 수 있을 만큼 커야 합니다.
+  Specifies the maximum write socket buffer size. To minimize network packet loss, this buffer must be large enough to handle outgoing network packets.
 
 - **`net.ipv4.tcp_available_congestion_control`**
 
-  사용할 수 있는 TCP 혼잡 회피 알고리즘을 표시합니다. `htcp` 알고리즘을 구현하기 위해 `tcp_htcp`와 같은 추가 모듈을 로드해야 하는 경우 `modprobe` 명령을 사용하세요.
+  Displays the TCP congestion avoidance algorithms that are available for use. Use the `modprobe` command if you need to load additional modules such as `tcp_htcp` to implement the `htcp` algorithm.
 
 - **`net.ipv4.tcp_congestion_control`**
 
-  어떤 TCP 혼잡 회피 알고리즘이 사용되는지 지정합니다.
+  Specifies which TCP congestion avoidance algorithm is used.
 
 - **`net.ipv4.tcp_max_syn_backlog`**
 
-  Specifies the number of outstanding `SYN` requests that are allowed. 합법적인 연결 시도로 인해 서버가 과부하되어 `synflood` 경고 로그가 표시되는 경우 이 파라메터의 값을 늘리십시오.
+  Specifies the number of outstanding `SYN` requests that are allowed. Increase the value of this parameter if you see `synflood` warnings in the logs that are cuased by the server being overloaded by legitimate connection attempts.
 
 - **`net.ipv4.tcp_rmem`**
 
-  TCP 소켓에 사용되는 최소, 기본 및 최대 수신 버퍼 크기를 지정합니다. 최대값은 `net.core.rmem_max`보다 클 수 없습니다.
+  Specifies minimum, default, and maximum receive buffer sizes that are used for a TCP socket. The maximum value can't be larger than `net.core.rmem_max`.
 
 - **`net.ipv4.tcp_wmem`**
 
-  TCP 소켓에 사용되는 최소, 기본 및 최대 전송 버퍼 크기를 지정합니다. 최대값은 `net.core.wmem_max`보다 클 수 없습니다.
+  Specifies minimum, default, and maximum send buffer sizes that are used for a TCP socket. The maximum value can't be larger than `net.core.wmem_max`.
 
 - **`vm.swappiness`**
 
-  커널이 시스템 페이지 캐시에서 페이지를 삭제하는 대신 스왑을 위해 로드된 페이지를 사용할 가능성을 지정합니다. 0으로 설정하면 메모리 부족 상태를 방지하기 위해서만 스와핑이 발생합니다. 100으로 설정하면 커널이 적극적으로 스왑됩니다. 데스크탑 시스템의 경우 낮은 값을 설정하면 대기 시간이 줄어들어 시스템 응답성이 향상될 수 있습니다. 기본값은 60입니다.
+  Specifies how likely the kernel is to write loaded pages to swap rather than drop pages from the system page cache. When set to 0, swapping only occurs to avoid an out of memory condition. When set to 100, the kernel swaps aggressively. For a desktop system, setting a lower value can improve system responsiveness by decreasing latency. The default value is 60.
 
   CAUTION:
 
   This parameter is intended for use with laptop computers to reduce power consumption by the hard disk. Do not adjust this value on server systems.
 
-### 커널 패닉을 제어하는 ​​파라메터
+### Parameters That Control Kernel Panics
 
-다음 파라메터는 커널 패닉이 발생할 수 있는 상황을 제어합니다.:
+The following parameters control the circumstances under which a kernel panic can occur:
 
 - **`kernel.hung_task_panic`**
 
-  1로 설정된 경우, 커널 또는 사용자 스레드가 `kernel.hung_task_timeout_secs` 초 이상 `TASK_UNINTERRUPTIBLE` 상태\(_D 상태_\)에서 휴면하면 커널 패닉이 발생합니다. I/O가 완료되기를 기다리는 동안 프로세스는 D 상태로 유지됩니다. 이 상태에서는 프로세스를 중지하거나 중단할 수 없습니다.
+  If set to 1, the kernel panics if any kernel or user thread sleeps in the `TASK_UNINTERRUPTIBLE` state \(_D state_\) for more than `kernel.hung_task_timeout_secs` seconds. A process remains in D state while waiting for I/O to complete. You can't stop or interrupt a process in this state.
 
-  기본값은 0이며 패닉을 비활성화합니다.
+  The default value is 0, which disables the panic.
 
   **Tip:**
 
-  중단된 스레드를 진단하려면 커널 및 사용자 스레드 모두에 대한 커널 스택을 표시하는 `/proc/*PID*/stack`을 검사할 수 있습니다.
+  To diagnose a hung thread, you can examine `/proc/*PID*/stack`, which displays the kernel stack for both kernel and user threads.
 
 - **`kernel.hung_task_timeout_secs`**
 
-  `kernel.hung_task_panic` 값이 1인 경우 경고 메시지가 생성되거나 커널 패닉이 발생하기 전에 사용자 또는 커널 스레드가 D 상태에 머무를 수 있는 기간을 지정합니다. 기본값은 120초입니다. 값이 0이면 시간 초과가 비활성화됩니다.
+  Specifies how long a user or kernel thread can remain in D state before a warning message is generated or the kernel panics, if the value of `kernel.hung_task_panic` is 1. The default value is 120 seconds. A value of 0 disables the timeout.
 
 - **`kernel.nmi_watchdog`**
 
-  1\(기본값\)으로 설정하면 커널에서 마스크 불가능한 인터럽트\(NMI\) 감시 스레드를 활성화합니다. NMI 스위치나 OProfile 시스템 프로파일러를 사용하여 정의되지 않은 NMI를 생성하려면 `kernel.nmi_watchdog` 값을 0으로 설정하십시오.
+  If set to 1 \(default\), enables the nonmaskable interrupt \(NMI\) watchdog thread in the kernel. To use the NMI switch or the OProfile system profiler to generate an undefined NMI, set the value of `kernel.nmi_watchdog` to 0.
 
 - **`kernel.panic`**
 
-  패닉이 발생한 후 시스템이 자동으로 재부팅되기 전까지의 시간(초)을 지정합니다.
+  Specifies the number of seconds after a panic before a system automatically resets itself.
 
-  값이 기본값인 0이면 시스템이 일시 중지되며 문제 해결을 위해 패닉에 대한 자세한 정보를 수집할 수 있습니다.
+  If the value is 0, which is the default value, the system bcomes suspended, and you can collect detailed information about the panic for troubleshooting.
 
-  자동 재부팅을 활성화하려면 0이 아닌 값을 설정하십시오. 메모리 이미지 \(`vmcore`\)가 필요한 경우 Kdump가 이 이미지를 생성할 수 있도록 충분한 시간을 두십시오. 제안된 값은 30초이지만 대형 시스템에는 더 긴 시간이 필요합니다.
+  To enable automatic reset, set a nonzero value. If you require a memory image \(`vmcore`\), leave enough time for Kdump to create this image. The suggested value is 30 seconds, although large systems require a longer time.
 
 - **`kernel.panic_on_io_nmi`**
 
-  0\(기본값\)으로 설정된 경우 커널이 일반적으로 수정할 수 없는 하드웨어 오류를 나타내는 I/O channel check\(IOCHK\) NMI를 감지하면 시스템은 패닉 발생을 유발하지 않고 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
+  If set to 0 \(default\), the system tries to continue operations if the kernel detects an I/O channel check \(IOCHK\) NMI that typically indicates a uncorrectable hardware error. If set to 1, the system panics.
 
 - **`kernel.panic_on_oops`**
 
-  0으로 설정하면 커널이 `oops` 또는 BUG 조건을 감지하면 시스템이 작업을 계속하려고 시도합니다. 1\(기본값\)로 설정하면 시스템은 패닉이 발생하기 전에 커널 로그 데몬 `klogd`에 `oops` 출력을 기록할 시간을 제공하기 위해 몇 초를 지연합니다.
+  If set to 0, the system tries to continue operations if the kernel detects an `oops` or BUG condition. If set to 1 \(default\), the system delays a few seconds to give the kernel log daemon, `klogd`, time to record the oops output before the panic occurs.
 
-  OCFS2 클러스터에서. 커널 오류가 발생할 경우 시스템이 패닉이 발생하도록 지정하려면 값을 1로 설정합니다. 클러스터 작업에 필요한 커널 스레드가 실패하면 시스템이 자체적으로 재설정되어야 합니다. 그렇지 않으면 다른 노드가 노드의 응답 속도가 느리거나 응답할 수 없는지 여부를 감지하지 못해 클러스터 작업이 중단될 수 있습니다.
+  In an OCFS2 cluster. set the value to 1 to specify that a system must panic if a kernel oops occurs. If a kernel thread required for cluster operation fails, the system must reset itself. Otherwise, another node might not detect whether a node is slow to respond or unable to respond, causing cluster operations to halt.
 
 - **`kernel.panic_on_unrecovered_nmi`**
 
-  0\(기본값\)으로 설정된 경우 커널이 일반적으로 수정할 수 없는 패리티 또는 ECC 메모리 오류를 나타내는 NMI를 감지하면 시스템은 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
+  If set to 0 \(default\), the system tries to continue operations if the kernel detects an NMI that usually indicates an uncorrectable parity or ECC memory error. If set to 1, the system panics.
 
 - **`kernel.softlockup_panic`**
 
-  0\(기본값\)으로 설정된 경우 커널이 NMI 감시 스레드가 `kernel.watchdog_thresh` 값의 두 배 이상 타임스탬프를 업데이트하지 못하도록 하는 _soft-lockup_ 오류를 감지하면 시스템은 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
+  If set to 0 \(default\), the system tries to continue operations if the kernel detects a _soft-lockup_ error that causes the NMI watchdog thread to fail to update its timestamp for more than twice the value of `kernel.watchdog_thresh` seconds. If set to 1, the system panics.
 
 - **`kernel.unknown_nmi_panic`**
 
-  `1`로 설정하면 커널이 정의되지 않은 NMI를 감지하면 시스템 패닉이 발생합니다. 일반적으로 NMI 스위치를 수동으로 눌러 정의되지 않은 NMI를 생성합니다. NMI watchdog 스레드도 정의되지 않은 NMI를 사용하므로 `kernel.nmi_watchdog`을 1로 설정한 경우 `kernel.unknown_nmi_panic` 값을 0으로 설정합니다.
+  If set to `1`, the system panics if the kernel detects an undefined NMI. You would usually generate an undefined NMI by manually pressing an NMI switch. As the NMI watchdog thread also uses the undefined NMI, set the value of `kernel.unknown_nmi_panic` to 0 if you set `kernel.nmi_watchdog` to 1.
 
 - **`kernel.watchdog_thresh`**
 
-  커널이 _hard-lockup_ 및 _soft-lockup_ 오류를 확인하는 데 사용하는 NMI 성능 모니터링 인터럽트 생성 사이의 간격을 지정합니다. CPU가 `kernel.watchdog_thresh` 초 이상 인터럽트에 응답하지 않으면 하드 잠금 오류가 발생한다고 가정합니다. 기본값은 10초입니다. 값이 0이면 잠금 오류 감지가 비활성화됩니다.
+  Specifies the interval between generating an NMI performance monitoring interrupt that the kernel uses to check for _hard-lockup_ and _soft-lockup_ errors. A hard-lockup error is assumed if a CPU is unresponsive to the interrupt for more than `kernel.watchdog_thresh` seconds. The default value is 10 seconds. A value of 0 disables the detection of lockup errors.
 
 - **`vm.panic_on_oom`**
 
-  0\(기본값\)으로 설정하면 커널의 OOM-killer가 전체 태스크 목록을 검색하고 메모리를 많이 차지하는 프로세스를 중지하여 패닉을 방지합니다. 1로 설정하면 커널이 패닉 상태가 되지만 특정 조건에서는 살아남을 수 있습니다. 프로세스가 메모리 정책이나 CPUset을 사용하여 특정 노드에 대한 할당을 제한하고 해당 노드가 메모리 소진 상태에 도달하면 OOM-killer는 하나의 프로세스를 중지할 수 있습니다. 이 경우 다른 노드의 메모리가 비어 있고 시스템 전체에 아직 메모리가 부족하지 않을 수 있으므로 패닉이 발생하지 않습니다. 2로 설정하면 OOM 조건이 발생할 때 커널이 항상 패닉 상태가 됩니다. 1과 2 설정은 정의된 장애 조치 정책에 따라 클러스터에 사용하기 위한 것입니다.
+  If set to 0 \(default\), the kernel’s OOM-killer scans through the entire task list and stops a memory-hogging process to avoid a panic. If set to 1, the kernel panics but can survive under certain conditions. If a process limits allocations to certain nodes by using memory policies or cpusets, and those nodes reach memory exhaustion status, the OOM-killer can stop one process. No panic occurs in this case because other nodes’ memory might be free and the system as a whole might not yet be out of memory. If set to 2, the kernel always panics when an OOM condition occurs. Settings of 1 and 2 are for intended for use with clusters, depending on the defined failover policy.
 
-## /sys 가상 파일 시스템
+## About the /sys Virtual File System
 
-커널은 `/proc` 파일 시스템 외에도 `/sys` 가상 파일 시스템\(`sysfs`\)으로 정보를 내보냅니다. 동적 장치 관리자\(`udev`\)와 같은 프로그램은 `/sys`를 사용하여 장치 및 장치 드라이버 정보에 액세스합니다.
+In addition to the `/proc` file system, the kernel exports information to the `/sys` virtual file system \(`sysfs`\). Programs such as the dynamic device manager \(`udev`\), use `/sys` to access device and device driver information.
 
 **Note:**
 
-`/sys`는 커널 데이터 구조와 제어 지점을 나타냅니다. 따라서 `/sys`에 사용된 `find` 명령은 절대 멈추지 않을 수 있습니다.
+`/sys` exposes kernel data structures and control points, which implies that the directory contains circular references, where a directory links to an ancestor directory. Thus, a `find` command used on `/sys` might never stop.
 
-### /sys 디렉터리 아래의 가상 디렉터리
+### Virtual Directories Under the /sys Directory
 
-다음 표에서는 `/sys` 디렉터리 계층 구조 아래에 있는 몇 가지 유용한 가상 디렉터리에 대해 설명합니다.
+The following table describes some useful virtual directories under the `/sys` directory hierarchy.
 
 <table><thead><tr><th>
 
-가상 디렉터리
+Virtual Directory
 
 </th><th>
 
-설명
+Description
 
 </th></tr></thead><tbody><tr><td>
 
@@ -771,7 +770,7 @@ net.ipv4.ip_forward = 1
 
 </td><td>
 
-블록 장치에 대한 하위 디렉터리를 포함합니다. 예를 들어: `/sys/block/sda`.
+Contains subdirectories for block devices. For example: `/sys/block/sda`.
 
 </td></tr><tr><td>
 
@@ -779,7 +778,7 @@ net.ipv4.ip_forward = 1
 
 </td><td>
 
-`pci`, `pcmcia`, `scsi` 또는 `usb`와 같은 각 물리적 버스 유형에 대한 하위 디렉터리를 포함합니다. 각 버스 유형 아래의 `devices` 디렉터리에는 검색된 장치가 나열되고, `drivers` 디렉터리에는 각 장치 드라이버에 대한 디렉터리가 포함됩니다.
+Contains subdirectories for each physical bus type, such as `pci`, `pcmcia`, `scsi`, or `usb`. Under each bus type, the `devices` directory lists discovered devices, and the `drivers` directory contains directories for each device driver.
 
 </td></tr><tr><td>
 
@@ -787,7 +786,7 @@ net.ipv4.ip_forward = 1
 
 </td><td>
 
-커널에 등록된 모든 장치 클래스에 대한 하위 디렉터리를 포함합니다.
+Contains subdirectories for every class of device that's registered with the kernel.
 
 </td></tr><tr><td>
 
@@ -795,7 +794,7 @@ net.ipv4.ip_forward = 1
 
 </td><td>
 
-`char/` 및 `block/` 디렉터리를 포함합니다. 이 두 디렉터리 안에는 _major_:_minor_라는 심볼릭 링크가 있습니다. 이러한 심볼릭 링크는 특정 장치의 `sysfs` 디렉터리를 가리킵니다. `/sys/dev` 디렉터리는 `stat(2)` 작업의 결과에서 장치의 `sysfs` 인터페이스를 찾는 빠른 방법을 제공합니다.
+Contains the `char/` and `block/` directories. Inside these two directories are symlinks named _major_:_minor_. These symlinks point to the `sysfs` directory for the particular device. The `/sys/dev` directory provides a quick way to look up the `sysfs` interface for a device from the result of the `stat(2)` operation.
 
 </td></tr><tr><td>
 
@@ -803,7 +802,7 @@ net.ipv4.ip_forward = 1
 
 </td><td>
 
-시스템에 있는 모든 장치의 전역 장치 계층 구조를 포함합니다. 플랫폼 디렉터리에는 특정 플랫폼에 특정한 장치 컨트롤러와 같은 주변 장치가 포함되어 있습니다. `system` 디렉터리에는 CPU 및 APIC와 같은 비주변 장치가 포함되어 있습니다. `virtual` 디렉터리에는 가상 장치와 pseudo 장치가 포함되어 있습니다. [시스템 장치 관리](ko-osmanage-ManagingSystemDevices.md#시스템-장치-관리)를 참조하세요.
+Contains the global device hierarchy of all devices on the system. The platform directory contains peripheral devices such as device controllers that are specific to a particular platform. The `system` directory contains non peripheral devices such as CPUs and APICs. The `virtual` directory contains virtual and pseudo devices. See [Managing System Devices](osmanage-ManagingSystemDevices.md#).
 
 </td></tr><tr><td>
 
@@ -811,7 +810,7 @@ net.ipv4.ip_forward = 1
 
 </td><td>
 
-펌웨어 개체에 대한 하위 디렉터리가 포함되어 있습니다.
+Contains subdirectories for firmware objects.
 
 </td></tr><tr><td>
 
@@ -819,7 +818,7 @@ net.ipv4.ip_forward = 1
 
 </td><td>
 
-파일시스템 개체에 대한 하위 디렉터리를 포함합니다.
+Contains subdirectories for file system objects.
 
 </td></tr><tr><td>
 
@@ -827,7 +826,7 @@ net.ipv4.ip_forward = 1
 
 </td><td>
 
-커널 개체에 대한 하위 디렉터리를 포함합니다.
+Contains subdirectories for other kernel objects
 
 </td></tr><tr><td>
 
@@ -835,7 +834,7 @@ net.ipv4.ip_forward = 1
 
 </td><td>
 
-커널에 로드된 각 모듈의 하위 디렉터리를 포함합니다. 로드된 모듈의 일부 파라메터 값을 변경할 수 있습니다. 참조: [모듈 매개변수](ko-osmanage-ManagingKernelModules.md#모듈-매개변수)
+Contains subdirectories for each module loaded into the kernel. You can alter some parameter values for loaded modules. See [About Module Parameters](osmanage-ManagingKernelModules.md#).
 
 </td></tr><tr><td>
 
@@ -843,38 +842,38 @@ net.ipv4.ip_forward = 1
 
 </td><td>
 
-시스템의 전원 상태를 제어하는 ​​속성을 포함합니다.
+Contains attributes that control the system's power state.
 
 </td></tr><tbody></table>
 For more information, see [https://www.kernel.org/doc/Documentation/filesystems/sysfs.txt](https://www.kernel.org/doc/Documentation/filesystems/sysfs.txt).
 
-## 시스템 날짜 및 시간 설정 구성
+## Configuring System Date and Time Settings
 
-시스템 시간은 1970년 1월 1일 목요일 00:00:00 UTC로부터 시간이 경과한 초수로 측정되는 POSIX 시간 표준을 기반으로 합니다. 하루는 86400초로 정의되고 윤초는 자동으로 차감됩니다.
+System time is based on the POSIX time standard, where time is measured as the number of seconds that have elapsed from 00:00:00 Coordinated Universal Time \(UTC\), Thursday, January 1, 1970. A day is defined as 86400 seconds and leap seconds are subtracted automatically.
 
-시스템의 날짜 및 시간 표현은 특정 시간대와 일치하도록 설정할 수 있습니다. 사용 가능한 시간대를 나열하려면 다음을 실행하세요.
+Date and time representation on a system can be set to match a specific timezone. To list the available timezones, run:
 
 ```
 timedatectl list-timezones
 ```
 
-사용 가능한 시간대에서 반환된 값과 일치하도록 시스템 시간대를 설정하려면 다음을 실행할 수 있습니다.
+To set the system timezone to match a value returned from the available timezones, you can run:
 
 ```
 timedatectl set-timezone *America/Los\_Angeles*
 ```
 
-_America/Los\_Angeles_를 유효한 시간대 항목으로 대체하세요.
+Substitute _America/Los\_Angeles_ with a valid timezone entry.
 
-이 명령은 `/etc/localtime`의 심볼릭 링크를 설정하여 `/usr/share/zoneinfo/`에 있는 적절한 영역 정보 파일을 가리킵니다. 설정은 즉시 적용됩니다. 현재 시스템 시간대를 감지하기 위해 `/etc/localtime`을 사용하는 일부 장기 실행 프로세스는 프로세스가 다시 시작될 때까지 시스템 시간대의 변경 사항을 감지하지 못할 수 있습니다.
+This command sets a symbolic link from `/etc/localtime` to point to the appropriate zone information file in `/usr/share/zoneinfo/`. The setting takes effect immediately. Some long running processes that use `/etc/localtime` to detect the current system timezone might not detect a change in system timezone until the process is restarted.
 
-시간대는 표시 목적이나 사용자 입력 처리를 위해 주로 사용됩니다. 시간대를 변경해도 시스템 시계의 시간은 변경되지 않습니다. `TZ` 환경 변수를 설정하여 모든 콘솔에서 시스템 시간에 대한 표시를 변경할 수 있습니다. 예를 들어 도쿄의 현재 시간을 보려면 다음을 실행하면 됩니다.
+Note that timezones are largely used for display purposes or to handle user input. Changing timezone doesn't change the time for the system clock. You can change the presentation for system time in any console by setting the `TZ` environment variable. For example, to see the current time in Tokyo, you can run:
 
 ```
 TZ="*Asia/Tokyo*" date
 ```
 
-`timedatectl` 명령을 실행하여 시스템의 현재 날짜 및 시간 구성을 확인할 수 있습니다.
+You can check the system's current date and time configuration by running the `timedatectl` command on its own:
 
 ```
 timedatectl
@@ -890,42 +889,42 @@ System clock synchronized: yes
           RTC in local TZ: no                              
 ```
 
-시스템 시간을 수동으로 설정하려면 `timedatectl set-time` 명령을 사용하세요.
+To set system time manually, use the `timedatectl set-time` command:
 
 ```
 timedatectl set-time "*2021-07-17 01:59:59*"
 ```
 
-이 명령은 현재 설정된 시스템 시간대를 가정하여 지정된 시간을 기준으로 현재 시스템 시간을 설정합니다. 이 명령은 시스템 실시간 시계\(RTC\)도 업데이트합니다.
+This command sets the current system time based on the time specified assuming the currently set system timezone. The command also updates the system Real Time Clock \(RTC\).
 
-보다 정확한 시간 유지를 위해 네트워크 시간 동기화를 사용하도록 시스템을 구성하는 것을 고려하십시오. 특히 고가용성을 설정하거나 네트워크 기반 파일 시스템을 사용할 때 네트워크 시간 동기화를 사용하는 것이 중요합니다.
+Consider configuring the system to use network time synchronization for more accurate time-keeping. Using network time synchronization is important especially when setting up high-availability or when using network-based file systems.
 
-NTP 서비스를 구성하는 경우 다음 명령을 실행하여 NTP를 활성화합니다.
+If you configure an NTP service, enable NTP by running the following command:
 
 ```
 timedatectl set-ntp true****
 ```
 
-이 명령은 가능한 경우 `chronyd` 서비스를 활성화하고 시작합니다.
+This command enables and starts the `chronyd` service, if available.
 
-## Watchdog 서비스 구성
+## Configuring the Watchdog Service
 
-Watchdog은 백그라운드에서 실행되어 호스트 가용성과 프로세스를 모니터링하고 커널에 다시 보고하는 Enterprise Linux 서비스입니다. Watchdog 서비스가 시스템이 정상임을 커널에 알리지 못하는 경우 일반적으로 커널은 시스템을 자동으로 재부팅합니다.
+Watchdog is an Enterprise Linux service that runs in the background to monitor host availability and processes and reports back to the kernel. If the Watchdog service fails to notify the kernel that the system is healthy, the kernel typically automatically reboots the system.
 
-Watchdog 패키지를 설치하려면 다음을 실행하세요.
+To install the Watchdog package, run:
 
 ```
 sudo dnf install watchdog
 ```
 
-Watchdog 서비스를 구성하려면 `/etc/watchdog.conf` 파일을 편집하세요. `watchdog.conf` 파일에는 모든 Watchdog 구성 속성이 포함되어 있습니다. 이 파일을 편집하는 방법에 대한 자세한 내용은 `watchdog.conf(5)` 매뉴얼 페이지를 참조하세요.
+To configure the Watchdog service, edit the `/etc/watchdog.conf` file. The `watchdog.conf` file includes all Watchdog configuration properties. For information on how to edit this file, see the `watchdog.conf(5)` manual page.
 
-Watchdog 서비스를 활성화하고 시작하려면 다음을 실행합니다.
+To enable and start the Watchdog service, run:
 
 ```
 sudo systemctl enable --now watchdog
 ```
 
-Watchdog 서비스는 즉시 시작되어 백그라운드에서 실행됩니다.
+The Watchdog service immediately starts and runs in the background.
 
-**Note:** Watchdog 서비스는 재부팅 후 즉시 시작되고 실행됩니다.
+**Note:** The Watchdog service starts and runs immediately after a power reset.
