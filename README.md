@@ -15,6 +15,9 @@ For more information about this project see the #documentation channel on the Op
 This project is open for contributions and contributions are very welcome.
 For contributions, please follow the [Contribution guidelines for this project](CONTRIBUTING.md).
 
+## Legal Notices
+
+The registered trademark Linux® is used pursuant to a sublicense from the Linux Foundation, the exclusive licensee of Linus Torvalds, owner of the mark on a world­wide basis
 
 ## License
 
