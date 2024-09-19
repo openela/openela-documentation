@@ -25,3 +25,4 @@ SPDX-License-Identifier: CC-BY-SA-4.0
     -   [About Network Address Translation](network/network-AboutNetworkAddressTranslation.md#ol-netaddr-nat)
     -   [Configuring the Name Service](network/network-ConfiguringtheNameService.md#ol-namesvc)
     -   [Configuring Network Time](network/network-ConfiguringNetworkTime.md#ol-nettime)
+    -   [Configuring a Packet Filtering Firewall](network/firewall-ConfiguringaPacketFilteringFirewall.md#ol-firewall)
