@@ -17,7 +17,7 @@ For contributions, please follow the [Contribution guidelines for this project](
 
 ## Legal Notices
 
-The registered trademark Linux® is used pursuant to a sublicense from the Linux Foundation, the exclusive licensee of Linus Torvalds, owner of the mark on a world­wide basis
+The registered trademark Linux® is used pursuant to a sublicense from the Linux Foundation, the exclusive licensee of Linus Torvalds, owner of the mark on a world­wide basis.
 
 ## License
 
