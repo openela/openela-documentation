@@ -15,48 +15,48 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 - **`atd`**
 
- `atd` 데몬에 대한 커맨드라인 파라메터를 지정합니다.
+  `atd` 데몬에 대한 커맨드라인 파라메터를 지정합니다.
 
 - **`autofs`**
 
- Defines custom options for automatically mounting devices and controlling the operation of the automounter.
+  Defines custom options for automatically mounting devices and controlling the operation of the automounter.
 
 - **`crond`**
 
- 부팅 시 `crond` 데몬에 파라메터를 전달합니다.
+  부팅 시 `crond` 데몬에 파라메터를 전달합니다.
 
 - **`chronyd`**
 
- 부팅 시 NTP 서비스에 사용되는 `chronyd` 데몬에 파라메터를 전달합니다.
+  부팅 시 NTP 서비스에 사용되는 `chronyd` 데몬에 파라메터를 전달합니다.
 
 - **`firewalld`**
 
- 부팅 시 방화벽 데몬(`firewalld`)에 파라메터를 전달합니다.
+  부팅 시 방화벽 데몬(`firewalld`)에 파라메터를 전달합니다.
 
 - **`grub`**
 
- Specifies default settings for the GRUB 2 bootloader. 이는 디렉터리에 상위 디렉터리에 연결되는 순환 참조가 포함되어 있음을 의미합니다. For more information, see [About the GRUB 2 Bootloader](osmanage-WorkingWiththeGRUB2BootloaderandConfiguringBootServices.md#).
+  Specifies default settings for the GRUB 2 bootloader. 이는 디렉터리에 상위 디렉터리에 연결되는 순환 참조가 포함되어 있음을 의미합니다. For more information, see [About the GRUB 2 Bootloader](osmanage-WorkingWiththeGRUB2BootloaderandConfiguringBootServices.md#).
 
 - **`named`**
 
- Passes arguments to the name service daemon at boot time. `named` 데몬몬 BIND(Berkeley Internet Name Domain) 배포의 일부인 DNS(Domain Name System) 서버입니다. 이 서버는 호스트 이름을 네트워크의 IP 주소와 연결하는 테이블을 유지 관리합니다.
+  Passes arguments to the name service daemon at boot time. `named` 데몬몬 BIND(Berkeley Internet Name Domain) 배포의 일부인 DNS(Domain Name System) 서버입니다. 이 서버는 호스트 이름을 네트워크의 IP 주소와 연결하는 테이블을 유지 관리합니다.
 
 - **`samba`**
 
- Windows 클라이언트에 대한 파일 공유 연결, NetBIOS-over-IP 이름(name) 지정 서비스 및 도메인 컨트롤러에 대한 연결 관리를 지원하기 위해 부팅 시 `smbd`, `nmbd` 및 `winbindd` 데몬에 파라메터를 전달합니다.
+  Windows 클라이언트에 대한 파일 공유 연결, NetBIOS-over-IP 이름(name) 지정 서비스 및 도메인 컨트롤러에 대한 연결 관리를 지원하기 위해 부팅 시 `smbd`, `nmbd` 및 `winbindd` 데몬에 파라메터를 전달합니다.
 
 - **`selinux`**
 
- 시스템의 SELinux 상태를 제어합니다. 이 파일은 `/etc/selinux/config`에 대한 심볼릭 링크입니다.
+  시스템의 SELinux 상태를 제어합니다. 이 파일은 `/etc/selinux/config`에 대한 심볼릭 링크입니다.
 
 - **`snapper`**
 
- `snapper` 유틸리티의 목록을 정의합니다.
+  `snapper` 유틸리티의 목록을 정의합니다.
 
 - **`sysstat`**
 
- **`sysstat`**
- `sar`와 같은 시스템 활동 데이터 수집기 유틸리티들에 대한 로깅 파라메터를 설정합니다.
+  **`sysstat`**
+  `sar`와 같은 시스템 활동 데이터 수집기 유틸리티들에 대한 로깅 파라메터를 설정합니다.
 
 더 많은 정보는 `/usr/share/doc/initscripts*/sysconfig.txt` 파일을 참조 하십시오.
 
@@ -643,47 +643,47 @@ net.ipv4.ip_forward = 1
 
 - **`fs.file-max`**
 
- 모든 프로세스에 대해 열린 파일의 최대 수를 지정합니다. 파일 핸들 부족에 대한 메시지가 표시되면 이 파라메터의 값을 늘리십시오.
+  모든 프로세스에 대해 열린 파일의 최대 수를 지정합니다. 파일 핸들 부족에 대한 메시지가 표시되면 이 파라메터의 값을 늘리십시오.
 
 - **`net.core.netdev_max_backlog`**
 
- 인터페이스가 커널이 처리할 수 있는 것보다 더 빠른 속도로 패킷을 수신하는 경우 사용되는 수신자 백로그 대기열의 크기를 지정합니다. 이 대기열이 너무 작으면 네트워크가 아닌 수신자에서 패킷이 손실됩니다.
+  인터페이스가 커널이 처리할 수 있는 것보다 더 빠른 속도로 패킷을 수신하는 경우 사용되는 수신자 백로그 대기열의 크기를 지정합니다. 이 대기열이 너무 작으면 네트워크가 아닌 수신자에서 패킷이 손실됩니다.
 
 - **`net.core.rmem_max`**
 
- 최대 읽기 소켓 버퍼 크기를 지정합니다. 네트워크 패킷 손실을 최소화하려면 이 버퍼가 들어오는 네트워크 패킷을 처리할 수 있을 만큼 커야 합니다.
+  최대 읽기 소켓 버퍼 크기를 지정합니다. 네트워크 패킷 손실을 최소화하려면 이 버퍼가 들어오는 네트워크 패킷을 처리할 수 있을 만큼 커야 합니다.
 
 - **`net.core.wmem_max`**
 
- 최대 쓰기 소켓 버퍼 크기를 지정합니다. 네트워크 패킷 손실을 최소화하려면 이 버퍼가 나가는 네트워크 패킷을 처리할 수 있을 만큼 커야 합니다.
+  최대 쓰기 소켓 버퍼 크기를 지정합니다. 네트워크 패킷 손실을 최소화하려면 이 버퍼가 나가는 네트워크 패킷을 처리할 수 있을 만큼 커야 합니다.
 
 - **`net.ipv4.tcp_available_congestion_control`**
 
- 사용할 수 있는 TCP 혼잡 회피 알고리즘을 표시합니다. `htcp` 알고리즘을 구현하기 위해 `tcp_htcp`와 같은 추가 모듈을 로드해야 하는 경우 `modprobe` 명령을 사용하세요.
+  사용할 수 있는 TCP 혼잡 회피 알고리즘을 표시합니다. `htcp` 알고리즘을 구현하기 위해 `tcp_htcp`와 같은 추가 모듈을 로드해야 하는 경우 `modprobe` 명령을 사용하세요.
 
 - **`net.ipv4.tcp_congestion_control`**
 
- 어떤 TCP 혼잡 회피 알고리즘이 사용되는지 지정합니다.
+  어떤 TCP 혼잡 회피 알고리즘이 사용되는지 지정합니다.
 
 - **`net.ipv4.tcp_max_syn_backlog`**
 
- Specifies the number of outstanding `SYN` requests that are allowed. 합법적인 연결 시도로 인해 서버가 과부하되어 `synflood` 경고 로그가 표시되는 경우 이 파라메터의 값을 늘리십시오.
+  Specifies the number of outstanding `SYN` requests that are allowed. 합법적인 연결 시도로 인해 서버가 과부하되어 `synflood` 경고 로그가 표시되는 경우 이 파라메터의 값을 늘리십시오.
 
 - **`net.ipv4.tcp_rmem`**
 
- TCP 소켓에 사용되는 최소, 기본 및 최대 수신 버퍼 크기를 지정합니다. 최대값은 `net.core.rmem_max`보다 클 수 없습니다.
+  TCP 소켓에 사용되는 최소, 기본 및 최대 수신 버퍼 크기를 지정합니다. 최대값은 `net.core.rmem_max`보다 클 수 없습니다.
 
 - **`net.ipv4.tcp_wmem`**
 
- TCP 소켓에 사용되는 최소, 기본 및 최대 전송 버퍼 크기를 지정합니다. 최대값은 `net.core.wmem_max`보다 클 수 없습니다.
+  TCP 소켓에 사용되는 최소, 기본 및 최대 전송 버퍼 크기를 지정합니다. 최대값은 `net.core.wmem_max`보다 클 수 없습니다.
 
 - **`vm.swappiness`**
 
- 커널이 시스템 페이지 캐시에서 페이지를 삭제하는 대신 스왑을 위해 로드된 페이지를 사용할 가능성을 지정합니다. 0으로 설정하면 메모리 부족 상태를 방지하기 위해서만 스와핑이 발생합니다. 100으로 설정하면 커널이 적극적으로 스왑됩니다. 데스크탑 시스템의 경우 낮은 값을 설정하면 대기 시간이 줄어들어 시스템 응답성이 향상될 수 있습니다. 기본값은 60입니다.
+  커널이 시스템 페이지 캐시에서 페이지를 삭제하는 대신 스왑을 위해 로드된 페이지를 사용할 가능성을 지정합니다. 0으로 설정하면 메모리 부족 상태를 방지하기 위해서만 스와핑이 발생합니다. 100으로 설정하면 커널이 적극적으로 스왑됩니다. 데스크탑 시스템의 경우 낮은 값을 설정하면 대기 시간이 줄어들어 시스템 응답성이 향상될 수 있습니다. 기본값은 60입니다.
 
- CAUTION:
+  CAUTION:
 
- This parameter is intended for use with laptop computers to reduce power consumption by the hard disk. Do not adjust this value on server systems.
+  This parameter is intended for use with laptop computers to reduce power consumption by the hard disk. Do not adjust this value on server systems.
 
 ### 커널 패닉을 제어하는 ​​파라메터
 
@@ -691,59 +691,59 @@ net.ipv4.ip_forward = 1
 
 - **`kernel.hung_task_panic`**
 
- 1로 설정된 경우, 커널 또는 사용자 스레드가 `kernel.hung_task_timeout_secs` 초 이상 `TASK_UNINTERRUPTIBLE` 상태\(_D 상태_\)에서 휴면하면 커널 패닉이 발생합니다. I/O가 완료되기를 기다리는 동안 프로세스는 D 상태로 유지됩니다. 이 상태에서는 프로세스를 중지하거나 중단할 수 없습니다.
+  1로 설정된 경우, 커널 또는 사용자 스레드가 `kernel.hung_task_timeout_secs` 초 이상 `TASK_UNINTERRUPTIBLE` 상태\(_D 상태_\)에서 휴면하면 커널 패닉이 발생합니다. I/O가 완료되기를 기다리는 동안 프로세스는 D 상태로 유지됩니다. 이 상태에서는 프로세스를 중지하거나 중단할 수 없습니다.
 
- 기본값은 0이며 패닉을 비활성화합니다.
+  기본값은 0이며 패닉을 비활성화합니다.
 
- **Tip:**
+  **Tip:**
 
- 중단된 스레드를 진단하려면 커널 및 사용자 스레드 모두에 대한 커널 스택을 표시하는 `/proc/*PID*/stack`을 검사할 수 있습니다.
+  중단된 스레드를 진단하려면 커널 및 사용자 스레드 모두에 대한 커널 스택을 표시하는 `/proc/*PID*/stack`을 검사할 수 있습니다.
 
 - **`kernel.hung_task_timeout_secs`**
 
- `kernel.hung_task_panic` 값이 1인 경우 경고 메시지가 생성되거나 커널 패닉이 발생하기 전에 사용자 또는 커널 스레드가 D 상태에 머무를 수 있는 기간을 지정합니다. 기본값은 120초입니다. 값이 0이면 시간 초과가 비활성화됩니다.
+  `kernel.hung_task_panic` 값이 1인 경우 경고 메시지가 생성되거나 커널 패닉이 발생하기 전에 사용자 또는 커널 스레드가 D 상태에 머무를 수 있는 기간을 지정합니다. 기본값은 120초입니다. 값이 0이면 시간 초과가 비활성화됩니다.
 
 - **`kernel.nmi_watchdog`**
 
- 1\(기본값\)으로 설정하면 커널에서 마스크 불가능한 인터럽트\(NMI\) 감시 스레드를 활성화합니다. NMI 스위치나 OProfile 시스템 프로파일러를 사용하여 정의되지 않은 NMI를 생성하려면 `kernel.nmi_watchdog` 값을 0으로 설정하십시오.
+  1\(기본값\)으로 설정하면 커널에서 마스크 불가능한 인터럽트\(NMI\) 감시 스레드를 활성화합니다. NMI 스위치나 OProfile 시스템 프로파일러를 사용하여 정의되지 않은 NMI를 생성하려면 `kernel.nmi_watchdog` 값을 0으로 설정하십시오.
 
 - **`kernel.panic`**
 
- 패닉이 발생한 후 시스템이 자동으로 재부팅되기 전까지의 시간(초)을 지정합니다.
+  패닉이 발생한 후 시스템이 자동으로 재부팅되기 전까지의 시간(초)을 지정합니다.
 
- 값이 기본값인 0이면 시스템이 일시 중지되며 문제 해결을 위해 패닉에 대한 자세한 정보를 수집할 수 있습니다.
+  값이 기본값인 0이면 시스템이 일시 중지되며 문제 해결을 위해 패닉에 대한 자세한 정보를 수집할 수 있습니다.
 
- 자동 재부팅을 활성화하려면 0이 아닌 값을 설정하십시오. 메모리 이미지 \(`vmcore`\)가 필요한 경우 Kdump가 이 이미지를 생성할 수 있도록 충분한 시간을 두십시오. 제안된 값은 30초이지만 대형 시스템에는 더 긴 시간이 필요합니다.
+  자동 재부팅을 활성화하려면 0이 아닌 값을 설정하십시오. 메모리 이미지 \(`vmcore`\)가 필요한 경우 Kdump가 이 이미지를 생성할 수 있도록 충분한 시간을 두십시오. 제안된 값은 30초이지만 대형 시스템에는 더 긴 시간이 필요합니다.
 
 - **`kernel.panic_on_io_nmi`**
 
- 0\(기본값\)으로 설정된 경우 커널이 일반적으로 수정할 수 없는 하드웨어 오류를 나타내는 I/O channel check\(IOCHK\) NMI를 감지하면 시스템은 패닉 발생을 유발하지 않고 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
+  0\(기본값\)으로 설정된 경우 커널이 일반적으로 수정할 수 없는 하드웨어 오류를 나타내는 I/O channel check\(IOCHK\) NMI를 감지하면 시스템은 패닉 발생을 유발하지 않고 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
 
 - **`kernel.panic_on_oops`**
 
- 0으로 설정하면 커널이 `oops` 또는 BUG 조건을 감지하면 시스템이 작업을 계속하려고 시도합니다. 1\(기본값\)로 설정하면 시스템은 패닉이 발생하기 전에 커널 로그 데몬 `klogd`에 `oops` 출력을 기록할 시간을 제공하기 위해 몇 초를 지연합니다.
+  0으로 설정하면 커널이 `oops` 또는 BUG 조건을 감지하면 시스템이 작업을 계속하려고 시도합니다. 1\(기본값\)로 설정하면 시스템은 패닉이 발생하기 전에 커널 로그 데몬 `klogd`에 `oops` 출력을 기록할 시간을 제공하기 위해 몇 초를 지연합니다.
 
- OCFS2 클러스터에서. 커널 오류가 발생할 경우 시스템이 패닉이 발생하도록 지정하려면 값을 1로 설정합니다. 클러스터 작업에 필요한 커널 스레드가 실패하면 시스템이 자체적으로 재설정되어야 합니다. 그렇지 않으면 다른 노드가 노드의 응답 속도가 느리거나 응답할 수 없는지 여부를 감지하지 못해 클러스터 작업이 중단될 수 있습니다.
+  OCFS2 클러스터에서. 커널 오류가 발생할 경우 시스템이 패닉이 발생하도록 지정하려면 값을 1로 설정합니다. 클러스터 작업에 필요한 커널 스레드가 실패하면 시스템이 자체적으로 재설정되어야 합니다. 그렇지 않으면 다른 노드가 노드의 응답 속도가 느리거나 응답할 수 없는지 여부를 감지하지 못해 클러스터 작업이 중단될 수 있습니다.
 
 - **`kernel.panic_on_unrecovered_nmi`**
 
- 0\(기본값\)으로 설정된 경우 커널이 일반적으로 수정할 수 없는 패리티 또는 ECC 메모리 오류를 나타내는 NMI를 감지하면 시스템은 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
+  0\(기본값\)으로 설정된 경우 커널이 일반적으로 수정할 수 없는 패리티 또는 ECC 메모리 오류를 나타내는 NMI를 감지하면 시스템은 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
 
 - **`kernel.softlockup_panic`**
 
- 0\(기본값\)으로 설정된 경우 커널이 NMI 감시 스레드가 `kernel.watchdog_thresh` 값의 두 배 이상 타임스탬프를 업데이트하지 못하도록 하는 _soft-lockup_ 오류를 감지하면 시스템은 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
+  0\(기본값\)으로 설정된 경우 커널이 NMI 감시 스레드가 `kernel.watchdog_thresh` 값의 두 배 이상 타임스탬프를 업데이트하지 못하도록 하는 _soft-lockup_ 오류를 감지하면 시스템은 작업을 계속하려고 시도합니다. 1로 설정하면 시스템 패닉이 발생합니다.
 
 - **`kernel.unknown_nmi_panic`**
 
- `1`로 설정하면 커널이 정의되지 않은 NMI를 감지하면 시스템 패닉이 발생합니다. 일반적으로 NMI 스위치를 수동으로 눌러 정의되지 않은 NMI를 생성합니다. NMI watchdog 스레드도 정의되지 않은 NMI를 사용하므로 `kernel.nmi_watchdog`을 1로 설정한 경우 `kernel.unknown_nmi_panic` 값을 0으로 설정합니다.
+  `1`로 설정하면 커널이 정의되지 않은 NMI를 감지하면 시스템 패닉이 발생합니다. 일반적으로 NMI 스위치를 수동으로 눌러 정의되지 않은 NMI를 생성합니다. NMI watchdog 스레드도 정의되지 않은 NMI를 사용하므로 `kernel.nmi_watchdog`을 1로 설정한 경우 `kernel.unknown_nmi_panic` 값을 0으로 설정합니다.
 
 - **`kernel.watchdog_thresh`**
 
- 커널이 _hard-lockup_ 및 _soft-lockup_ 오류를 확인하는 데 사용하는 NMI 성능 모니터링 인터럽트 생성 사이의 간격을 지정합니다. CPU가 `kernel.watchdog_thresh` 초 이상 인터럽트에 응답하지 않으면 하드 잠금 오류가 발생한다고 가정합니다. 기본값은 10초입니다. 값이 0이면 잠금 오류 감지가 비활성화됩니다.
+  커널이 _hard-lockup_ 및 _soft-lockup_ 오류를 확인하는 데 사용하는 NMI 성능 모니터링 인터럽트 생성 사이의 간격을 지정합니다. CPU가 `kernel.watchdog_thresh` 초 이상 인터럽트에 응답하지 않으면 하드 잠금 오류가 발생한다고 가정합니다. 기본값은 10초입니다. 값이 0이면 잠금 오류 감지가 비활성화됩니다.
 
 - **`vm.panic_on_oom`**
 
- 0\(기본값\)으로 설정하면 커널의 OOM-killer가 전체 태스크 목록을 검색하고 메모리를 많이 차지하는 프로세스를 중지하여 패닉을 방지합니다. 1로 설정하면 커널이 패닉 상태가 되지만 특정 조건에서는 살아남을 수 있습니다. 프로세스가 메모리 정책이나 CPUset을 사용하여 특정 노드에 대한 할당을 제한하고 해당 노드가 메모리 소진 상태에 도달하면 OOM-killer는 하나의 프로세스를 중지할 수 있습니다. 이 경우 다른 노드의 메모리가 비어 있고 시스템 전체에 아직 메모리가 부족하지 않을 수 있으므로 패닉이 발생하지 않습니다. 2로 설정하면 OOM 조건이 발생할 때 커널이 항상 패닉 상태가 됩니다. 1과 2 설정은 정의된 장애 조치 정책에 따라 클러스터에 사용하기 위한 것입니다.
+  0\(기본값\)으로 설정하면 커널의 OOM-killer가 전체 태스크 목록을 검색하고 메모리를 많이 차지하는 프로세스를 중지하여 패닉을 방지합니다. 1로 설정하면 커널이 패닉 상태가 되지만 특정 조건에서는 살아남을 수 있습니다. 프로세스가 메모리 정책이나 CPUset을 사용하여 특정 노드에 대한 할당을 제한하고 해당 노드가 메모리 소진 상태에 도달하면 OOM-killer는 하나의 프로세스를 중지할 수 있습니다. 이 경우 다른 노드의 메모리가 비어 있고 시스템 전체에 아직 메모리가 부족하지 않을 수 있으므로 패닉이 발생하지 않습니다. 2로 설정하면 OOM 조건이 발생할 때 커널이 항상 패닉 상태가 됩니다. 1과 2 설정은 정의된 장애 조치 정책에 따라 클러스터에 사용하기 위한 것입니다.
 
 ## /sys 가상 파일 시스템
 
