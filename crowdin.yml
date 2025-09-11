@@ -4,6 +4,7 @@ files:
       - '*.de.md'
       - '*.en.md'
       - '*.ko.md'
+      - '*.uk.md'
       - '/LICENSE'
     translation: /%original_path%/%file_name%.%two_letters_code%.%file_extension%
     update_option: update_as_unapproved
