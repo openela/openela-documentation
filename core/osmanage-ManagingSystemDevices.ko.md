@@ -723,63 +723,63 @@ udevadm info --attribute-walk --name=/dev/sda
 
 1. udev가 다른 규칙 파일보다 먼저 읽는 `10-local.rules`와 같은 파일 이름을 사용하여 `/etc/udev/rules.d` 아래에 규칙 파일을 만듭니다.
 
- `10-local.rules`의 다음 규칙은 `/dev/sdb`를 가리키는 심볼릭 링크 `/dev/my_disk`를 생성합니다.:
+   `10-local.rules`의 다음 규칙은 `/dev/sdb`를 가리키는 심볼릭 링크 `/dev/my_disk`를 생성합니다.:
 
- ```
- KERNEL=="sdb", ACTION=="add", SYMLINK="my_disk"
- ```
+   ```
+   KERNEL=="sdb", ACTION=="add", SYMLINK="my_disk"
+   ```
 
- `/dev`에 장치 파일을 나열하면 `udev`가 아직 규칙을 적용하지 않았음을 알 수 있습니다.:
+   `/dev`에 장치 파일을 나열하면 `udev`가 아직 규칙을 적용하지 않았음을 알 수 있습니다.:
 
- ```
- ls /dev/sd* /dev/my_disk
- ```
+   ```
+   ls /dev/sd* /dev/my_disk
+   ```
 
- ```nocopybutton
- ls: cannot access /dev/my_disk: No such file or directory
- /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
- ```
+   ```nocopybutton
+   ls: cannot access /dev/my_disk: No such file or directory
+   /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
+   ```
 
 2. `udev`가 규칙을 적용하여 장치를 생성하는 방법을 시뮬레이션하려면 `/sys/class/block` 계층 아래에 ​​나열된 `sdb` 장치 경로와 함께 `udevadm test` 명령을 사용할 수 있습니다.
 
- ```
- udevadm test /sys/class/block/sdb
- ```
+   ```
+   udevadm test /sys/class/block/sdb
+   ```
 
- ```nocopybutton
- calling: test
- version ...
- This program is for debugging only, it does not run any program
- specified by a RUN key. It may show incorrect results, because
- some values may be different, or not available at a simulation run.
- ...
- LINK 'my_disk' /etc/udev/rules.d/10-local.rules:1
- ...
- creating link '/dev/my_disk' to '/dev/sdb'
- creating symlink '/dev/my_disk' to 'sdb
- ...
- ACTION=add
- DEVLINKS=/dev/disk/by-id/ata-VBOX_HARDDISK_VB186e4ce2-f80f170d 
-   /dev/disk/by-uuid/a7dc508d-5bcc-4112-b96e-f40b19e369fe 
-   /dev/my_disk
- ...
- ```
+   ```nocopybutton
+   calling: test
+   version ...
+   This program is for debugging only, it does not run any program
+   specified by a RUN key. It may show incorrect results, because
+   some values may be different, or not available at a simulation run.
+   ...
+   LINK 'my_disk' /etc/udev/rules.d/10-local.rules:1
+   ...
+   creating link '/dev/my_disk' to '/dev/sdb'
+   creating symlink '/dev/my_disk' to 'sdb
+   ...
+   ACTION=add
+   DEVLINKS=/dev/disk/by-id/ata-VBOX_HARDDISK_VB186e4ce2-f80f170d 
+     /dev/disk/by-uuid/a7dc508d-5bcc-4112-b96e-f40b19e369fe 
+     /dev/my_disk
+   ...
+   ```
 
 3. `systemd-udevd` 서비스를 다시 시작하세요.:
 
- ```
- sudo systemctl restart systemd-udevd
- ```
+   ```
+   sudo systemctl restart systemd-udevd
+   ```
 
- `udev`가 규칙 파일을 처리한 후 `/dev/my_disk` 심볼릭 링크가 추가되었습니다.:
+   `udev`가 규칙 파일을 처리한 후 `/dev/my_disk` 심볼릭 링크가 추가되었습니다.:
 
- ```
- ls -F /dev/sd* /dev/my_disk
- ```
+   ```
+   ls -F /dev/sd* /dev/my_disk
+   ```
 
- ```nocopybutton
- /dev/my_disk@  /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
- ```
+   ```nocopybutton
+   /dev/my_disk@  /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
+   ```
 
 4. \(선택 사항\) 변경 사항을 취소하려면 `/etc/udev/rules.d/10-local.rules` 및 `/dev/my_disk`를 제거한 다음 `systemctl restart systemd-udevd`를 다시 실행하세요.
 
