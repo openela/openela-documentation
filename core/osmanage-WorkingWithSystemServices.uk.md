@@ -35,57 +35,57 @@ The following list describes some system units that you can manage on an Enterpr
 
 - **Services**
 
- Service unit configuration files have the filename format _service\_name_.`service`, for example `sshd.service`, `crond.service`, and `httpd.service`.
+  Service unit configuration files have the filename format _service\_name_.`service`, for example `sshd.service`, `crond.service`, and `httpd.service`.
 
- Service units start and control daemons and the processes of which the daemons consist.
+  Service units start and control daemons and the processes of which the daemons consist.
 
- The following example shows how you might start the `systemd` service unit for the Apache HTTP server, `httpd.service`:
+  The following example shows how you might start the `systemd` service unit for the Apache HTTP server, `httpd.service`:
 
- ```
- sudo systemctl start httpd.service
- ```
+  ```
+  sudo systemctl start httpd.service
+  ```
 
 - **Targets**
 
- Target unit configuration files have the filename format _target\_name_.`target`, for example `graphical.target`.
+  Target unit configuration files have the filename format _target\_name_.`target`, for example `graphical.target`.
 
- Targets are similar to runlevels. A system reaches different targets during the boot process as resources get configured. For example, a system reaches `network-pre.target` before it reaches the target `network-online.target`.
+  Targets are similar to runlevels. A system reaches different targets during the boot process as resources get configured. For example, a system reaches `network-pre.target` before it reaches the target `network-online.target`.
 
- Many target units have dependencies. For example, the activation of`graphical.target` \(for a graphical session\) fails unless `multi-user.target` \(for multiuser system\) is also active.
+  Many target units have dependencies. For example, the activation of`graphical.target` \(for a graphical session\) fails unless `multi-user.target` \(for multiuser system\) is also active.
 
 - **File System Mount Points**
 
- Mount unit configuration files have the filename format _mount\_point\_name_.`mount`.
+  Mount unit configuration files have the filename format _mount\_point\_name_.`mount`.
 
- Mount units enable you to mount filesystems at boot time. For example, you can run the following command to mount the temporary file system \(`tmpfs`\) on `/tmp` at boot time:
+  Mount units enable you to mount filesystems at boot time. For example, you can run the following command to mount the temporary file system \(`tmpfs`\) on `/tmp` at boot time:
 
- ```
- sudo systemctl enable tmp.mount
- ```
+  ```
+  sudo systemctl enable tmp.mount
+  ```
 
 - **Devices**
 
- Device unit configuration files have the filename format _device\_unit\_name_.`device`.
+  Device unit configuration files have the filename format _device\_unit\_name_.`device`.
 
- Device units are named after the `/sys` and `/dev` paths they control. For example, the device `/dev/sda5` is exposed in systemd as `dev-sda5.device`.
+  Device units are named after the `/sys` and `/dev` paths they control. For example, the device `/dev/sda5` is exposed in systemd as `dev-sda5.device`.
 
- Device units enable you to implement device-based activation.
+  Device units enable you to implement device-based activation.
 
 - **Sockets**
 
- Socket unit configuration files have the filename format _socket\_unit\_name_.`socket`.
+  Socket unit configuration files have the filename format _socket\_unit\_name_.`socket`.
 
- Each "\*.`socket`" file needs a corresponding "\*.`service`" file to configure the service to start on incoming traffic on the socket.
+  Each "\*.`socket`" file needs a corresponding "\*.`service`" file to configure the service to start on incoming traffic on the socket.
 
- Socket units enable you to implement socket-based activation.
+  Socket units enable you to implement socket-based activation.
 
 - **Timers**
 
- Timer unit configuration files have the filename format _timer\_unit\_name_.`timer`.
+  Timer unit configuration files have the filename format _timer\_unit\_name_.`timer`.
 
- Each "\*.`timer`" file needs a corresponding "\*.`service`" file to configure the service to start at a configured timer event. A `Unit` configuration entry can be used to specify a service that's named differently to the timer unit, if required.
+  Each "\*.`timer`" file needs a corresponding "\*.`service`" file to configure the service to start at a configured timer event. A `Unit` configuration entry can be used to specify a service that's named differently to the timer unit, if required.
 
- Timer units can control when service units are run and can act as an alternative to using the cron daemon. Timer units can be configured for calendar time events, monotonic time events, and can be run asynchronously.
+  Timer units can control when service units are run and can act as an alternative to using the cron daemon. Timer units can be configured for calendar time events, monotonic time events, and can be run asynchronously.
 
 Paths to `systemd` unit configuration files vary depending on their purpose and whether `systemd` is running in 'user' or 'system' mode. For example, configuration for units that are installed from packages might be available in `/usr/lib/systemd/system` or in `/usr/local/lib/systemd/system`, while a user mode configuration unit is likely to be stored in `$HOME/.config/systemd/user`. See the `systemd.unit(5)` manual page for more information.
 
@@ -634,17 +634,17 @@ Services run based on their corresponding service unit files. A service unit fil
 
 - **`[Unit]`**
 
- Contains information about the service.
+  Contains information about the service.
 
 - **`[_UnitType_]`:**
 
- Contains options that are specific to the unit type of the file. For example, in a service unit file this section is titled `[Service]` and contains options that are specific to units of the service type, such as `ExecStart` or `StandardOutput`.
+  Contains options that are specific to the unit type of the file. For example, in a service unit file this section is titled `[Service]` and contains options that are specific to units of the service type, such as `ExecStart` or `StandardOutput`.
 
- Only those unit types that offer options specific to their type have such a section.
+  Only those unit types that offer options specific to their type have such a section.
 
 - **`[Install]`**
 
- Contains installation information for the specific unit. The information in this section is used by the `systemctl enable` and `systemctl disable` commands.
+  Contains installation information for the specific unit. The information in this section is used by the `systemctl enable` and `systemctl disable` commands.
 
 A service unit file might contain the following configurations for a service.
 
@@ -673,29 +673,29 @@ The following list provides a general overview of the commonly used configurable
 
 - **`Description`**
 
- Provides information about the service. The information is displayed when you run the `systemctl status` command on the unit.
+  Provides information about the service. The information is displayed when you run the `systemctl status` command on the unit.
 
 - **`Documentation`**
 
- Contains a space-separated list of URIs referencing documentation for this unit or its configuration.
+  Contains a space-separated list of URIs referencing documentation for this unit or its configuration.
 
 - **`After`**
 
- Configures the unit to only run after the units listed in the option finish starting up.
+  Configures the unit to only run after the units listed in the option finish starting up.
 
- In the following example, if the file _var3_.`service` has the following entry, then it's only started after units `*var1*.service` and `*var2*.service` have started:
+  In the following example, if the file _var3_.`service` has the following entry, then it's only started after units `*var1*.service` and `*var2*.service` have started:
 
- ```
-  After=*var1*.service *var2*.service
- ```
+  ```
+   After=*var1*.service *var2*.service
+  ```
 
 - **`Requires`**
 
- Configures a unit to have requirement dependencies on other units. If a unit is activated, those listed in its `Requires` option are also activated.
+  Configures a unit to have requirement dependencies on other units. If a unit is activated, those listed in its `Requires` option are also activated.
 
 - **`Wants`**
 
- A less stringent version of the `Requires` option. For example, a specific unit can be activated even if one of those listed in its `Wants` option fails to start.
+  A less stringent version of the `Requires` option. For example, a specific unit can be activated even if one of those listed in its `Wants` option fails to start.
 
 #### Description of Options Under \[Service\] Section
 
@@ -703,43 +703,43 @@ This following list gives a general overview of the commonly used configurable o
 
 - **`Type`**
 
- Configures the process start-up type for the service unit.
+  Configures the process start-up type for the service unit.
 
- By default, this parameter's value is `simple`, which indicates that the service's main process is that which is started by the `ExecStart` parameter.
+  By default, this parameter's value is `simple`, which indicates that the service's main process is that which is started by the `ExecStart` parameter.
 
- Typically, if a service's type is `simple`, then the definition can be omitted from the file.
+  Typically, if a service's type is `simple`, then the definition can be omitted from the file.
 
 - **`StandardOutput`**
 
- Configures the how the service's events are logged. For example, consider a service unit file has the following entry:
+  Configures the how the service's events are logged. For example, consider a service unit file has the following entry:
 
- ```
- StandardOutput=journal
- ```
+  ```
+  StandardOutput=journal
+  ```
 
- In the example, the value `journal` indicates that the events are recorded in the journal, which can be viewed by using the `journalctl` command.
+  In the example, the value `journal` indicates that the events are recorded in the journal, which can be viewed by using the `journalctl` command.
 
 - **`ExecStart`**
 
- Specifies the full path and command that starts the service, for example, `/usr/bin/npm start`.
+  Specifies the full path and command that starts the service, for example, `/usr/bin/npm start`.
 
 - **`ExecStop`**
 
- Specifies the commands to run to stop the service started through `ExecStart`.
+  Specifies the commands to run to stop the service started through `ExecStart`.
 
 - **`ExecReload`**
 
- Specifies the commands to run to trigger a configuration reload in the service.
+  Specifies the commands to run to trigger a configuration reload in the service.
 
 - **`Restart`**
 
- Configures whether the service is to be restarted when the service process exits, is stopped, or when a timeout is reached.
+  Configures whether the service is to be restarted when the service process exits, is stopped, or when a timeout is reached.
 
- **Note:** This option doesn't apply when the process is stopped cleanly by a `systemd` operation, for example a `systemctl stop` or `systemctl restart`. In these cases, the service isn't restarted by this configuration option.
+  **Note:** This option doesn't apply when the process is stopped cleanly by a `systemd` operation, for example a `systemctl stop` or `systemctl restart`. In these cases, the service isn't restarted by this configuration option.
 
 - **`RemainAfterExit`**
 
- A Boolean value that configures whether the service is to be considered active even when all of its processes have exited. The default value is `no`.
+  A Boolean value that configures whether the service is to be considered active even when all of its processes have exited. The default value is `no`.
 
 #### Description of Options Under \[Install\] Section
 
@@ -747,45 +747,45 @@ This following list gives a general overview of the commonly used configurable o
 
 - **`Alias`**
 
- A space-separated list of names for a unit.
+  A space-separated list of names for a unit.
 
- At installation time, `systemctl enable` creates symlinks from these names to the unit filename.
+  At installation time, `systemctl enable` creates symlinks from these names to the unit filename.
 
- Aliases are only effective when the unit is enabled.
+  Aliases are only effective when the unit is enabled.
 
 - **`RequiredBy`**
 
- Configures the service to be required by other units.
+  Configures the service to be required by other units.
 
- For example, consider a unit file `*var1*.service` that has the following configuration added to it:
+  For example, consider a unit file `*var1*.service` that has the following configuration added to it:
 
- ```
- RequiredBy=*var2*.service *var3*.service
- ```
+  ```
+  RequiredBy=*var2*.service *var3*.service
+  ```
 
- When `*var1*.service` is enabled, both `*var2*.service` and `*var3*.service` are granted a `Requires` dependency upon `*var1*.service`. This dependency is defined by a symbolic link that's created in the `.requires` folder of each dependent service \(`*var2*.service` and `var3.service`\) that points to the `*var1*.service` system unit file.
+  When `*var1*.service` is enabled, both `*var2*.service` and `*var3*.service` are granted a `Requires` dependency upon `*var1*.service`. This dependency is defined by a symbolic link that's created in the `.requires` folder of each dependent service \(`*var2*.service` and `var3.service`\) that points to the `*var1*.service` system unit file.
 
 - **`WantedBy`**
 
- Specifies a list of units that are to be granted a `wants` dependency upon the service whose file you're editing.
+  Specifies a list of units that are to be granted a `wants` dependency upon the service whose file you're editing.
 
- For example, consider a unit file `*var1*.service` that has the following configuration added to it:
+  For example, consider a unit file `*var1*.service` that has the following configuration added to it:
 
- ```
- WantedBy=*var2*.service *var3*.service
- ```
+  ```
+  WantedBy=*var2*.service *var3*.service
+  ```
 
- When `*var1*.service` is enabled, both `*var2*.service`and `*var3*.service` are granted a `Wants` dependency upon `*var1*.service`. This dependency is defined by a symbolic link that's created in the “`.wants`” folder of each dependent service \(`*var2*.service` and `var3.service`\) that points to the system unit file for `*var1*.service` .
+  When `*var1*.service` is enabled, both `*var2*.service`and `*var3*.service` are granted a `Wants` dependency upon `*var1*.service`. This dependency is defined by a symbolic link that's created in the “`.wants`” folder of each dependent service \(`*var2*.service` and `var3.service`\) that points to the system unit file for `*var1*.service` .
 
 - **`Also`**
 
- Lists additional units to install or remove when the unit is installed or removed.
+  Lists additional units to install or remove when the unit is installed or removed.
 
 - **`DefaultInstance`**
 
- The `DefaultInstance` option applies to template unit files only.
+  The `DefaultInstance` option applies to template unit files only.
 
- Template unit files enable the creation of multiple units from a single configuration file. The `DefaultInstance` option specifies the instance for which the unit is enabled if the template is enabled without any explicitly set instance.
+  Template unit files enable the creation of multiple units from a single configuration file. The `DefaultInstance` option specifies the instance for which the unit is enabled if the template is enabled without any explicitly set instance.
 
 ## Creating a User-Based systemd Service
 
@@ -801,35 +801,35 @@ To create a user based service:
 
 1. Create the service's unit file in the `~/.config/systemd/user` directory, for example:
 
- ```
- touch ~/.config/systemd/user/*myservice*.service
- ```
+   ```
+   touch ~/.config/systemd/user/*myservice*.service
+   ```
 
 2. Open the unit file and specify the values to the options you want to use, such as `Description`, `ExecStart`, `WantedBy`, and so on.
 
- For reference, see [Configurable Options in Service Unit Files](osmanage-WorkingWithSystemServices.md#) and the `systemd.service(5)` and `systemd.unit(5)` manual pages.
+   For reference, see [Configurable Options in Service Unit Files](osmanage-WorkingWithSystemServices.md#) and the `systemd.service(5)` and `systemd.unit(5)` manual pages.
 
 3. Enable the service to start automatically when you log in.
 
- ```
- sudo systemctl --user enable *myservice*.service
- ```
+   ```
+   sudo systemctl --user enable *myservice*.service
+   ```
 
- **Note:**
+   **Note:**
 
- When you log out, the service is stopped unless the root user has enabled processes to continue to run for the user.
+   When you log out, the service is stopped unless the root user has enabled processes to continue to run for the user.
 
 4. Start the service.
 
- ```
- sudo systemctl --user start *myservice*.service
- ```
+   ```
+   sudo systemctl --user start *myservice*.service
+   ```
 
 5. Verify that the service is running.
 
- ```
- sudo systemctl --user status *myservice*.service
- ```
+   ```
+   sudo systemctl --user status *myservice*.service
+   ```
 
 ## Using Timer Units to Control Service Unit Runtime
 
@@ -855,7 +855,7 @@ For more information about system timers, see the `systemd.timer(5)` and `system
 
 - If needed, create a `.service` file that defines the service to be triggered by the timer unit. In the following procedure, the sample service is `/etc/systemd/system/update.service` which is a service unit that runs an update script.
 
- For more information about creating service units, see [Creating a User-Based systemd Service](osmanage-WorkingWithSystemServices.md#).
+  For more information about creating service units, see [Creating a User-Based systemd Service](osmanage-WorkingWithSystemServices.md#).
 
 - Decide the time and frequency for running the service. In this procedure, the timer is configured to run the service every 2 hours from Monday to Friday.
 
@@ -863,53 +863,53 @@ This task shows you how to create a system timer to trigger a service to run bas
 
 1. Create the `/etc/systemd/system/update.timer` with the following content:
 
- ```
- [Unit]
- Description="Run the update.service every two hours from Mon to Fri."
+   ```
+   [Unit]
+   Description="Run the update.service every two hours from Mon to Fri."
 
- [Timer]
- OnCalendar=Mon..Fri 00/2 
- Unit=update.service
+   [Timer]
+   OnCalendar=Mon..Fri 00/2 
+   Unit=update.service
 
- [Install]
- WantedBy=multi-user.target
- ```
+   [Install]
+   WantedBy=multi-user.target
+   ```
 
- Defining `OnCalendar` can vary from a simple wetting such as `OnCalendar=weekly` definitions that are more detailed. However, the format for defining settings is constant, as follows:
+   Defining `OnCalendar` can vary from a simple wetting such as `OnCalendar=weekly` definitions that are more detailed. However, the format for defining settings is constant, as follows:
 
- ```
- DayofWeek Year-Month-Day Hour:Minute:Second
- ```
+   ```
+   DayofWeek Year-Month-Day Hour:Minute:Second
+   ```
 
- The following definition means "the first 4 days of each month at 12:00 o'clock noon, but only if that day is either a Monday or a Tuesday":
+   The following definition means "the first 4 days of each month at 12:00 o'clock noon, but only if that day is either a Monday or a Tuesday":
 
- ```
- OnCalendar=Mon,Tue *-*-01..04 12:00:00
- ```
+   ```
+   OnCalendar=Mon,Tue *-*-01..04 12:00:00
+   ```
 
- For other ways to define `OnCalendar` and for more timer options that you can configure in the system timer file, see the `systemd.timer(5)` and `systemd.time(7)` manual pages.
+   For other ways to define `OnCalendar` and for more timer options that you can configure in the system timer file, see the `systemd.timer(5)` and `systemd.time(7)` manual pages.
 
 2. Check that all the files related to this timer are configured correctly.
 
- ```
- systemd-analyze verify /etc/systemd/system/update.*
- ```
+   ```
+   systemd-analyze verify /etc/systemd/system/update.*
+   ```
 
- Any detected errors are reported on the screen.
+   Any detected errors are reported on the screen.
 
 3. Start the timer.
 
- ```
- sudo systemctl start update.timer
- ```
+   ```
+   sudo systemctl start update.timer
+   ```
 
- This command starts the timer for the current session only.
+   This command starts the timer for the current session only.
 
 4. Ensure that the timer starts when the system is booted.
 
- ```
- sudo systemctl enable update.timer
- ```
+   ```
+   sudo systemctl enable update.timer
+   ```
 
 ### Configuring a Monotonic Timer Unit
 
@@ -917,7 +917,7 @@ This task shows you how to create a system timer to trigger a service to run bas
 
 - If needed, create a `.service` file that defines the service to be triggered by the timer unit. In the following procedure, the sample service is `/etc/systemd/system/update.service` which is a service unit that runs an update script.
 
- For more information about creating service units, see [Creating a User-Based systemd Service](osmanage-WorkingWithSystemServices.md#).
+  For more information about creating service units, see [Creating a User-Based systemd Service](osmanage-WorkingWithSystemServices.md#).
 
 - Decide the time and frequency for running the service. In this procedure, the timer is configured to run the service 10 minutes after a system boot, and every 2 hours from when the service is last activated.
 
@@ -925,42 +925,42 @@ This task shows you how to create a system timer to trigger a service to run at 
 
 1. Create the `/etc/systemd/system/update.timer` with the following content:
 
- ```
- [Unit]
- Description="Run the update.service every two hours from Mon to Fri."
+   ```
+   [Unit]
+   Description="Run the update.service every two hours from Mon to Fri."
 
- [Timer]
- OnBootSec=10min
- OnUnitActiveSec=2h
- Unit=update.service
+   [Timer]
+   OnBootSec=10min
+   OnUnitActiveSec=2h
+   Unit=update.service
 
- [Install]
- WantedBy=multi-user.target
- ```
+   [Install]
+   WantedBy=multi-user.target
+   ```
 
- For more timer options that you can configure in the system timer, see the `systemd.timer(5)` and `systemd.time(7)` manual pages.
+   For more timer options that you can configure in the system timer, see the `systemd.timer(5)` and `systemd.time(7)` manual pages.
 
 2. Check that all the files related to this timer are configured correctly.
 
- ```
- systemd-analyze verify /etc/systemd/system/update.*
- ```
+   ```
+   systemd-analyze verify /etc/systemd/system/update.*
+   ```
 
- Any detected errors are reported on the screen.
+   Any detected errors are reported on the screen.
 
 3. Start the timer.
 
- ```
- sudo systemctl start update.timer
- ```
+   ```
+   sudo systemctl start update.timer
+   ```
 
- This command starts the timer for the current session only.
+   This command starts the timer for the current session only.
 
 4. Ensure that the timer starts when the system is booted.
 
- ```
- sudo systemctl enable update.timer
- ```
+   ```
+   sudo systemctl enable update.timer
+   ```
 
 ### Running a Transient Timer Unit
 
@@ -972,32 +972,32 @@ The following examples show how to use `systemd-run` to activate transient timer
 
 - Run `update.service` after 2 hours have elapsed.
 
- ```
- sudo systemd-run --on-active="2h" --unit update.service
- ```
+  ```
+  sudo systemd-run --on-active="2h" --unit update.service
+  ```
 
 - Create `~/tmp/myfile` after 1 hour.
 
- ```
- sudo systemd-run --on-active="1h" /bin/touch ~/tmp/myfile
- ```
+  ```
+  sudo systemd-run --on-active="1h" /bin/touch ~/tmp/myfile
+  ```
 
 - Run `~/myscripts/update.sh` 5 minutes after the service manager is started. Use this syntax to run a service after the service manager has started at user login.
 
- ```
- sudo systemd-run --on-startup="5m" ~/myscripts/update.sh
- ```
+  ```
+  sudo systemd-run --on-startup="5m" ~/myscripts/update.sh
+  ```
 
 - Run `myjob.service` 10 minutes after system boot.
 
- ```
- sudo systemd-run --on-boot="10m" --unit myjob.service
- ```
+  ```
+  sudo systemd-run --on-boot="10m" --unit myjob.service
+  ```
 
 - Run `report.service` at the end of the day.
 
- ```
- sudo systemd-run --on-calendar="17:00:00"
- ```
+  ```
+  sudo systemd-run --on-calendar="17:00:00"
+  ```
 
 
