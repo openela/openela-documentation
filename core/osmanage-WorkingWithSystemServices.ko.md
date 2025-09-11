@@ -35,57 +35,57 @@ sudo ls -l /etc/systemd/system/default.target
 
 - **Services**
 
- 서비스 단위 구성 파일의 파일 이름 형식은 _service\_name_.`service`입니다(예: `sshd.service`, `crond.service` 및 `httpd.service`).
+  서비스 단위 구성 파일의 파일 이름 형식은 _service\_name_.`service`입니다(예: `sshd.service`, `crond.service` 및 `httpd.service`).
 
- 서비스 단위는 데몬과 데몬을 구성하는 프로세스를 시작하고 제어합니다.
+  서비스 단위는 데몬과 데몬을 구성하는 프로세스를 시작하고 제어합니다.
 
- 다음 예에서는 Apache HTTP 서버 `httpd.service`에 대한 `systemd` 서비스 단위를 시작하는 방법을 보여줍니다.:
+  다음 예에서는 Apache HTTP 서버 `httpd.service`에 대한 `systemd` 서비스 단위를 시작하는 방법을 보여줍니다.:
 
- ```
- sudo systemctl start httpd.service
- ```
+  ```
+  sudo systemctl start httpd.service
+  ```
 
 - **Targets**
 
- target 장치 구성 파일의 파일 이름 형식은 _target\_name_.`target`입니다(예: `graphical.target`).
+  target 장치 구성 파일의 파일 이름 형식은 _target\_name_.`target`입니다(예: `graphical.target`).
 
- target은 런레벨과 유사합니다. 리소스가 구성됨에 따라 부팅 프로세스 중에 시스템은 다른 target에 도달합니다. 예를 들어 시스템은 `network-online.target` target에 도달하기 전에 `network-pre.target`에 도달합니다.
+  target은 런레벨과 유사합니다. 리소스가 구성됨에 따라 부팅 프로세스 중에 시스템은 다른 target에 도달합니다. 예를 들어 시스템은 `network-online.target` target에 도달하기 전에 `network-pre.target`에 도달합니다.
 
- 많은 target 단위에는 종속성이 있습니다. 예를 들어, `multi-user.target` \(multi-user 시스템의 경우\)도 활성화되어 있지 않으면 `graphical.target` \(그래픽 세션의 경우\) 활성화가 실패합니다.
+  많은 target 단위에는 종속성이 있습니다. 예를 들어, `multi-user.target` \(multi-user 시스템의 경우\)도 활성화되어 있지 않으면 `graphical.target` \(그래픽 세션의 경우\) 활성화가 실패합니다.
 
 - **File System Mount Points**
 
- 마운트 장치 구성 파일의 파일 이름 형식은 _mount\_point\_name_.`mount`입니다.
+  마운트 장치 구성 파일의 파일 이름 형식은 _mount\_point\_name_.`mount`입니다.
 
- 마운트 유닛을 사용하면 부팅 시 파일 시스템을 마운트할 수 있습니다. 예를 들어 다음 명령을 실행하여 부팅 시 `/tmp`에 임시 파일 시스템 \(`tmpfs`\)을 마운트할 수 있습니다.:
+  마운트 유닛을 사용하면 부팅 시 파일 시스템을 마운트할 수 있습니다. 예를 들어 다음 명령을 실행하여 부팅 시 `/tmp`에 임시 파일 시스템 \(`tmpfs`\)을 마운트할 수 있습니다.:
 
- ```
- sudo systemctl enable tmp.mount
- ```
+  ```
+  sudo systemctl enable tmp.mount
+  ```
 
 - **Devices**
 
- 장치 장치 구성 파일의 파일 이름 형식은 _device\_unit\_name_.`device`입니다.
+  장치 장치 구성 파일의 파일 이름 형식은 _device\_unit\_name_.`device`입니다.
 
- 장치 장치의 이름은 해당 장치가 제어하는 ​​`/sys` 및 `/dev` 경로를 따라 지정됩니다. 예를 들어 `/dev/sda5` 장치는 systemd에서 `dev-sda5.device`로 노출됩니다.
+  장치 장치의 이름은 해당 장치가 제어하는 ​​`/sys` 및 `/dev` 경로를 따라 지정됩니다. 예를 들어 `/dev/sda5` 장치는 systemd에서 `dev-sda5.device`로 노출됩니다.
 
- 장치 단위를 사용하면 장치 기반 활성화를 구현할 수 있습니다.
+  장치 단위를 사용하면 장치 기반 활성화를 구현할 수 있습니다.
 
 - **Sockets**
 
- 소켓 장치 구성 파일의 파일 이름 형식은 _socket\_unit\_name_.`socket`입니다.
+  소켓 장치 구성 파일의 파일 이름 형식은 _socket\_unit\_name_.`socket`입니다.
 
- 소켓의 수신 트래픽에서 서비스가 시작되도록 구성하려면 각 "\*.`socket`" 파일에 해당하는 "\*.`service`" 파일이 필요합니다.
+  소켓의 수신 트래픽에서 서비스가 시작되도록 구성하려면 각 "\*.`socket`" 파일에 해당하는 "\*.`service`" 파일이 필요합니다.
 
- 소켓 유닛을 사용하면 소켓 기반 활성화를 구현할 수 있습니다.
+  소켓 유닛을 사용하면 소켓 기반 활성화를 구현할 수 있습니다.
 
 - **Timers**
 
- 타이머 장치 구성 파일의 파일 이름 형식은 _timer\_unit\_name_.`timer`입니다.
+  타이머 장치 구성 파일의 파일 이름 형식은 _timer\_unit\_name_.`timer`입니다.
 
- 구성된 타이머 이벤트에서 서비스가 시작되도록 구성하려면 각 "\*.`timer`" 파일에 해당하는 "\*.`service`" 파일이 필요합니다. 필요한 경우 `Unit` 구성 항목을 사용하여 타이머 단위와 다르게 이름이 지정된 서비스를 지정할 수 있습니다.
+  구성된 타이머 이벤트에서 서비스가 시작되도록 구성하려면 각 "\*.`timer`" 파일에 해당하는 "\*.`service`" 파일이 필요합니다. 필요한 경우 `Unit` 구성 항목을 사용하여 타이머 단위와 다르게 이름이 지정된 서비스를 지정할 수 있습니다.
 
- 타이머 장치는 서비스 장치가 실행되는 시기를 제어할 수 있으며 cron 데몬 사용의 대안으로 작동할 수 있습니다. 타이머 단위는 달력 시간 이벤트, 단조로운 시간 이벤트에 대해 구성할 수 있으며 비동기적으로 실행될 수 있습니다.
+  타이머 장치는 서비스 장치가 실행되는 시기를 제어할 수 있으며 cron 데몬 사용의 대안으로 작동할 수 있습니다. 타이머 단위는 달력 시간 이벤트, 단조로운 시간 이벤트에 대해 구성할 수 있으며 비동기적으로 실행될 수 있습니다.
 
 `systemd` 장치 구성 파일의 경로는 목적과 `systemd`가 `User` 모드에서 실행되는지 `System` 모드에서 실행되는지 여부에 따라 다릅니다. 예를 들어, 패키지에서 설치된 장치에 대한 구성은 `/usr/lib/systemd/system` 또는 `/usr/local/lib/systemd/system`에서 사용할 수 있는 반면, 사용자 모드 구성 단위는 다음과 같습니다. 자세한 내용은 `systemd.unit(5)` 매뉴얼 페이지를 참조하세요.
 
@@ -634,17 +634,17 @@ sshd.service - OpenSSH server daemon
 
 - **`[Unit]`**
 
- 서비스에 대한 정보가 포함되어 있습니다.
+  서비스에 대한 정보가 포함되어 있습니다.
 
 - **`[_UnitType_]`:**
 
- 파일의 단위 유형과 관련된 옵션이 포함되어 있습니다. 예를 들어 서비스 단위 파일에서 이 섹션의 제목은 `[Service]`이며 `ExecStart` 또는 `StandardOutput`과 같은 서비스 유형 단위와 관련된 옵션을 포함합니다.
+  파일의 단위 유형과 관련된 옵션이 포함되어 있습니다. 예를 들어 서비스 단위 파일에서 이 섹션의 제목은 `[Service]`이며 `ExecStart` 또는 `StandardOutput`과 같은 서비스 유형 단위와 관련된 옵션을 포함합니다.
 
- 해당 유형에 특정한 옵션을 제공하는 장치 유형에만 해당 섹션이 있습니다.
+  해당 유형에 특정한 옵션을 제공하는 장치 유형에만 해당 섹션이 있습니다.
 
 - **`[Install]`**
 
- 특정 장치에 대한 설치 정보가 포함되어 있습니다. 이 섹션의 정보는 `systemctl 활성화` 및 `systemctl 비활성화` 명령에 사용됩니다.
+  특정 장치에 대한 설치 정보가 포함되어 있습니다. 이 섹션의 정보는 `systemctl 활성화` 및 `systemctl 비활성화` 명령에 사용됩니다.
 
 서비스 단위 파일에는 서비스에 대한 다음 구성이 포함될 수 있습니다.
 
@@ -673,29 +673,29 @@ WantedBy=default.target
 
 - **`Description`**
 
- 서비스에 대한 정보를 제공합니다. 해당 정보는 장치에서 `systemctl status` 명령을 실행하면 표시됩니다.
+  서비스에 대한 정보를 제공합니다. 해당 정보는 장치에서 `systemctl status` 명령을 실행하면 표시됩니다.
 
 - **`Documentation`**
 
- 이 장치 또는 해당 구성에 대한 문서를 참조하는 공백으로 구분된 URI 목록을 포함합니다.
+  이 장치 또는 해당 구성에 대한 문서를 참조하는 공백으로 구분된 URI 목록을 포함합니다.
 
 - **`After`**
 
- 옵션에 나열된 장치가 시작을 마친 후에만 장치가 실행되도록 구성합니다.
+  옵션에 나열된 장치가 시작을 마친 후에만 장치가 실행되도록 구성합니다.
 
- 다음 예에서 _var3_.`service` 파일에 다음 항목이 있으면 `*var1*.service` 및 `*var2*.service` 단위가 시작된 후에만 시작됩니다.:
+  다음 예에서 _var3_.`service` 파일에 다음 항목이 있으면 `*var1*.service` 및 `*var2*.service` 단위가 시작된 후에만 시작됩니다.:
 
- ```
-  After=*var1*.service *var2*.service
- ```
+  ```
+   After=*var1*.service *var2*.service
+  ```
 
 - **`Requires`**
 
- 다른 장치에 대한 요구 사항 종속성을 갖도록 장치를 구성합니다. 유닛이 활성화되면 `Requires` 옵션에 나열된 유닛도 활성화됩니다.
+  다른 장치에 대한 요구 사항 종속성을 갖도록 장치를 구성합니다. 유닛이 활성화되면 `Requires` 옵션에 나열된 유닛도 활성화됩니다.
 
 - **`Wants`**
 
- `Requires` 옵션의 덜 엄격한 버전입니다. 예를 들어 `Wants` 옵션에 나열된 장치 중 하나가 시작되지 않더라도 특정 장치를 활성화할 수 있습니다.
+  `Requires` 옵션의 덜 엄격한 버전입니다. 예를 들어 `Wants` 옵션에 나열된 장치 중 하나가 시작되지 않더라도 특정 장치를 활성화할 수 있습니다.
 
 #### \[Service\] 섹션 아래 옵션에 대한 설명
 
@@ -703,43 +703,43 @@ WantedBy=default.target
 
 - **`Type`**
 
- 서비스 단위에 대한 프로세스 시작 유형을 구성합니다.
+  서비스 단위에 대한 프로세스 시작 유형을 구성합니다.
 
- 이는 서비스의 기본 프로세스가 `ExecStart` 매개변수에 의해 시작되는 프로세스임을 나타냅니다.
+  이는 서비스의 기본 프로세스가 `ExecStart` 매개변수에 의해 시작되는 프로세스임을 나타냅니다.
 
- 일반적으로 서비스 유형이 `simple`인 경우 파일에서 정의를 생략할 수 있습니다.
+  일반적으로 서비스 유형이 `simple`인 경우 파일에서 정의를 생략할 수 있습니다.
 
 - **`StandardOutput`**
 
- 서비스의 이벤트가 기록되는 방식을 구성합니다. 예를 들어 서비스 단위 파일에 다음 항목이 있다고 가정합니다.:
+  서비스의 이벤트가 기록되는 방식을 구성합니다. 예를 들어 서비스 단위 파일에 다음 항목이 있다고 가정합니다.:
 
- ```
- StandardOutput=journal
- ```
+  ```
+  StandardOutput=journal
+  ```
 
- 예시에서 `journal` 값은 이벤트가 저널에 기록되었음을 나타내며 `journalctl` 명령을 사용하여 볼 수 있습니다.
+  예시에서 `journal` 값은 이벤트가 저널에 기록되었음을 나타내며 `journalctl` 명령을 사용하여 볼 수 있습니다.
 
 - **`ExecStart`**
 
- 서비스를 시작하는 전체 경로와 명령을 지정합니다(예: `/usr/bin/npm start`).
+  서비스를 시작하는 전체 경로와 명령을 지정합니다(예: `/usr/bin/npm start`).
 
 - **`ExecStop`**
 
- `ExecStart`를 통해 시작된 서비스를 중지하기 위해 실행할 명령을 지정합니다.
+  `ExecStart`를 통해 시작된 서비스를 중지하기 위해 실행할 명령을 지정합니다.
 
 - **`ExecReload`**
 
- 서비스에서 구성 다시 로드를 트리거하기 위해 실행할 명령을 지정합니다.
+  서비스에서 구성 다시 로드를 트리거하기 위해 실행할 명령을 지정합니다.
 
 - **`Restart`**
 
- 서비스 프로세스가 종료되거나 중지되거나 시간 초과에 도달할 때 서비스를 다시 시작할지 여부를 구성합니다.
+  서비스 프로세스가 종료되거나 중지되거나 시간 초과에 도달할 때 서비스를 다시 시작할지 여부를 구성합니다.
 
- **Note:** 이 옵션은 `systemctl stop` 또는 `systemctl restart`와 같은 `systemd` 작업에 의해 프로세스가 완전히 중지된 경우에는 적용되지 않습니다. 이러한 경우 이 구성 옵션으로 서비스가 다시 시작되지 않습니다.
+  **Note:** 이 옵션은 `systemctl stop` 또는 `systemctl restart`와 같은 `systemd` 작업에 의해 프로세스가 완전히 중지된 경우에는 적용되지 않습니다. 이러한 경우 이 구성 옵션으로 서비스가 다시 시작되지 않습니다.
 
 - **`RemainAfterExit`**
 
- 모든 프로세스가 종료된 경우에도 서비스가 활성 상태로 간주되는지 여부를 구성하는 부울 값입니다. 기본값은 `no`입니다.
+  모든 프로세스가 종료된 경우에도 서비스가 활성 상태로 간주되는지 여부를 구성하는 부울 값입니다. 기본값은 `no`입니다.
 
 #### \[Install\] 섹션 아래 옵션에 대한 설명
 
@@ -747,45 +747,45 @@ WantedBy=default.target
 
 - **`Alias`**
 
- 공백으로 구분된 장치 이름 목록입니다.
+  공백으로 구분된 장치 이름 목록입니다.
 
- 설치 시 `systemctl 활성화`는 이러한 이름에서 장치 파일 이름으로의 심볼릭 링크를 생성합니다.
+  설치 시 `systemctl 활성화`는 이러한 이름에서 장치 파일 이름으로의 심볼릭 링크를 생성합니다.
 
- alias는 장치가 활성화된 경우에만 유효합니다.
+  alias는 장치가 활성화된 경우에만 유효합니다.
 
 - **`RequiredBy`**
 
- 다른 장치에 필요한 서비스를 구성합니다.
+  다른 장치에 필요한 서비스를 구성합니다.
 
- 예를 들어, 다음 구성이 추가된 유닛 파일 `*var1*.service`를 생각해 보세요.:
+  예를 들어, 다음 구성이 추가된 유닛 파일 `*var1*.service`를 생각해 보세요.:
 
- ```
- RequiredBy=*var2*.service *var3*.service
- ```
+  ```
+  RequiredBy=*var2*.service *var3*.service
+  ```
 
- `*var1*.service`가 활성화되면 `*var2*.service`와 `*var3*.service` 모두 `*var1*.service`에 대한 `Requires` 종속성이 부여됩니다. 이 종속성은 `*var1*.service` 시스템을 가리키는 각 종속 서비스\(`*var2*.service` 및 `var3.service`\)의 `.requires` 폴더에 생성된 기호 링크로 정의됩니다.
+  `*var1*.service`가 활성화되면 `*var2*.service`와 `*var3*.service` 모두 `*var1*.service`에 대한 `Requires` 종속성이 부여됩니다. 이 종속성은 `*var1*.service` 시스템을 가리키는 각 종속 서비스\(`*var2*.service` 및 `var3.service`\)의 `.requires` 폴더에 생성된 기호 링크로 정의됩니다.
 
 - **`WantedBy`**
 
- 파일을 편집 중인 서비스에 대해 'Wants' 종속성을 부여할 유닛 목록을 지정합니다.
+  파일을 편집 중인 서비스에 대해 'Wants' 종속성을 부여할 유닛 목록을 지정합니다.
 
- 예를 들어, 다음 구성이 추가된 유닛 파일 `*var1*.service`를 생각해 보세요.:
+  예를 들어, 다음 구성이 추가된 유닛 파일 `*var1*.service`를 생각해 보세요.:
 
- ```
- WantedBy=*var2*.service *var3*.service
- ```
+  ```
+  WantedBy=*var2*.service *var3*.service
+  ```
 
- `*var1*.service`가 활성화되면 `*var2*.service`와 `*var3*.service` 모두 `*var1*.service`에 대한 `Wants` 종속성이 부여됩니다. 이 종속성은 `*에 대한 시스템 장치 파일을 가리키는 각 종속 서비스 \(`_var2_.service`및`var3.service`\)의 ".wants`" 폴더에 생성된 기호 링크로 정의됩니다.
+  `*var1*.service`가 활성화되면 `*var2*.service`와 `*var3*.service` 모두 `*var1*.service`에 대한 `Wants` 종속성이 부여됩니다. 이 종속성은 `*에 대한 시스템 장치 파일을 가리키는 각 종속 서비스 \(`_var2_.service`및`var3.service`\)의 ".wants`" 폴더에 생성된 기호 링크로 정의됩니다.
 
 - **`Also`**
 
- 장치를 설치하거나 제거할 때 설치하거나 제거할 추가 장치를 나열합니다.
+  장치를 설치하거나 제거할 때 설치하거나 제거할 추가 장치를 나열합니다.
 
 - **`DefaultInstance`**
 
- `DefaultInstance` 옵션은 템플릿 단위 파일에만 적용됩니다.
+  `DefaultInstance` 옵션은 템플릿 단위 파일에만 적용됩니다.
 
- 템플릿 단위 파일을 사용하면 단일 구성 파일에서 여러 단위를 생성할 수 있습니다. `DefaultInstance` 옵션은 명시적으로 설정된 인스턴스 없이 템플릿이 활성화된 경우 장치가 활성화되는 인스턴스를 지정합니다.
+  템플릿 단위 파일을 사용하면 단일 구성 파일에서 여러 단위를 생성할 수 있습니다. `DefaultInstance` 옵션은 명시적으로 설정된 인스턴스 없이 템플릿이 활성화된 경우 장치가 활성화되는 인스턴스를 지정합니다.
 
 ## 사용자 기반 시스템 서비스 생성
 
@@ -801,35 +801,35 @@ WantedBy=default.target
 
 1. 예를 들어 `~/.config/systemd/user` 디렉터리에 서비스의 단위 파일을 만듭니다.:
 
- ```
- touch ~/.config/systemd/user/*myservice*.service
- ```
+   ```
+   touch ~/.config/systemd/user/*myservice*.service
+   ```
 
 2. 유닛 파일을 열고 `Description`, `ExecStart`, `WantedBy` 등과 같이 사용하려는 옵션에 대한 값을 지정합니다.
 
- 자세한 내용은 [서비스 단위 파일의 구성 가능한 옵션](ko-osmanage-WorkingWithSystemServices.md#서비스-단위-파일의-구성-가능한-옵션)을 참조하세요.
+   자세한 내용은 [서비스 단위 파일의 구성 가능한 옵션](ko-osmanage-WorkingWithSystemServices.md#서비스-단위-파일의-구성-가능한-옵션)을 참조하세요.
 
 3. 로그인할 때 서비스가 자동으로 시작되도록 활성화합니다.
 
- ```
- sudo systemctl --user enable *myservice*.service
- ```
+   ```
+   sudo systemctl --user enable *myservice*.service
+   ```
 
- **Note:**
+   **Note:**
 
- 로그아웃하면 루트 사용자가 해당 사용자에 대해 프로세스가 계속 실행되도록 활성화하지 않은 한 서비스가 중지됩니다.
+   로그아웃하면 루트 사용자가 해당 사용자에 대해 프로세스가 계속 실행되도록 활성화하지 않은 한 서비스가 중지됩니다.
 
 4. 서비스를 시작합니다.
 
- ```
- sudo systemctl --user start *myservice*.service
- ```
+   ```
+   sudo systemctl --user start *myservice*.service
+   ```
 
 5. 서비스가 실행 중인지 확인합니다.
 
- ```
- sudo systemctl --user status *myservice*.service
- ```
+   ```
+   sudo systemctl --user status *myservice*.service
+   ```
 
 ## 타이머 장치를 사용하여 서비스 장치 런타임 제어
 
@@ -855,7 +855,7 @@ systemctl list-timers
 
 - 필요한 경우 타이머 장치에 의해 트리거될 서비스를 정의하는 `.service` 파일을 만듭니다. 다음 절차에서 샘플 서비스는 업데이트 스크립트를 실행하는 서비스 단위인 `/etc/systemd/system/update.service`입니다.
 
- 서비스 단위 생성에 대한 자세한 내용은 다음을 참조하세요.[사용자 기반 시스템 서비스 생성](ko-osmanage-WorkingWithSystemServices.md#사용자-기반-시스템-서비스-생성).
+  서비스 단위 생성에 대한 자세한 내용은 다음을 참조하세요.[사용자 기반 시스템 서비스 생성](ko-osmanage-WorkingWithSystemServices.md#사용자-기반-시스템-서비스-생성).
 
 - 서비스 실행 시간과 빈도를 결정합니다. 이 절차에서는 월요일부터 금요일까지 2시간마다 서비스를 실행하도록 타이머를 구성합니다.
 
@@ -863,55 +863,55 @@ systemctl list-timers
 
 1. 다음 내용으로 `/etc/systemd/system/update.timer`를 생성합니다.:
 
- ```
- [Unit]
- Description="Run the update.service every two hours from Mon to Fri."
+   ```
+   [Unit]
+   Description="Run the update.service every two hours from Mon to Fri."
 
- [Timer]
- OnCalendar=Mon..Fri 00/2 
- Unit=update.service
+   [Timer]
+   OnCalendar=Mon..Fri 00/2 
+   Unit=update.service
 
- [Install]
- WantedBy=multi-user.target
- ```
+   [Install]
+   WantedBy=multi-user.target
+   ```
 
- `OnCalendar` 정의는 더 자세한 `OnCalendar=weekly` 정의와 같은 단순한 젖음부터 다양할 수 있습니다. 그러나 설정을 정의하는 형식은 다음과 같이 일정합니다.:
+   `OnCalendar` 정의는 더 자세한 `OnCalendar=weekly` 정의와 같은 단순한 젖음부터 다양할 수 있습니다. 그러나 설정을 정의하는 형식은 다음과 같이 일정합니다.:
 
- ```
- DayofWeek Year-Month-Day Hour:Minute:Second
- ```
+   ```
+   DayofWeek Year-Month-Day Hour:Minute:Second
+   ```
 
- 다음 정의는 "매월 첫 4일 정오 12시(단, 해당 날짜가 월요일 또는 화요일인 경우에만 해당)"를 의미합니다.:
+   다음 정의는 "매월 첫 4일 정오 12시(단, 해당 날짜가 월요일 또는 화요일인 경우에만 해당)"를 의미합니다.:
 
- ```
- OnCalendar=Mon,Tue *-*-01..04 12:00:00
- ```
+   ```
+   OnCalendar=Mon,Tue *-*-01..04 12:00:00
+   ```
 
- `OnCalendar`를 정의하는 다른 방법과 시스템 타이머 파일에서 구성할 수 있는 추가 타이머 옵션에 대해서는 `systemd.timer(5)` 및 `systemd.time(7)` 매뉴얼 페이지를 참조하세요.
+   `OnCalendar`를 정의하는 다른 방법과 시스템 타이머 파일에서 구성할 수 있는 추가 타이머 옵션에 대해서는 `systemd.timer(5)` 및 `systemd.time(7)` 매뉴얼 페이지를 참조하세요.
 
 2. 이 타이머와 관련된 모든 파일이 올바르게 구성되었는지 확인하십시오.
 
- ```
- systemd-analyze verify /etc/systemd/system/update.*
- ```
+   ```
+   systemd-analyze verify /etc/systemd/system/update.*
+   ```
 
- 감지된 오류는 화면에 보고됩니다.
+   감지된 오류는 화면에 보고됩니다.
 
 3. 타이머를 시작하세요.
 
- ```
- sudo systemctl start update.timer
- ```
+   ```
+   sudo systemctl start update.timer
+   ```
 
- 이 명령은 현재 세션에 대해서만 타이머를 시작합니다.
+   이 명령은 현재 세션에 대해서만 타이머를 시작합니다.
 
 4. 시스템이 부팅될 때 타이머가 시작되는지 확인합니다.
 
- ````
- sudo systemctl 활성화 update.timer
- ```
+   ````
+   sudo systemctl 활성화 update.timer
+   ```
 
- ````
+   ````
 
 ### Monotonic 타이머 장치 구성
 
@@ -919,7 +919,7 @@ systemctl list-timers
 
 - 필요한 경우 타이머 장치에 의해 트리거될 서비스를 정의하는 `.service` 파일을 만듭니다. 다음 절차에서 샘플 서비스는 업데이트 스크립트를 실행하는 서비스 단위인 `/etc/systemd/system/update.service`입니다.
 
- 서비스 단위 생성에 대한 자세한 내용은 다음을 참조하세요.[사용자 기반 시스템 서비스 생성](ko-osmanage-WorkingWithSystemServices.md#사용자-기반-시스템-서비스-생성).
+  서비스 단위 생성에 대한 자세한 내용은 다음을 참조하세요.[사용자 기반 시스템 서비스 생성](ko-osmanage-WorkingWithSystemServices.md#사용자-기반-시스템-서비스-생성).
 
 - 서비스 실행 시간과 빈도를 결정합니다. 이 절차에서는 시스템 부팅 후 10분, 서비스가 마지막으로 활성화된 후 2시간마다 서비스를 실행하도록 타이머가 구성됩니다.
 
@@ -927,44 +927,44 @@ systemctl list-timers
 
 1. 다음 내용으로 `/etc/systemd/system/update.timer`를 생성합니다.:
 
- ```
- [Unit]
- Description="Run the update.service every two hours from Mon to Fri."
+   ```
+   [Unit]
+   Description="Run the update.service every two hours from Mon to Fri."
 
- [Timer]
- OnBootSec=10min
- OnUnitActiveSec=2h
- Unit=update.service
+   [Timer]
+   OnBootSec=10min
+   OnUnitActiveSec=2h
+   Unit=update.service
 
- [Install]
- WantedBy=multi-user.target
- ```
+   [Install]
+   WantedBy=multi-user.target
+   ```
 
- For more timer options that you can configure in the system timer, see the `systemd.timer(5)` and `systemd.time(7)` manual pages.
+   For more timer options that you can configure in the system timer, see the `systemd.timer(5)` and `systemd.time(7)` manual pages.
 
 2. 이 타이머와 관련된 모든 파일이 올바르게 구성되었는지 확인하십시오.
 
- ```
- systemd-analyze verify /etc/systemd/system/update.*
- ```
+   ```
+   systemd-analyze verify /etc/systemd/system/update.*
+   ```
 
- 감지된 오류는 화면에 보고됩니다.
+   감지된 오류는 화면에 보고됩니다.
 
 3. 타이머를 시작하세요.
 
- ```
- sudo systemctl start update.timer
- ```
+   ```
+   sudo systemctl start update.timer
+   ```
 
- 이 명령은 현재 세션에 대해서만 타이머를 시작합니다.
+   이 명령은 현재 세션에 대해서만 타이머를 시작합니다.
 
 4. 시스템이 부팅될 때 타이머가 시작되는지 확인합니다.
 
- ````
- sudo systemctl 활성화 update.timer
- ```
+   ````
+   sudo systemctl 활성화 update.timer
+   ```
 
- ````
+   ````
 
 ### 임시 타이머 장치 실행
 
@@ -976,32 +976,32 @@ systemctl list-timers
 
 - 2시간이 지난 후 `update.service`를 실행하세요.
 
- ```
- sudo systemd-run --on-active="2h" --unit update.service
- ```
+  ```
+  sudo systemd-run --on-active="2h" --unit update.service
+  ```
 
 - 1시간 후에 `~/tmp/myfile`을 생성합니다.
 
- ```
- sudo systemd-run --on-active="1h" /bin/touch ~/tmp/myfile
- ```
+  ```
+  sudo systemd-run --on-active="1h" /bin/touch ~/tmp/myfile
+  ```
 
 - 서비스 관리자가 시작된 후 5분 후에 `~/myscripts/update.sh`를 실행합니다. 사용자 로그인 시 서비스 관리자가 시작된 후 서비스를 실행하려면 이 구문을 사용합니다.
 
- ```
- sudo systemd-run --on-startup="5m" ~/myscripts/update.sh
- ```
+  ```
+  sudo systemd-run --on-startup="5m" ~/myscripts/update.sh
+  ```
 
 - 시스템 부팅 후 10분 후에 `myjob.service`를 실행합니다.
 
- ```
- sudo systemd-run --on-boot="10m" --unit myjob.service
- ```
+  ```
+  sudo systemd-run --on-boot="10m" --unit myjob.service
+  ```
 
 - 하루가 끝나면 `report.service`를 실행하세요.
 
- ```
- sudo systemd-run --on-calendar="17:00:00"
- ```
+  ```
+  sudo systemd-run --on-calendar="17:00:00"
+  ```
 
 
