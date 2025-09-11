@@ -64,71 +64,71 @@ parm:           mobile_lpm_policy:Default LPM policy for mobile chipsets (int)
 
 - **`filename`**
 
-    커널 개체 파일의 절대 경로입니다.
+  커널 개체 파일의 절대 경로입니다.
 
 - **`version`**
 
-    모듈의 버전 번호입니다. 버전 번호는 패치된 모듈에 대해 업데이트되지 않을 수 있으며 최신 커널에서는 누락되거나 제거될 수 있습니다.
+  모듈의 버전 번호입니다. 버전 번호는 패치된 모듈에 대해 업데이트되지 않을 수 있으며 최신 커널에서는 누락되거나 제거될 수 있습니다.
 
 - **`license`**
 
-    모듈에 대한 라이센스 정보입니다.
+  모듈에 대한 라이센스 정보입니다.
 
 - **`description`**
 
-    모듈에 대한 간략한 설명입니다.
+  모듈에 대한 간략한 설명입니다.
 
 - **`author`**
 
-    Author credit for the module.
+  Author credit for the module.
 
 - **`srcversion`**
 
-    모듈을 생성하는 데 사용된 소스 코드의 해시입니다.
+  모듈을 생성하는 데 사용된 소스 코드의 해시입니다.
 
 - **`alias`**
 
-    모듈의 내부 별칭 이름입니다.
+  모듈의 내부 별칭 이름입니다.
 
 - **`depends`**
 
-    이 모듈이 의존하는 모든 모듈의 쉼표로 구분된 목록입니다.
+  이 모듈이 의존하는 모든 모듈의 쉼표로 구분된 목록입니다.
 
 - **`retpoline`**
 
-    Spectre 보안 취약성에 대한 완화를 포함하는 모듈이 구축되었음을 나타내는 플래그입니다.
+  Spectre 보안 취약성에 대한 완화를 포함하는 모듈이 구축되었음을 나타내는 플래그입니다.
 
 - **`intree`**
 
-    모듈이 커널 내 트리 소스에서 빌드되었으며 오염되지 않았음을 나타내는 플래그입니다.
+  모듈이 커널 내 트리 소스에서 빌드되었으며 오염되지 않았음을 나타내는 플래그입니다.
 
 - **`vermagic`**
 
-    모듈을 컴파일하는 데 사용된 커널 버전으로, 모듈이 로드될 때 현재 커널과 비교하여 확인됩니다.
+  모듈을 컴파일하는 데 사용된 커널 버전으로, 모듈이 로드될 때 현재 커널과 비교하여 확인됩니다.
 
 - **`sig_id`**
 
-    보안 부팅용 모듈(일반적으로 PKCS)에 서명하는 데 사용되었을 수 있는 서명 키를 저장하는 데 사용되는 방법\#7
+  보안 부팅용 모듈(일반적으로 PKCS)에 서명하는 데 사용되었을 수 있는 서명 키를 저장하는 데 사용되는 방법\#7
 
 - **`signer`**
 
-    보안 부팅용 모듈에 서명하는 데 사용되는 서명 키의 이름입니다.
+  보안 부팅용 모듈에 서명하는 데 사용되는 서명 키의 이름입니다.
 
 - **`sig_key`**
 
-    모듈 서명에 사용되는 키의 서명 키 식별자입니다.
+  모듈 서명에 사용되는 키의 서명 키 식별자입니다.
 
 - **`sig_hashalgo`**
 
-    서명된 모듈에 대한 서명 해시를 생성하는 데 사용되는 알고리즘입니다.
+  서명된 모듈에 대한 서명 해시를 생성하는 데 사용되는 알고리즘입니다.
 
 - **`signature`**
 
-    서명된 모듈의 서명 데이터입니다.
+  서명된 모듈의 서명 데이터입니다.
 
 - **`parm`**
 
-    모듈 매개변수 및 설명.
+  모듈 매개변수 및 설명.
 
 모듈은 커널 개체 파일 \(`/lib/modules/*kernel\_version*/kernel/*ko*`\)에서 커널로 로드됩니다. 커널 객체 파일의 절대 경로를 표시하려면 `-n` 옵션을 지정하십시오.
 
@@ -220,56 +220,56 @@ echo 0 | sudo tee /sys/module/ahci/parameters/skip_host_reset
 
 - **`alias`**
 
-    모듈의 대체 이름을 만듭니다. 별칭에는 셸 와일드카드가 포함될 수 있습니다. `sd-mod` 모듈의 별칭을 만들려면:
+  모듈의 대체 이름을 만듭니다. 별칭에는 셸 와일드카드가 포함될 수 있습니다. `sd-mod` 모듈의 별칭을 만들려면:
 
-    ```
-    alias block-major-8-* sd_mod
-    ```
+  ```
+  alias block-major-8-* sd_mod
+  ```
 
 - **`blacklist`**
 
-    `modinfo` 명령으로 표시되는 모듈의 내부 별칭을 무시합니다. 이 명령은 일반적으로 다음 조건에서 사용됩니다.:
+  `modinfo` 명령으로 표시되는 모듈의 내부 별칭을 무시합니다. 이 명령은 일반적으로 다음 조건에서 사용됩니다.:
 
-    - 관련 하드웨어가 필요하지 않는 경우
+  - 관련 하드웨어가 필요하지 않는 경우
 
-    - 두 개 이상의 모듈이 모두 동일한 장치를 지원하는 경우
+  - 두 개 이상의 모듈이 모두 동일한 장치를 지원하는 경우
 
-    - 모듈이 장치를 지원한다고 잘못 요청하는 경우
+  - 모듈이 장치를 지원한다고 잘못 요청하는 경우
 
-    예를 들어 프레임 버퍼 드라이버 `cirrusfb`의 별칭을 내리려면 다음을 입력합니다.:
+  예를 들어 프레임 버퍼 드라이버 `cirrusfb`의 별칭을 내리려면 다음을 입력합니다.:
 
-    ```
-    blacklist cirrusfb
-    ```
+  ```
+  blacklist cirrusfb
+  ```
 
-    `/etc/modprobe.d/blacklist.conf` 파일은 핫플러그 스크립트가 모듈을 로드하는 것을 방지하여 어떤 드라이버가 먼저 검색되는지에 관계없이 다른 드라이버가 모듈을 바인딩하도록 합니다. 아직 존재하지 않는 경우 새로 만들어야 합니다.
+  `/etc/modprobe.d/blacklist.conf` 파일은 핫플러그 스크립트가 모듈을 로드하는 것을 방지하여 어떤 드라이버가 먼저 검색되는지에 관계없이 다른 드라이버가 모듈을 바인딩하도록 합니다. 아직 존재하지 않는 경우 새로 만들어야 합니다.
 
 - **`install`**
 
-    커널에 모듈을 로드하는 대신 쉘 명령을 실행합니다. 예를 들어 `snd-emu10k1` 대신 `snd-emu10k1-synth` 모듈을 로드하세요.:
+  커널에 모듈을 로드하는 대신 쉘 명령을 실행합니다. 예를 들어 `snd-emu10k1` 대신 `snd-emu10k1-synth` 모듈을 로드하세요.:
 
-    ```
-    install snd-emu10k1 /sbin/modprobe --ignore-install snd-emu10k1 && /sbin/modprobe snd-emu10k1-synth
-    ```
+  ```
+  install snd-emu10k1 /sbin/modprobe --ignore-install snd-emu10k1 && /sbin/modprobe snd-emu10k1-synth
+  ```
 
 - **`options`**
 
-    모듈에 대한 옵션을 정의합니다. 예를 들어, `b43` 모듈에 대한 `nohwcrypt` 및 `qos` 옵션을 정의하려면 다음을 입력하세요.:
+  모듈에 대한 옵션을 정의합니다. 예를 들어, `b43` 모듈에 대한 `nohwcrypt` 및 `qos` 옵션을 정의하려면 다음을 입력하세요.:
 
-    ```
-    options b43 nohwcrypt=1 qos=0
-    ```
+  ```
+  options b43 nohwcrypt=1 qos=0
+  ```
 
 - **`remove`**
 
-    모듈을 언로드하는 대신 쉘 명령을 실행합니다. `nfsd` 모듈을 언로드하기 전에 `/proc/fs/nfsd`를 마운트 해제하려면 다음을 입력하십시오.:
+  모듈을 언로드하는 대신 쉘 명령을 실행합니다. `nfsd` 모듈을 언로드하기 전에 `/proc/fs/nfsd`를 마운트 해제하려면 다음을 입력하십시오.:
 
-    ```
-    remove nfsd { /bin/umount /proc/fs/nfsd > /dev/null 2>&1 || :; } ;
-    /sbin/modprobe -r --first-time --ignore-remove nfsd
-    ```
+  ```
+  remove nfsd { /bin/umount /proc/fs/nfsd > /dev/null 2>&1 || :; } ;
+  /sbin/modprobe -r --first-time --ignore-remove nfsd
+  ```
 
-    자세한 내용은 `modprobe.conf(5)` 매뉴얼 페이지를 참조하세요.
+  자세한 내용은 `modprobe.conf(5)` 매뉴얼 페이지를 참조하세요.
 
 ## 부팅 시 로드할 모듈 지정
 
@@ -289,25 +289,25 @@ echo *bnxt\_en* | sudo tee /etc/modules-load.d/*bnxt\_en*.conf
 
 1. 모듈이 로드되지 않도록 구성 파일을 만듭니다. 예를 들어:
 
-    ```
-    sudo tee /etc/modprobe.d/*bnxt\_en*-deny.conf <<'EOF'
-    #DENY *bnxt\_en*
-    blacklist *bnxt\_en*
-    install *bnxt\_en* /bin/false
-    EOF
-    ```
+   ```
+   sudo tee /etc/modprobe.d/*bnxt\_en*-deny.conf <<'EOF'
+   #DENY *bnxt\_en*
+   blacklist *bnxt\_en*
+   install *bnxt\_en* /bin/false
+   EOF
+   ```
 
 2. 초기 램디스크 이미지 재구축:
 
-    ```
-    sudo dracut -f -v
-    ```
+   ```
+   sudo dracut -f -v
+   ```
 
 3. 변경 사항을 적용하려면 시스템을 재부팅하세요.:
 
-    ```
-    sudo reboot
-    ```
+   ```
+   sudo reboot
+   ```
 
 **주의:**
 
