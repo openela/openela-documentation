@@ -64,71 +64,71 @@ The output would include the following information:
 
 - **`filename`**
 
-    Absolute path of the kernel object file.
+  Absolute path of the kernel object file.
 
 - **`version`**
 
-    Version number of the module. Note that the version number might not be updated for patched modules and might be missing or removed in newer kernels.
+  Version number of the module. Note that the version number might not be updated for patched modules and might be missing or removed in newer kernels.
 
 - **`license`**
 
-    License information for the module.
+  License information for the module.
 
 - **`description`**
 
-    Short description of the module.
+  Short description of the module.
 
 - **`author`**
 
-    Author credit for the module.
+  Author credit for the module.
 
 - **`srcversion`**
 
-    Hash of the source code used to create the module.
+  Hash of the source code used to create the module.
 
 - **`alias`**
 
-    Internal alias names for the module.
+  Internal alias names for the module.
 
 - **`depends`**
 
-    Comma-separated list of any modules on which this module depends.
+  Comma-separated list of any modules on which this module depends.
 
 - **`retpoline`**
 
-    A flag indicating that the module is built that includes a mitigation against the Spectre security vulnerability.
+  A flag indicating that the module is built that includes a mitigation against the Spectre security vulnerability.
 
 - **`intree`**
 
-    A flag indicating that the module is built from the kernel in-tree source and isn't tainted.
+  A flag indicating that the module is built from the kernel in-tree source and isn't tainted.
 
 - **`vermagic`**
 
-    Kernel version that was used to compile the module, which is checked against the current kernel when the module is loaded.
+  Kernel version that was used to compile the module, which is checked against the current kernel when the module is loaded.
 
 - **`sig_id`**
 
-    The method used to store signing keys that might have been used to sign a module for Secure Boot, typically PKCS\#7
+  The method used to store signing keys that might have been used to sign a module for Secure Boot, typically PKCS\#7
 
 - **`signer`**
 
-    The name of the signing key used to sign a module for Secure Boot.
+  The name of the signing key used to sign a module for Secure Boot.
 
 - **`sig_key`**
 
-    The signature key identifier for the key used to sign the module.
+  The signature key identifier for the key used to sign the module.
 
 - **`sig_hashalgo`**
 
-    The algorithm used to generate the signature hash for a signed module.
+  The algorithm used to generate the signature hash for a signed module.
 
 - **`signature`**
 
-    The signature data for a signed module.
+  The signature data for a signed module.
 
 - **`parm`**
 
-    Module parameters and descriptions.
+  Module parameters and descriptions.
 
 Modules are loaded into the kernel from kernel object files \(`/lib/modules/*kernel\_version*/kernel/*ko*`\). To display the absolute path of a kernel object file, specify the `-n` option, for example:
 
@@ -220,56 +220,56 @@ The following are commonly used commands in `modprobe` configuration files:
 
 - **`alias`**
 
-    Creates an alternative name for a module. The alias can include shell wildcards. To create an alias for the `sd-mod` module:
+  Creates an alternative name for a module. The alias can include shell wildcards. To create an alias for the `sd-mod` module:
 
-    ```
-    alias block-major-8-* sd_mod
-    ```
+  ```
+  alias block-major-8-* sd_mod
+  ```
 
 - **`blacklist`**
 
-    Ignore a module's internal alias that's displayed by the `modinfo` command. This command is typically used in the following conditions:
+  Ignore a module's internal alias that's displayed by the `modinfo` command. This command is typically used in the following conditions:
 
-    - The associated hardware isn't required.
+  - The associated hardware isn't required.
 
-    - Two or more modules both support the same devices.
+  - Two or more modules both support the same devices.
 
-    - A module invalidly claims to support a device.
+  - A module invalidly claims to support a device.
 
-    For example, to demote the alias for the frame-buffer driver `cirrusfb`, type:
+  For example, to demote the alias for the frame-buffer driver `cirrusfb`, type:
 
-    ```
-    blacklist cirrusfb
-    ```
+  ```
+  blacklist cirrusfb
+  ```
 
-    The `/etc/modprobe.d/blacklist.conf` file prevents hotplug scripts from loading a module so that a different driver binds the module instead regardless of which driver happens to be probed first. If it doesn't already exist, you must create it.
+  The `/etc/modprobe.d/blacklist.conf` file prevents hotplug scripts from loading a module so that a different driver binds the module instead regardless of which driver happens to be probed first. If it doesn't already exist, you must create it.
 
 - **`install`**
 
-    Runs a shell command instead of loading a module into the kernel. For example, load the module `snd-emu10k1-synth` instead of `snd-emu10k1`:
+  Runs a shell command instead of loading a module into the kernel. For example, load the module `snd-emu10k1-synth` instead of `snd-emu10k1`:
 
-    ```
-    install snd-emu10k1 /sbin/modprobe --ignore-install snd-emu10k1 && /sbin/modprobe snd-emu10k1-synth
-    ```
+  ```
+  install snd-emu10k1 /sbin/modprobe --ignore-install snd-emu10k1 && /sbin/modprobe snd-emu10k1-synth
+  ```
 
 - **`options`**
 
-    Defines options for a module. For exampe, to define the `nohwcrypt` and `qos` options for the `b43` module, type:
+  Defines options for a module. For exampe, to define the `nohwcrypt` and `qos` options for the `b43` module, type:
 
-    ```
-    options b43 nohwcrypt=1 qos=0
-    ```
+  ```
+  options b43 nohwcrypt=1 qos=0
+  ```
 
 - **`remove`**
 
-    Runs a shell command instead of unloading a module. To unmount `/proc/fs/nfsd` before unloading the `nfsd` module, type:
+  Runs a shell command instead of unloading a module. To unmount `/proc/fs/nfsd` before unloading the `nfsd` module, type:
 
-    ```
-    remove nfsd { /bin/umount /proc/fs/nfsd > /dev/null 2>&1 || :; } ;
-    /sbin/modprobe -r --first-time --ignore-remove nfsd
-    ```
+  ```
+  remove nfsd { /bin/umount /proc/fs/nfsd > /dev/null 2>&1 || :; } ;
+  /sbin/modprobe -r --first-time --ignore-remove nfsd
+  ```
 
-    For more information, see the `modprobe.conf(5)` manual page.
+  For more information, see the `modprobe.conf(5)` manual page.
 
 ## Specifying Modules To Be Loaded at Boot Time
 
@@ -289,25 +289,25 @@ You can prevent modules from loading at boot time by adding a deny rule in a con
 
 1. Create a configuration file to prevent the module from loading. For example:
 
-    ```
-    sudo tee /etc/modprobe.d/*bnxt\_en*-deny.conf <<'EOF'
-    #DENY *bnxt\_en*
-    blacklist *bnxt\_en*
-    install *bnxt\_en* /bin/false
-    EOF
-    ```
+   ```
+   sudo tee /etc/modprobe.d/*bnxt\_en*-deny.conf <<'EOF'
+   #DENY *bnxt\_en*
+   blacklist *bnxt\_en*
+   install *bnxt\_en* /bin/false
+   EOF
+   ```
 
 2. Rebuild the initial ramdisk image:
 
-    ```
-    sudo dracut -f -v
-    ```
+   ```
+   sudo dracut -f -v
+   ```
 
 3. Reboot the system for the changes to take effect:
 
-    ```
-    sudo reboot
-    ```
+   ```
+   sudo reboot
+   ```
 
 **Warning:**
 
