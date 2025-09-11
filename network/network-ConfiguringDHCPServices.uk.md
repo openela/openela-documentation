@@ -48,72 +48,72 @@ Configure the network interfaces as follows:
 - For IPv4 networks:
   1. Copy the `/usr/lib/systemd/system/dhcpd.service` file to the `/etc/systemd/system/` directory.
 
-    ```
-    sudo cp /usr/lib/systemd/system/dhcpd.service /etc/systemd/system/
-    ```
+     ```
+     sudo cp /usr/lib/systemd/system/dhcpd.service /etc/systemd/system/
+     ```
 
   2. Edit the `/etc/systemd/system/dhcpd.service` by locating the line that defines the `ExecStart` parameter.
 
   3. Append the interface names on which the `dhcpd` service should listen.
 
-    See the sample entries in bold.
+     See the sample entries in bold.
 
-    ```
-    ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
-    ```
+     ```
+     ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
+     ```
 
   4. Reload the `systemd` manager configuration.
 
-    ```
-    sudo systemctl daemon-reload
-    ```
+     ```
+     sudo systemctl daemon-reload
+     ```
 
   5. Restart the `dhcpd` service configuration.
 
-    ```
-    sudo systemctl restart dhcpd.service
-    ```
+     ```
+     sudo systemctl restart dhcpd.service
+     ```
 
-    Alternatively, you can also type:
+     Alternatively, you can also type:
 
-    ```
-    sudo systemctl restart dhcpd
-    ```
+     ```
+     sudo systemctl restart dhcpd
+     ```
 
 - For IPv6 networks:
   1. Copy the `/usr/lib/systemd/system/dhcpd6.service` file to the `/etc/systemd/system/` directory.
 
-    ```
-    sudo cp /usr/lib/systemd/system/dhcpd6.service /etc/systemd/system/
-    ```
+     ```
+     sudo cp /usr/lib/systemd/system/dhcpd6.service /etc/systemd/system/
+     ```
 
   2. Edit the `/etc/systemd/system/dhcpd6.service` file by locating the line that defines the `ExecStart` parameter.
 
   3. Append the names of the interfaces on which the `dhcpd6` service should listen.
 
-    See the sample entries in bold.
+     See the sample entries in bold.
 
-    ```
-    ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd6.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
-    ```
+     ```
+     ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd6.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
+     ```
 
   4. Reload the `systemd` manager configuration.
 
-    ```
-    sudo systemctl daemon-reload
-    ```
+     ```
+     sudo systemctl daemon-reload
+     ```
 
   5. Restart the `dhcpd` service configuration.
 
-    ```
-    sudo systemctl restart dhcpd6.service
-    ```
+     ```
+     sudo systemctl restart dhcpd6.service
+     ```
 
-    Alternatively, you can also type:
+     Alternatively, you can also type:
 
-    ```
-    sudo systemctl restart dhcpd6
-    ```
+     ```
+     sudo systemctl restart dhcpd6
+     ```
 
 ## Understanding DHCP Declarations
 
@@ -359,38 +359,38 @@ All the DHCP services are defined in the server's `/etc/dhcp/dhcpd.conf` or `/et
 
   2. Add parameters and declarations to the file.
 
-    For guidance, see [Understanding DHCP Declarations](network-ConfiguringDHCPServices.md#) or to the comments and notes in the `/usr/share/doc/dhcp-server/dhcpd.conf.example` template.
+     For guidance, see [Understanding DHCP Declarations](network-ConfiguringDHCPServices.md#) or to the comments and notes in the `/usr/share/doc/dhcp-server/dhcpd.conf.example` template.
 
   3. Optionally, set the `dhcpd` service to start automatically in a server reboot.
 
-    ```
-    sudo systemctl enable dhcpd
-    ```
+     ```
+     sudo systemctl enable dhcpd
+     ```
 
   4. Start or restart the `dhcpd` service.
 
-    ```
-    sudo systemctl start dhcpd
-    ```
+     ```
+     sudo systemctl start dhcpd
+     ```
 
 - For IPv6 networks:
   1. Open the `/etc/dhcp/dhcpd6.conf` file.
 
   2. Add parameters and declarations to the file.
 
-    For guidance, see [Understanding DHCP Declarations](network-ConfiguringDHCPServices.md#) or to the comments and notes in the `/usr/share/doc/dhcp-server/dhcpd6.conf.example` template.
+     For guidance, see [Understanding DHCP Declarations](network-ConfiguringDHCPServices.md#) or to the comments and notes in the `/usr/share/doc/dhcp-server/dhcpd6.conf.example` template.
 
   3. Optionally, set the `dhcpd6` service to start automatically in case of a server reboot.
 
-    ```
-    sudo systemctl enable dhcpd6
-    ```
+     ```
+     sudo systemctl enable dhcpd6
+     ```
 
   4. Start or restart the `dhcpd` service.
 
-    ```
-    sudo systemctl start dhcpd6
-    ```
+     ```
+     sudo systemctl start dhcpd6
+     ```
 
 ## Recovering From a Corrupted Lease Database
 
@@ -402,8 +402,8 @@ The `dhcpd` service maintains lease information, such as IP addresses, MAC addre
 To prevent the lease database files from becoming too large with stale data, the `dhcpd` service periodically regenerates the files through the following mechanism:
 
 1. The service renames the existing lease files:
-  - `/var/lib/dhcpd/dhcpd.leases` is renamed to `/var/lib/dhcpd/dhcpd.leases~`
-  - `/var/lib/dhcpd/dhcpd6.leases` is renamed to `/var/lib/dhcpd/dhcpd6.leases~`
+   - `/var/lib/dhcpd/dhcpd.leases` is renamed to `/var/lib/dhcpd/dhcpd.leases~`
+   - `/var/lib/dhcpd/dhcpd6.leases` is renamed to `/var/lib/dhcpd/dhcpd6.leases~`
 2. The service re-creates brand new `dhcpd.leases` and `dhcpd6.leases` files.
 
 If a lease database file is corrupted, you need to restore the lease database from the last known backup of the database.
@@ -417,51 +417,51 @@ Ensure that you have the required administrative privileges and complete the fol
 - For DHCPv4
   1. Stop the `dhcpd` service:
 
-    ```
-    sudo systemctl stop dhcpd
-    ```
+     ```
+     sudo systemctl stop dhcpd
+     ```
 
   2. Rename the corrupt lease database:
 
-    ```
-    sudo mv /var/lib/dhcpd/dhcpd.leases /var/lib/dhcpd/dhcpd.leases.corrupt
-    ```
+     ```
+     sudo mv /var/lib/dhcpd/dhcpd.leases /var/lib/dhcpd/dhcpd.leases.corrupt
+     ```
 
   3. Restore the lease database from its corresponding `*filename*.leases~` backup file.
 
-    ```
-    sudo cp -p /var/lib/dhcpd/dhcpd.leases~ /var/lib/dhcpd/dhcpd.leases
-    ```
+     ```
+     sudo cp -p /var/lib/dhcpd/dhcpd.leases~ /var/lib/dhcpd/dhcpd.leases
+     ```
 
   4. Start the `dhcpd` service:
 
-    ```
-    sudo systemctl start dhcpd
-    ```
+     ```
+     sudo systemctl start dhcpd
+     ```
 
 - For DHCPv6
   1. Stop the `dhcpd` service:
 
-    ```
-    sudo systemctl stop dhcpd6
-    ```
+     ```
+     sudo systemctl stop dhcpd6
+     ```
 
   2. Rename the corrupt lease database:
 
-    ```
-    sudo mv /var/lib/dhcpd/dhcpd6.leases /var/lib/dhcpd/dhcpd6.leases.corrupt
-    ```
+     ```
+     sudo mv /var/lib/dhcpd/dhcpd6.leases /var/lib/dhcpd/dhcpd6.leases.corrupt
+     ```
 
   3. Restore the lease database from its corresponding `*filename*.leases~` backup file.
 
-    ```
-    sudo cp -p /var/lib/dhcpd/dhcpd6.leases~ /var/lib/dhcpd/dhcpd6.leases
-    ```
+     ```
+     sudo cp -p /var/lib/dhcpd/dhcpd6.leases~ /var/lib/dhcpd/dhcpd6.leases
+     ```
 
   4. Start the `dhcpd6` service:
 
-    ```
-    sudo systemctl start dhcpd6
-    ```
+     ```
+     sudo systemctl start dhcpd6
+     ```
 
 
