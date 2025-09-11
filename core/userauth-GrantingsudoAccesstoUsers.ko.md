@@ -208,40 +208,40 @@ sudo systemctl restart *service*
 
 1. `visudo` 명령을 사용하여 `/etc/sudoers.d/example` 파일을 생성합니다.:
 
-    ```
-    sudo visudo /etc/sudoers.d/example
-    ```
+   ```
+   sudo visudo /etc/sudoers.d/example
+   ```
 
 2. 시스템 서비스 및 소프트웨어 패키지를 관리하기 위해 `example` 그룹 권한을 부여합니다.:
 
-    ```
-    %example        ALL= SERVICES, SOFTWARE
-    ```
+   ```
+   %example        ALL= SERVICES, SOFTWARE
+   ```
 
 3. `example` 그룹에 `alice` 사용자를 추가합니다.:
 
-    ```
-    sudo usermod -aG example alice
-    ```
+   ```
+   sudo usermod -aG example alice
+   ```
 
 또는 `/etc/sudoers` 파일에서 직접 그룹 권한을 설정할 수 있습니다. 예를 들어 `bob` 사용자에게 모든 호스트에서 전체 `sudo` 액세스 권한을 부여하려면 기존 그룹 `wheel`을 활성화한 다음 이 그룹에 `bob` 사용자를 추가합니다.:
 
 1. `visudo` 명령을 사용하여 `/etc/sudoers` 파일을 엽니다.:
 
-    ```
-    sudo visudo
-    ```
+   ```
+   sudo visudo
+   ```
 
 2. `/etc/suiders` 파일에서 다음 행의 처음부터 주석 `#` 기호를 제거합니다.:
 
-    ```
-    %wheel          ALL=(ALL)       ALL
-    ```
+   ```
+   %wheel          ALL=(ALL)       ALL
+   ```
 
 3. `bob` 사용자를 `wheel` 그룹에 추가하여 모든 호스트에서 전체 `sudo` 액세스 권한을 부여하세요.:
 
-    ```
-    sudo usermod -aG wheel bob
-    ```
+   ```
+   sudo usermod -aG wheel bob
+   ```
 
 
