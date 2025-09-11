@@ -207,40 +207,40 @@ For example, to define permissions for an existing group called `example` in the
 
 1. Create the `/etc/sudoers.d/example` file by using the `visudo` command:
 
-    ```
-    sudo visudo /etc/sudoers.d/example
-    ```
+   ```
+   sudo visudo /etc/sudoers.d/example
+   ```
 
 2. Grant the `example` group permissions to manage system services and software packages:
 
-    ```
-    %example        ALL= SERVICES, SOFTWARE
-    ```
+   ```
+   %example        ALL= SERVICES, SOFTWARE
+   ```
 
 3. Add the the `alice` user to the `example` group:
 
-    ```
-    sudo usermod -aG example alice
-    ```
+   ```
+   sudo usermod -aG example alice
+   ```
 
 Or, you can set group permissions directly in the `/etc/sudoers` file. For example, to grant the user `bob` full `sudo` access on all hosts, enable the existing group `wheel`, and then add the user `bob` to it:
 
 1. Open the `/etc/sudoers` file by using the `visudo` command:
 
-    ```
-    sudo visudo
-    ```
+   ```
+   sudo visudo
+   ```
 
 2. Remove the comment `#` symbol from the beginning of the following line in the `/etc/sudoers` file:
 
-    ```
-    %wheel          ALL=(ALL)       ALL
-    ```
+   ```
+   %wheel          ALL=(ALL)       ALL
+   ```
 
 3. Add the `bob` user to the `wheel` group to grant them full `sudo` access on all hosts:
 
-    ```
-    sudo usermod -aG wheel bob
-    ```
+   ```
+   sudo usermod -aG wheel bob
+   ```
 
 
