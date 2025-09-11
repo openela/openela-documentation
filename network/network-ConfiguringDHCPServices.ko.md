@@ -48,72 +48,72 @@ DHCP 서버에 여러 인터페이스가 있다고 가정합니다. `enp0s1` 인
 - IPv4 네트워크의 경우:
   1. `/usr/lib/systemd/system/dhcpd.service` 파일을 `/etc/systemd/system/` 디렉토리에 복사합니다.
 
-    ```
-    sudo cp /usr/lib/systemd/system/dhcpd.service /etc/systemd/system/
-    ```
+     ```
+     sudo cp /usr/lib/systemd/system/dhcpd.service /etc/systemd/system/
+     ```
 
   2. `ExecStart` 매개변수를 정의하는 줄을 찾아 `/etc/systemd/system/dhcpd.service`를 편집합니다.
 
   3. `dhcpd` 서비스가 수신해야 하는 인터페이스 이름을 추가합니다.
 
-    굵게 표시된 샘플 항목을 참조하세요.
+     굵게 표시된 샘플 항목을 참조하세요.
 
-    ```
-    ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
-    ```
+     ```
+     ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
+     ```
 
   4. `systemd` 관리자 구성을 다시 로드하세요.
 
-    ```
-    sudo systemctl daemon-reload
-    ```
+     ```
+     sudo systemctl daemon-reload
+     ```
 
   5. `dhcpd` 서비스 구성을 다시 시작하세요.
 
-    ```
-    sudo systemctl restart dhcpd.service
-    ```
+     ```
+     sudo systemctl restart dhcpd.service
+     ```
 
-    또는 다음을 입력할 수도 있습니다.:
+     또는 다음을 입력할 수도 있습니다.:
 
-    ```
-    sudo systemctl restart dhcpd
-    ```
+     ```
+     sudo systemctl restart dhcpd
+     ```
 
 - IPv6 네트워크의 경우:
   1. `/usr/lib/systemd/system/dhcpd6.service` 파일을 `/etc/systemd/system/` 디렉터리에 복사합니다.
 
-    ```
-    sudo cp /usr/lib/systemd/system/dhcpd6.service /etc/systemd/system/
-    ```
+     ```
+     sudo cp /usr/lib/systemd/system/dhcpd6.service /etc/systemd/system/
+     ```
 
   2. `ExecStart` 매개변수를 정의하는 줄을 찾아 `/etc/systemd/system/dhcpd6.service` 파일을 편집합니다.
 
   3. `dhcpd6` 서비스가 수신해야 하는 인터페이스의 이름을 추가합니다.
 
-    굵게 표시된 샘플 항목을 참조하세요.
+     굵게 표시된 샘플 항목을 참조하세요.
 
-    ```
-    ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd6.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
-    ```
+     ```
+     ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd6.conf -user dhcpd -group dhcpd --no-pid $DHCPDARGS **_int1-name_** **_int2-name_**
+     ```
 
   4. `systemd` 관리자 구성을 다시 로드하세요.
 
-    ```
-    sudo systemctl daemon-reload
-    ```
+     ```
+     sudo systemctl daemon-reload
+     ```
 
   5. `dhcpd` 서비스 구성을 다시 시작하세요.
 
-    ```
-    sudo systemctl restart dhcpd6.service
-    ```
+     ```
+     sudo systemctl restart dhcpd6.service
+     ```
 
-    또는 다음을 입력할 수도 있습니다.
+     또는 다음을 입력할 수도 있습니다.
 
-    ```
-    sudo systemctl restart dhcpd6
-    ```
+     ```
+     sudo systemctl restart dhcpd6
+     ```
 
 ## DHCP 선언 이해
 
@@ -359,38 +359,38 @@ subnet6 2001:db8:0:1::/64 {
 
   2. 파일에 매개변수와 선언을 추가합니다.
 
-    지침은 [DHCP 선언 이해](ko-network-ConfiguringDHCPServices.md#dhcp-선언-이해)를 참조하세요.
+     지침은 [DHCP 선언 이해](ko-network-ConfiguringDHCPServices.md#dhcp-선언-이해)를 참조하세요.
 
   3. 선택적으로 'dhcpd' 서비스가 서버 재부팅 시 자동으로 시작되도록 설정하세요.
 
-    ```
-    sudo systemctl enable dhcpd
-    ```
+     ```
+     sudo systemctl enable dhcpd
+     ```
 
   4. `dhcpd` 서비스를 시작하거나 다시 시작하세요.
 
-    ```
-    sudo systemctl start dhcpd
-    ```
+     ```
+     sudo systemctl start dhcpd
+     ```
 
 - IPv6 네트워크의 경우:
   1. `/etc/dhcp/dhcpd6.conf` 파일을 엽니다.
 
   2. 파일에 매개변수와 선언을 추가합니다.
 
-    지침은 [DHCP 선언 이해](ko-network-ConfiguringDHCPServices.md#dhcp-선언-이해) 또는 `/usr/share/doc/dhcp-server/dhcpd6.conf.example` 템플릿의 설명 및 메모를 참조하세요.
+     지침은 [DHCP 선언 이해](ko-network-ConfiguringDHCPServices.md#dhcp-선언-이해) 또는 `/usr/share/doc/dhcp-server/dhcpd6.conf.example` 템플릿의 설명 및 메모를 참조하세요.
 
   3. 선택적으로 서버 재부팅 시 `dhcpd6` 서비스가 자동으로 시작되도록 설정합니다.
 
-    ```
-    sudo systemctl enable dhcpd6
-    ```
+     ```
+     sudo systemctl enable dhcpd6
+     ```
 
   4. `dhcpd` 서비스를 시작하거나 다시 시작하세요.
 
-    ```
-    sudo systemctl start dhcpd6
-    ```
+     ```
+     sudo systemctl start dhcpd6
+     ```
 
 ## 손상된 임대 데이터베이스에서 복구
 
@@ -402,8 +402,8 @@ subnet6 2001:db8:0:1::/64 {
 오래된 데이터로 인해 임대 데이터베이스 파일이 너무 커지는 것을 방지하기 위해 'dhcpd' 서비스는 다음 메커니즘을 통해 주기적으로 파일을 재생성합니다.
 
 1. 서비스는 기존 임대 파일의 이름을 바꿉니다.
-  - `/var/lib/dhcpd/dhcpd.leases`는 `/var/lib/dhcpd/dhcpd.leases~`로 이름이 변경되었습니다.
-  - `/var/lib/dhcpd/dhcpd6.leases`는 `/var/lib/dhcpd/dhcpd6.leases~`로 이름이 변경되었습니다.
+   - `/var/lib/dhcpd/dhcpd.leases`는 `/var/lib/dhcpd/dhcpd.leases~`로 이름이 변경되었습니다.
+   - `/var/lib/dhcpd/dhcpd6.leases`는 `/var/lib/dhcpd/dhcpd6.leases~`로 이름이 변경되었습니다.
 2. 이 서비스는 새로운 `dhcpd.leases` 및 `dhcpd6.leases` 파일을 다시 생성합니다.
 
 임대 데이터베이스 파일이 손상된 경우 마지막으로 알려진 데이터베이스 백업에서 임대 데이터베이스를 복원해야 합니다.
@@ -417,51 +417,51 @@ subnet6 2001:db8:0:1::/64 {
 - DHCPv4의 경우
   1. `dhcpd` 서비스 중지:
 
-    ```
-    sudo systemctl stop dhcpd
-    ```
+     ```
+     sudo systemctl stop dhcpd
+     ```
 
   2. 손상된 임대 데이터베이스 이름 바꾸기:
 
-    ```
-    sudo mv /var/lib/dhcpd/dhcpd.leases /var/lib/dhcpd/dhcpd.leases.corrupt
-    ```
+     ```
+     sudo mv /var/lib/dhcpd/dhcpd.leases /var/lib/dhcpd/dhcpd.leases.corrupt
+     ```
 
   3. 해당 `*filename*.leases~` 백업 파일에서 임대 데이터베이스를 복원합니다.
 
-    ```
-    sudo cp -p /var/lib/dhcpd/dhcpd.leases~ /var/lib/dhcpd/dhcpd.leases
-    ```
+     ```
+     sudo cp -p /var/lib/dhcpd/dhcpd.leases~ /var/lib/dhcpd/dhcpd.leases
+     ```
 
   4. `dhcpd` 서비스를 시작하세요:
 
-    ```
-    sudo systemctl start dhcpd
-    ```
+     ```
+     sudo systemctl start dhcpd
+     ```
 
 - DHCPv6의 경우
   1. `dhcpd` 서비스 중지:
 
-    ```
-    sudo systemctl stop dhcpd6
-    ```
+     ```
+     sudo systemctl stop dhcpd6
+     ```
 
   2. 손상된 임대 데이터베이스 이름 바꾸기:
 
-    ```
-    sudo mv /var/lib/dhcpd/dhcpd6.leases /var/lib/dhcpd/dhcpd6.leases.corrupt
-    ```
+     ```
+     sudo mv /var/lib/dhcpd/dhcpd6.leases /var/lib/dhcpd/dhcpd6.leases.corrupt
+     ```
 
   3. 해당 `*filename*.leases~` 백업 파일에서 임대 데이터베이스를 복원합니다.
 
-    ```
-    sudo cp -p /var/lib/dhcpd/dhcpd6.leases~ /var/lib/dhcpd/dhcpd6.leases
-    ```
+     ```
+     sudo cp -p /var/lib/dhcpd/dhcpd6.leases~ /var/lib/dhcpd/dhcpd6.leases
+     ```
 
   4. `dhcpd6` 서비스를 시작하세요:
 
-    ```
-    sudo systemctl start dhcpd6
-    ```
+     ```
+     sudo systemctl start dhcpd6
+     ```
 
 
