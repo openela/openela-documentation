@@ -31,103 +31,103 @@ You can configure network bonding either by using the command line or the Networ
 
 1. Add a bond interface using the `nmcli connection add` command.
 
-    ```
-    sudo nmcli connection add type bond con-name *"Bond Connection 1"* ifname *bond0* bond.options "mode=active-backup"
-    ```
+   ```
+   sudo nmcli connection add type bond con-name *"Bond Connection 1"* ifname *bond0* bond.options "mode=active-backup"
+   ```
 
-    Take note to set the bond connection name, the bond interface name, and, importantly, the bond mode option. In this example, the mode is set to `active-backup`. If you don't set the bond connection name, then the bond interface name is also used as the connection name.
+   Take note to set the bond connection name, the bond interface name, and, importantly, the bond mode option. In this example, the mode is set to `active-backup`. If you don't set the bond connection name, then the bond interface name is also used as the connection name.
 
 2. Optionally configure the IP address for the bond interface using the `nmcli connection modify` command. By default the interface is configured to use DHCP, but if you require static IP addressing, manually configure the address. For example, to configure IPv4 settings for the bond, type:
 
-    ```
-    sudo nmcli connection modify *"Bond Connection 1"* ipv4.addresses '*192.0.2.2/24*'
-    ```
+   ```
+   sudo nmcli connection modify *"Bond Connection 1"* ipv4.addresses '*192.0.2.2/24*'
+   ```
 
-    ```
-    sudo nmcli connection modify *"Bond Connection 1"* ipv4.gateway '*192.0.2.1*'
-    ```
+   ```
+   sudo nmcli connection modify *"Bond Connection 1"* ipv4.gateway '*192.0.2.1*'
+   ```
 
-    ```
-    sudo nmcli connection modify *"Bond Connection 1"* ipv4.dns '*192.0.2.254*'
-    ```
+   ```
+   sudo nmcli connection modify *"Bond Connection 1"* ipv4.dns '*192.0.2.254*'
+   ```
 
-    ```
-    sudo nmcli connection modify *"Bond Connection 1"* ipv4.method manual
-    ```
+   ```
+   sudo nmcli connection modify *"Bond Connection 1"* ipv4.method manual
+   ```
 
 3. Add the physical network interfaces to the bond as secondary-type interfaces using the `nmcli connection add` command. For example:
 
-    ```
-    sudo nmcli connection add type ethernet slave-type bond con-name *bond0-if1* ifname *enp1s0* master *bond0*
-    ```
+   ```
+   sudo nmcli connection add type ethernet slave-type bond con-name *bond0-if1* ifname *enp1s0* master *bond0*
+   ```
 
-    ```
-    sudo nmcli connection add type ethernet slave-type bond con-name *bond0-if2* ifname *enp2s0* master *bond0*
-    ```
+   ```
+   sudo nmcli connection add type ethernet slave-type bond con-name *bond0-if2* ifname *enp2s0* master *bond0*
+   ```
 
-    Give each secondary a connection name, and select the interface name for each interface that you want to add. You can get a list of available interfaces by running the `nmcli device` command. Specify the interface name of the bond to which you want to attach the secondary network interfaces.
+   Give each secondary a connection name, and select the interface name for each interface that you want to add. You can get a list of available interfaces by running the `nmcli device` command. Specify the interface name of the bond to which you want to attach the secondary network interfaces.
 
 4. Start the bond interface.
 
-    ```
-    sudo nmcli connection up *"Bond Connection 1"*
-    ```
+   ```
+   sudo nmcli connection up *"Bond Connection 1"*
+   ```
 
 5. Verify that the network interfaces have been added to the bond correctly. You can check this by looking at the device list again.
 
-    ```
-    sudo nmcli device
-    ```
+   ```
+   sudo nmcli device
+   ```
 
-    ```nocopybutton
-    ...
-    enp1s0   ethernet  connected  bond0-if1
-    enp2s0   ethernet  connected  bond0-if2
-    ```
+   ```nocopybutton
+   ...
+   enp1s0   ethernet  connected  bond0-if1
+   enp2s0   ethernet  connected  bond0-if2
+   ```
 
 #### Using the Network Connections Editor
 
 1. Start the editor:
 
-    ```
-    sudo nm-connection-editor
-    ```
+   ```
+   sudo nm-connection-editor
+   ```
 
-    The Network Connections window opens.
+   The Network Connections window opens.
 
 2. To add a connection, use the plus \(+\) button at the bottom of the window.
 
-    This step opens another window that prompts you for the type of connection to create.
+   This step opens another window that prompts you for the type of connection to create.
 
 3. From the window's drop down list and under the Virtual section, select **Bond**, then click **Create**.
 
-    The Network Bond Editor window opens.
+   The Network Bond Editor window opens.
 
-    Network Bond Editor
+   Network Bond Editor
 
-    ![The figure shows the Network Connections interface editor open and ready to configure a new bonded network interface.](images/BondEditor.png)
+   ![The figure shows the Network Connections interface editor open and ready to configure a new bonded network interface.](images/BondEditor.png)
 
 4. Optionally configure a connection name for the bond.
 
 5. Add physical network interfaces to the network bond by clicking on the **Add** button.
 
-    1. A new window that where you can select the type of physical interface to add to the network bond. For example, you can select the **Ethernet** type to add an Ethernet interface to the network bond. Click the **Create** button to configure the secondary interface.
+   1. A new window that where you can select the type of physical interface to add to the network bond. For example, you can select the **Ethernet** type to add an Ethernet interface to the network bond. Click the **Create** button to configure the secondary interface.
 
-    2. Optionally configure a name for the secondary interface.
+   2. Optionally configure a name for the secondary interface.
 
-    3. In the **Device** field, select the physical network interface to add as a secondary to the bond. Note that if a device is already configured for networking it's not listed as available to configure within the bond.
+   3. In the **Device** field, select the physical network interface to add as a secondary to the bond. Note that if a device is already configured for networking it's not listed as available to configure within the bond.
 
-    4. Click **Save** to add the secondary device to the network bond.
+   4. Click **Save** to add the secondary device to the network bond.
 
-    Repeat these steps for all the physical network interfaces that make up the bonded interface.
+   Repeat these steps for all the physical network interfaces that make up the bonded interface.
 
 6. Configure the bonding mode that you want to use for the network bond.
 
-    Select the bonding mode from the **Mode** drop down list. Note that some modes might require more configuration on the network switch.
+   Select the bonding mode from the **Mode** drop down list. Note that some modes might require more configuration on the network switch.
 
 7. Configure other bond parameters such as link monitoring as required if you don't want to use the default settings.
 
-    If you don't intend to use DHCP for network bond IP configuration, set the IP addressing by clicking on the **IPv4** and **IPv6** tabs.
+   If you don't intend to use DHCP for network bond IP configuration, set the IP addressing by clicking on the **IPv4** and **IPv6** tabs.
 
 8. Click the **Save** button to save the configuration and to create the network bond.
 
@@ -135,11 +135,11 @@ You can configure network bonding either by using the command line or the Networ
 
 1. Run the following command to obtain information about the network bond with device name _bond0_:
 
-    ```
-    cat /proc/net/bonding/*bond0*
-    ```
+   ```
+   cat /proc/net/bonding/*bond0*
+   ```
 
-    The output shows the bond configuration and status, including which bond secondaries are active. The output also provides information about the status of each secondary interface.
+   The output shows the bond configuration and status, including which bond secondaries are active. The output also provides information about the status of each secondary interface.
 
 2. Temporarily disconnect the physical cable that's connected to one of the secondary interfaces. No other reliable method is available to test link failure.
 
