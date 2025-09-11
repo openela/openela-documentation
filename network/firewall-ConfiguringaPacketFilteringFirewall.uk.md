@@ -35,19 +35,19 @@ You can configure the firewall by using one of the following tools:
 
 - By using the Firewall Configuration GUI
 
- To use this tool you must install the `firewall-config` package first, then start it by using the same command as the package name, for example:
+  To use this tool you must install the `firewall-config` package first, then start it by using the same command as the package name, for example:
 
- ```
- sudo dnf install firewall-config
- ```
+  ```
+  sudo dnf install firewall-config
+  ```
 
- ```
- sudo firewall-config &
- ```
+  ```
+  sudo firewall-config &
+  ```
 
- The command opens the configuration tool, as shown in the following figure:
+  The command opens the configuration tool, as shown in the following figure:
 
- ![The figure shows the Firewall Configuration GUI.](images/firewallmgr.png "Firewall Configuration")
+  ![The figure shows the Firewall Configuration GUI.](images/firewallmgr.png "Firewall Configuration")
 
 - Cockpit is a browser-based configuration tool that you can also use to perform firewall configurations.
 
