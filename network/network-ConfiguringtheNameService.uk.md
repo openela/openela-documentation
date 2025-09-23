@@ -27,15 +27,15 @@ Most Enterprise Linux releases provide the BIND implementation of DNS. The `bind
 
 - **`/etc/named.conf`**
 
-    Contains settings for `named` and lists the location and characteristics of the zone files for the domain. Zone files are typically stored in `/var/named`.
+  Contains settings for `named` and lists the location and characteristics of the zone files for the domain. Zone files are typically stored in `/var/named`.
 
 - **`/etc/named.rfc1912.zones`**
 
-    Contains several zone sections for resolving local loopback names and addresses.
+  Contains several zone sections for resolving local loopback names and addresses.
 
 - **`/var/named/named.ca`**
 
-    Contains a list of the root authoritative DNS servers.
+  Contains a list of the root authoritative DNS servers.
 
 ## Types of Name Servers
 
@@ -43,23 +43,23 @@ You can configure several types of name servers by using BIND, including the fol
 
 - **Master name server**
 
-    Authoritative for one or more domains, a primary \(master\) name server maintains its zone data in several database files, and can transfer this information periodically to any backup name servers that are also configured in the zone An organization might maintain the following two primary name servers for a zone: one primary server outside the firewall to provide restricted information about the zone for publicly accessible hosts and services, and a hidden or _stealth_ primary server inside the firewall that contains details of internal hosts and services.
+  Authoritative for one or more domains, a primary \(master\) name server maintains its zone data in several database files, and can transfer this information periodically to any backup name servers that are also configured in the zone An organization might maintain the following two primary name servers for a zone: one primary server outside the firewall to provide restricted information about the zone for publicly accessible hosts and services, and a hidden or _stealth_ primary server inside the firewall that contains details of internal hosts and services.
 
 - **Secondary or backup name server**
 
-    Acting as a backup to a primary name server, a backup name server maintains a copy of the zone data, which it periodically refreshes from the primary server's copy.
+  Acting as a backup to a primary name server, a backup name server maintains a copy of the zone data, which it periodically refreshes from the primary server's copy.
 
 - **Stub name server**
 
-    A primary name server for a zone might also be configured as a stub name server that maintains information about the primary and backup name servers of child zones.
+  A primary name server for a zone might also be configured as a stub name server that maintains information about the primary and backup name servers of child zones.
 
 - **Caching-only name server**
 
-    Performs queries on behalf of a client and stores the responses in a cache after returning the results to the client. This server isn't authoritative for any domains and the information that it records is limited to the results of queries that it has cached.
+  Performs queries on behalf of a client and stores the responses in a cache after returning the results to the client. This server isn't authoritative for any domains and the information that it records is limited to the results of queries that it has cached.
 
 - **Forwarding name server**
 
-    Forwards all queries to another name server and caches the results, which reduces local processing, external access, and network traffic.
+  Forwards all queries to another name server and caches the results, which reduces local processing, external access, and network traffic.
 
 In practice, a name server can be a combination of several of these types in complex configurations.
 
@@ -71,53 +71,53 @@ To configure a name server:
 
 1. Install the bind package.
 
-    ```
-    sudo dnf install bind
-    ```
+   ```
+   sudo dnf install bind
+   ```
 
 2. If `NetworkManager` is enabled on the system, edit the `/etc/sysconfig/network-scripts/ifcfg-*interface*` file, and add the following entry:
 
-    ```
-    DNS1=127.0.0.1
-    ```
+   ```
+   DNS1=127.0.0.1
+   ```
 
-    This line causes `NetworkManager` to add the following entry to `/etc/resolv.conf` when the network service starts:
+   This line causes `NetworkManager` to add the following entry to `/etc/resolv.conf` when the network service starts:
 
-    ```
-    nameserver 127.0.0.1
-    ```
+   ```
+   nameserver 127.0.0.1
+   ```
 
-    This entry points the resolver at the local name server.
+   This entry points the resolver at the local name server.
 
 3. If you have disabled `NetworkManager`, edit the `/etc/resolv.conf` file to include the `nameserver 127.0.0.1` entry.
 
 4. If required, change the `named` configuration and zone files.
 
-    See [Configuring the named Daemon](network-ConfiguringtheNameService.md#) more details.
+   See [Configuring the named Daemon](network-ConfiguringtheNameService.md#) more details.
 
 5. Configure the system firewall to accept incoming TCP connections to port 53 and incoming UDP datagrams on port 53:
 
-    ```
-    sudo firewall-cmd --zone=*zone* --add-port=53/tcp --add-port=53/udp
-    ```
+   ```
+   sudo firewall-cmd --zone=*zone* --add-port=53/tcp --add-port=53/udp
+   ```
 
-    ```
-    sudo firewall-cmd --permanent --zone=*zone* --add-port=53/tcp --add-port=53/udp
-    ```
+   ```
+   sudo firewall-cmd --permanent --zone=*zone* --add-port=53/tcp --add-port=53/udp
+   ```
 
 6. Restart the `NetworkManager` service and the `named` services, and then configure the `named` service to start following system reboots:
 
-    ```
-    sudo systemctl restart NetworkManager
-    ```
+   ```
+   sudo systemctl restart NetworkManager
+   ```
 
-    ```
-    sudo systemctl start named
-    ```
+   ```
+   sudo systemctl start named
+   ```
 
-    ```
-    sudo systemctl enable named
-    ```
+   ```
+   sudo systemctl enable named
+   ```
 
 ## Working With DNS Configuration Files
 
@@ -178,43 +178,43 @@ The `options` statement defines the global server configuration options and sets
 
 - **`listen-on`**
 
-    Is the port on which `named` listens for queries.
+  Is the port on which `named` listens for queries.
 
 - **`directory`**
 
-    Specifies the default directory for zone files if a relative pathname is specified.
+  Specifies the default directory for zone files if a relative pathname is specified.
 
 - **`dump-file`**
 
-    Specifies where `named` dumps its cache if it crashes.
+  Specifies where `named` dumps its cache if it crashes.
 
 - **`statistics-file`**
 
-    Specifies the output file for the `rndc stats` command.
+  Specifies the output file for the `rndc stats` command.
 
 - **`memstatistics-file`**
 
-    Specifies the output file for `named` memory-usage statistics.
+  Specifies the output file for `named` memory-usage statistics.
 
 - **`allow-query`**
 
-    Specifies which IP addresses might query the server. `localnets` specifies all locally attached networks.
+  Specifies which IP addresses might query the server. `localnets` specifies all locally attached networks.
 
 - **`recursion`**
 
-    Specifies whether the name server performs recursive queries.
+  Specifies whether the name server performs recursive queries.
 
 - **`dnssec-enable`**
 
-    Specifies whether to use secure DNS \(DNSSEC\).
+  Specifies whether to use secure DNS \(DNSSEC\).
 
 - **`dnssec-validation`**
 
-    Specifies whether the name server would validate replies from DNSSEC-enabled zones.
+  Specifies whether the name server would validate replies from DNSSEC-enabled zones.
 
 - **`dnssec-lookaside`**
 
-    Specifies whether to enable DNSSEC Lookaside Validation \(DLV\) using the key in `/etc/named.iscdlv.key` defined by `bindkeys-file`.
+  Specifies whether to enable DNSSEC Lookaside Validation \(DLV\) using the key in `/etc/named.iscdlv.key` defined by `bindkeys-file`.
 
 The `logging` section activates the logging of messages to `/var/named/data/named.run`. The `severity` parameter controls the logging level, and the `dynamic` value means that this level can be controlled by using the `rndc trace` command.
 
@@ -257,11 +257,11 @@ The `controls` statement defines access information and the security requirement
 
 - **`inet`**
 
-    Specifies which hosts can run `rndc` to control named. In this example, `rndc` must be run on the local host \(`127.0.0.1`\).
+  Specifies which hosts can run `rndc` to control named. In this example, `rndc` must be run on the local host \(`127.0.0.1`\).
 
 - **`keys`**
 
-    Specifies the names of the keys that can be used. The example specifies using the key named `rndc-key`, which is defined in `/etc/rndc.key`. Keys authenticate various actions by `named` and are the primary method of controlling remote access and administration.
+  Specifies the names of the keys that can be used. The example specifies using the key named `rndc-key`, which is defined in `/etc/rndc.key`. Keys authenticate various actions by `named` and are the primary method of controlling remote access and administration.
 
 The `zone` statements define the role of the server in different zones.
 
@@ -269,32 +269,32 @@ The following zone options are used:
 
 - **`type`**
 
-    Specifies that this system is the primary name server for the zone `us.mydom.com` and a backup server for `mydom.com`. `2.168.192.in-addr.arpa` is a reverse zone for resolving IP addresses to host names. See [About Resource Records for Reverse-Name Resolution](network-ConfiguringtheNameService.md#).
+  Specifies that this system is the primary name server for the zone `us.mydom.com` and a backup server for `mydom.com`. `2.168.192.in-addr.arpa` is a reverse zone for resolving IP addresses to host names. See [About Resource Records for Reverse-Name Resolution](network-ConfiguringtheNameService.md#).
 
 - **`file`**
 
-    Specifies the path to the zone file relative to `/var/named`. The zone file for `us.mydom.com` is stored in `/var/named/master-data` and the transferred zone data for `mydom.com` is cached in `/var/named/sec/slave-data`.
+  Specifies the path to the zone file relative to `/var/named`. The zone file for `us.mydom.com` is stored in `/var/named/master-data` and the transferred zone data for `mydom.com` is cached in `/var/named/sec/slave-data`.
 
 - **`allow-update`**
 
-    Specifies that a shared key must exist on both the primary and backup name servers for a zone transfer to take place from the primary to the backup. The following is an example record for a key in the `/etc/rndc.key` file:
+  Specifies that a shared key must exist on both the primary and backup name servers for a zone transfer to take place from the primary to the backup. The following is an example record for a key in the `/etc/rndc.key` file:
 
-    ```
-    key "rndc-key" {
-        algorithm hmac-md5;
-        secret "XQX8NmM41+RfbbSdcqOejg==";
-    };
-    ```
+  ```
+  key "rndc-key" {
+      algorithm hmac-md5;
+      secret "XQX8NmM41+RfbbSdcqOejg==";
+  };
+  ```
 
-    You can use the `rndc-confgen -a` command to generate a key file.
+  You can use the `rndc-confgen -a` command to generate a key file.
 
 - **`notify`**
 
-    Specifies whether to notify the backup name servers when the zone information is updated.
+  Specifies whether to notify the backup name servers when the zone information is updated.
 
 - **`masters`**
 
-    Specifies the primary name server for a backup name server.
+  Specifies the primary name server for a backup name server.
 
 For more information, see the `named.conf(5)` manual page and the BIND documentation in `/usr/share/doc/bind-*version*/arm`.
 
@@ -304,51 +304,51 @@ A resource record in a zone file contains the following fields, some of which ar
 
 - **Name**
 
-    Domain name or IP address.
+  Domain name or IP address.
 
 - **TTL \(time to live\)**
 
-    The maximum time that a name server caches a record before it checks whether a newer one is available.
+  The maximum time that a name server caches a record before it checks whether a newer one is available.
 
 - **Class**
 
-    Always `IN` for the Internet.
+  Always `IN` for the Internet.
 
 - **Type**
 
-    Type of record, for example:
+  Type of record, for example:
 
-    - **`A` \(address\)**
+  - **`A` \(address\)**
 
-        IPv4 address corresponding to a host.
+    IPv4 address corresponding to a host.
 
-    - **`AAAA` \(address\)**
+  - **`AAAA` \(address\)**
 
-        IPv6 address corresponding to a host.
+    IPv6 address corresponding to a host.
 
-    - **`CNAME` \(canonical name\)**
+  - **`CNAME` \(canonical name\)**
 
-        Alias name corresponding to a host name.
+    Alias name corresponding to a host name.
 
-    - **`MX` \(mail exchange\)**
+  - **`MX` \(mail exchange\)**
 
-        Destination for email addressed to the domain.
+    Destination for email addressed to the domain.
 
-    - **`NS` \(name server\)**
+  - **`NS` \(name server\)**
 
-        Fully qualified domain name of an authoritative name server for a domain.
+    Fully qualified domain name of an authoritative name server for a domain.
 
-    - **`PTR` \(pointer\)**
+  - **`PTR` \(pointer\)**
 
-        Host name that corresponds to an IP address for address-to-name lookups \(reverse-name resolution\).
+    Host name that corresponds to an IP address for address-to-name lookups \(reverse-name resolution\).
 
-    - **`SOA` \(start of authority\)**
+  - **`SOA` \(start of authority\)**
 
-        Authoritative information about a zone, such as the primary name server, the email address of the domain's administrator, and the domain's serial number. All records following a `SOA` record relate to the zone that it defines up to the next `SOA` record.
+    Authoritative information about a zone, such as the primary name server, the email address of the domain's administrator, and the domain's serial number. All records following a `SOA` record relate to the zone that it defines up to the next `SOA` record.
 
 - **Data**
 
-    Information that the record stores, such as an IP address in an `A` record, or a host name in a `CNAME` or `PTR` record.
+  Information that the record stores, such as an IP address in an `A` record, or a host name in a `CNAME` or `PTR` record.
 
 The following example shows the contents of a typical zone file such as `/var/named/master-data`:
 
@@ -381,35 +381,35 @@ The `SOA` record is mandatory and includes the following information:
 
 - **`us.mydom.com`**
 
-    The name of the domain.
+  The name of the domain.
 
 - **`dns.us.mydom.com.`**
 
-    The fully qualified domain name of the name server, including a trailing period \(`.`\) for the root domain.
+  The fully qualified domain name of the name server, including a trailing period \(`.`\) for the root domain.
 
 - **`root.us.mydom.com.`**
 
-    The email address of the domain administrator.
+  The email address of the domain administrator.
 
 - **_serial_**
 
-    A counter that, if incremented, tells `named` to reload the zone file.
+  A counter that, if incremented, tells `named` to reload the zone file.
 
 - **_refresh_**
 
-    The time after which a primary name server notifies backup name servers that they should refresh their database.
+  The time after which a primary name server notifies backup name servers that they should refresh their database.
 
 - **_retry_**
 
-    If a refresh fails, the time that a backup name server should wait before attempting another refresh.
+  If a refresh fails, the time that a backup name server should wait before attempting another refresh.
 
 - **_expire_**
 
-    The maximum elapsed time that a backup name server has to complete a refresh before its zone records are no longer considered authoritative and it will stop answering queries.
+  The maximum elapsed time that a backup name server has to complete a refresh before its zone records are no longer considered authoritative and it will stop answering queries.
 
 - **_minimum_**
 
-    The minimum time for which other servers should cache information obtained from this zone.
+  The minimum time for which other servers should cache information obtained from this zone.
 
 An `NS` record declares an authoritative name server for the domain.
 

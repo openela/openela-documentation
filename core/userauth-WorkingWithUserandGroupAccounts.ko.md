@@ -35,39 +35,39 @@ For more information about the content of these files, see the `group(5)`, `gsha
 
 1. Type the following command:
 
-    ```
-    sudo useradd [*options*] *username*
-    ```
+   ```
+   sudo useradd [*options*] *username*
+   ```
 
-    You can specify options to change the account's settings from the default ones.
+   You can specify options to change the account's settings from the default ones.
 
-    By default, if you specify a username argument with no additional options, `useradd` creates a locked user account using the next available UID and assigns a user private group \(UPG\) rather than the value defined for `GROUP` as the user's group.
+   By default, if you specify a username argument with no additional options, `useradd` creates a locked user account using the next available UID and assigns a user private group \(UPG\) rather than the value defined for `GROUP` as the user's group.
 
-    **Note:**
+   **Note:**
 
-    A maxmimum of 32 characters can be used for a username.
+   A maxmimum of 32 characters can be used for a username.
 
-    Usernames can begin with lowercase \(a-z\) and uppercase \(A-Z\) letters, digits \(0-9\), or underscores \(\_\).
+   Usernames can begin with lowercase \(a-z\) and uppercase \(A-Z\) letters, digits \(0-9\), or underscores \(\_\).
 
-    Usernames can contain all starting characters but can also contain dashes \(-\) and can end with a dollar character \($\).
+   Usernames can contain all starting characters but can also contain dashes \(-\) and can end with a dollar character \($\).
 
-    Fully numeric usernames and usernames containing only a period \(.\) or double period \(..\) are disallowed.
+   Fully numeric usernames and usernames containing only a period \(.\) or double period \(..\) are disallowed.
 
-    Usernames starting with a period \(.\) character, although allowed, are discouraged because they can cause issues for some software and resulting home directories are also likely to be hidden.
+   Usernames starting with a period \(.\) character, although allowed, are discouraged because they can cause issues for some software and resulting home directories are also likely to be hidden.
 
 2. Assign a password to the account.
 
-    ```
-    sudo passwd *username*         
-    ```
+   ```
+   sudo passwd *username*         
+   ```
 
-    The command prompts you to enter a password for the account.
+   The command prompts you to enter a password for the account.
 
-    To change the password non-interactively \(for example, from a script\), use the `chpasswd` command instead:
+   To change the password non-interactively \(for example, from a script\), use the `chpasswd` command instead:
 
-    ```
-    echo "*username*:*password*" | chpasswd
-    ```
+   ```
+   echo "*username*:*password*" | chpasswd
+   ```
 
 You can use the `newusers` command to create several user accounts at the same time.
 

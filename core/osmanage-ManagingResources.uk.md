@@ -196,133 +196,133 @@ At boot time, Enterprise Linux 8 mounts `cgroups v1` by default. To use `cgroups
 
 1. Verify that `cgroups v2` is enabled and mounted on the system.
 
-  ```
-  sudo mount -l | grep cgroup
-  ```
+   ```
+   sudo mount -l | grep cgroup
+   ```
 
-  ```nocopybutton
-  cgroup2 on /sys/fs/cgroup type cgroup2 (rw,nosuid,nodev,noexec,relatime,seclabel,nsdelegate,memory_recursiveprot)
-  ```
+   ```nocopybutton
+   cgroup2 on /sys/fs/cgroup type cgroup2 (rw,nosuid,nodev,noexec,relatime,seclabel,nsdelegate,memory_recursiveprot)
+   ```
 
-  If the output of the command doesn't specify `cgroup2`, then do the following to enable version 2.
+   If the output of the command doesn't specify `cgroup2`, then do the following to enable version 2.
 
-  1. Configure the system boot to mount `cgroups v2` by default.
+   1. Configure the system boot to mount `cgroups v2` by default.
 
-    ```
-    sudo grubby --update-kernel=/boot/vmlinuz-$(uname -r) --args="systemd.unified_cgroup_hierarchy=1"
-    ```
+      ```
+      sudo grubby --update-kernel=/boot/vmlinuz-$(uname -r) --args="systemd.unified_cgroup_hierarchy=1"
+      ```
 
-    The command adds `systemd.unified_cgroup_hierarchy=1` to the current boot entry. To add this parameter to **all** kernel boot entries, type:
+      The command adds `systemd.unified_cgroup_hierarchy=1` to the current boot entry. To add this parameter to **all** kernel boot entries, type:
 
-    ```
-    sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=1"
-    ```
+      ```
+      sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=1"
+      ```
 
-  2. Reboot the system.
+   2. Reboot the system.
 
-  3. After the system reboots, verify that `cgroups v2` is now mounted.
+   3. After the system reboots, verify that `cgroups v2` is now mounted.
 
-    ```
-    sudo mount -l | grep cgroup
-    ```
+      ```
+      sudo mount -l | grep cgroup
+      ```
 
 2. Optionally, check the contents of `/sys/fs/cgroup` directory, which is also called the root control group.
 
-  ```
-  ll /sys/fs/cgroup/
-  ```
+   ```
+   ll /sys/fs/cgroup/
+   ```
 
-  For `cgroups v2`, the files in the directory should have prefixes to their file names, for example, `cgroup`.\*, `cpu`.\*, `memory`.\*, and so on. See [About the Control Group File System](osmanage-ManagingResources.md#).
+   For `cgroups v2`, the files in the directory should have prefixes to their file names, for example, `cgroup`.\*, `cpu`.\*, `memory`.\*, and so on. See [About the Control Group File System](osmanage-ManagingResources.md#).
 
 ### Preparing the Control Group for Distribution of CPU Time
 
 1. Verify that in the root control group, the `cpu` and `cpuset` controllers are available in the `/sys/fs/cgroup/cgroup.controllers` file.
 
-  ```
-  sudo cat /sys/fs/cgroup/cgroup.controllers
-  ```
+   ```
+   sudo cat /sys/fs/cgroup/cgroup.controllers
+   ```
 
-  ```nocopybutton
-  **cpuset****cpu** io memory hugetlb pids rdma misc
-  ```
+   ```nocopybutton
+   **cpuset****cpu** io memory hugetlb pids rdma misc
+   ```
 
 2. Add the CPU controllers to the `cgroup.subtree_control` file.
 
-  By default, only the `memory` and `pids` controllers are in the file. To add the CPU controllers, type:
+   By default, only the `memory` and `pids` controllers are in the file. To add the CPU controllers, type:
 
-  ```
-  echo "+cpu" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
-  echo "+cpuset" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
-  ```
+   ```
+   echo "+cpu" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
+   echo "+cpuset" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
+   ```
 
 3. Optionally, verify that the CPU controllers have been properly added.
 
-  ```
-  sudo cat /sys/fs/cgroup/cgroup.subtree_control
-  ```
+   ```
+   sudo cat /sys/fs/cgroup/cgroup.subtree_control
+   ```
 
-  ```nocopybutton
-  cpuset cpu memory pids
-  ```
+   ```nocopybutton
+   cpuset cpu memory pids
+   ```
 
 4. Create a child group under the root control group to become the new control group for managing CPU resources on applications.
 
-  ```
-  sudo mkdir /sys/fs/cgroup/MyGroup
-  ```
+   ```
+   sudo mkdir /sys/fs/cgroup/MyGroup
+   ```
 
 5. Optionally, list the contents of the new subdirectory or child group.
 
-  ```
-  ll /sys/fs/cgroup/MyGroup
-  ```
+   ```
+   ll /sys/fs/cgroup/MyGroup
+   ```
 
-  ```nocopybutton
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.controllers
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.events
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.freeze
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.max.depth
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.max.descendants
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.procs
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.stat
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.subtree_control
-  …​
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus.effective
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus.partition
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.mems
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpuset.mems.effective
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpu.stat
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpu.weight
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpu.weight.nice
-  …​
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 memory.events.local
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 memory.high
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 memory.low
-  …​
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 pids.current
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 pids.events
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 pids.max
-  ```
+   ```nocopybutton
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.controllers
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.events
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.freeze
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.max.depth
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.max.descendants
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.procs
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.stat
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.subtree_control
+   …​
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus.effective
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus.partition
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.mems
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpuset.mems.effective
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpu.stat
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpu.weight
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpu.weight.nice
+   …​
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 memory.events.local
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 memory.high
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 memory.low
+   …​
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 pids.current
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 pids.events
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 pids.max
+   ```
 
-  Based on the CPU controllers that you added to `/sys/fs/cgroup/cgroup.subtree_control`, the contents of the `MyGroup` that are inherited from the root control group are now more limited. Thus, only `cpuset`.\*, `cpu`.\*, `memory`.\*, and `pids`.\* files are in the `MyGroup` directory.
+   Based on the CPU controllers that you added to `/sys/fs/cgroup/cgroup.subtree_control`, the contents of the `MyGroup` that are inherited from the root control group are now more limited. Thus, only `cpuset`.\*, `cpu`.\*, `memory`.\*, and `pids`.\* files are in the `MyGroup` directory.
 
 6. Enable the CPU-related controllers in `MyGroup`'s `cgroup.subtre_control` files.
 
-  ```
-  echo "+cpu" | sudo tee /sys/fs/cgroup/MyGroup/cgroup.subtree_control
-  echo "+cpuset" | sudo tee /sys/fs/cgroup/MyGroup/cgroup.subtree_control
-  ```
+   ```
+   echo "+cpu" | sudo tee /sys/fs/cgroup/MyGroup/cgroup.subtree_control
+   echo "+cpuset" | sudo tee /sys/fs/cgroup/MyGroup/cgroup.subtree_control
+   ```
 
 7. Optionally, verify that the CPU controllers are enabled for child groups under `MyGroup`.
 
-  ```
-  sudo cat /sys/fs/cgroup/MyGroup/cgroup.subtree_control
-  ```
+   ```
+   sudo cat /sys/fs/cgroup/MyGroup/cgroup.subtree_control
+   ```
 
-  ```nocopybutton
-  cpuset cpu
-  ```
+   ```nocopybutton
+   cpuset cpu
+   ```
 
 ### Setting CPU Bandwidth to Regulate Distribution of CPU Time
 
@@ -368,117 +368,117 @@ As a prerequisite to the following procedure, you must complete the preparations
 
 1. Create a `tasks` directory in the `MyGroup` subdirectory.
 
-  ```
-  sudo mkdir /sys/fs/cgroup/MyGroup/tasks
-  ```
+   ```
+   sudo mkdir /sys/fs/cgroup/MyGroup/tasks
+   ```
 
-  This directory defines a child group with files that relate only to `cpu` and `cpuset` controllers.
+   This directory defines a child group with files that relate only to `cpu` and `cpuset` controllers.
 
 2. Optionally, list the contents of the new subdirectory.
 
-  ```
-  ll /sys/fs/cgroup/MyGroup/tasks
-  ```
+   ```
+   ll /sys/fs/cgroup/MyGroup/tasks
+   ```
 
-  ```nocopybutton
-  ll /sys/fs/cgroup/Example/tasks
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.controllers
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.events
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.freeze
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.max.depth
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.max.descendants
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.procs
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.stat
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.subtree_control
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.threads
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.type
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.max
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.pressure
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus.effective
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus.partition
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.mems
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpuset.mems.effective
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpu.stat
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.weight
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.weight.nice
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 io.pressure
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 memory.pressure
-  ```
+   ```nocopybutton
+   ll /sys/fs/cgroup/Example/tasks
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.controllers
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.events
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.freeze
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.max.depth
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.max.descendants
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.procs
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.stat
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.subtree_control
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.threads
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.type
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.max
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.pressure
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus.effective
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus.partition
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.mems
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpuset.mems.effective
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpu.stat
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.weight
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.weight.nice
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 io.pressure
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 memory.pressure
+   ```
 
 3. In the `tasks` directory, set the processes that you want to regulate for CPU time to use the same CPU.
 
-  ```
-  echo "1" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cpuset.cpus
-  ```
+   ```
+   echo "1" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cpuset.cpus
+   ```
 
 4. Optionally, verify that the processes run on the same CPU.
 
-  ```
-  cat /sys/fs/cgroup/MyGroup/tasks/cpuset.cpus
-  ```
+   ```
+   cat /sys/fs/cgroup/MyGroup/tasks/cpuset.cpus
+   ```
 
-  ```nocopybutton
-  1
-  ```
+   ```nocopybutton
+   1
+   ```
 
 5. Configure the CPU bandwidth to set restrictions within the `MyGroup/tasks` child control group.
 
-  ```
-  echo "200000 1000000"n | sudo tee /sys/fs/cgroup/MyGroup/tasks/cpu.max
-  ```
+   ```
+   echo "200000 1000000"n | sudo tee /sys/fs/cgroup/MyGroup/tasks/cpu.max
+   ```
 
-  In the command, the value 20000 represents the quota of time in microseconds that's allowed for all processes collectively in a child group to run during a specified period. That period, in turn, is defined by the value 1000000. Specifically, the processes in the `/sys/fs/cgroup/MyGroup/tasks` group can run on the CPU for only 0.2 seconds, or one fifth, of every second.
+   In the command, the value 20000 represents the quota of time in microseconds that's allowed for all processes collectively in a child group to run during a specified period. That period, in turn, is defined by the value 1000000. Specifically, the processes in the `/sys/fs/cgroup/MyGroup/tasks` group can run on the CPU for only 0.2 seconds, or one fifth, of every second.
 
-  If the quota is exhausted by the control group within the defined period, then the processes are suspended until the next period.
+   If the quota is exhausted by the control group within the defined period, then the processes are suspended until the next period.
 
 6. Optionally, verify the time quotas.
 
-  ```
-  sudo cat /sys/fs/cgroup/MyGroup/tasks/cpu.max
-  ```
+   ```
+   sudo cat /sys/fs/cgroup/MyGroup/tasks/cpu.max
+   ```
 
-  ```nocopybutton
-  200000 1000000
-  ```
+   ```nocopybutton
+   200000 1000000
+   ```
 
 7. Add the PIDs of the applications to the child group.
 
-  ```
-  echo "34500" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cgroup.procs
-  echo "34501" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cgroup.procs
-  ```
+   ```
+   echo "34500" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cgroup.procs
+   echo "34501" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cgroup.procs
+   ```
 
 8. Verify that the applications are running in the specified control group.
 
-  ```
-  sudo cat /proc/34500/cgroup /proc/34501/cgroup
-  ```
+   ```
+   sudo cat /proc/34500/cgroup /proc/34501/cgroup
+   ```
 
-  ```nocopybutton
-  0::/MyGroup/tasks
-  0::/MyGroup/tasks
-  ```
+   ```nocopybutton
+   0::/MyGroup/tasks
+   0::/MyGroup/tasks
+   ```
 
 9. Check the current CPU consumption after you have set the CPU bandwidth.
 
-  ```
-  top
-  ```
+   ```
+   top
+   ```
 
-  ```nocopybutton
-  ...
-      PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
-    34500 root      20   0   18720   1756   1468 R  10.0   0.0  37:36.13 sha1sum
-    34501 root      20   0   18720   1772   1480 R  10.0   0.0  37:41.22 sha1sum
-        1 root      20   0  186192  13940   9500 S   0.0   0.4   0:01.60 systemd
-        2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd
-        3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp
-        4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par_gp
-  ...
-  ```
+   ```nocopybutton
+   ...
+       PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+     34500 root      20   0   18720   1756   1468 R  10.0   0.0  37:36.13 sha1sum
+     34501 root      20   0   18720   1772   1480 R  10.0   0.0  37:41.22 sha1sum
+         1 root      20   0  186192  13940   9500 S   0.0   0.4   0:01.60 systemd
+         2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd
+         3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp
+         4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par_gp
+   ...
+   ```
 
-  Because the `MyGroup/tasks` group is limited to a total of 20% of CPU use, then each `sha1sum` process is now limited to 10% of CPU time.
+   Because the `MyGroup/tasks` group is limited to a total of 20% of CPU use, then each `sha1sum` process is now limited to 10% of CPU time.
 
 ### Setting CPU Weight to Regulate Distribution of CPU Time
 
@@ -525,71 +525,71 @@ As a prerequisite to the following procedure, you must complete the preparations
 
 1. Create 3 child groups in the `MyGroup` subdirectory.
 
-  ```
-  sudo mkdir /sys/fs/cgroup/MyGroup/g1
-  sudo mkdir /sys/fs/cgroup/MyGroup/g2
-  sudo mkdir /sys/fs/cgroup/MyGroup/g3
-  ```
+   ```
+   sudo mkdir /sys/fs/cgroup/MyGroup/g1
+   sudo mkdir /sys/fs/cgroup/MyGroup/g2
+   sudo mkdir /sys/fs/cgroup/MyGroup/g3
+   ```
 
 2. Configure the CPU weight for each child group.
 
-  ```
-  echo "150" | sudo tee /sys/fs/cgroup/MyGroup/g1/cpu.weight
-  echo "100" | sudo tee /sys/fs/cgroup/MyGroup/g2/cpu.weight
-  echo "50" | sudo tee /sys/fs/cgroup/MyGroup/g3/cpu.weight
-  ```
+   ```
+   echo "150" | sudo tee /sys/fs/cgroup/MyGroup/g1/cpu.weight
+   echo "100" | sudo tee /sys/fs/cgroup/MyGroup/g2/cpu.weight
+   echo "50" | sudo tee /sys/fs/cgroup/MyGroup/g3/cpu.weight
+   ```
 
 3. Apply the application PIDs to their corresponding child groups.
 
-  ```
-  echo "33301" | sudo tee /sys/fs/cgroup/Example/g1/cgroup.procs
-  echo "33302" | sudo tee /sys/fs/cgroup/Example/g2/cgroup.procs
-  echo "33303" | sudo /sys/fs/cgroup/Example/g3/cgroup.procs
-  ```
+   ```
+   echo "33301" | sudo tee /sys/fs/cgroup/Example/g1/cgroup.procs
+   echo "33302" | sudo tee /sys/fs/cgroup/Example/g2/cgroup.procs
+   echo "33303" | sudo /sys/fs/cgroup/Example/g3/cgroup.procs
+   ```
 
-  These commands set the selected applications to become members of the `MyGroup/g*/` control groups. The CPU time for each `sha1sum` process depends on the CPU time distribution as configured for each group.
+   These commands set the selected applications to become members of the `MyGroup/g*/` control groups. The CPU time for each `sha1sum` process depends on the CPU time distribution as configured for each group.
 
-  The weights of the `g1`, `g2`, and `g3` groups that have running processes are summed up at the level of `MyGroup`, which is the parent control group.
+   The weights of the `g1`, `g2`, and `g3` groups that have running processes are summed up at the level of `MyGroup`, which is the parent control group.
 
-  With this configuration, when all processes run at the same time, the kernel allocates to each of the `sha1sum` processes the proportionate CPU time based on their respective `cgroup`'s `cpu.weight` file, as follows:
+   With this configuration, when all processes run at the same time, the kernel allocates to each of the `sha1sum` processes the proportionate CPU time based on their respective `cgroup`'s `cpu.weight` file, as follows:
 
-  | Child group | `cpu.weight` setting | Percent of CPU time allocation                        |
-  | ----------- | -------------------- | ----------------------------------------------------- |
-  | g1          | 150                  | ~50% \(150/300\) |
-  | g2          | 100                  | ~33% \(100/300\) |
-  | g3          | 50                   | ~16% \(50/300\)  |
+   | Child group | `cpu.weight` setting | Percent of CPU time allocation                        |
+   | ----------- | -------------------- | ----------------------------------------------------- |
+   | g1          | 150                  | ~50% \(150/300\) |
+   | g2          | 100                  | ~33% \(100/300\) |
+   | g3          | 50                   | ~16% \(50/300\)  |
 
-  If one child group has no running processes, then the CPU time allocation for running processes is recalculated based on the total weight of the remaining child groups with running processes. For example, if the `g2` child group doesn't have any running processes, then the total weight becomes 200, which is the weight of `g1+g3`. In this case, the CPU time for `g1` becomes 150/200 \(~75%\) and for `g3`, 50/200 \(~25%\)
+   If one child group has no running processes, then the CPU time allocation for running processes is recalculated based on the total weight of the remaining child groups with running processes. For example, if the `g2` child group doesn't have any running processes, then the total weight becomes 200, which is the weight of `g1+g3`. In this case, the CPU time for `g1` becomes 150/200 \(~75%\) and for `g3`, 50/200 \(~25%\)
 
 4. Check that the applications are running in the specified control groups.
 
-  ```
-  sudo cat /proc/33301/cgroup /proc/33302/cgroup /proc/33303/cgroup
-  ```
+   ```
+   sudo cat /proc/33301/cgroup /proc/33302/cgroup /proc/33303/cgroup
+   ```
 
-  ```nocopybutton
-  0::/MyGroup/g1
-  0::/MyGroup/g2
-  0::/MyGroup/g3
-  ```
+   ```nocopybutton
+   0::/MyGroup/g1
+   0::/MyGroup/g2
+   0::/MyGroup/g3
+   ```
 
 5. Check the current CPU consumption after you have set the CPU weights.
 
-  ```
-  top
-  ```
+   ```
+   top
+   ```
 
-  ```nocopybutton
-  ...
-      PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
-    **33301** root      20   0   18720   1748   1460 R  **49.5**   0.0 415:05.87 sha1sum
-    **33302** root      20   0   18720   1756   1464 R  **32.9**   0.0 412:58.33 sha1sum
-    **33303** root      20   0   18720   1860   1568 R  **16.3**   0.0 411:03.12 sha1sum
-      760 root      20   0  416620  28540  15296 S   0.3   0.7   0:10.23 tuned
-        1 root      20   0  186328  14108   9484 S   0.0   0.4   0:02.00 systemd
-        2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthread
-  ...
-  ```
+   ```nocopybutton
+   ...
+       PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+     **33301** root      20   0   18720   1748   1460 R  **49.5**   0.0 415:05.87 sha1sum
+     **33302** root      20   0   18720   1756   1464 R  **32.9**   0.0 412:58.33 sha1sum
+     **33303** root      20   0   18720   1860   1568 R  **16.3**   0.0 411:03.12 sha1sum
+       760 root      20   0  416620  28540  15296 S   0.3   0.7   0:10.23 tuned
+         1 root      20   0  186328  14108   9484 S   0.0   0.4   0:02.00 systemd
+         2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthread
+   ...
+   ```
 
 ## Using cgroups v2 to Manage Resources for Users
 

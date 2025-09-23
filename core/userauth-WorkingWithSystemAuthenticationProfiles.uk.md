@@ -36,27 +36,27 @@ Enabled features of a profile determine the manner of authentication on the syst
 
 1. \(Optional\): Identify the current profile.
 
-    Enabling additional features works only on the current profile. The procedure does not work on unselected profiles.
+   Enabling additional features works only on the current profile. The procedure does not work on unselected profiles.
 
-    ```
-    sudo authselect current
-    ```
+   ```
+   sudo authselect current
+   ```
 
 2. If necessary, identify the feature requirements for the feature to work properly.
 
-    ```
-    sudo authselect requirements *profile* *feature*
-    ```
+   ```
+   sudo authselect requirements *profile* *feature*
+   ```
 
 3. Complete the indicated listed feature requirements as needed.
 
 4. Enable the feature.
 
-    ```
-    sudo authselect enable-feature *feature*
-    ```
+   ```
+   sudo authselect enable-feature *feature*
+   ```
 
-    Note that you can only enable features one at a time.
+   Note that you can only enable features one at a time.
 
 ### Disabling Profile Features
 
@@ -72,57 +72,57 @@ The following example shows how you can set account locking and define home dire
 
 1. Determine the requirements to automatically lock an account after too many authentication failures \(`with-faillock`\):
 
-    ```
-    sudo authselect requirements sssd with-faillock
-    ```
+   ```
+   sudo authselect requirements sssd with-faillock
+   ```
 
-    ```
-    ﻿Make sure that SSSD service is configured and enabled. See SSSD documentation for more 
-    information.
-    ```
+   ```
+   ﻿Make sure that SSSD service is configured and enabled. See SSSD documentation for more 
+   information.
+   ```
 
 2. Determine the requirements to automatically create a user home directory at the user's first time log in \(`with-mkhomedir`\).
 
-    ```
-    sudo authselect requirements sssd with-mkhomedir
-    ```
+   ```
+   sudo authselect requirements sssd with-mkhomedir
+   ```
 
-    ```
-    ﻿Make sure that SSSD service is configured and enabled. See SSSD documentation for more 
-    information.
-     
-    - with-mkhomedir is selected, make sure pam_oddjob_mkhomedir module
-      is present and oddjobd service is enabled
-      - systemctl enable oddjobd.service
-      - systemctl start oddjobd.service
-    ```
+   ```
+   ﻿Make sure that SSSD service is configured and enabled. See SSSD documentation for more 
+   information.
+    
+   - with-mkhomedir is selected, make sure pam_oddjob_mkhomedir module
+     is present and oddjobd service is enabled
+     - systemctl enable oddjobd.service
+     - systemctl start oddjobd.service
+   ```
 
 3. Fulfill the requirements of the features you want to enable.
 
 4. Enable both profile features:
 
-    ```
-    sudo authselect enable-feature with-faillock
-    ```
+   ```
+   sudo authselect enable-feature with-faillock
+   ```
 
-    ```
-    sudo authselect enable-feature with-mkhomedir
-    ```
+   ```
+   sudo authselect enable-feature with-mkhomedir
+   ```
 
 5. Confirm that both profile features have been enabled:
 
-    ```
-    sudo authselect current
-    ```
+   ```
+   sudo authselect current
+   ```
 
-    ```
-    Profile ID: sssd
-    Enabled features:
-    - with-fingerprint
-    - with-silent-lastlog
-    - with-faillock
-    - with-mkhomedir
-    ```
+   ```
+   Profile ID: sssd
+   Enabled features:
+   - with-fingerprint
+   - with-silent-lastlog
+   - with-faillock
+   - with-mkhomedir
+   ```
 
 ### Enabling the PAM Access Feature
 
@@ -130,36 +130,36 @@ The following example shows how you can direct the system to check `/etc/securit
 
 1. Automatically enable PAM access:
 
-    ```
-    sudo authselect requirements sssd with-pamaccess
-    ```
+   ```
+   sudo authselect requirements sssd with-pamaccess
+   ```
 
-    ```
-    ﻿Make sure that SSSD service is configured and enabled. See SSSD documentation for more 
-    information.
-    ```
+   ```
+   ﻿Make sure that SSSD service is configured and enabled. See SSSD documentation for more 
+   information.
+   ```
 
 2. Enable the PAM access profile feature:
 
-    ```
-    sudo authselect enable-feature sssd with-pamaccess
-    ```
+   ```
+   sudo authselect enable-feature sssd with-pamaccess
+   ```
 
 3. Confirm that the PAM access profile feature has been enabled:
 
-    ```
-    sudo authselect current
-    ```
+   ```
+   sudo authselect current
+   ```
 
-    ```
-    Profile ID: sssd
-    Enabled features:
-    - with-fingerprint
-    - with-silent-lastlog
-    - with-faillock
-    - with-mkhomedir
-    - with-pamaccess
-    ```
+   ```
+   Profile ID: sssd
+   Enabled features:
+   - with-fingerprint
+   - with-silent-lastlog
+   - with-faillock
+   - with-mkhomedir
+   - with-pamaccess
+   ```
 
 **Note:**
 
@@ -171,46 +171,46 @@ Winbind is a client-side service that resolves user and group information on a W
 
 1. Install the `samba-winbind` package.
 
-    ```
-    sudo dnf install samba-winbind -y
-    ```
+   ```
+   sudo dnf install samba-winbind -y
+   ```
 
 2. Select the `winbind` profile.
 
-    When selecting a profile, you can enable multiple features in the same command, for example:
+   When selecting a profile, you can enable multiple features in the same command, for example:
 
-    ```
-    sudo authselect select winbind with-faillock with-mkhomedir [*options*]
-    ```
+   ```
+   sudo authselect select winbind with-faillock with-mkhomedir [*options*]
+   ```
 
-    ```
-    Profile "winbind" was selected.
-    The following nsswitch maps are overwritten by the profile:
-    - passwd
-    - group
+   ```
+   Profile "winbind" was selected.
+   The following nsswitch maps are overwritten by the profile:
+   - passwd
+   - group
 
-    Make sure that winbind service is configured and enabled. See winbind documentation for 
-    more information.
-     
-    - with-mkhomedir is selected, make sure pam_oddjob_mkhomedir module
-      is present and oddjobd service is enabled
-      - systemctl enable oddjobd.service
-      - systemctl start oddjobd.service
-    ```
+   Make sure that winbind service is configured and enabled. See winbind documentation for 
+   more information.
+    
+   - with-mkhomedir is selected, make sure pam_oddjob_mkhomedir module
+     is present and oddjobd service is enabled
+     - systemctl enable oddjobd.service
+     - systemctl start oddjobd.service
+   ```
 
-    For other options you can use with the `authselect select` command, see the `authselect(8)` manual page.
+   For other options you can use with the `authselect select` command, see the `authselect(8)` manual page.
 
 3. Fulfill the requirements of the features you enabled for the profile.
 
 4. Start the `winbind` service.
 
-    ```
-    sudo systemctl start winbind
-    ```
+   ```
+   sudo systemctl start winbind
+   ```
 
-    ```
-    sudo systemctl enable winbind
-    ```
+   ```
+   sudo systemctl enable winbind
+   ```
 
 **Note:**
 
@@ -222,33 +222,33 @@ Profiles also use information stored in the `/etc/nsswitch.conf` file to enforce
 
 1. If necessary, select the profile to make it current, for example:
 
-    ```
-    sudo authselect select sssd
-    ```
+   ```
+   sudo authselect select sssd
+   ```
 
 2. Edit the `/etc/authselect/user-nsswitch.conf` file as required.
 
-    **Note:**
+   **Note:**
 
-    Do not modify the any of following configurations in the file. If you do, those modifications will be ignored:
+   Do not modify the any of following configurations in the file. If you do, those modifications will be ignored:
 
-    - `passwd`
+   - `passwd`
 
-    - `group`
+   - `group`
 
-    - `netgroup`
+   - `netgroup`
 
-    - `automount`
+   - `automount`
 
-    - `services`
+   - `services`
 
 3. Apply the changes.
 
-    ```
-    sudo authselect apply-changes
-    ```
+   ```
+   sudo authselect apply-changes
+   ```
 
-    The changes in `/etc/authselect/user-nsswitch.conf` are applied to `/etc/nsswitch.conf` and will be used by the current profile.
+   The changes in `/etc/authselect/user-nsswitch.conf` are applied to `/etc/nsswitch.conf` and will be used by the current profile.
 
 **Important:**
 
@@ -260,48 +260,48 @@ If you do not want to use the profiles included in Enterprise Linux or those pro
 
 1. Create the profile.
 
-    ```
-    sudo authselect create-profile *newprofile* -b *template* --symlink-meta --symlink-pam
-    ```
+   ```
+   sudo authselect create-profile *newprofile* -b *template* --symlink-meta --symlink-pam
+   ```
 
-    - **_newprofile_**
+   - **_newprofile_**
 
-        Name of your custom profile.
+     Name of your custom profile.
 
-    - **_template_**
+   - **_template_**
 
-        Base to be used for the custom profile, which is either `sssd` or `winbind`.
+     Base to be used for the custom profile, which is either `sssd` or `winbind`.
 
-    - **--symlink-meta**
+   - **--symlink-meta**
 
-        Creates symbolic links to the meta files in the original directory of the template profile you are using as base.
+     Creates symbolic links to the meta files in the original directory of the template profile you are using as base.
 
-    - **--symlink-pam**
+   - **--symlink-pam**
 
-        Creates symbolic links to the PAM templates in the original directory of the template profile you are using as base.
+     Creates symbolic links to the PAM templates in the original directory of the template profile you are using as base.
 
-    This command creates an `/etc/authselect/custom/*newprofile*` directory that contains the symbolic links to the files in the base's original directory. The only file that is **not** a symbolic link in this directory is `nsswitch.conf`.
+   This command creates an `/etc/authselect/custom/*newprofile*` directory that contains the symbolic links to the files in the base's original directory. The only file that is **not** a symbolic link in this directory is `nsswitch.conf`.
 
 2. Edit the `/etc/authselect/custom/*newprofile*/nsswitch.conf` file according to your preference.
 
 3. Select your custom profile.
 
-    ```
-    sudo authselect select custom/*newprofile*                        
-    ```
+   ```
+   sudo authselect select custom/*newprofile*                        
+   ```
 
-    This command also creates a backup of the original `/etc/nsswitch.conf` file and replaces it with a symbolic link to the corresponding file in your custom profile's directory.
+   This command also creates a backup of the original `/etc/nsswitch.conf` file and replaces it with a symbolic link to the corresponding file in your custom profile's directory.
 
-    You can test this result by comparing the symbolic link `/etc/nsswitch.conf` with the original `/etc/nsswitch.conf.bak` and verify that the original file's contents remain intact.
+   You can test this result by comparing the symbolic link `/etc/nsswitch.conf` with the original `/etc/nsswitch.conf.bak` and verify that the original file's contents remain intact.
 
 4. Enable features for your new profile as needed.
 
-    See [Configuring Profile Features](userauth-WorkingWithSystemAuthenticationProfiles.md#) for reference.
+   See [Configuring Profile Features](userauth-WorkingWithSystemAuthenticationProfiles.md#) for reference.
 
 5. \(Optional\) Verify the configuration of the custom profile.
 
-    ```
-    sudo authselect current
-    ```
+   ```
+   sudo authselect current
+   ```
 
 

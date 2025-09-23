@@ -15,47 +15,47 @@ Certain files that you might find in the `/etc/sysconfig` directory include the 
 
 - **`atd`**
 
- Specifies command line arguments for the `atd` daemon.
+  Specifies command line arguments for the `atd` daemon.
 
 - **`autofs`**
 
- Defines custom options for automatically mounting devices and controlling the operation of the automounter.
+  Defines custom options for automatically mounting devices and controlling the operation of the automounter.
 
 - **`crond`**
 
- Passes arguments to the `crond` daemon at boot time.
+  Passes arguments to the `crond` daemon at boot time.
 
 - **`chronyd`**
 
- Passes arguments to the `chronyd` daemon used for NTP services at boot time.
+  Passes arguments to the `chronyd` daemon used for NTP services at boot time.
 
 - **`firewalld`**
 
- Passes arguments to the firewall daemon \(`firewalld`\) at boot time.
+  Passes arguments to the firewall daemon \(`firewalld`\) at boot time.
 
 - **`grub`**
 
- Specifies default settings for the GRUB 2 bootloader. This file is a symbolic link to `/etc/default/grub`. For more information, see [About the GRUB 2 Bootloader](osmanage-WorkingWiththeGRUB2BootloaderandConfiguringBootServices.md#).
+  Specifies default settings for the GRUB 2 bootloader. This file is a symbolic link to `/etc/default/grub`. For more information, see [About the GRUB 2 Bootloader](osmanage-WorkingWiththeGRUB2BootloaderandConfiguringBootServices.md#).
 
 - **`named`**
 
- Passes arguments to the name service daemon at boot time. The `named` daemon is a Domain Name System \(DNS\) server that's part of the Berkeley Internet Name Domain \(BIND\) distribution. This server maintains a table that associates host names with IP addresses on the network.
+  Passes arguments to the name service daemon at boot time. The `named` daemon is a Domain Name System \(DNS\) server that's part of the Berkeley Internet Name Domain \(BIND\) distribution. This server maintains a table that associates host names with IP addresses on the network.
 
 - **`samba`**
 
- Passes arguments to the `smbd`, `nmbd`, and `winbindd` daemons at boot time to support file-sharing connectivity for Windows clients, NetBIOS-over-IP naming service, and connection management to domain controllers.
+  Passes arguments to the `smbd`, `nmbd`, and `winbindd` daemons at boot time to support file-sharing connectivity for Windows clients, NetBIOS-over-IP naming service, and connection management to domain controllers.
 
 - **`selinux`**
 
- Controls the state of SELinux on the system. This file is a symbolic link to `/etc/selinux/config`.
+  Controls the state of SELinux on the system. This file is a symbolic link to `/etc/selinux/config`.
 
 - **`snapper`**
 
- Defines a list of`snapper` utility.
+  Defines a list of`snapper` utility.
 
 - **`sysstat`**
 
- Configures logging parameters for system activity data collector utilities such as `sar`.
+  Configures logging parameters for system activity data collector utilities such as `sar`.
 
 For more information, see `/usr/share/doc/initscripts*/sysconfig.txt`.
 
@@ -642,47 +642,47 @@ The following parameters control various aspects of system performance:
 
 - **`fs.file-max`**
 
- Specifies the maximum number of open files for all processes. Increase the value of this parameter if you see messages about running out of file handles.
+  Specifies the maximum number of open files for all processes. Increase the value of this parameter if you see messages about running out of file handles.
 
 - **`net.core.netdev_max_backlog`**
 
- Specifies the size of the receiver backlog queue, which is used if an interface receives packets faster than the kernel can process them. If this queue is too small, packets are lost at the receiver, rather than on the network.
+  Specifies the size of the receiver backlog queue, which is used if an interface receives packets faster than the kernel can process them. If this queue is too small, packets are lost at the receiver, rather than on the network.
 
 - **`net.core.rmem_max`**
 
- Specifies the maximum read socket buffer size. To minimize network packet loss, this buffer must be large enough to handle incoming network packets.
+  Specifies the maximum read socket buffer size. To minimize network packet loss, this buffer must be large enough to handle incoming network packets.
 
 - **`net.core.wmem_max`**
 
- Specifies the maximum write socket buffer size. To minimize network packet loss, this buffer must be large enough to handle outgoing network packets.
+  Specifies the maximum write socket buffer size. To minimize network packet loss, this buffer must be large enough to handle outgoing network packets.
 
 - **`net.ipv4.tcp_available_congestion_control`**
 
- Displays the TCP congestion avoidance algorithms that are available for use. Use the `modprobe` command if you need to load additional modules such as `tcp_htcp` to implement the `htcp` algorithm.
+  Displays the TCP congestion avoidance algorithms that are available for use. Use the `modprobe` command if you need to load additional modules such as `tcp_htcp` to implement the `htcp` algorithm.
 
 - **`net.ipv4.tcp_congestion_control`**
 
- Specifies which TCP congestion avoidance algorithm is used.
+  Specifies which TCP congestion avoidance algorithm is used.
 
 - **`net.ipv4.tcp_max_syn_backlog`**
 
- Specifies the number of outstanding `SYN` requests that are allowed. Increase the value of this parameter if you see `synflood` warnings in the logs that are cuased by the server being overloaded by legitimate connection attempts.
+  Specifies the number of outstanding `SYN` requests that are allowed. Increase the value of this parameter if you see `synflood` warnings in the logs that are cuased by the server being overloaded by legitimate connection attempts.
 
 - **`net.ipv4.tcp_rmem`**
 
- Specifies minimum, default, and maximum receive buffer sizes that are used for a TCP socket. The maximum value can't be larger than `net.core.rmem_max`.
+  Specifies minimum, default, and maximum receive buffer sizes that are used for a TCP socket. The maximum value can't be larger than `net.core.rmem_max`.
 
 - **`net.ipv4.tcp_wmem`**
 
- Specifies minimum, default, and maximum send buffer sizes that are used for a TCP socket. The maximum value can't be larger than `net.core.wmem_max`.
+  Specifies minimum, default, and maximum send buffer sizes that are used for a TCP socket. The maximum value can't be larger than `net.core.wmem_max`.
 
 - **`vm.swappiness`**
 
- Specifies how likely the kernel is to write loaded pages to swap rather than drop pages from the system page cache. When set to 0, swapping only occurs to avoid an out of memory condition. When set to 100, the kernel swaps aggressively. For a desktop system, setting a lower value can improve system responsiveness by decreasing latency. The default value is 60.
+  Specifies how likely the kernel is to write loaded pages to swap rather than drop pages from the system page cache. When set to 0, swapping only occurs to avoid an out of memory condition. When set to 100, the kernel swaps aggressively. For a desktop system, setting a lower value can improve system responsiveness by decreasing latency. The default value is 60.
 
- CAUTION:
+  CAUTION:
 
- This parameter is intended for use with laptop computers to reduce power consumption by the hard disk. Do not adjust this value on server systems.
+  This parameter is intended for use with laptop computers to reduce power consumption by the hard disk. Do not adjust this value on server systems.
 
 ### Parameters That Control Kernel Panics
 
@@ -690,59 +690,59 @@ The following parameters control the circumstances under which a kernel panic ca
 
 - **`kernel.hung_task_panic`**
 
- If set to 1, the kernel panics if any kernel or user thread sleeps in the `TASK_UNINTERRUPTIBLE` state \(_D state_\) for more than `kernel.hung_task_timeout_secs` seconds. A process remains in D state while waiting for I/O to complete. You can't stop or interrupt a process in this state.
+  If set to 1, the kernel panics if any kernel or user thread sleeps in the `TASK_UNINTERRUPTIBLE` state \(_D state_\) for more than `kernel.hung_task_timeout_secs` seconds. A process remains in D state while waiting for I/O to complete. You can't stop or interrupt a process in this state.
 
- The default value is 0, which disables the panic.
+  The default value is 0, which disables the panic.
 
- **Tip:**
+  **Tip:**
 
- To diagnose a hung thread, you can examine `/proc/*PID*/stack`, which displays the kernel stack for both kernel and user threads.
+  To diagnose a hung thread, you can examine `/proc/*PID*/stack`, which displays the kernel stack for both kernel and user threads.
 
 - **`kernel.hung_task_timeout_secs`**
 
- Specifies how long a user or kernel thread can remain in D state before a warning message is generated or the kernel panics, if the value of `kernel.hung_task_panic` is 1. The default value is 120 seconds. A value of 0 disables the timeout.
+  Specifies how long a user or kernel thread can remain in D state before a warning message is generated or the kernel panics, if the value of `kernel.hung_task_panic` is 1. The default value is 120 seconds. A value of 0 disables the timeout.
 
 - **`kernel.nmi_watchdog`**
 
- If set to 1 \(default\), enables the nonmaskable interrupt \(NMI\) watchdog thread in the kernel. To use the NMI switch or the OProfile system profiler to generate an undefined NMI, set the value of `kernel.nmi_watchdog` to 0.
+  If set to 1 \(default\), enables the nonmaskable interrupt \(NMI\) watchdog thread in the kernel. To use the NMI switch or the OProfile system profiler to generate an undefined NMI, set the value of `kernel.nmi_watchdog` to 0.
 
 - **`kernel.panic`**
 
- Specifies the number of seconds after a panic before a system automatically resets itself.
+  Specifies the number of seconds after a panic before a system automatically resets itself.
 
- If the value is 0, which is the default value, the system bcomes suspended, and you can collect detailed information about the panic for troubleshooting.
+  If the value is 0, which is the default value, the system bcomes suspended, and you can collect detailed information about the panic for troubleshooting.
 
- To enable automatic reset, set a nonzero value. If you require a memory image \(`vmcore`\), leave enough time for Kdump to create this image. The suggested value is 30 seconds, although large systems require a longer time.
+  To enable automatic reset, set a nonzero value. If you require a memory image \(`vmcore`\), leave enough time for Kdump to create this image. The suggested value is 30 seconds, although large systems require a longer time.
 
 - **`kernel.panic_on_io_nmi`**
 
- If set to 0 \(default\), the system tries to continue operations if the kernel detects an I/O channel check \(IOCHK\) NMI that typically indicates a uncorrectable hardware error. If set to 1, the system panics.
+  If set to 0 \(default\), the system tries to continue operations if the kernel detects an I/O channel check \(IOCHK\) NMI that typically indicates a uncorrectable hardware error. If set to 1, the system panics.
 
 - **`kernel.panic_on_oops`**
 
- If set to 0, the system tries to continue operations if the kernel detects an `oops` or BUG condition. If set to 1 \(default\), the system delays a few seconds to give the kernel log daemon, `klogd`, time to record the oops output before the panic occurs.
+  If set to 0, the system tries to continue operations if the kernel detects an `oops` or BUG condition. If set to 1 \(default\), the system delays a few seconds to give the kernel log daemon, `klogd`, time to record the oops output before the panic occurs.
 
- In an OCFS2 cluster. set the value to 1 to specify that a system must panic if a kernel oops occurs. If a kernel thread required for cluster operation fails, the system must reset itself. Otherwise, another node might not detect whether a node is slow to respond or unable to respond, causing cluster operations to halt.
+  In an OCFS2 cluster. set the value to 1 to specify that a system must panic if a kernel oops occurs. If a kernel thread required for cluster operation fails, the system must reset itself. Otherwise, another node might not detect whether a node is slow to respond or unable to respond, causing cluster operations to halt.
 
 - **`kernel.panic_on_unrecovered_nmi`**
 
- If set to 0 \(default\), the system tries to continue operations if the kernel detects an NMI that usually indicates an uncorrectable parity or ECC memory error. If set to 1, the system panics.
+  If set to 0 \(default\), the system tries to continue operations if the kernel detects an NMI that usually indicates an uncorrectable parity or ECC memory error. If set to 1, the system panics.
 
 - **`kernel.softlockup_panic`**
 
- If set to 0 \(default\), the system tries to continue operations if the kernel detects a _soft-lockup_ error that causes the NMI watchdog thread to fail to update its timestamp for more than twice the value of `kernel.watchdog_thresh` seconds. If set to 1, the system panics.
+  If set to 0 \(default\), the system tries to continue operations if the kernel detects a _soft-lockup_ error that causes the NMI watchdog thread to fail to update its timestamp for more than twice the value of `kernel.watchdog_thresh` seconds. If set to 1, the system panics.
 
 - **`kernel.unknown_nmi_panic`**
 
- If set to `1`, the system panics if the kernel detects an undefined NMI. You would usually generate an undefined NMI by manually pressing an NMI switch. As the NMI watchdog thread also uses the undefined NMI, set the value of `kernel.unknown_nmi_panic` to 0 if you set `kernel.nmi_watchdog` to 1.
+  If set to `1`, the system panics if the kernel detects an undefined NMI. You would usually generate an undefined NMI by manually pressing an NMI switch. As the NMI watchdog thread also uses the undefined NMI, set the value of `kernel.unknown_nmi_panic` to 0 if you set `kernel.nmi_watchdog` to 1.
 
 - **`kernel.watchdog_thresh`**
 
- Specifies the interval between generating an NMI performance monitoring interrupt that the kernel uses to check for _hard-lockup_ and _soft-lockup_ errors. A hard-lockup error is assumed if a CPU is unresponsive to the interrupt for more than `kernel.watchdog_thresh` seconds. The default value is 10 seconds. A value of 0 disables the detection of lockup errors.
+  Specifies the interval between generating an NMI performance monitoring interrupt that the kernel uses to check for _hard-lockup_ and _soft-lockup_ errors. A hard-lockup error is assumed if a CPU is unresponsive to the interrupt for more than `kernel.watchdog_thresh` seconds. The default value is 10 seconds. A value of 0 disables the detection of lockup errors.
 
 - **`vm.panic_on_oom`**
 
- If set to 0 \(default\), the kernel’s OOM-killer scans through the entire task list and stops a memory-hogging process to avoid a panic. If set to 1, the kernel panics but can survive under certain conditions. If a process limits allocations to certain nodes by using memory policies or cpusets, and those nodes reach memory exhaustion status, the OOM-killer can stop one process. No panic occurs in this case because other nodes’ memory might be free and the system as a whole might not yet be out of memory. If set to 2, the kernel always panics when an OOM condition occurs. Settings of 1 and 2 are for intended for use with clusters, depending on the defined failover policy.
+  If set to 0 \(default\), the kernel’s OOM-killer scans through the entire task list and stops a memory-hogging process to avoid a panic. If set to 1, the kernel panics but can survive under certain conditions. If a process limits allocations to certain nodes by using memory policies or cpusets, and those nodes reach memory exhaustion status, the OOM-killer can stop one process. No panic occurs in this case because other nodes’ memory might be free and the system as a whole might not yet be out of memory. If set to 2, the kernel always panics when an OOM condition occurs. Settings of 1 and 2 are for intended for use with clusters, depending on the defined failover policy.
 
 ## About the /sys Virtual File System
 

@@ -21,7 +21,7 @@ On a UEFI-based system running the Enterprise Linux release, the system boot pro
 
 3. The UEFI boot manager checks whether Secure Boot is enabled. If Secure Boot is disabled, the boot manager runs the GRUB 2 bootloader on the ESP.
 
- Otherwise, the boot manager requests a certificate from the boot loader and validates this against keys stored in the UEFI Secure Boot key database. To handle the certificate validation process, the environment is configured to perform a 2-stage boot process and the `shim.efi` application that's responsible for certification is loaded first before loading the GRUB 2 bootloader. If the certificate is valid, the boot loader runs and, in turn, validates the kernel that it's configured to load.
+   Otherwise, the boot manager requests a certificate from the boot loader and validates this against keys stored in the UEFI Secure Boot key database. To handle the certificate validation process, the environment is configured to perform a 2-stage boot process and the `shim.efi` application that's responsible for certification is loaded first before loading the GRUB 2 bootloader. If the certificate is valid, the boot loader runs and, in turn, validates the kernel that it's configured to load.
 
 4. The boot loader loads the `vmlinuz` kernel image file into memory and extracts the contents of the `initramfs` image file into a temporary, memory-based file system \(`tmpfs`\).
 
@@ -31,9 +31,9 @@ On a UEFI-based system running the Enterprise Linux release, the system boot pro
 
 7. `systemd` runs any additional processes defined for it.
 
- **Note:**
+   **Note:**
 
- Specify any other actions to be processed during the boot process by defining your own `systemd` unit. This method is the preferred approach than using the `/etc/rc.local` file.
+   Specify any other actions to be processed during the boot process by defining your own `systemd` unit. This method is the preferred approach than using the `/etc/rc.local` file.
 
 ### About BIOS-Based Booting
 
@@ -51,9 +51,9 @@ On a BIOS-based system running the Enterprise Linux release, the boot process is
 
 6. `systemd` runs any additional processes defined for it.
 
- **Note:**
+   **Note:**
 
- Specify any other actions to be processed during the boot process by defining user `systemd` units. This method is the preferred approach than using the `/etc/rc.local` file.
+   Specify any other actions to be processed during the boot process by defining user `systemd` units. This method is the preferred approach than using the `/etc/rc.local` file.
 
 ## About the GRUB 2 Bootloader
 
@@ -315,7 +315,7 @@ To modify boot parameters before booting a kernel, follow these steps:
 
 4. Modify the boot parameters.
 
- You can add parameters such as `systemd.target=runlevel1.target`, which instructs the system to boot into the rescue shell.
+   You can add parameters such as `systemd.target=runlevel1.target`, which instructs the system to boot into the rescue shell.
 
 5. Press Ctrl+X to boot the system.
 
@@ -325,21 +325,21 @@ To modify the boot parameters for the GRUB 2 configuration so that these paramet
 
 1. Edit `/etc/default/grub` and add parameter settings to the `GRUB_CMDLINE_LINUX` definition, for example:
 
- ```
- GRUB_CMDLINE_LINUX="vconsole.font=latarcyrheb-sun16 vconsole.keymap=uk 
- crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M  rd.lvm.lv=ol/swap rd.lvm.lv=ol/root biosdevname=0 
- rhgb quiet **systemd.unit=runlevel3.target**"
- ```
+   ```
+   GRUB_CMDLINE_LINUX="vconsole.font=latarcyrheb-sun16 vconsole.keymap=uk 
+   crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M  rd.lvm.lv=ol/swap rd.lvm.lv=ol/root biosdevname=0 
+   rhgb quiet **systemd.unit=runlevel3.target**"
+   ```
 
- This example adds the parameter `systemd.unit=runlevel3.target` so that the system boots into multiuser, nongraphical mode by default.
+   This example adds the parameter `systemd.unit=runlevel3.target` so that the system boots into multiuser, nongraphical mode by default.
 
 2. Rebuild `/boot/grub2/grub.cfg`:
 
- ```
- sudo grub2-mkconfig -o /boot/grub2/grub.cfg
- ```
+   ```
+   sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+   ```
 
- The change takes effect at the next system reboot of all configured kernels.
+   The change takes effect at the next system reboot of all configured kernels.
 
 **Note:**
 
