@@ -11,15 +11,15 @@ The benefits of configuring SSSD include the following:
 
 - Reduced system load
 
-    Clients do not have to contact the identification or authentication servers directly.
+  Clients do not have to contact the identification or authentication servers directly.
 
 - Offline authentication
 
-    You can configure SSSD to maintain a cache of user identities and credentials.
+  You can configure SSSD to maintain a cache of user identities and credentials.
 
 - Single sign-on access
 
-    If you configure SSSD to store network credentials, users need only authenticate once per session with the local system to access network resources.
+  If you configure SSSD to store network credentials, users need only authenticate once per session with the local system to access network resources.
 
 Because the Enterprise Linux `sssd` profile is used by default, the SSSD service is also automatically installed and enabled on a newly installed system. The default configuration uses the Pluggable Authentication Modules \(PAM\) and the Name Service Switch \(NSS\) for managing access and authentication on a system. No further configuration is required, unless you wish to use different authentication services or wish to customize the configuration to use alternative values to the default settings.
 
@@ -37,106 +37,106 @@ The following example shows how you might configure SSSD to authenticate against
 
 2. Configure `/etc/sssd/conf.d/00-ldap.conf` with parameter definitions, such as the following:
 
-    ```
-    [sssd]
-    config_file_version = 2
-    domains = LDAP
-    services = nss, pam
+   ```
+   [sssd]
+   config_file_version = 2
+   domains = LDAP
+   services = nss, pam
 
-    [domain/LDAP]
-    id_provider = ldap
-    ldap_uri = ldap://ldap.mydom.com
-    ldap_search_base = dc=mydom,dc=com
+   [domain/LDAP]
+   id_provider = ldap
+   ldap_uri = ldap://ldap.mydom.com
+   ldap_search_base = dc=mydom,dc=com
 
-    auth_provider = krb5
-    krb5_server = krbsvr.mydom.com
-    krb5_realm = MYDOM.COM
-    cache_credentials = true
+   auth_provider = krb5
+   krb5_server = krbsvr.mydom.com
+   krb5_realm = MYDOM.COM
+   cache_credentials = true
 
-    min_id = 5000
-    max_id = 25000
-    enumerate = false
+   min_id = 5000
+   max_id = 25000
+   enumerate = false
 
-    [nss]
-    filter_groups = root
-    filter_users = root
-    reconnection_retries = 3
-    entry_cache_timeout = 300
+   [nss]
+   filter_groups = root
+   filter_users = root
+   reconnection_retries = 3
+   entry_cache_timeout = 300
 
-    [pam]
-    reconnection_retries = 3
-    offline_credentials_expiration = 2
-    offline_failed_login_attempts = 3
-    offline_failed_login_delay = 5
-    ```
+   [pam]
+   reconnection_retries = 3
+   offline_credentials_expiration = 2
+   offline_failed_login_attempts = 3
+   offline_failed_login_delay = 5
+   ```
 
-    - **`[sssd]`**
+   - **`[sssd]`**
 
-        Contains configuration settings for SSSD monitor options, domains, and services. The SSSD monitor service manages the services that SSSD provides.
+     Contains configuration settings for SSSD monitor options, domains, and services. The SSSD monitor service manages the services that SSSD provides.
 
-        - `services` defines the supported services, which should include `nss` for the Name Service Switch and `pam` for Pluggable Authentication Modules.
+     - `services` defines the supported services, which should include `nss` for the Name Service Switch and `pam` for Pluggable Authentication Modules.
 
-        - The `domains` entry specifies the name of the sections that define authentication domains.
+     - The `domains` entry specifies the name of the sections that define authentication domains.
 
-    - **`[domain/LDAP]`**
+   - **`[domain/LDAP]`**
 
-        Defines a domain for an LDAP identity provider that uses Kerberos authentication. Each domain defines where user information is stored, the authentication method, and any configuration options. SSSD can work with LDAP identity providers such as OpenLDAP, Red Hat Directory Server, IPA, and Microsoft Active Directory, and it can use either native LDAP or Kerberos authentication.
+     Defines a domain for an LDAP identity provider that uses Kerberos authentication. Each domain defines where user information is stored, the authentication method, and any configuration options. SSSD can work with LDAP identity providers such as OpenLDAP, Red Hat Directory Server, IPA, and Microsoft Active Directory, and it can use either native LDAP or Kerberos authentication.
 
-        - `id_provider` specifies the type of provider \(in this example, LDAP\).
+     - `id_provider` specifies the type of provider \(in this example, LDAP\).
 
-        - `ldap_uri` specifies a comma-separated list of the Universal Resource Identifiers \(URIs\) of the LDAP servers, in order of preference, to which SSSD can connect.
+     - `ldap_uri` specifies a comma-separated list of the Universal Resource Identifiers \(URIs\) of the LDAP servers, in order of preference, to which SSSD can connect.
 
-        - `ldap_search_base` specifies the base distinguished name \(`dn`\) that SSSD should use when performing LDAP user operations on a relative distinguished name \(RDN\) such as a common name \(`cn`\).
+     - `ldap_search_base` specifies the base distinguished name \(`dn`\) that SSSD should use when performing LDAP user operations on a relative distinguished name \(RDN\) such as a common name \(`cn`\).
 
-        - `auth_provider` entry specifies the authentication provider \(in this example, Kerberos\).
+     - `auth_provider` entry specifies the authentication provider \(in this example, Kerberos\).
 
-        - `krb5_server` specifies a comma-separated list of Kerberos servers, in order of preference, to which SSSD can connect.
+     - `krb5_server` specifies a comma-separated list of Kerberos servers, in order of preference, to which SSSD can connect.
 
-        - `krb5_realm` specifies the Kerberos realm.
+     - `krb5_realm` specifies the Kerberos realm.
 
-        - `cache_credentials` specifies if SSSD caches user credentials such as tickets, session keys, and other identifying information to support offline authentication and single sign-on.
+     - `cache_credentials` specifies if SSSD caches user credentials such as tickets, session keys, and other identifying information to support offline authentication and single sign-on.
 
-            **Note:**
+       **Note:**
 
-            To allow SSSD to use Kerberos authentication with an LDAP server, you must configure the LDAP server to use both Simple Authentication and Security Layer \(SASL\) and the Generic Security Services API \(GSSAPI\). For more information about configuring SASL and GSSAPI for OpenLDAP, see [https://www.openldap.org/doc/admin24/sasl.html](https://www.openldap.org/doc/admin24/sasl.html).
+       To allow SSSD to use Kerberos authentication with an LDAP server, you must configure the LDAP server to use both Simple Authentication and Security Layer \(SASL\) and the Generic Security Services API \(GSSAPI\). For more information about configuring SASL and GSSAPI for OpenLDAP, see [https://www.openldap.org/doc/admin24/sasl.html](https://www.openldap.org/doc/admin24/sasl.html).
 
-        - `min_id` and `max_id` specify upper and lower limits on the values of user and group IDs.
+     - `min_id` and `max_id` specify upper and lower limits on the values of user and group IDs.
 
-        - `enumerate` specifies whether SSSD caches the complete list of users and groups that are available on the provider. The recommended setting is `False` unless a domain contains relatively few users or groups.
+     - `enumerate` specifies whether SSSD caches the complete list of users and groups that are available on the provider. The recommended setting is `False` unless a domain contains relatively few users or groups.
 
-    - **`[nss]`**
+   - **`[nss]`**
 
-        Configures the Name Service Switch \(NSS\) module that integrates the SSS database with NSS.
+     Configures the Name Service Switch \(NSS\) module that integrates the SSS database with NSS.
 
-        - `filter_users` and `filter_groups` prevent NSS from extracting information about the specified users and groups being retrieved from SSS.
+     - `filter_users` and `filter_groups` prevent NSS from extracting information about the specified users and groups being retrieved from SSS.
 
-        - `reconnection_retries` specifies the number of times that SSSD should try to reconnect if a data provider crashes.
+     - `reconnection_retries` specifies the number of times that SSSD should try to reconnect if a data provider crashes.
 
-        - `enum_cache_timeout` specifies the number of seconds for which SSSD caches user information requests.
+     - `enum_cache_timeout` specifies the number of seconds for which SSSD caches user information requests.
 
-    - **`[pam]`**
+   - **`[pam]`**
 
-        Configures the PAM module that integrates SSSD with PAM.
+     Configures the PAM module that integrates SSSD with PAM.
 
-        - `offline_credentials_expiration` specifies the number of days for which to allow cached logins if the authentication provider is offline.
+     - `offline_credentials_expiration` specifies the number of days for which to allow cached logins if the authentication provider is offline.
 
-        - `offline_failed_login_attempts` specifies how many failed login attempts are allowed if the authentication provider is offline.
+     - `offline_failed_login_attempts` specifies how many failed login attempts are allowed if the authentication provider is offline.
 
-        - `offline_failed_login_delay` specifies how many minutes after the limit of allowed failed login attempts have been exceeded before a new login attempt is permitted.
+     - `offline_failed_login_delay` specifies how many minutes after the limit of allowed failed login attempts have been exceeded before a new login attempt is permitted.
 
 3. Change the mode of `/etc/sssd/conf.d/00-ldap.conf` to 0600:
 
-    ```
-    sudo chmod 0600 /etc/sssd/conf.d/00-ldap.conf
-    ```
+   ```
+   sudo chmod 0600 /etc/sssd/conf.d/00-ldap.conf
+   ```
 
 4. If it's not started yet, enable the SSSD service:
 
 5. Select the `sssd` profile.
 
-    ```
-    sudo authselect select sssd
-    ```
+   ```
+   sudo authselect select sssd
+   ```
 
 For more information about the SSSD service, see the `sssd(8)` manual page and [https://pagure.io/SSSD/sssd/](https://pagure.io/SSSD/sssd/). Also, you can consult `sssd.conf(5)`, `sssd-ldap(5)`, `sssd-krb5(5)`, `sssd-ipa(5)`, and other manual pages.
 
@@ -175,19 +175,19 @@ The following operation types are defined for use:
 
 - **`auth`**
 
-    The module tests whether a user is authenticated or authorized to use a service or application. For example, the module might request and verify a password. Such modules can also set credentials, such as a group membership or a Kerberos ticket.
+  The module tests whether a user is authenticated or authorized to use a service or application. For example, the module might request and verify a password. Such modules can also set credentials, such as a group membership or a Kerberos ticket.
 
 - **`account`**
 
-    The module tests whether an authenticated user is allowed access to a service or application. For example, the module might check if a user account has expired or if a user is allowed to use a service at a given time.
+  The module tests whether an authenticated user is allowed access to a service or application. For example, the module might check if a user account has expired or if a user is allowed to use a service at a given time.
 
 - **`password`**
 
-    The module handles updates to an authentication token.
+  The module handles updates to an authentication token.
 
 - **`session`**
 
-    The module configures and manages user sessions, performing tasks such as mounting or unmounting a user's home directory.
+  The module configures and manages user sessions, performing tasks such as mounting or unmounting a user's home directory.
 
 If the operation type is preceded with a dash \(`-`\), PAM does not add an create a system log entry if the module is missing.
 
@@ -195,19 +195,19 @@ Except for `include`, the control flags tell PAM what to do with the result of r
 
 - **`optional`**
 
-    The module is required for authentication if it's the only module listed for a service.
+  The module is required for authentication if it's the only module listed for a service.
 
 - **`required`**
 
-    The module must succeed for access to be granted. PAM continues to mprocess the remaining modules in the stack whether the module succeeds or fails. PAM doesn't immediately inform the user of the failure.
+  The module must succeed for access to be granted. PAM continues to mprocess the remaining modules in the stack whether the module succeeds or fails. PAM doesn't immediately inform the user of the failure.
 
 - **`requisite`**
 
-    The module must succeed for access to be granted. If the module succeeds, PAM continues to process the remaining modules in the stack. However, if the module fails, PAM notifies the user immediately and doesn't continue to process the remaining modules in the stack.
+  The module must succeed for access to be granted. If the module succeeds, PAM continues to process the remaining modules in the stack. However, if the module fails, PAM notifies the user immediately and doesn't continue to process the remaining modules in the stack.
 
 - **`sufficient`**
 
-    If the module succeeds, PAM doesn't process any remaining modules of the same operation type. If the module fails, PAM processes the remaining modules of the same operation type to determine overall success or failure.
+  If the module succeeds, PAM doesn't process any remaining modules of the same operation type. If the module fails, PAM processes the remaining modules of the same operation type to determine overall success or failure.
 
 The control flag field can also define one or more rules that specify the action that PAM takes depending on the value that a module returns. Each rule takes the form `*value*=*action*`, and the rules are enclosed in square brackets, for example:
 

@@ -31,103 +31,103 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 1. `nmcli Connection add` 명령을 사용하여 Bond 인터페이스를 추가합니다.
 
-    ```
-    sudo nmcli connection add type bond con-name *"Bond Connection 1"* ifname *bond0* bond.options "mode=active-backup"
-    ```
+   ```
+   sudo nmcli connection add type bond con-name *"Bond Connection 1"* ifname *bond0* bond.options "mode=active-backup"
+   ```
 
-    Bond 연결 이름, BOND 인터페이스 이름, 그리고 가장 중요한 Bond 모드 옵션을 설정하는 데 유의하십시오. 이 예에서는 모드가 `active-backup`으로 설정되어 있습니다. Bond 연결 이름을 설정하지 않으면 Bond 인터페이스 이름이 연결 이름으로도 사용됩니다.
+   Bond 연결 이름, BOND 인터페이스 이름, 그리고 가장 중요한 Bond 모드 옵션을 설정하는 데 유의하십시오. 이 예에서는 모드가 `active-backup`으로 설정되어 있습니다. Bond 연결 이름을 설정하지 않으면 Bond 인터페이스 이름이 연결 이름으로도 사용됩니다.
 
 2. 선택적으로 `nmcli 연결 수정` 명령을 사용하여 본드 인터페이스의 IP 주소를 구성합니다. 기본적으로 인터페이스는 DHCP를 사용하도록 구성되어 있지만 고정 IP 주소 지정이 필요한 경우 주소를 수동으로 구성하십시오. 예를 들어 본드에 대한 IPv4 설정을 구성하려면 다음을 입력합니다.:
 
-    ```
-    sudo nmcli connection modify *"Bond Connection 1"* ipv4.addresses '*192.0.2.2/24*'
-    ```
+   ```
+   sudo nmcli connection modify *"Bond Connection 1"* ipv4.addresses '*192.0.2.2/24*'
+   ```
 
-    ```
-    sudo nmcli connection modify *"Bond Connection 1"* ipv4.gateway '*192.0.2.1*'
-    ```
+   ```
+   sudo nmcli connection modify *"Bond Connection 1"* ipv4.gateway '*192.0.2.1*'
+   ```
 
-    ```
-    sudo nmcli connection modify *"Bond Connection 1"* ipv4.dns '*192.0.2.254*'
-    ```
+   ```
+   sudo nmcli connection modify *"Bond Connection 1"* ipv4.dns '*192.0.2.254*'
+   ```
 
-    ```
-    sudo nmcli connection modify *"Bond Connection 1"* ipv4.method manual
-    ```
+   ```
+   sudo nmcli connection modify *"Bond Connection 1"* ipv4.method manual
+   ```
 
 3. `nmcli Connection add` 명령을 사용하여 물리적 네트워크 인터페이스를 본드에 보조 유형 인터페이스로 추가합니다. 예를 들어:
 
-    ```
-    sudo nmcli connection add type ethernet slave-type bond con-name *bond0-if1* ifname *enp1s0* master *bond0*
-    ```
+   ```
+   sudo nmcli connection add type ethernet slave-type bond con-name *bond0-if1* ifname *enp1s0* master *bond0*
+   ```
 
-    ```
-    sudo nmcli connection add type ethernet slave-type bond con-name *bond0-if2* ifname *enp2s0* master *bond0*
-    ```
+   ```
+   sudo nmcli connection add type ethernet slave-type bond con-name *bond0-if2* ifname *enp2s0* master *bond0*
+   ```
 
-    각 보조 연결 이름을 지정하고 추가하려는 각 인터페이스의 인터페이스 이름을 선택합니다. `nmcli device` 명령을 실행하여 사용 가능한 인터페이스 목록을 얻을 수 있습니다. 보조 네트워크 인터페이스를 연결하려는 본드의 인터페이스 이름을 지정합니다.
+   각 보조 연결 이름을 지정하고 추가하려는 각 인터페이스의 인터페이스 이름을 선택합니다. `nmcli device` 명령을 실행하여 사용 가능한 인터페이스 목록을 얻을 수 있습니다. 보조 네트워크 인터페이스를 연결하려는 본드의 인터페이스 이름을 지정합니다.
 
 4. 본드 인터페이스를 시작합니다.
 
-    ```
-    sudo nmcli connection up *"Bond Connection 1"*
-    ```
+   ```
+   sudo nmcli connection up *"Bond Connection 1"*
+   ```
 
 5. 네트워크 인터페이스가 본드에 올바르게 추가되었는지 확인하십시오. 이는 장치 목록을 다시 보면 확인할 수 있습니다.
 
-    ```
-    sudo nmcli device
-    ```
+   ```
+   sudo nmcli device
+   ```
 
-    ```nocopybutton
-    ...
-    enp1s0   ethernet  connected  bond0-if1
-    enp2s0   ethernet  connected  bond0-if2
-    ```
+   ```nocopybutton
+   ...
+   enp1s0   ethernet  connected  bond0-if1
+   enp2s0   ethernet  connected  bond0-if2
+   ```
 
 #### 네트워크 연결 편집기 사용
 
 1. 편집기 시작:
 
-    ```
-    sudo nm-connection-editor
-    ```
+   ```
+   sudo nm-connection-editor
+   ```
 
-    네트워크 연결 창이 열립니다.
+   네트워크 연결 창이 열립니다.
 
 2. 연결을 추가하려면 창 하단에 있는 더하기 \(+\) 버튼을 사용하세요.
 
-    이 단계에서는 생성할 연결 유형을 묻는 또 다른 창이 열립니다.
+   이 단계에서는 생성할 연결 유형을 묻는 또 다른 창이 열립니다.
 
 3. 창의 드롭다운 목록과 가상 섹션 아래에서 **본드**를 선택한 다음 **만들기**를 클릭합니다.
 
-    네트워크 본드 편집기 창이 열립니다.
+   네트워크 본드 편집기 창이 열립니다.
 
-    네트워크 본드 편집기
+   네트워크 본드 편집기
 
-    ![그림은 네트워크 연결 인터페이스 편집기가 열려 있고 새 본딩된 네트워크 인터페이스를 구성할 준비가 되어 있음을 보여줍니다.](images/BondEditor.png)
+   ![그림은 네트워크 연결 인터페이스 편집기가 열려 있고 새 본딩된 네트워크 인터페이스를 구성할 준비가 되어 있음을 보여줍니다.](images/BondEditor.png)
 
 4. 선택적으로 본드에 대한 연결 이름을 구성합니다.
 
 5. **추가** 버튼을 클릭하여 네트워크 본드에 물리적 네트워크 인터페이스를 추가합니다.
 
-    1. 네트워크 본드에 추가할 물리적 인터페이스 유형을 선택할 수 있는 새 창입니다. 예를 들어 **이더넷** 유형을 선택하여 네트워크 연결에 이더넷 인터페이스를 추가할 수 있습니다. **만들기** 버튼을 클릭하여 보조 인터페이스를 구성합니다.
+   1. 네트워크 본드에 추가할 물리적 인터페이스 유형을 선택할 수 있는 새 창입니다. 예를 들어 **이더넷** 유형을 선택하여 네트워크 연결에 이더넷 인터페이스를 추가할 수 있습니다. **만들기** 버튼을 클릭하여 보조 인터페이스를 구성합니다.
 
-    2. 선택적으로 보조 인터페이스의 이름을 구성합니다.
+   2. 선택적으로 보조 인터페이스의 이름을 구성합니다.
 
-    3. **디바이스** 필드에서 본드에 보조 인터페이스로 추가할 물리적 네트워크 인터페이스를 선택합니다. 장치가 이미 네트워킹용으로 구성된 경우 본드 내에서 구성할 수 있는 것으로 나열되지 않습니다.
+   3. **디바이스** 필드에서 본드에 보조 인터페이스로 추가할 물리적 네트워크 인터페이스를 선택합니다. 장치가 이미 네트워킹용으로 구성된 경우 본드 내에서 구성할 수 있는 것으로 나열되지 않습니다.
 
-    4. **저장**을 클릭하여 네트워크 연결에 보조 기기를 추가합니다.
+   4. **저장**을 클릭하여 네트워크 연결에 보조 기기를 추가합니다.
 
-    본딩된 인터페이스를 구성하는 모든 물리적 네트워크 인터페이스에 대해 이 단계를 반복합니다.
+   본딩된 인터페이스를 구성하는 모든 물리적 네트워크 인터페이스에 대해 이 단계를 반복합니다.
 
 6. 네트워크 연결에 사용할 연결 모드를 구성합니다.
 
-    **모드** 드롭다운 목록에서 본딩 모드를 선택합니다. 일부 모드에서는 네트워크 스위치에 추가 구성이 필요할 수 있습니다.
+   **모드** 드롭다운 목록에서 본딩 모드를 선택합니다. 일부 모드에서는 네트워크 스위치에 추가 구성이 필요할 수 있습니다.
 
 7. 기본 설정을 사용하지 않으려면 필요에 따라 링크 모니터링과 같은 기타 연결 매개변수를 구성하십시오.
 
-    네트워크 본드 IP 구성에 DHCP를 사용하지 않으려면 **IPv4** 및 **IPv6** 탭을 클릭하여 IP 주소 지정을 설정하세요.
+   네트워크 본드 IP 구성에 DHCP를 사용하지 않으려면 **IPv4** 및 **IPv6** 탭을 클릭하여 IP 주소 지정을 설정하세요.
 
 8. **저장** 버튼을 클릭하여 구성을 저장하고 네트워크 연결을 생성합니다.
 
@@ -135,11 +135,11 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 1. 다음 명령을 실행하여 장치 이름이 _bond0_인 네트워크 연결에 대한 정보를 얻습니다.:
 
-    ```
-    cat /proc/net/bonding/*bond0*
-    ```
+   ```
+   cat /proc/net/bonding/*bond0*
+   ```
 
-    출력에는 활성화된 보조 본드를 포함하여 본드 구성 및 상태가 표시됩니다. 출력에서는 각 보조 인터페이스의 상태에 대한 정보도 제공합니다.
+   출력에는 활성화된 보조 본드를 포함하여 본드 구성 및 상태가 표시됩니다. 출력에서는 각 보조 인터페이스의 상태에 대한 정보도 제공합니다.
 
 2. 보조 인터페이스 중 하나에 연결된 물리적 케이블을 일시적으로 연결 해제합니다. 링크 실패를 테스트하는 데 사용할 수 있는 다른 신뢰할 수 있는 방법은 없습니다.
 

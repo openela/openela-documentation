@@ -196,111 +196,111 @@ Working directory /sys/fs/cgroup:
 
 1. `cgroups v2`가 활성화되어 시스템에 마운트되어 있는지 확인하세요.
 
-  ```
-  sudo mount -l | grep cgroup
-  ```
+   ```
+   sudo mount -l | grep cgroup
+   ```
 
-  ```nocopybutton
-  /sys/fs/cgroup의 cgroup2 유형 cgroup2(rw,nosuid,nodev,noexec,relatime,seclabel,nsdelegate,memory_recursiveprot)
-  ```
+   ```nocopybutton
+   /sys/fs/cgroup의 cgroup2 유형 cgroup2(rw,nosuid,nodev,noexec,relatime,seclabel,nsdelegate,memory_recursiveprot)
+   ```
 
 2. 추가적으로 루트 제어 그룹이라고도 하는 `/sys/fs/cgroup` 디렉터리의 내용을 확인합니다.
 
-  ```
-  ll /sys/fs/cgroup/
-  ```
+   ```
+   ll /sys/fs/cgroup/
+   ```
 
-  `cgroups v2`의 경우 디렉터리에 있는 파일에는 파일 이름 앞에 접두사가 있어야 합니다. (예, `cgroup`.\*, `cpu`.\*, `memory`.\*, 등) [컨트롤 그룹 파일 시스템](ko-osmanage-ManagingResources.md#컨트롤-그룹-파일-시스템).
+   `cgroups v2`의 경우 디렉터리에 있는 파일에는 파일 이름 앞에 접두사가 있어야 합니다. (예, `cgroup`.\*, `cpu`.\*, `memory`.\*, 등) [컨트롤 그룹 파일 시스템](ko-osmanage-ManagingResources.md#컨트롤-그룹-파일-시스템).
 
 ### CPU 시간 분배를 위한 제어 그룹 준비
 
 1. 루트 제어 그룹의 `/sys/fs/cgroup/cgroup.controllers` 파일에서 `cpu` 및 `cpuset` 컨트롤러를 사용할 수 있는지 확인하세요.
 
-  ```
-  sudo cat /sys/fs/cgroup/cgroup.controllers
-  ```
+   ```
+   sudo cat /sys/fs/cgroup/cgroup.controllers
+   ```
 
-  ```nocopybutton
-  **cpuset****cpu** io memory hugetlb pids rdma misc
-  ```
+   ```nocopybutton
+   **cpuset****cpu** io memory hugetlb pids rdma misc
+   ```
 
 2. `cgroup.subtree_control` 파일에 CPU 컨트롤러를 추가합니다.
 
-  기본적으로 `memory` 및 `pids` 컨트롤러만 파일에 있습니다. CPU 컨트롤러를 추가하려면 다음을 입력하십시오.:
+   기본적으로 `memory` 및 `pids` 컨트롤러만 파일에 있습니다. CPU 컨트롤러를 추가하려면 다음을 입력하십시오.:
 
-  ```
-  echo "+cpu" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
-  echo "+cpuset" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
-  ```
+   ```
+   echo "+cpu" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
+   echo "+cpuset" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
+   ```
 
 3. 추가적으로 CPU 컨트롤러가 제대로 추가되었는지 확인합니다.
 
-  ```
-  sudo cat /sys/fs/cgroup/cgroup.subtree_control
-  ```
+   ```
+   sudo cat /sys/fs/cgroup/cgroup.subtree_control
+   ```
 
-  ```nocopybutton
-  cpuset cpu memory pids
-  ```
+   ```nocopybutton
+   cpuset cpu memory pids
+   ```
 
 4. 루트 제어 그룹 아래에 하위 그룹을 생성하여 애플리케이션의 CPU 리소스를 관리하기 위한 새 제어 그룹이 됩니다.
 
-  ```
-  sudo mkdir /sys/fs/cgroup/MyGroup
-  ```
+   ```
+   sudo mkdir /sys/fs/cgroup/MyGroup
+   ```
 
 5. 새 하위 디렉터리 또는 하위 그룹의 내용을 나열합니다.
 
-  ```
-  ll /sys/fs/cgroup/MyGroup
-  ```
+   ```
+   ll /sys/fs/cgroup/MyGroup
+   ```
 
-  ```nocopybutton
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.controllers
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.events
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.freeze
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.max.depth
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.max.descendants
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.procs
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.stat
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.subtree_control
-  …​
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus.effective
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus.partition
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.mems
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpuset.mems.effective
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpu.stat
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpu.weight
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpu.weight.nice
-  …​
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 memory.events.local
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 memory.high
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 memory.low
-  …​
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 pids.current
-  -r—​r—​r--. 1 root root 0 Jun  1 10:33 pids.events
-  -rw-r—​r--. 1 root root 0 Jun  1 10:33 pids.max
-  ```
+   ```nocopybutton
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.controllers
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.events
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.freeze
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.max.depth
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.max.descendants
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.procs
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cgroup.stat
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cgroup.subtree_control
+   …​
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus.effective
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.cpus.partition
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpuset.mems
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpuset.mems.effective
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 cpu.stat
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpu.weight
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 cpu.weight.nice
+   …​
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 memory.events.local
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 memory.high
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 memory.low
+   …​
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 pids.current
+   -r—​r—​r--. 1 root root 0 Jun  1 10:33 pids.events
+   -rw-r—​r--. 1 root root 0 Jun  1 10:33 pids.max
+   ```
 
-  `/sys/fs/cgroup/cgroup.subtree_control`에 추가한 CPU 컨트롤러에 따라 루트 제어 그룹에서 상속된 `MyGroup`의 내용이 이제 더 제한됩니다. 따라서 `cpuset`.\*, `cpu`.\*, `memory`.\* 및 `pids`.\* 파일만 `MyGroup` 디렉터리에 있습니다.
+   `/sys/fs/cgroup/cgroup.subtree_control`에 추가한 CPU 컨트롤러에 따라 루트 제어 그룹에서 상속된 `MyGroup`의 내용이 이제 더 제한됩니다. 따라서 `cpuset`.\*, `cpu`.\*, `memory`.\* 및 `pids`.\* 파일만 `MyGroup` 디렉터리에 있습니다.
 
 6. `MyGroup`의 `cgroup.subtre_control` 파일에서 CPU 관련 컨트롤러를 활성화합니다.
 
-  ```
-  echo "+cpu" | sudo tee /sys/fs/cgroup/MyGroup/cgroup.subtree_control
-  echo "+cpuset" | sudo tee /sys/fs/cgroup/MyGroup/cgroup.subtree_control
-  ```
+   ```
+   echo "+cpu" | sudo tee /sys/fs/cgroup/MyGroup/cgroup.subtree_control
+   echo "+cpuset" | sudo tee /sys/fs/cgroup/MyGroup/cgroup.subtree_control
+   ```
 
 7. 선택적으로 `MyGroup` 아래의 하위 그룹에 대해 CPU 컨트롤러가 활성화되어 있는지 확인하세요.
 
-  ```
-  sudo cat /sys/fs/cgroup/MyGroup/cgroup.subtree_control
-  ```
+   ```
+   sudo cat /sys/fs/cgroup/MyGroup/cgroup.subtree_control
+   ```
 
-  ```nocopybutton
-  cpuset cpu
-  ```
+   ```nocopybutton
+   cpuset cpu
+   ```
 
 ### CPU 시간 분배를 조절하기 위한 CPU 대역폭 설정
 
@@ -346,117 +346,117 @@ Working directory /sys/fs/cgroup:
 
 1. `MyGroup` 하위 디렉터리에 `tasks` 디렉터리를 만듭니다.
 
-  ```
-  sudo mkdir /sys/fs/cgroup/MyGroup/tasks
-  ```
+   ```
+   sudo mkdir /sys/fs/cgroup/MyGroup/tasks
+   ```
 
-  이 디렉터리는 `cpu` 및 `cpuset` 컨트롤러에만 관련된 파일이 포함된 하위 그룹을 정의합니다.
+   이 디렉터리는 `cpu` 및 `cpuset` 컨트롤러에만 관련된 파일이 포함된 하위 그룹을 정의합니다.
 
 2. 선택적으로 새 하위 디렉터리의 내용을 나열합니다.
 
-  ```
-  ll /sys/fs/cgroup/MyGroup/tasks
-  ```
+   ```
+   ll /sys/fs/cgroup/MyGroup/tasks
+   ```
 
-  ```nocopybutton
-  ll /sys/fs/cgroup/Example/tasks
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.controllers
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.events
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.freeze
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.max.depth
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.max.descendants
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.procs
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.stat
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.subtree_control
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.threads
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.type
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.max
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.pressure
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus.effective
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus.partition
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.mems
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpuset.mems.effective
-  -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpu.stat
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.weight
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.weight.nice
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 io.pressure
-  -rw-r—​r--. 1 root root 0 Jun  1 11:45 memory.pressure
-  ```
+   ```nocopybutton
+   ll /sys/fs/cgroup/Example/tasks
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.controllers
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.events
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.freeze
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.max.depth
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.max.descendants
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.procs
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cgroup.stat
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.subtree_control
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.threads
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cgroup.type
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.max
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.pressure
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus.effective
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.cpus.partition
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpuset.mems
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpuset.mems.effective
+   -r—​r—​r--. 1 root root 0 Jun  1 11:45 cpu.stat
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.weight
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 cpu.weight.nice
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 io.pressure
+   -rw-r—​r--. 1 root root 0 Jun  1 11:45 memory.pressure
+   ```
 
 3. `tasks` 디렉터리에서 동일한 CPU를 사용하도록 CPU 시간을 규제하려는 프로세스를 설정합니다.
 
-  ```
-  echo "1" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cpuset.cpus
-  ```
+   ```
+   echo "1" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cpuset.cpus
+   ```
 
 4. Optionally, verify that the processes run on the same CPU.
 
-  ```
-  cat /sys/fs/cgroup/MyGroup/tasks/cpuset.cpus
-  ```
+   ```
+   cat /sys/fs/cgroup/MyGroup/tasks/cpuset.cpus
+   ```
 
-  ```nocopybutton
-  1
-  ```
+   ```nocopybutton
+   1
+   ```
 
 5. `MyGroup/tasks` 하위 제어 그룹 내에서 제한을 설정하려면 CPU 대역폭을 구성하세요.
 
-  ```
-  echo "200000 1000000"n | sudo tee /sys/fs/cgroup/MyGroup/tasks/cpu.max
-  ```
+   ```
+   echo "200000 1000000"n | sudo tee /sys/fs/cgroup/MyGroup/tasks/cpu.max
+   ```
 
-  명령에서 값 20000은 지정된 기간 동안 하위 그룹의 모든 프로세스가 집합적으로 실행되도록 허용되는 시간 할당량(마이크로초)을 나타냅니다. 해당 기간은 값 1000000으로 정의됩니다. 특히 `/sys/fs/cgroup/MyGroup/tasks` 그룹의 프로세스는 0.2초, 즉 매초의 1/5 동안만 CPU에서 실행될 수 있습니다.
+   명령에서 값 20000은 지정된 기간 동안 하위 그룹의 모든 프로세스가 집합적으로 실행되도록 허용되는 시간 할당량(마이크로초)을 나타냅니다. 해당 기간은 값 1000000으로 정의됩니다. 특히 `/sys/fs/cgroup/MyGroup/tasks` 그룹의 프로세스는 0.2초, 즉 매초의 1/5 동안만 CPU에서 실행될 수 있습니다.
 
-  정의된 기간 내에 컨트롤 그룹에 의해 할당량이 소진되면 프로세스는 다음 기간까지 일시 중지됩니다.
+   정의된 기간 내에 컨트롤 그룹에 의해 할당량이 소진되면 프로세스는 다음 기간까지 일시 중지됩니다.
 
 6. 선택적으로 시간 할당량을 확인합니다.
 
-  ```
-  sudo cat /sys/fs/cgroup/MyGroup/tasks/cpu.max
-  ```
+   ```
+   sudo cat /sys/fs/cgroup/MyGroup/tasks/cpu.max
+   ```
 
-  ```nocopybutton
-  200000 1000000
-  ```
+   ```nocopybutton
+   200000 1000000
+   ```
 
 7. 하위 그룹에 애플리케이션의 PID를 추가합니다.
 
-  ```
-  echo "34500" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cgroup.procs
-  echo "34501" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cgroup.procs
-  ```
+   ```
+   echo "34500" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cgroup.procs
+   echo "34501" | sudo tee /sys/fs/cgroup/MyGroup/tasks/cgroup.procs
+   ```
 
 8. 지정된 제어 그룹에서 애플리케이션이 실행되고 있는지 확인하십시오.
 
-  ```
-  sudo cat /proc/34500/cgroup /proc/34501/cgroup
-  ```
+   ```
+   sudo cat /proc/34500/cgroup /proc/34501/cgroup
+   ```
 
-  ```nocopybutton
-  0::/MyGroup/tasks
-  0::/MyGroup/tasks
-  ```
+   ```nocopybutton
+   0::/MyGroup/tasks
+   0::/MyGroup/tasks
+   ```
 
 9. CPU 대역폭을 설정한 후 현재 CPU 사용량을 확인하십시오.
 
-  ```
-  top
-  ```
+   ```
+   top
+   ```
 
-  ```nocopybutton
-  ...
-      PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
-    34500 root      20   0   18720   1756   1468 R  10.0   0.0  37:36.13 sha1sum
-    34501 root      20   0   18720   1772   1480 R  10.0   0.0  37:41.22 sha1sum
-        1 root      20   0  186192  13940   9500 S   0.0   0.4   0:01.60 systemd
-        2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd
-        3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp
-        4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par_gp
-  ...
-  ```
+   ```nocopybutton
+   ...
+       PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+     34500 root      20   0   18720   1756   1468 R  10.0   0.0  37:36.13 sha1sum
+     34501 root      20   0   18720   1772   1480 R  10.0   0.0  37:41.22 sha1sum
+         1 root      20   0  186192  13940   9500 S   0.0   0.4   0:01.60 systemd
+         2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd
+         3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp
+         4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par_gp
+   ...
+   ```
 
-  `MyGroup/tasks` 그룹은 CPU 사용량의 총 20%로 제한되므로 이제 각 `sha1sum` 프로세스는 CPU 시간의 10%로 제한됩니다.
+   `MyGroup/tasks` 그룹은 CPU 사용량의 총 20%로 제한되므로 이제 각 `sha1sum` 프로세스는 CPU 시간의 10%로 제한됩니다.
 
 ### CPU 시간 분배를 조절하기 위한 CPU 가중치 설정
 
@@ -503,71 +503,71 @@ Working directory /sys/fs/cgroup:
 
 1. `MyGroup` 하위 디렉터리에 하위 그룹 3개를 만듭니다.
 
-  ```
-  sudo mkdir /sys/fs/cgroup/MyGroup/g1
-  sudo mkdir /sys/fs/cgroup/MyGroup/g2
-  sudo mkdir /sys/fs/cgroup/MyGroup/g3
-  ```
+   ```
+   sudo mkdir /sys/fs/cgroup/MyGroup/g1
+   sudo mkdir /sys/fs/cgroup/MyGroup/g2
+   sudo mkdir /sys/fs/cgroup/MyGroup/g3
+   ```
 
 2. 각 하위 그룹의 CPU 가중치를 구성합니다.
 
-  ```
-  echo "150" | sudo tee /sys/fs/cgroup/MyGroup/g1/cpu.weight
-  echo "100" | sudo tee /sys/fs/cgroup/MyGroup/g2/cpu.weight
-  echo "50" | sudo tee /sys/fs/cgroup/MyGroup/g3/cpu.weight
-  ```
+   ```
+   echo "150" | sudo tee /sys/fs/cgroup/MyGroup/g1/cpu.weight
+   echo "100" | sudo tee /sys/fs/cgroup/MyGroup/g2/cpu.weight
+   echo "50" | sudo tee /sys/fs/cgroup/MyGroup/g3/cpu.weight
+   ```
 
 3. 해당 하위 그룹에 애플리케이션 PID를 적용합니다.
 
-  ```
-  echo "33301" | sudo tee /sys/fs/cgroup/Example/g1/cgroup.procs
-  echo "33302" | sudo tee /sys/fs/cgroup/Example/g2/cgroup.procs
-  echo "33303" | sudo /sys/fs/cgroup/Example/g3/cgroup.procs
-  ```
+   ```
+   echo "33301" | sudo tee /sys/fs/cgroup/Example/g1/cgroup.procs
+   echo "33302" | sudo tee /sys/fs/cgroup/Example/g2/cgroup.procs
+   echo "33303" | sudo /sys/fs/cgroup/Example/g3/cgroup.procs
+   ```
 
-  이 명령은 선택한 애플리케이션을 `MyGroup/g*/` 제어 그룹의 구성원으로 설정합니다. 각 `sha1sum` 프로세스의 CPU 시간은 각 그룹에 구성된 CPU 시간 분포에 따라 달라집니다.
+   이 명령은 선택한 애플리케이션을 `MyGroup/g*/` 제어 그룹의 구성원으로 설정합니다. 각 `sha1sum` 프로세스의 CPU 시간은 각 그룹에 구성된 CPU 시간 분포에 따라 달라집니다.
 
-  실행 중인 프로세스가 있는 `g1`, `g2`, `g3` 그룹의 가중치는 상위 제어 그룹인 `MyGroup` 수준에서 합산됩니다.
+   실행 중인 프로세스가 있는 `g1`, `g2`, `g3` 그룹의 가중치는 상위 제어 그룹인 `MyGroup` 수준에서 합산됩니다.
 
-  이 구성을 사용하면 모든 프로세스가 동시에 실행될 때 커널은 다음과 같이 각 `sha1sum` 처리에 해당 `cgroup`의 `cpu.weight` 파일을 기반으로 비례적인 CPU 시간을 할당합니다.:
+   이 구성을 사용하면 모든 프로세스가 동시에 실행될 때 커널은 다음과 같이 각 `sha1sum` 처리에 해당 `cgroup`의 `cpu.weight` 파일을 기반으로 비례적인 CPU 시간을 할당합니다.:
 
-  | Child group | `cpu.weight` setting | Percent of CPU time allocation                        |
-  | ----------- | -------------------- | ----------------------------------------------------- |
-  | g1          | 150                  | ~50% \(150/300\) |
-  | g2          | 100                  | ~33% \(100/300\) |
-  | g3          | 50                   | ~16% \(50/300\)  |
+   | Child group | `cpu.weight` setting | Percent of CPU time allocation                        |
+   | ----------- | -------------------- | ----------------------------------------------------- |
+   | g1          | 150                  | ~50% \(150/300\) |
+   | g2          | 100                  | ~33% \(100/300\) |
+   | g3          | 50                   | ~16% \(50/300\)  |
 
-  하나의 하위 그룹에 실행 중인 프로세스가 없으면 실행 중인 프로세스에 대한 CPU 시간 할당은 실행 중인 프로세스가 있는 나머지 하위 그룹의 총 가중치를 기준으로 다시 계산됩니다. 예를 들어 `g2` 하위 그룹에 실행 중인 프로세스가 없으면 총 가중치는 `g1 g3`의 가중치인 200이 됩니다. 이 경우 `g1`의 CPU 시간은 150/200\(~75%\)가 되고 `g3`의 경우 50/200\(~25%\)가 됩니다.
+   하나의 하위 그룹에 실행 중인 프로세스가 없으면 실행 중인 프로세스에 대한 CPU 시간 할당은 실행 중인 프로세스가 있는 나머지 하위 그룹의 총 가중치를 기준으로 다시 계산됩니다. 예를 들어 `g2` 하위 그룹에 실행 중인 프로세스가 없으면 총 가중치는 `g1 g3`의 가중치인 200이 됩니다. 이 경우 `g1`의 CPU 시간은 150/200\(~75%\)가 되고 `g3`의 경우 50/200\(~25%\)가 됩니다.
 
 4. 지정된 제어 그룹에서 애플리케이션이 실행되고 있는지 확인하십시오.
 
-  ```
-  sudo cat /proc/33301/cgroup /proc/33302/cgroup /proc/33303/cgroup
-  ```
+   ```
+   sudo cat /proc/33301/cgroup /proc/33302/cgroup /proc/33303/cgroup
+   ```
 
-  ```nocopybutton
-  0::/MyGroup/g1
-  0::/MyGroup/g2
-  0::/MyGroup/g3
-  ```
+   ```nocopybutton
+   0::/MyGroup/g1
+   0::/MyGroup/g2
+   0::/MyGroup/g3
+   ```
 
 5. CPU 가중치를 설정한 후 현재 CPU 사용량을 확인하십시오.
 
-  ```
-  top
-  ```
+   ```
+   top
+   ```
 
-  ```nocopybutton
-  ...
-      PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
-    **33301** root      20   0   18720   1748   1460 R  **49.5**   0.0 415:05.87 sha1sum
-    **33302** root      20   0   18720   1756   1464 R  **32.9**   0.0 412:58.33 sha1sum
-    **33303** root      20   0   18720   1860   1568 R  **16.3**   0.0 411:03.12 sha1sum
-      760 root      20   0  416620  28540  15296 S   0.3   0.7   0:10.23 tuned
-        1 root      20   0  186328  14108   9484 S   0.0   0.4   0:02.00 systemd
-        2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthread
-  ...
-  ```
+   ```nocopybutton
+   ...
+       PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+     **33301** root      20   0   18720   1748   1460 R  **49.5**   0.0 415:05.87 sha1sum
+     **33302** root      20   0   18720   1756   1464 R  **32.9**   0.0 412:58.33 sha1sum
+     **33303** root      20   0   18720   1860   1568 R  **16.3**   0.0 411:03.12 sha1sum
+       760 root      20   0  416620  28540  15296 S   0.3   0.7   0:10.23 tuned
+         1 root      20   0  186328  14108   9484 S   0.0   0.4   0:02.00 systemd
+         2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthread
+   ...
+   ```
 
 ## cgroups v2를 사용하여 사용자 리소스 관리
 

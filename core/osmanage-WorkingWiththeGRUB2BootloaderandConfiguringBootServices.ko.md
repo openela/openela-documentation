@@ -21,7 +21,7 @@ Enterprise Linux 릴리스를 실행하는 UEFI 기반 시스템에서 시스템
 
 3. UEFI 부팅 관리자는 보안 부팅이 활성화되어 있는지 확인합니다. 보안 부팅이 비활성화된 경우 부팅 관리자는 ESP에서 GRUB 2 부트로더를 실행합니다.
 
- 그렇지 않으면 부팅 관리자가 부트 로더에서 인증서를 요청하고 UEFI 보안 부팅 키 데이터베이스에 저장된 키와 비교하여 이를 검증합니다. 인증서 유효성 검사 프로세스를 처리하기 위해 2단계 부팅 프로세스를 수행하도록 환경이 구성되고 GRUB 2 부트로더를 로드하기 전에 인증을 담당하는 `shim.efi` 애플리케이션이 먼저 로드됩니다. 인증서가 유효하면 부트 로더가 실행되고 로드하도록 구성된 커널의 유효성을 검사합니다.
+   그렇지 않으면 부팅 관리자가 부트 로더에서 인증서를 요청하고 UEFI 보안 부팅 키 데이터베이스에 저장된 키와 비교하여 이를 검증합니다. 인증서 유효성 검사 프로세스를 처리하기 위해 2단계 부팅 프로세스를 수행하도록 환경이 구성되고 GRUB 2 부트로더를 로드하기 전에 인증을 담당하는 `shim.efi` 애플리케이션이 먼저 로드됩니다. 인증서가 유효하면 부트 로더가 실행되고 로드하도록 구성된 커널의 유효성을 검사합니다.
 
 4. 부트 로더는 `vmlinuz` 커널 이미지 파일을 메모리에 로드하고 `initramfs` 이미지 파일의 내용을 임시 메모리 기반 파일 시스템\(`tmpfs`\)으로 추출합니다.
 
@@ -31,9 +31,9 @@ Enterprise Linux 릴리스를 실행하는 UEFI 기반 시스템에서 시스템
 
 7. `systemd`는 정의된 추가 프로세스를 실행합니다.
 
- **Note:**
+   **Note:**
 
- 자신만의 `systemd` 유닛을 정의하여 부팅 프로세스 중에 처리할 다른 작업을 지정하세요. 이 방법은 `/etc/rc.local` 파일을 사용하는 것보다 선호되는 접근 방식입니다.
+   자신만의 `systemd` 유닛을 정의하여 부팅 프로세스 중에 처리할 다른 작업을 지정하세요. 이 방법은 `/etc/rc.local` 파일을 사용하는 것보다 선호되는 접근 방식입니다.
 
 ### BIOS 기반 부팅
 
@@ -51,9 +51,9 @@ Enterprise Linux 릴리스를 실행하는 BIOS 기반 시스템에서 부팅 �
 
 6. [System-State Targets](ko-osmanage-WorkingWithSystemServices.md#system-state-targets).
 
- **Note:**
+   **Note:**
 
- 사용자 `systemd` 단위를 정의하여 부팅 프로세스 중에 처리할 다른 작업을 지정합니다. 이 방법은 `/etc/rc.local` 파일을 사용하는 것보다 선호되는 접근 방식입니다.
+   사용자 `systemd` 단위를 정의하여 부팅 프로세스 중에 처리할 다른 작업을 지정합니다. 이 방법은 `/etc/rc.local` 파일을 사용하는 것보다 선호되는 접근 방식입니다.
 
 ## GRUB 2 부트로더
 
@@ -315,7 +315,7 @@ rd.lvm.lv=ol/swap rhgb quiet
 
 4. 부팅 매개변수를 수정합니다.
 
- 시스템이 복구 셸로 부팅하도록 지시하는 `systemd.target=runlevel1.target`과 같은 매개변수를 추가할 수 있습니다.
+   시스템이 복구 셸로 부팅하도록 지시하는 `systemd.target=runlevel1.target`과 같은 매개변수를 추가할 수 있습니다.
 
 5. Ctrl X를 눌러 시스템을 부팅합니다.
 
@@ -325,21 +325,21 @@ rd.lvm.lv=ol/swap rhgb quiet
 
 1. 예를 들어 `/etc/default/grub`을 편집하고 `GRUB_CMDLINE_LINUX` 정의에 매개변수 설정을 추가합니다.:
 
- ```
- GRUB_CMDLINE_LINUX="vconsole.font=latarcyrheb-sun16 vconsole.keymap=uk 
- crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M  rd.lvm.lv=ol/swap rd.lvm.lv=ol/root biosdevname=0 
- rhgb quiet **systemd.unit=runlevel3.target**"
- ```
+   ```
+   GRUB_CMDLINE_LINUX="vconsole.font=latarcyrheb-sun16 vconsole.keymap=uk 
+   crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M  rd.lvm.lv=ol/swap rd.lvm.lv=ol/root biosdevname=0 
+   rhgb quiet **systemd.unit=runlevel3.target**"
+   ```
 
- 이 예에서는 시스템이 기본적으로 다중 사용자, 비그래픽 모드로 부팅되도록 `systemd.unit=runlevel3.target` 매개변수를 추가합니다.
+   이 예에서는 시스템이 기본적으로 다중 사용자, 비그래픽 모드로 부팅되도록 `systemd.unit=runlevel3.target` 매개변수를 추가합니다.
 
 2. `/boot/grub2/grub.cfg`를 다시 빌드하세요:
 
- ```
- sudo grub2-mkconfig -o /boot/grub2/grub.cfg
- ```
+   ```
+   sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+   ```
 
- 변경 사항은 구성된 모든 커널이 다음에 시스템을 재부팅할 때 적용됩니다.
+   변경 사항은 구성된 모든 커널이 다음에 시스템을 재부팅할 때 적용됩니다.
 
 **Note:**
 

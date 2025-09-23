@@ -723,63 +723,63 @@ The following example illustrates how to implement a `udev` rules file that adds
 
 1. Create a rule file under `/etc/udev/rules.d` with a file name such as `10-local.rules` that udev reads before any other rules file.
 
- The following rule in `10-local.rules` creates the symbolic link `/dev/my_disk`, which points to `/dev/sdb`:
+   The following rule in `10-local.rules` creates the symbolic link `/dev/my_disk`, which points to `/dev/sdb`:
 
- ```
- KERNEL=="sdb", ACTION=="add", SYMLINK="my_disk"
- ```
+   ```
+   KERNEL=="sdb", ACTION=="add", SYMLINK="my_disk"
+   ```
 
- Listing the device files in `/dev` shows that `udev` hasn't yet applied the rule:
+   Listing the device files in `/dev` shows that `udev` hasn't yet applied the rule:
 
- ```
- ls /dev/sd* /dev/my_disk
- ```
+   ```
+   ls /dev/sd* /dev/my_disk
+   ```
 
- ```nocopybutton
- ls: cannot access /dev/my_disk: No such file or directory
- /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
- ```
+   ```nocopybutton
+   ls: cannot access /dev/my_disk: No such file or directory
+   /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
+   ```
 
 2. To simulate how `udev` applies its rules to create a device, you can use the `udevadm test` command with the device path of `sdb` listed under the `/sys/class/block` hierarchy, for example:
 
- ```
- udevadm test /sys/class/block/sdb
- ```
+   ```
+   udevadm test /sys/class/block/sdb
+   ```
 
- ```nocopybutton
- calling: test
- version ...
- This program is for debugging only, it does not run any program
- specified by a RUN key. It may show incorrect results, because
- some values may be different, or not available at a simulation run.
- ...
- LINK 'my_disk' /etc/udev/rules.d/10-local.rules:1
- ...
- creating link '/dev/my_disk' to '/dev/sdb'
- creating symlink '/dev/my_disk' to 'sdb
- ...
- ACTION=add
- DEVLINKS=/dev/disk/by-id/ata-VBOX_HARDDISK_VB186e4ce2-f80f170d 
-   /dev/disk/by-uuid/a7dc508d-5bcc-4112-b96e-f40b19e369fe 
-   /dev/my_disk
- ...
- ```
+   ```nocopybutton
+   calling: test
+   version ...
+   This program is for debugging only, it does not run any program
+   specified by a RUN key. It may show incorrect results, because
+   some values may be different, or not available at a simulation run.
+   ...
+   LINK 'my_disk' /etc/udev/rules.d/10-local.rules:1
+   ...
+   creating link '/dev/my_disk' to '/dev/sdb'
+   creating symlink '/dev/my_disk' to 'sdb
+   ...
+   ACTION=add
+   DEVLINKS=/dev/disk/by-id/ata-VBOX_HARDDISK_VB186e4ce2-f80f170d 
+     /dev/disk/by-uuid/a7dc508d-5bcc-4112-b96e-f40b19e369fe 
+     /dev/my_disk
+   ...
+   ```
 
 3. Restart the `systemd-udevd` service:
 
- ```
- sudo systemctl restart systemd-udevd
- ```
+   ```
+   sudo systemctl restart systemd-udevd
+   ```
 
- After `udev` processes the rules files, the symbolic link `/dev/my_disk` has been added:
+   After `udev` processes the rules files, the symbolic link `/dev/my_disk` has been added:
 
- ```
- ls -F /dev/sd* /dev/my_disk
- ```
+   ```
+   ls -F /dev/sd* /dev/my_disk
+   ```
 
- ```nocopybutton
- /dev/my_disk@  /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
- ```
+   ```nocopybutton
+   /dev/my_disk@  /dev/sda  /dev/sda1  /dev/sda2  /dev/sdb
+   ```
 
 4. \(Optional\) To undo the changes, remove `/etc/udev/rules.d/10-local.rules` and `/dev/my_disk`, then run `systemctl restart systemd-udevd` again.
 
